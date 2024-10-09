@@ -1,0 +1,29 @@
+.text-transparent {
+    color: transparent;
+    text-decoration: none !important;
+    border-bottom-color: 1px solid #212529 !important;
+
+}
+
+.negrilla {
+    font-weight: bold;
+}
+
+table {
+    width: 100%;
+    background-color: white;
+    border: none;
+
+    td,
+    th {
+        /*     text-align: justify; */
+        padding: 0.4em;
+        border: none;
+        text-align: justify;
+        line-height: 30px;
+    }
+
+    .item {
+        vertical-align: top;
+    }
+}

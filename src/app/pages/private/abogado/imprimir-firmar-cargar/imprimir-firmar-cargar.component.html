@@ -1,0 +1,100 @@
+<div class="background-gray2 rounded-basic px-4 py-2">
+  <div class="row">
+    <div class="col-6">
+      <fieldset class="border border-primary p-2">
+        <legend class="float-none w-auto p-2 text-primary">
+          Generación de Formatos
+        </legend>
+        <div class="px-2 d-flex gap-4 align-items-baseline">
+          <ng-container *ngIf="datosFirma">
+            <button class="btn btn-primary px-3" (click)="generarReporte()">
+              Generar Auto
+            </button>
+            <app-reporte-auto
+              [tituloReporte]="datosFirma.tituloReporte"
+            ></app-reporte-auto>
+          </ng-container>
+        </div>
+      </fieldset>
+    </div>
+    <div class="col-6">
+      <fieldset class="border border-primary p-2">
+        <legend class="float-none w-auto p-2 text-primary">
+          Cargar Formato
+        </legend>
+        <ng-container *ngIf="datosFirma">
+          <app-carga-archivo
+            (baseArchivo)="enviarArchivo($event)"
+            *ngIf="nuevoArchivo"
+          ></app-carga-archivo>
+
+          <app-carga-archivo
+            [downloadIcon]="delete"
+            [deleteIcon]="delete"
+            (baseArchivo)="enviarArchivo($event)"
+            [archivoCargado]="llenarInterfaceArchivoExistente()"
+            *ngIf="!nuevoArchivo"
+          >
+          </app-carga-archivo>
+        </ng-container>
+      </fieldset>
+    </div>
+  </div>
+  <div class="row mt-4" *ngIf="datosFirma && datosFirma.mostrarPreguntaRecurso">
+    <div class="col-12">
+      <label class="form-label">
+        ¿Alguna de las partes interpuso recurso y fue procedente?
+      </label>
+      <div class="pt-2">
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            id="no"
+            name="rPregunta"
+            value="No"
+            [value]="false"
+            [(ngModel)]="radioPregunta"
+            (change)="cambioRadio($event.target.value)"
+          />
+          <label class="form-check-label form-label" for="no"> No </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="rPregunta"
+            value="Si"
+            id="si"
+            [value]="true"
+            [(ngModel)]="radioPregunta"
+            (change)="cambioRadio($event.target.value)"
+          />
+          <label class="form-check-label form-label" for="si"> Si </label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex align-items-center justify-content-end mt-5 gap-3">
+    <button type="button" class="btn btn-danger" (click)="cancelar()">
+      Cancelar
+    </button>
+    <button type="button" class="btn btn-primary" *ngIf="false">
+      Archivar diligencias
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="cargarAdjuntoFirma(false)"
+    >
+      Guardar
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="modalConfirmaCerrarActuacion()"
+    >
+      Cerrar actuaciones
+    </button>
+  </div>
+</div>

@@ -1,0 +1,132 @@
+<form
+  [formGroup]="myForm"
+  class="d-flex justify-content-center align-items-center flex-column box-modal-info"
+>
+  <div class="row w-100">
+    <div class="col-12">
+      <fieldset class="border border-primary p-2">
+        <legend class="float-none w-75 p-2 text-primary">
+          Selección Accionante
+        </legend>
+        <div class="row p-2 m-0">
+          <div class="col-5">
+            <label>Tipo de Documento: </label>
+          </div>
+          <div class="col-7 pe-4">
+            <select
+              class="form-select"
+              formControlName="tipDoc"
+              [ngClass]="{
+                'input-req': isRequired('tipDoc') && mostrarValidaciones
+              }"
+              (change)="cambioPersona($event)"
+            >
+              <option disabled value="">Seleccione</option>
+              <option
+                *ngFor="let tipoDocumento of selectTipoDocumento"
+                [value]="tipoDocumento.id_Dominio"
+              >
+                {{ tipoDocumento.nombre_Dominio }}
+              </option>
+            </select>
+          </div>
+          <div
+            class="msj-req offset-5"
+            *ngIf="isRequired('tipDoc') && mostrarValidaciones"
+          >
+            {{ msgObligatorio }}
+          </div>
+        </div>
+
+        <div class="row p-2 m-0">
+          <div class="col-5">
+            <label>Número de Documento: </label>
+          </div>
+          <div class="col-7 pe-4">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="nroDoc"
+              [ngClass]="{
+                'input-req': isRequired('nroDoc') && mostrarValidaciones
+              }"
+              maxlength="50"
+              placeholder="Número de Documento"
+              (focusout)="cambioPersona($event)"
+            />
+          </div>
+
+          <div
+            class="msj-req offset-5"
+            *ngIf="isRequired('nroDoc') && mostrarValidaciones"
+          >
+            {{ msgObligatorio }}
+          </div>
+        </div>
+
+        <div class="row p-2 m-0">
+          <div class="col-5">
+            <label>Código de Solicitud: </label>
+          </div>
+          <div class="col-7 pe-4">
+            <select
+              class="form-select"
+              [ngClass]="{
+                'input-req': isRequired('solicitud') && mostrarValidaciones
+              }"
+              formControlName="solicitud"
+            >
+              <option disabled value="">Seleccione</option>
+              <option
+                *ngFor="let solicituds of selectSolicitudes"
+                [value]="solicituds.idSolicitud"
+              >
+                {{ solicituds.codigoSolicitud }}
+              </option>
+            </select>
+          </div>
+          <div
+            class="msj-req offset-5"
+            *ngIf="isRequired('solicitud') && mostrarValidaciones"
+          >
+            {{ msgObligatorio }}
+          </div>
+        </div>
+      </fieldset>
+    </div>
+  </div>
+
+  <div class="row pt-2" *ngIf="mostrarMensajeInformativo">
+    <div class="col-12">
+      <app-no-data
+        mensaje="No hay solicitudes para seguimiento para este ciudadano"
+      ></app-no-data>
+    </div>
+  </div>
+
+  <div class="row pt-3 pb-1">
+    <div class="col-12">
+      <span>¿Está seguro de crear un seguimiento para esta solicitud?</span>
+    </div>
+  </div>
+
+  <div class="d-flex mt-2" style="gap: 1rem">
+    <button
+      class="btn btn-danger px-3"
+      style="min-width: 144px"
+      type="button"
+      (click)="cerrarModal()"
+    >
+      Cancelar
+    </button>
+
+    <button
+      class="btn btn-primary px-3"
+      style="min-width: 144px"
+      type="button"
+      (click)="confirmar()"
+    >
+      Continuar
+    </button>
+  </div>
+</form>

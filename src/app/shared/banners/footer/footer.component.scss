@@ -1,0 +1,14 @@
+.footer-public {
+  background: #8091a6 padding-box;
+  color: #fff;
+  padding: 1rem;
+  width: 100%;
+  .items-footer {
+    display: flex;
+    justify-content: center;
+    font-size: var(--font-13);
+  }
+  .border-items {
+    border-right: 1px solid var(--white);
+  }
+}

@@ -1,0 +1,22 @@
+.box-detail {
+  background-color: var(--white);
+  box-shadow: 0px 3px 20px #6c757d3b;
+  border-radius: 4px;
+  width: 219px;
+  .banner-detail {
+    align-items: center;
+    background-color: var(--endeavour);
+    box-shadow: 0px 3px 20px #6c757d3b;
+    border-radius: 4px;
+    color: var(--white);
+    display: flex;
+    font-size: var(--font-22);
+    height: 56px;
+    justify-content: center;
+    opacity: 1;
+  }
+}
+
+.item-hour {
+  font-weight: 500;
+}

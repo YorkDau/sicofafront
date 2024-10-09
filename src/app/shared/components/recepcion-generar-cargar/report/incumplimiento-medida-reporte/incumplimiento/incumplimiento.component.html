@@ -1,0 +1,89 @@
+<app-cabecera-reporte
+  [tituloReporte]="
+    'AUTO DE SOLICITUD DE INCUMPLIMIENTO A LAS MEDIDAS DE PROTECCIÓN'
+  "
+></app-cabecera-reporte>
+
+<ng-container *ngIf="datosIncumplimiento">
+  <table
+    hidden
+    id="incumplimiento-medida"
+    aria-describedby="reporte incumplimiento"
+  >
+    <tr>
+      <td class="fw-bold text-center">
+        SOLICITUD DE INCUMPLIMIENTO A LA MEDIDA DE PROTECCIÓN No _____ DEL
+        ________
+      </td>
+    </tr>
+    <tr>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Ciudad: {{ datosIncumplimiento.ciudadSolicitud }}</td>
+    </tr>
+    <tr>
+      <td>Fecha: {{ fechaActual | date: "dd MMMM yyyy" }}</td>
+    </tr>
+    <tr>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+    </tr>
+    <tr>
+      <td class="text-justify">
+        Los datos que se consignan a continuación corresponden a la información
+        recibida por el funcionario(a) que tomó la solicitud de incumplimiento a
+        la Medida de Protección Definitiva No. _____ del ____ de la Comisaría de
+        Familia {{ datosIncumplimiento.ciudadSolicitud }}, se transcriben
+        fielmente, salvo por correcciones de errores de digitación o por
+        información adicional obtenida, para el conocimiento del Despacho
+        competente.
+      </td>
+    </tr>
+    <tr>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td class="text-justify">
+        INCUMPLIMIENTO MEDIDA DE PROTECCIÓN ___ del día ___, mes ___, año ___
+        (fecha del fallo) COMPETENCIA: COMISARIA DE FAMILIA
+        {{ datosIncumplimiento.comisaria.nombre }}
+      </td>
+    </tr>
+    <tr>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+    </tr>
+  </table>
+
+  <app-datos-denunciante
+    [adicional]="datosIncumplimiento.adicional"
+  ></app-datos-denunciante>
+
+  <app-datos-denunciado
+    [datosAgresor]="datosIncumplimiento.agresor"
+    [victimaSecundaria]="datosIncumplimiento.victimaSecundario"
+  ></app-datos-denunciado>
+
+  <app-datos-victima
+    [datosVictima]="datosIncumplimiento.victima"
+  ></app-datos-victima>
+
+  <app-relacion-medida></app-relacion-medida>
+
+  <app-medidas-complementarias></app-medidas-complementarias>
+</ng-container>

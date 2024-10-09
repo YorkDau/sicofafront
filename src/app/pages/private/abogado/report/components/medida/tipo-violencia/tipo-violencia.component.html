@@ -1,0 +1,17 @@
+<table
+  class="table-bordered"
+  hidden
+  id="violencia-medida"
+  aria-describedby="violencia medida"
+>
+  <tr>
+    <td class="numh">TIPO DE VIOLENCIA (Diligenciarse por el funcionario)</td>
+  </tr>
+  <tr>
+    <td>
+      <ng-container *ngFor="let item of listaTipoViolencia">
+        {{ item.nombre_Dominio + ", " }}
+      </ng-container>
+    </td>
+  </tr>
+</table>

@@ -1,0 +1,270 @@
+<form [formGroup]="myForm">
+  <div class="background-gray rounded-basic p-3 mb-3">
+    <div class="row">
+      <p class="title-content me-5 mb-3" *ngIf="!validacionEstado()">
+        Crear Usuario
+      </p>
+      <p class="title-content me-5 mb-3" *ngIf="validacionEstado()">
+        Actualizar Usuario
+      </p>
+    </div>
+    <div class="row align-items-center">
+      <div class="col-4 mb-3">
+        <label for="tipoDocumento" class="form-label">Tipo de documento*</label>
+        <select
+          class="form-select"
+          formControlName="tipoDocumento"
+          [ngClass]="{
+            'input-req':
+              isRequired(myForm, 'tipoDocumento') && mostrarValidaciones
+          }"
+        >
+          <option disabled value="">Seleccione</option>
+          <option
+            *ngFor="let documento of listaTipoDocumento"
+            [value]="documento.id_Dominio"
+          >
+            {{ documento.nombre_Dominio }}
+          </option>
+        </select>
+        <div
+          class="msj-req"
+          *ngIf="isRequired(myForm, 'tipoDocumento') && mostrarValidaciones"
+        >
+          {{ msgObligatorio }}
+        </div>
+      </div>
+      <div class="col-4 mb-3">
+        <label for="numeroDocumento" class="form-label"
+          >Número de Documento*</label
+        >
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Número de Documento"
+          maxlength="20"
+          formControlName="numeroDocumento"
+          (keyup)="existeCiudadano = false"
+          id="numeroDocumento"
+          (input)="soloNumero('numeroDocumento')"
+          [ngClass]="{
+            'input-req':
+              (isRequired(myForm, 'numeroDocumento') && mostrarValidaciones) ||
+              (patternValid('numeroDocumento') && mostrarValidaciones)
+          }"
+        />
+        <div
+          class="msj-req"
+          *ngIf="isRequired(myForm, 'numeroDocumento') && mostrarValidaciones"
+        >
+          {{ msgObligatorio }}
+        </div>
+        <div
+          class="msj-req"
+          *ngIf="patternValid('numeroDocumento') && mostrarValidaciones"
+        >
+          {{ msgInvalido }}
+        </div>
+      </div>
+      <div class="col-4 mb-3">
+        <label for="primerNombre" class="form-label">Primer Nombre*</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Primer Nombre"
+          maxlength="50"
+          formControlName="primerNombre"
+          id="primerNombre"
+          (input)="soloLetas('primerNombre')"
+          [ngClass]="{
+            'input-req':
+              (isRequired(myForm, 'primerNombre') && mostrarValidaciones) ||
+              (patternValid('primerNombre') && mostrarValidaciones)
+          }"
+        />
+        <div
+          class="msj-req"
+          *ngIf="isRequired(myForm, 'primerNombre') && mostrarValidaciones"
+        >
+          {{ msgObligatorio }}
+        </div>
+        <div
+          class="msj-req"
+          *ngIf="patternValid('primerNombre') && mostrarValidaciones"
+        >
+          {{ msgInvalido }}
+        </div>
+      </div>
+      <div class="col-4 mb-3">
+        <label for="segundoNombre" class="form-label">Segundo Nombre</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Segundo Nombre"
+          maxlength="50"
+          (input)="soloLetas('segundoNombre')"
+          formControlName="segundoNombre"
+          id="segundoNombre"
+        />
+      </div>
+      <div class="col-4 mb-3">
+        <label for="primerApellido" class="form-label">Primer Apellido*</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Primer Apellido"
+          maxlength="50"
+          formControlName="primerApellido"
+          id="primerApellido"
+          (input)="soloLetas('primerApellido')"
+          [ngClass]="{
+            'input-req':
+              (isRequired(myForm, 'primerApellido') && mostrarValidaciones) ||
+              (patternValid('primerApellido') && mostrarValidaciones)
+          }"
+        />
+        <div
+          class="msj-req"
+          *ngIf="isRequired(myForm, 'primerApellido') && mostrarValidaciones"
+        >
+          {{ msgObligatorio }}
+        </div>
+        <div
+          class="msj-req"
+          *ngIf="patternValid('primerApellido') && mostrarValidaciones"
+        >
+          {{ msgInvalido }}
+        </div>
+      </div>
+      <div class="col-4 mb-3">
+        <label for="segundoApellido" class="form-label">Segundo Apellido</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Segundo Apellido"
+          maxlength="50"
+          formControlName="segundoApellido"
+          (input)="soloLetas('primerApellido')"
+          id="segundoApellido"
+        />
+      </div>
+      <div class="col-4 mb-3">
+        <label for="celular" class="form-label">Celular</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Celular"
+          maxlength="10"
+          formControlName="celular"
+          (input)="soloNumero('celular')"
+          id="celular"
+        />
+        <div
+          class="msj-req"
+          *ngIf="patternValid('celular') && mostrarValidaciones"
+        >
+          {{ msgInvalido }}
+        </div>
+      </div>
+      <div class="col-4 mb-3">
+        <label for="fijo" class="form-label">Teléfono Fijo</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Teléfono Fijo"
+          maxlength="10"
+          formControlName="telefonoFijo"
+          (input)="soloNumero('telefonoFijo')"
+          id="fijo"
+        />
+        <div
+          class="msj-req"
+          *ngIf="patternValid('telefonoFijo') && mostrarValidaciones"
+        >
+          {{ msgInvalido }}
+        </div>
+      </div>
+      <div class="col-4 mb-3">
+        <label for="correo" class="form-label">Correo Electrónico *</label>
+        <input
+          type="email"
+          class="form-control"
+          placeholder="Correo Electronico"
+          maxlength="50"
+          formControlName="correoElectronico"
+          id="correo"
+        />
+        <div
+          class="msj-req"
+          *ngIf="patternValid('correoElectronico') && mostrarValidaciones"
+        >
+          {{ msgInvalido }}
+        </div>
+        <div
+          class="msj-req"
+          *ngIf="isRequired(myForm, 'correoElectronico') && mostrarValidaciones"
+        >
+          {{ msgObligatorio }}
+        </div>
+      </div>
+      <div class="col-8">
+        <label for="perfil" class="form-label">Perfil*</label>
+        <ng-select
+          [multiple]="true"
+          [items]="listaPerfiles"
+          bindLabel="nombrePerfil"
+          bindValue="idPerfil"
+          placeholder="Seleccione los perfiles"
+          formControlName="perfil"
+          [ngClass]="{
+            'input-req': isRequired(myForm, 'perfil') && mostrarValidaciones
+          }"
+        >
+        </ng-select>
+        <div
+          class="msj-req"
+          *ngIf="isRequired(myForm, 'perfil') && mostrarValidaciones"
+        >
+          {{ msgObligatorio }}
+        </div>
+      </div>
+      <div
+        class="col-4 mb-3 margin-top"
+        *ngIf="validacionEstado()"
+        style="padding-left: 30px"
+      >
+        <label for="estado" class="form-label me-4">Estado</label>
+        <div class="row">
+          <div class="col-4 form-check form-check-inline">
+            <input
+              type="radio"
+              class="form-check-input"
+              id="activo"
+              [value]="true"
+              formControlName="estado"
+            />
+            <label for="activo" class="form-label">Activo</label>
+          </div>
+          <div class="col-4 form-check form-check-inline">
+            <input
+              type="radio"
+              class="form-check-input"
+              id="inactivo"
+              [value]="false"
+              formControlName="estado"
+            />
+            <label for="inactivo" class="form-label">Inactivo</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br />
+    <br />
+    <div class="mt-3 d-flex justify-content-end gap-3">
+      <button class="px-3 btn btn-danger" (click)="redireccionar()">
+        Cancelar
+      </button>
+      <button class="px-4 btn btn-primary" (click)="guardar()">Guardar</button>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,325 @@
+<div class="p-4 mb-4">
+  <h4 class="text-blue">Implicados a notificar</h4>
+  <p>
+    Cargue las constancias de notificación de cada implicado para continuar.
+  </p>
+  <div>
+    <mat-table [dataSource]="dataSource" id="table-private">
+      <ng-container matColumnDef="nombres">
+        <mat-header-cell *matHeaderCellDef>
+          Nombre del implicado
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          {{ row.nombres | titlecase }}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="estado">
+        <mat-header-cell *matHeaderCellDef>
+          Estado notificación
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          {{ (row.estado == "recibida" ? "Recibido" : row.estado) | titlecase }}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="accion">
+        <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <button
+            mat-icon-button
+            matTooltip="Visualizar"
+            matTooltipPosition="left"
+            matTooltipHideDelay="500"
+            matTooltipClass="background-tooltip"
+            aria-label="Button that displays a tooltip when focused or hovered over"
+            (click)="visualizarReporte(row)"
+          >
+            <mat-icon class="material-icons-outlined table-icon-color"
+              >visibility</mat-icon
+            >
+          </button>
+
+          <app-carga-archivo
+            (baseArchivo)="cargarArchivo($event, row)"
+            [archivoCargado]="{
+              idSolicitud: tarea.idSolicitud,
+              idArchivo: row.idAnexo ? row.idAnexo : -1
+            }"
+            apariencia="icon"
+            [disableDownload]="!isRecibido(row)"
+            [disableUpload]="isNoEnviado(row)"
+            [downloadIcon]="true"
+            [deleteIcon]="false"
+          ></app-carga-archivo>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row
+        mat-header-row
+        *matHeaderRowDef="columnas"
+      ></mat-header-row>
+      <mat-row *matRowDef="let row; columns: columnas"></mat-row>
+    </mat-table>
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20]"
+      showFirstLastButtons
+      aria-label="Select page of request"
+      #paginator
+    >
+    </mat-paginator>
+  </div>
+
+  <div
+    class="d-flex align-items-center justify-content-end mt-4 text-nowrap flex-wrap w-100"
+    style="gap: 1rem"
+  >
+    <button type="button" class="btn btn-danger" (click)="cancelar()">
+      Cancelar
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="archivarDiligencias()"
+    >
+      Archivar diligencias
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="cerrarActuaciones()"
+      [disabled]="!habilitarCerrarActuaciones"
+    >
+      Cerrar actuaciones
+    </button>
+  </div>
+</div>
+
+<table id="reporte-notificacion-implicados" hidden>
+  <tbody>
+    <tr>
+      <th>NOTIFICACIÓN PERSONAL DE LA MEDIDA DE PROTECCION</th>
+      <td style="text-align: right">
+        {{ date | date: "d" }} de {{ date | date: "MMMM" }} de
+        {{ date | date: "yyyy" }}
+      </td>
+    </tr>
+    <tr></tr>
+    <tr>
+      <td colspan="2">
+        <br />
+        En
+        <span>          {{
+          (implicadoSeleccionado &&
+          implicadoSeleccionado.ciudadNotificacion
+            ? implicadoSeleccionado.ciudadNotificacion
+            : "_______________"
+          ) | uppercase
+        }}</span>
+        , hoy día
+        {{ date | date: "dd" }}
+        de
+        {{ date | date: "MMMM" }}
+        del año
+        {{ date | date: "yyyy" }}
+        siendo las
+        {{ date | date: "hh:mm a" }}
+      </td>
+    </tr>
+    <tr>
+      direccionComisaria: string; nombreVictima: string; nombreAgresor: string;
+      lugarExpedicionVictima: string; lugarExpedicionAgresor: string;
+      tipoDocVictima: string; numeroDocVictima: string; nombreNotificado:
+      string; tipoDocNotificado: string; numeroDocNotificado: string;
+      nombreNotificante: string; cargo: string;
+      <td colspan="2">
+        Notifiqué personalmente del contenido del auto anterior a:
+        <span>
+          {{
+            (implicadoSeleccionado && implicadoSeleccionado.nombreVictima
+              ? implicadoSeleccionado.nombreVictima
+              : ""
+            ) | uppercase
+          }}
+        </span>
+        identificado(a) con
+        <span>
+          {{
+            (implicadoSeleccionado && implicadoSeleccionado.tipoDocVictima
+              ? implicadoSeleccionado.tipoDocVictima
+              : ""
+            ) | uppercase
+          }}
+        </span>
+        <span>
+          {{
+            (implicadoSeleccionado && implicadoSeleccionado.numeroDocVictima
+              ? implicadoSeleccionado.numeroDocVictima
+              : ""
+            ) | uppercase
+          }}
+        </span>
+        de
+        <span>
+          {{
+            (implicadoSeleccionado &&
+            implicadoSeleccionado.lugarExpedicionVictima
+              ? implicadoSeleccionado.lugarExpedicionVictima
+              : "_______________"
+            ) | uppercase
+          }}
+        </span>
+        y enterado(a) firma como aparece a continuación:
+        <br />
+        <br />
+        <br />
+        <br />
+      </td>
+    </tr>
+    <tr>
+      <td>
+        El Notificado
+        <br />
+        <br />
+        <br />
+        <br />
+        ______________________________
+      </td>
+      <td>
+        Quien Notifica
+        <br />
+        <br />
+        <br />
+        <br />
+        ______________________________
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong
+          >{{
+            (implicadoSeleccionado && implicadoSeleccionado.nombreVictima
+              ? implicadoSeleccionado.nombreVictima
+              : ""
+            ) | uppercase
+          }}
+        </strong>
+        <br />
+        <strong class="me-1">{{
+          (implicadoSeleccionado && implicadoSeleccionado.tipoDocVictima
+            ? implicadoSeleccionado.tipoDocVictima
+            : ""
+          ) | uppercase
+        }}</strong>
+        <span>
+          {{
+            (implicadoSeleccionado && implicadoSeleccionado.numeroDocVictima
+              ? implicadoSeleccionado.numeroDocVictima
+              : ""
+            ) | uppercase
+          }}
+        </span>
+        <br />
+        <span>
+          {{
+            (implicadoSeleccionado &&
+            implicadoSeleccionado.lugarExpedicionVictima
+              ? implicadoSeleccionado.lugarExpedicionVictima
+              : ""
+            ) | uppercase
+          }}
+        </span>
+      </td>
+      <td>
+        <span>{{
+          (implicadoSeleccionado && implicadoSeleccionado.nombreNotificante
+            ? implicadoSeleccionado.nombreNotificante
+            : ""
+          ) | uppercase
+        }}</span>
+        <br />
+        <span>{{
+          (implicadoSeleccionado && implicadoSeleccionado.cargo
+            ? implicadoSeleccionado.cargo
+            : ""
+          ) | uppercase
+        }}</span>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table id="reporte-constancia-notificacion" hidden>
+  <tbody>
+    <tr>
+      <th>CONSTANCIA DE NOTIFICACIÓN DE LA MEDIDA DE PROTECCIÓN</th>
+    </tr>
+    <tr>
+      <td>
+        En
+        <span>{{ "Barranquilla" | uppercase }}</span>
+        , hoy día
+        {{ date | date: "dd" }}
+        de
+        {{ date | date: "MMMM" }}
+        del año
+        {{ date | date: "yyyy" }}
+        siendo las
+        {{ date | date: "hh:mm a" }}, me trasladé al inmueble ubicado en la
+        <span> _________________________________ </span>
+        , del barrio
+        <span> __________________ </span>
+        con el fin de notificar personalmente al señor(a)
+        <span> _______________________ </span>
+        identificado(a) con
+        <span> _____ No. ________________ </span>
+        dentro de la Medida de Protección de la referencia, y fui atendido (a)
+        por el señor (a) _____________________________________. Quien manifestó:
+        __________________________________________________. Por lo tanto,
+        procedí a:
+        <br />
+        <br />
+      </td>
+    </tr>
+    <tr>
+      <td>
+        [ ] Se fijó el AVISO de la ley en la puerta del ingreso al inmueble
+      </td>
+    </tr>
+    <tr>
+      <td>[ ] Dirección deficiente</td>
+    </tr>
+    <tr>
+      <td>[ ] No reside allí</td>
+    </tr>
+    <tr>
+      <td>[ ] Se notificó personalmente</td>
+    </tr>
+    <tr>
+      <td>[ ] Se negó a firmar.</td>
+    </tr>
+    <tr>
+      <td>
+        <br />
+        El presente informe lo rindo bajo la gravedad del juramento.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <br />
+        <br />
+        <span>OBSERVACIONES:</span>
+        se hace una descripción de la casa residencia
+        <br />
+        ______________________________________________________________________
+        _______________________________________________________________________.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <br />
+        <br />
+        <br />
+        _________________________ <br />
+        EL NOTIFICADOR
+      </td>
+    </tr>
+  </tbody>
+</table>

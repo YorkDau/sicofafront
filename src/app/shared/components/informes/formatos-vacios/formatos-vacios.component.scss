@@ -1,0 +1,27 @@
+#table-especific .mat-table {
+    border: 1px solid #dde1e6;
+  }
+  
+  #table-especific .mat-header-row {
+    min-height: 60px;
+  }
+  
+  #table-especific .mat-header-cell {
+    border-bottom: 1px solid var(--endeavour) !important;
+    color: #000000;
+    font-weight: bold;
+    letter-spacing: 0px;
+    opacity: 1;
+  }
+  
+  #table-especific .mat-cell {
+    color: #212529;
+    font-size: var(--font-16);
+    letter-spacing: 0px;
+    font-weight: normal;
+    border: none;
+  }
+  
+  .column {
+    width: 10%;
+  }

@@ -1,0 +1,57 @@
+.internal-title {
+    background-color: var(--endeavour);
+    color: #fff;
+    font-size: 20px;
+    padding: 15px 70px;
+    margin-top: -70px;
+    margin-left: -22px;
+    width: max-content;
+}
+
+#div {
+    margin-left: -50px;
+    padding: 10px 50px;
+}
+
+.separator {
+    background-image: linear-gradient(to right, #c4ccd4 50%, rgba(255, 255, 255, 0) 0%);
+    background-position: bottom;
+    background-size: 20px 2px;
+    background-repeat: repeat-x;
+}
+
+.form-select {
+    box-shadow: 0px 3px 6px #00000029;
+}
+
+.alert {
+    background-color: rgb(183 222 230);
+    color: #138496;
+    font-size: var(--font-16);
+    letter-spacing: 0px;
+    font-weight: bold;
+}
+
+p {
+    color: #298fda;
+    font-weight: bold;
+}
+
+.shadow {
+    box-shadow: 0px 3px 6px #00000029;
+}
+
+::ng-deep .ng-select-container {
+    height: 38px !important;
+}
+
+.alinear {
+    align-content: space-between; 
+    padding: 10px;
+    height: 100%;
+
+    .form-label {
+        margin-bottom: 0;
+    }
+
+}

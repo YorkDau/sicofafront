@@ -1,0 +1,114 @@
+<div class="p-5">
+  <div class="title-modal text-start">
+    ACTUALIZACIÓN DE INVOLUCRADOS Y ACTA DE VERIFICACIÓN DE DERECHOS
+  </div>
+
+  <div class="my-4 d-flex justify-content-between">
+    <p class="form-label">INVOLUCRADOS</p>
+    <button class="btn btn-primary" routerLink="../registro-involucrados">
+      Agregar involucrado
+    </button>
+  </div>
+
+  <div class="w-50" *ngIf="dataSource.data.length === 0">
+    <app-no-data [mensaje]="mensajeSinReg"> </app-no-data>
+  </div>
+  <div [ngStyle]="{ display: dataSource.data.length > 0 ? 'block' : 'none' }">
+    <mat-table [dataSource]="dataSource" id="table-private">
+      <ng-container *ngFor="let column of columnas">
+        <ng-container [matColumnDef]="column.key">
+          <mat-header-cell mat-header-cell *matHeaderCellDef>
+            {{ column.header }}
+          </mat-header-cell>
+          <mat-cell mat-cell *matCellDef="let element">
+            {{ element[column.key] }}
+          </mat-cell>
+        </ng-container>
+      </ng-container>
+      <ng-container matColumnDef="Acciones">
+        <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <button
+            type="button"
+            mat-icon-button
+            matTooltip="Ver adjunto"
+            (click)="generarReporte(row)"
+            [disabled]="!ocultarDescargarReporte(row, true)"
+          >
+            <img
+              [src]="
+                ocultarDescargarReporte(row, true)
+                  ? ' assets/images/eye.svg'
+                  : 'assets/images/eye_gray.svg'
+              "
+              alt="edit"
+              width="19"
+              height="19"
+            />
+          </button>
+          <app-carga-archivo
+            [uploadIcon]="true"
+            [deleteIcon]="false"
+            [deleteAction]="false"
+            [disableDownload]="true"
+            [apariencia]="'icon'"
+            [downloadIcon]="false"
+            (baseArchivo)="cargarArchivo($event, row)"
+            matTooltip="Cargar adjunto"
+            [disableUpload]="!ocultarDescargarReporte(row, true)"
+          ></app-carga-archivo>
+          <button
+            type="button"
+            mat-icon-button
+            matTooltip="Descargar adjunto"
+            (click)="descargarArchivo(row)"
+            [disabled]="!ocultarDescargarReporte(row)"
+          >
+            <mat-icon
+              class="material-icons-outlined table-icon-color"
+              [ngStyle]="{
+                color: !ocultarDescargarReporte(row) ? '#7A7E83' : ''
+              }"
+            >
+              print
+            </mat-icon>
+          </button>
+          <button
+            type="button"
+            mat-icon-button
+            matTooltip="Editar"
+            (click)="editarRegistro(row)"
+            routerLink="../registro-involucrados"
+          >
+            <img
+              src="assets/images/lapiz.svg"
+              alt="edit"
+              width="19"
+              height="19"
+            />
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row
+        mat-header-row
+        *matHeaderRowDef="displayedColumns"
+      ></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </mat-table>
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20]"
+      showFirstLastButtons
+      aria-label="Select page of request"
+    >
+    </mat-paginator>
+  </div>
+</div>
+
+<app-acciones-formulario [mostrarGuardar]="false"></app-acciones-formulario>
+
+<div *ngIf="datosReportes">
+  <app-verificacion-derechos
+    [datosReporte]="datosReportes"
+  ></app-verificacion-derechos>
+</div>

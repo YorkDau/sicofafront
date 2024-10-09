@@ -1,0 +1,50 @@
+<div *ngIf="!noTieneAnexos()">
+    <app-no-data
+      mensaje="Esta solicitud todavia no tiene anexos."
+    ></app-no-data>
+  </div>
+<div  class="estilo-tabla" *ngIf="noTieneAnexos()">
+    <table mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="nombreDocumento">
+            <th mat-header-cell *matHeaderCellDef>Nombre del Documento</th>
+            <td *matCellDef="let element">
+                {{element.nombreDocumento}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="nombreArchivo">
+            <th mat-header-cell *matHeaderCellDef>Nombre del Archivo</th>
+            <td *matCellDef="let element">
+                {{element.nombreArchivo}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="fechaCreacion">
+            <th mat-header-cell *matHeaderCellDef>Fecha de creación</th>
+            <td *matCellDef="let element">
+                {{element.fechaCreacion | date: "dd/MM/yyyy"}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef>Acciones</th>
+            <td *matCellDef="let element">
+                <button
+                        mat-icon-button
+                        matTooltip="Descargar adjunto"
+                        color="primary"
+                        (click)="descargarArchivo(element)"
+                      >
+                        <mat-icon
+                        class="material-icons-outlined"
+                        >file_download</mat-icon>
+                      </button>
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>
+<mat-paginator 
+    [pageSizeOptions]="[5, 10, 20]"
+    showFirstLastButtons
+    aria-label="Select page of request"
+    >
+</mat-paginator>

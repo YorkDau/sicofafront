@@ -1,0 +1,165 @@
+<ng-template #vacio>_______________________</ng-template>
+<table hidden id="cuerpo">
+  <tr>
+    <td>
+      Por medio de la presente comunico que la Comisaría
+      {{ dataReporte.nombreComisaria | titlecase }} de Familia de
+      {{ dataReporte.ciudadRemision | titlecase }}, con fundamento en los
+      artículos 5º y 20 de la Ley 294 de 1996, modificada por la ley 575 de 2000
+      y 1257 de 2008; Ley 2126 de 2021 y Decreto Único Reglamentario 1069 de
+      2015, mediante Providencia de fecha miércoles, 06 de julio de 2022, se
+      decretó medida de protección definitiva a favor de
+      <span *ngIf="dataReporte.nombreVictima; else vacio">
+        {{ dataReporte.nombreVictima | titlecase }}</span
+      >
+      en la que se ordenó:
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      PRIMERO: imponer medida de protección definitiva a favor del (la) señor(a)
+      <span *ngIf="dataReporte.nombreVictima; else vacio">
+        {{ dataReporte.nombreVictima | titlecase }}</span
+      >, consistente en:
+    </td>
+  </tr>
+</table>
+<table hidden id="items">
+  <tr>
+    <td class="item">a.</td>
+
+    <td>
+      ORDENAR al (la) señor(a)
+      <span *ngIf="dataReporte.nombreAgresor; else vacio">{{
+        dataReporte.nombreAgresor | titlecase
+      }}</span
+      >, la obligación de abstenerse de realizar cualquieracto de violencia,
+      agresión, maltrato, amenaza u ofensa en contra del (la) señor(a)
+      <span *ngIf="dataReporte.nombreVictima; else vacio">{{
+        dataReporte.nombreVictima | titlecase
+      }}</span
+      >.
+    </td>
+  </tr>
+  <tr>
+    <td class="item">b.</td>
+    <td>
+      Se le ORDENA al (la) señor(a)
+      <span *ngIf="dataReporte.nombreAgresor; else vacio">{{
+        dataReporte.nombreAgresor | titlecase
+      }}</span
+      >, la prohibición de ingresar al sitio de residencia, estudio, trabajo o
+      cualquier otro lugar en el que se encuentre al (la) señor(a)
+      <span *ngIf="dataReporte.nombreVictima; else vacio">{{
+        dataReporte.nombreVictima | titlecase
+      }}</span
+      >, esto sin su previa autorización.
+    </td>
+  </tr>
+  <tr>
+    <td class="item">c.</td>
+    <td>
+      ORDENAR al (la) señor(a)
+      <span *ngIf="dataReporte.nombreAgresor; else vacio">{{
+        dataReporte.nombreAgresor | titlecase
+      }}</span
+      >, abstenerse de penetrar en forma violenta, agresiva, intimidatorio,
+      amenazante y/o bajo el efecto de sustancias psicoactivas y/o embriagantes,
+      en cualquier lugar donde se encuentre al (la) señor(a)
+      <span *ngIf="dataReporte.nombreVictima; else vacio">{{
+        dataReporte.nombreVictima
+      }}</span
+      >.
+    </td>
+  </tr>
+  <tr>
+    <td class="item">d.</td>
+    <td>
+      PROHIBIR al (la) señor(a)
+      <span *ngIf="dataReporte.nombreAgresor; else vacio">{{
+        dataReporte.nombreAgresor | titlecase
+      }}</span
+      >, realizarle amenazas por cualquier medio al (la) señor(a)
+      <span *ngIf="dataReporte.nombreVictima; else vacio">{{
+        dataReporte.nombreVictima
+      }}</span
+      >, y prohibirle asimismo utilizar cualquier tipo de arma en el sitio de
+      residencia, estudio, trabajo o cualquier otro lugar en el que se encuentre
+      al (la) señor(a).
+    </td>
+  </tr>
+  <tr>
+    <td class="item">e.</td>
+    <td>
+      Se impone la obligación al (la) señor(a)
+      <span *ngIf="dataReporte.nombreAgresor; else vacio">{{
+        dataReporte.nombreAgresor | titlecase
+      }}</span
+      >, de acudir a TRATAMIENTO TERAPÉUTICO PROFESIONAL con sicología para el
+      control de impulsos agresivos, manejo de la ira, patrones de comunicación
+      asertiva, resolución de conflictos, entre otros que el profesional
+      considere pertinente que le permitan comprender la importancia de resolver
+      los conflictos mediante acciones libres de violencia, de lo cual deberá
+      aportar certificados de asistencia al proceso.
+    </td>
+  </tr>
+  <tr>
+    <td class="item">f.</td>
+    <td>
+      Remitir al (la) señor(a)
+      <span *ngIf="dataReporte.nombreVictima; else vacio">{{
+        dataReporte.nombreVictima | titlecase
+      }}</span
+      >, a seguimiento psicológico a fin de que supere los hechos violentos y se
+      empodere en su calidad de víctima, para que haga uso efectivo de la
+      presente medida de protección, y mantengan informado al comando de policía
+      sobre los posibles hechos violentos en los que pueda incurrir el agresor,
+      así mismo, para que en caso que se presenten inicie el respectivo
+      incidente de incumplimiento.
+    </td>
+  </tr>
+  <tr>
+    <td class="item">g.</td>
+    <td>
+      Se le ordena al (la) señor(a)
+      <span *ngIf="dataReporte.nombreAgresor; else vacio">{{
+        dataReporte.nombreAgresor | titlecase
+      }}</span
+      >, la obligación de asistir al curso pedagógico sobre derechos de las
+      víctimas de violencia en el contexto familiar, perspectiva de género,
+      acciones legales para su garantía, consecuencias jurídicas y competencias
+      institucionales, el cual realizará la personería.
+    </td>
+  </tr>
+</table>
+
+<table hidden id="conformidad">
+  <tr>
+    <td>
+      De conformidad a lo anterior solicito a las autoridades de policía prestar
+      protección y apoyo especial al (la) señor(a)
+      <span *ngIf="dataReporte.nombreVictima; else vacio">{{
+        dataReporte.nombreVictima | titlecase
+      }}</span
+      >, con el fin de garantizar cumplimiento a lo ordenado por este despacho
+      en la medida de protección referida y evitar el acontecimiento de futuros
+      hechos de violencia. Quien tiene por datos de ubicación y contacto:
+      <span *ngIf="dataReporte.direccionResidenciaVictima; else vacio">
+        {{ dataReporte.direccionResidenciaVictima }}</span
+      >
+      barrio:
+      <span *ngIf="dataReporte.barrioVictima">
+        {{ dataReporte.barrioVictima | titlecase }}</span
+      >
+      de la localidad / comuna
+      <span *ngIf="dataReporte.localidadVictima; else vacio">
+        {{ dataReporte.localidadVictima | titlecase }}</span
+      >, con número telefónico o de celular:
+      <span *ngIf="dataReporte.telefonoVictima; else vacio">{{
+        dataReporte.telefonoVictima
+      }}</span
+      >.
+    </td>
+  </tr>
+</table>

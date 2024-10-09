@@ -1,0 +1,717 @@
+<div class="background-content-private p-5 mb-4">
+  <div class="mb-4">
+    <div class="d-flex align-items-center mb-4 w-100">
+      <span class="subtitle-ciudadano">ACCIONANTE</span>
+      <button mat-icon-button (click)="agregarVictima()">
+        <img
+          src="assets/images/add.svg"
+          alt="add"
+          class="img-fluid"
+          matTooltip="Agregar accionante"
+          matTooltipPosition="right"
+          matTooltipHideDelay="500"
+          matTooltipClass="background-tooltip"
+          aria-label="Button that displays a tooltip when focused or hovered over"
+        />
+      </button>
+      <button
+        *ngIf="victimas.controls.length > 1"
+        mat-icon-button
+        (click)="eliminarVictima()"
+      >
+        <img
+          src="assets/images/trash.svg"
+          alt="add"
+          class="img-fluid"
+          matTooltip="Eliminar accionante"
+          matTooltipPosition="right"
+          matTooltipHideDelay="500"
+          matTooltipClass="background-tooltip"
+          aria-label="Button that displays a tooltip when focused or hovered over"
+        />
+      </button>
+    </div>
+
+    <form [formGroup]="victimasForm">
+      <div *ngFor="let victima of victimas.controls; let i = index">
+        <ng-container [formGroup]="victima">
+          <!-- primera parte -->
+          <div class="row">
+            <div class="col-lg-4 mb-3">
+              <label for="pnombre" class="form-label"> Primer nombre* </label>
+              <input
+                type="text"
+                class="form-control"
+                id="pnombre"
+                placeholder="Primer nombre"
+                formControlName="primer_nombre"
+                maxlength="50"
+                [ngClass]="{
+                  'input-req':
+                    (isRequired(victima, 'primer_nombre') &&
+                      mostrarValidaciones) ||
+                    (patternValid(victima, 'primer_nombre') &&
+                      mostrarValidaciones)
+                }"
+              />
+              <div
+                *ngIf="
+                  isRequired(victima, 'primer_nombre') && mostrarValidaciones
+                "
+                class="msj-req"
+              >
+                {{ msgObligatorio }}
+              </div>
+              <div
+                *ngIf="
+                  patternValid(victima, 'primer_nombre') && mostrarValidaciones
+                "
+                class="msj-req"
+              >
+                {{ msgInvalido }}
+              </div>
+            </div>
+            <div class="col-lg-4 mb-3">
+              <label for="snombre" class="form-label"> Segundo nombre </label>
+              <input
+                type="text"
+                class="form-control"
+                id="snombre"
+                placeholder="Segundo nombre"
+                formControlName="segundo_nombre"
+                maxlength="50"
+              />
+            </div>
+            <div class="col-lg-4 mb-3">
+              <label for="papellido" class="form-label">
+                Primer apellido*
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                id="papellido"
+                placeholder="Primer apellido"
+                formControlName="primer_apellido"
+                maxlength="50"
+                [ngClass]="{
+                  'input-req':
+                    (isRequired(victima, 'primer_apellido') &&
+                      mostrarValidaciones) ||
+                    (patternValid(victima, 'primer_apellido') &&
+                      mostrarValidaciones)
+                }"
+              />
+              <div
+                *ngIf="
+                  isRequired(victima, 'primer_apellido') && mostrarValidaciones
+                "
+                class="msj-req"
+              >
+                {{ msgObligatorio }}
+              </div>
+              <div
+                *ngIf="
+                  patternValid(victima, 'primer_apellido') &&
+                  mostrarValidaciones
+                "
+                class="msj-req"
+              >
+                {{ msgInvalido }}
+              </div>
+            </div>
+            <div class="col-lg-4 mb-3">
+              <label for="sapellido" class="form-label">
+                Segundo apellido
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                id="sapellido"
+                placeholder="Segundo apellido"
+                formControlName="segundo_apellido"
+                maxlength="50"
+              />
+            </div>
+            <div class="col-lg-4 mb-3">
+              <label for="tipoDoc" class="form-label">
+                Tipo de documento*
+              </label>
+              <select
+                id="tipoDoc"
+                class="form-select"
+                formControlName="id_tipo_documento"
+                [ngClass]="{
+                  'input-req':
+                    isRequired(victima, 'id_tipo_documento') &&
+                    mostrarValidaciones
+                }"
+              >
+                <option disabled value="">Seleccione</option>
+                <option
+                  [value]="item.id_Dominio"
+                  *ngFor="let item of listaTipoDocumento"
+                >
+                  {{ item.nombre_Dominio }}
+                </option>
+              </select>
+              <div
+                *ngIf="
+                  isRequired(victima, 'id_tipo_documento') &&
+                  mostrarValidaciones
+                "
+                class="msj-req"
+              >
+                {{ msgObligatorio }}
+              </div>
+            </div>
+
+            <!-- segunda parte -->
+            <div class="col-lg-4 mb-3">
+              <label for="descripcion" class="form-label">
+                Número de documento*
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                id="descripcion"
+                placeholder="Número de documento"
+                formControlName="numero_documento"
+                maxlength="20"
+                (input)="soloNumeroV('numero_documento')"
+                [ngClass]="{
+                  'input-req':
+                    (isRequired(victima, 'numero_documento') &&
+                      mostrarValidaciones) ||
+                    (patternValid(victima, 'numero_documento') &&
+                      mostrarValidaciones)
+                }"
+              />
+              <div
+                *ngIf="
+                  isRequired(victima, 'numero_documento') && mostrarValidaciones
+                "
+                class="msj-req"
+              >
+                {{ msgObligatorio }}
+              </div>
+              <div
+                *ngIf="
+                  patternValid(victima, 'numero_documento') &&
+                  mostrarValidaciones
+                "
+                class="msj-req"
+              >
+                {{ msgInvalido }}
+              </div>
+            </div>
+            <div class="col-lg-4 mb-3">
+              <label for="fecha" class="form-label">Fecha de nacimiento</label>
+              <div class="input-group" [class.sombraCampoIzq]="i === 0">
+                <input
+                  matInput
+                  readonly
+                  (click)="picker.open()"
+                  placeholder="DD/MM/AAAA"
+                  class="form-control form-control-date-Picker sinborde-DatePicker"
+                  [class.deshabilitadoCampo]="i === 0"
+                  [matDatepicker]="picker"
+                  id="fecha"
+                  formControlName="fecha_nacimiento"
+                  (dateChange)="calcularEdad($event, victima)"
+                  [max]="maxDate"
+                />
+
+                <span
+                  class="input-group-text sinfondo-DatePicker"
+                  [class.deshabilitadoCampo]="i === 0"
+                >
+                  <mat-datepicker-toggle
+                    matSuffix
+                    [for]="picker"
+                  ></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </span>
+              </div>
+            </div>
+            <div class="col-lg-4 mb-3">
+              <label for="edad" class="form-label"> Edad </label>
+              <input
+                type="text"
+                class="form-control"
+                id="edad"
+                placeholder="Edad"
+                formControlName="edad"
+                [attr.disabled]="true"
+                (input)="soloNumeroV('edad')"
+                [ngClass]="{
+                  'input-req':
+                    patternValid(victima, 'edad') && mostrarValidaciones
+                }"
+              />
+              <div
+                *ngIf="patternValid(victima, 'edad') && mostrarValidaciones"
+                class="msj-req"
+              >
+                {{ msgInvalido }}
+              </div>
+            </div>
+
+            <!-- tercera parte -->
+            <div class="col-lg-4 mb-3">
+              <label for="genero" class="form-label"> Género</label>
+              <select id="genero" class="form-select" formControlName="genero">
+                <option disabled value="">Seleccione</option>
+                <option
+                  [value]="item.id_Dominio"
+                  *ngFor="let item of listaGenero"
+                >
+                  {{ item.nombre_Dominio }}
+                </option>
+              </select>
+            </div>
+
+            <div class="col-lg-4 mb-3">
+              <label for="tel" class="form-label"> Teléfono </label>
+              <input
+                type="text"
+                class="form-control"
+                id="tel"
+                placeholder="Teléfono"
+                (input)="soloNumeroV('telefono')"
+                formControlName="telefono"
+                maxlength="30"
+                [ngClass]="{
+                  'input-req':
+                    patternValid(victima, 'telefono') && mostrarValidaciones
+                }"
+              />
+              <div
+                *ngIf="patternValid(victima, 'telefono') && mostrarValidaciones"
+                class="msj-req"
+              >
+                {{ msgInvalido }}
+              </div>
+            </div>
+
+            <div class="col-lg-4 mb-3">
+              <label for="email" class="form-label"> Correo electrónico </label>
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                placeholder="Correo electrónico"
+                formControlName="correo_electronico"
+                [ngClass]="{
+                  'input-req':
+                    patternValid(victima, 'correo_electronico') &&
+                    mostrarValidaciones
+                }"
+                maxlength="50"
+              />
+              <div
+                *ngIf="
+                  patternValid(victima, 'correo_electronico') &&
+                  mostrarValidaciones
+                "
+                class="msj-req"
+              >
+                {{ msgInvalido }}
+              </div>
+            </div>
+
+            <!-- cuarta parte -->
+            <div class="col-lg-4 mb-3">
+              <label for="barrio" class="form-label"> Barrio </label>
+              <input
+                type="text"
+                class="form-control"
+                id="barrio"
+                placeholder="Barrio"
+                formControlName="barrio"
+                maxlength="30"
+              />
+            </div>
+
+            <div class="col-lg-4 mb-3">
+              <label for="direccion" class="form-label"> Dirección</label>
+              <input
+                type="text"
+                class="form-control"
+                id="direccion"
+                placeholder="Dirección"
+                formControlName="direccion"
+                maxlength="50"
+              />
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </form>
+  </div>
+
+  <div>
+    <div class="d-flex align-items-center mb-4">
+      <span class="subtitle-ciudadano">ACCIONADO</span>
+      <button mat-icon-button (click)="agregarAgresor()">
+        <img
+          src="assets/images/add.svg"
+          alt="add"
+          class="img-fluid"
+          matTooltip="Agregar accionado"
+          matTooltipPosition="right"
+          matTooltipHideDelay="500"
+          matTooltipClass="background-tooltip"
+          aria-label="Button that displays a tooltip when focused or hovered over"
+        />
+      </button>
+      <button
+        *ngIf="agresores.controls.length > 1"
+        mat-icon-button
+        (click)="eliminarAgresor()"
+      >
+        <img
+          src="assets/images/trash.svg"
+          alt="add"
+          class="img-fluid"
+          matTooltip="Eliminar accionado"
+          matTooltipPosition="right"
+          matTooltipHideDelay="500"
+          matTooltipClass="background-tooltip"
+          aria-label="Button that displays a tooltip when focused or hovered over"
+        />
+      </button>
+    </div>
+
+    <form [formGroup]="agresoresForm">
+      <div *ngFor="let agresor of agresores.controls; let i = index">
+        <ng-container [formGroup]="agresor">
+          <!-- primera parte -->
+          <div class="row">
+            <div class="col-lg-4 mb-3">
+              <label for="pnombrea" class="form-label"> Primer nombre*</label>
+              <input
+                type="text"
+                class="form-control"
+                id="pnombrea"
+                placeholder="Primer nombre"
+                formControlName="primer_nombre"
+                [ngClass]="{
+                  'input-req':
+                    (isRequired(agresor, 'primer_nombre') &&
+                      mostrarValidaciones) ||
+                    (patternValid(agresor, 'primer_nombre') &&
+                      mostrarValidaciones)
+                }"
+                maxlength="50"
+              />
+              <div
+                *ngIf="
+                  isRequired(agresor, 'primer_nombre') && mostrarValidaciones
+                "
+                class="msj-req"
+              >
+                {{ msgObligatorio }}
+              </div>
+              <div
+                *ngIf="
+                  patternValid(agresor, 'primer_nombre') && mostrarValidaciones
+                "
+                class="msj-req"
+              >
+                {{ msgInvalido }}
+              </div>
+            </div>
+            <div class="col-lg-4 mb-3">
+              <label for="snombrea" class="form-label"> Segundo nombre</label>
+              <input
+                type="text"
+                class="form-control"
+                id="snombrea"
+                placeholder="Segundo nombre"
+                formControlName="segundo_nombre"
+                maxlength="50"
+              />
+            </div>
+            <div class="col-lg-4 mb-3">
+              <label for="papellidoa" class="form-label">
+                Primer Apellido*
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                id="papellidoa"
+                placeholder="Primer apellido"
+                formControlName="primer_apellido"
+                maxlength="50"
+                [ngClass]="{
+                  'input-req':
+                    (isRequired(agresor, 'primer_apellido') &&
+                      mostrarValidaciones) ||
+                    (patternValid(agresor, 'primer_apellido') &&
+                      mostrarValidaciones)
+                }"
+              />
+              <div
+                *ngIf="
+                  isRequired(agresor, 'primer_apellido') && mostrarValidaciones
+                "
+                class="msj-req"
+              >
+                {{ msgObligatorio }}
+              </div>
+              <div
+                *ngIf="
+                  patternValid(agresor, 'primer_apellido') &&
+                  mostrarValidaciones
+                "
+                class="msj-req"
+              >
+                {{ msgInvalido }}
+              </div>
+            </div>
+            <div class="col-lg-4 mb-3">
+              <label for="sapellidoa" class="form-label">
+                Segundo apellido
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                id="sapellidoa"
+                placeholder="Segundo apellido"
+                formControlName="segundo_apellido"
+                maxlength="50"
+              />
+            </div>
+
+            <div class="col-lg-4 mb-3">
+              <label for="tipoDoca" class="form-label">
+                Tipo de documento*
+              </label>
+              <select
+                id="tipoDoca"
+                class="form-select"
+                formControlName="id_tipo_documento"
+                [ngClass]="{
+                  'input-req':
+                    isRequired(agresor, 'id_tipo_documento') &&
+                    mostrarValidaciones
+                }"
+              >
+                <option disabled value="">Seleccione</option>
+                <option
+                  [value]="item.id_Dominio"
+                  *ngFor="let item of listaTipoDocumento"
+                >
+                  {{ item.nombre_Dominio }}
+                </option>
+              </select>
+              <div
+                *ngIf="
+                  isRequired(agresor, 'id_tipo_documento') &&
+                  mostrarValidaciones
+                "
+                class="msj-req"
+              >
+                {{ msgObligatorio }}
+              </div>
+            </div>
+
+            <!-- segunda parte -->
+            <div class="col-lg-4 mb-3">
+              <label for="descripciona" class="form-label">
+                Número de documento*
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                id="descripciona"
+                placeholder="Número de documento"
+                formControlName="numero_documento"
+                maxlength="20"
+                (input)="soloNumeroA('numero_documento')"
+                [ngClass]="{
+                  'input-req':
+                    (isRequired(agresor, 'numero_documento') &&
+                      mostrarValidaciones) ||
+                    (patternValid(agresor, 'numero_documento') &&
+                      mostrarValidaciones)
+                }"
+              />
+              <div
+                *ngIf="
+                  isRequired(agresor, 'numero_documento') && mostrarValidaciones
+                "
+                class="msj-req"
+              >
+                {{ msgObligatorio }}
+              </div>
+              <div
+                *ngIf="
+                  patternValid(agresor, 'numero_documento') &&
+                  mostrarValidaciones
+                "
+                class="msj-req"
+              >
+                {{ msgInvalido }}
+              </div>
+            </div>
+            <div class="col-lg-4 mb-3">
+              <label for="fechaa" class="form-label">
+                Fecha de nacimiento
+              </label>
+              <div class="input-group">
+                <input
+                  matInput
+                  (click)="picker2.open()"
+                  readonly
+                  placeholder="DD/MM/AAAA"
+                  class="form-control form-control-date-Picker sinborde-DatePicker"
+                  [matDatepicker]="picker2"
+                  id="fechaa"
+                  formControlName="fecha_nacimiento"
+                  (dateChange)="calcularEdad($event, agresor)"
+                  [max]="maxDate"
+                />
+                <span class="input-group-text sinfondo-DatePicker">
+                  <mat-datepicker-toggle
+                    matSuffix
+                    [for]="picker2"
+                  ></mat-datepicker-toggle>
+                  <mat-datepicker #picker2></mat-datepicker>
+                </span>
+              </div>
+            </div>
+            <div class="col-lg-4 mb-3">
+              <label for="edada" class="form-label"> Edad </label>
+              <input
+                type="text"
+                class="form-control"
+                id="edada"
+                placeholder="Edad"
+                maxlength="3"
+                formControlName="edad"
+                (input)="soloNumeroA('edad')"
+                [ngClass]="{
+                  'input-req':
+                    patternValid(agresor, 'edad') && mostrarValidaciones
+                }"
+              />
+              <div
+                *ngIf="patternValid(agresor, 'edad') && mostrarValidaciones"
+                class="msj-req"
+              >
+                {{ msgInvalido }}
+              </div>
+            </div>
+
+            <!-- tercera parte -->
+            <div class="col-lg-4 mb-3">
+              <label for="generoa" class="form-label"> Género</label>
+              <select id="generoa" class="form-select" formControlName="genero">
+                <option disabled value="">Seleccione</option>
+                <option
+                  [value]="item.id_Dominio"
+                  *ngFor="let item of listaGenero"
+                >
+                  {{ item.nombre_Dominio }}
+                </option>
+              </select>
+            </div>
+
+            <div class="col-lg-4 mb-3">
+              <label for="tela" class="form-label"> Teléfono </label>
+              <input
+                type="text"
+                class="form-control"
+                id="tela"
+                placeholder="Teléfono"
+                formControlName="telefono"
+                maxlength="30"
+                (input)="soloNumeroA('telefono')"
+                [ngClass]="{
+                  'input-req':
+                    patternValid(agresor, 'telefono') && mostrarValidaciones
+                }"
+              />
+              <div
+                *ngIf="patternValid(agresor, 'telefono') && mostrarValidaciones"
+                class="msj-req"
+              >
+                {{ msgInvalido }}
+              </div>
+            </div>
+
+            <div class="col-lg-4 mb-3">
+              <label for="emaila" class="form-label">
+                Correo electrónico
+              </label>
+              <input
+                type="emaila"
+                class="form-control"
+                id="email"
+                placeholder="Correo electrónico"
+                formControlName="correo_electronico"
+                maxlength="50"
+                [ngClass]="{
+                  'input-req':
+                    patternValid(agresor, 'correo_electronico') &&
+                    mostrarValidaciones
+                }"
+              />
+              <div
+                *ngIf="
+                  patternValid(agresor, 'correo_electronico') &&
+                  mostrarValidaciones
+                "
+                class="msj-req"
+              >
+                {{ msgInvalido }}
+              </div>
+            </div>
+
+            <!-- cuarta parte -->
+            <div class="col-lg-4 mb-3">
+              <label for="barrioa" class="form-label"> Barrio </label>
+              <input
+                type="text"
+                class="form-control"
+                id="barrioa"
+                placeholder="Barrio"
+                formControlName="barrio"
+                maxlength="30"
+              />
+            </div>
+
+            <div class="col-lg-4 mb-3">
+              <label for="direcciona" class="form-label"> Dirección</label>
+              <input
+                type="text"
+                class="form-control"
+                id="direcciona"
+                placeholder="Dirección"
+                formControlName="direccion"
+                maxlength="50"
+              />
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="d-flex justify-content-lg-end w-100 mb-4">
+  <button
+    class="btn btn-danger me-5 px-5"
+    type="button"
+    (click)="cancelarSolicitud()"
+  >
+    Cancelar
+  </button>
+  <button
+    class="btn btn-primary px-5"
+    type="button"
+    (click)="guardarDatosContacto()"
+  >
+    Guardar
+  </button>
+</div>

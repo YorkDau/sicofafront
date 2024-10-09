@@ -1,0 +1,41 @@
+<div class="w-100 mt-4" *ngIf="user?.perfil === COMISARIO">
+  <p class="form-label">¿El documento requiere algún ajuste adicional?</p>
+  <div class="form-check form-check-inline">
+    <input
+      class="form-check-input"
+      type="radio"
+      name="reqdoc"
+      id="reqdocSi"
+      [(ngModel)]="mostrarObservaciones"
+      [value]="true"
+      [checked]="mostrarObservaciones"
+      (change)="emitircheckComisario()"
+    />
+    <label for="reqdocSi" class="form-label"> SI </label>
+  </div>
+  <div class="form-check form-check-inline">
+    <input
+      class="form-check-input"
+      type="radio"
+      name="reqdoc"
+      id="reqdocNo"
+      [(ngModel)]="mostrarObservaciones"
+      [checked]="!mostrarObservaciones"
+      [value]="false"
+      (change)="emitircheckComisario()"
+    />
+    <label for="reqdocNo" class="form-label"> NO </label>
+  </div>
+
+  <textarea
+    class="form-control"
+    id="sectionFils"
+    rows="6"
+    style="resize: none"
+    maxlength="10000"
+    *ngIf="mostrarObservaciones"
+    [(ngModel)]="observaciones"
+    (focusout)="emitirObservaciones()"
+    placeholder="Observaciones"
+  ></textarea>
+</div>

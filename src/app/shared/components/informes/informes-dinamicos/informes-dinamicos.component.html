@@ -1,0 +1,163 @@
+<div class="background-filter-private d-flex flex-column w-100 mb-3">
+  <!-- filtros -->
+  <form [formGroup]="formulario" class="row" autocomplete="off">
+      <div class="row">
+          <span class="title-medium me-5 mb-3 text-center">GENERAR REPORTES</span>
+      </div>
+      <div class="row">
+        <div class="col-lg-3">
+          <div class="mb-3">
+          <label for="tareaRetomar" class="form-label">Tipo de Documento</label>
+          <select 
+            class="form-select" 
+            formControlName="tipoDocumento"
+            id="tareaRetomar"
+            [ngClass]="{
+              'input-req': requiredTipoDocumento()
+            }">
+            <option disabled value="">Seleccione tipo de Documento</option>
+            <option
+              *ngFor="let documento of listaTipoDocumento"
+              [value]="documento.codigo">
+              {{documento.nombre_Dominio}}</option>
+          </select>
+          <div *ngIf="requiredTipoDocumento()" class="msj-req">
+            Se requiere este campo.
+          </div>
+        </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="mb-3">
+            <label for="numeroDocumento" class="form-label">Numero de Documento</label>
+            <input 
+              type="text"
+              class="form-control"
+              id="numeroDocumento"
+              placeholder="Número de Documento"
+              maxlength="10"
+              formControlName="numeroDocumento"
+              [ngClass]="{
+                'input-req': requiredNumeroDocumento()
+              }">
+              <div *ngIf="requiredNumeroDocumento()" class="msj-req">
+                Se requiere este campo.
+              </div>
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="mb-3">
+            <label for="codigoSolicitud" class="form-label">Código de Solicitud</label>
+            <input 
+              type="text"
+              class="form-control"
+              id="codigoSolicitud"
+              placeholder="Código Solicitud"
+              formControlName="codigoSolicitud">
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="mb-3">
+          <label for="fechaInicial" class="form-label">Fecha inicial</label>
+          <div class="input-group">
+          <input  
+            mat-input
+            readonly
+            (click)="pickerInicial.open()"
+            [matDatepicker]="pickerInicial"
+            class="form-control form-control-date-Picker sinborde-DatePicker" 
+            id="fechaInicial" 
+            placeholder="Fecha inicial"
+            formControlName="fechaInicial" 
+            maxlength="50"
+            [ngClass]="{
+              'input-req': FechaInicialMayorAFinal() && mostrarValidaciones
+            }"
+            (dateChange)="agregarMaxDate()"
+            />
+            <span class="input-group-text sinfondo-DatePicker">
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="pickerInicial"
+                
+              ></mat-datepicker-toggle>
+              <mat-datepicker #pickerInicial></mat-datepicker>
+            </span>
+          </div>
+          <div *ngIf="FechaInicialMayorAFinal() && mostrarValidaciones" class="msj-req">
+            {{mensaje}}
+          </div>
+        </div>
+        </div>
+      </div>
+        <div class="row">
+        <div class="col-lg-3">
+          <div class="mb-3">
+            <label for="fechaFinal" class="form-label">Fecha final</label>
+            <div class="input-group">
+            <input 
+              mat-input
+              readonly
+              (click)="pickerFinal.open()"
+              [matDatepicker]="pickerFinal"
+              class="form-control form-control-date-Picker sinborde-DatePicker" 
+              id="fechaFinal" 
+              placeholder="Fecha final"
+              formControlName="fechaFinal" 
+              maxlength="50"
+              [min]="minDate"
+              [max]="maxDate" />
+              <span class="input-group-text sinfondo-DatePicker">
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="pickerFinal"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #pickerFinal></mat-datepicker>
+              </span>
+            </div>
+          </div>
+        </div>
+    <div class="col-lg-3 d-flex align-items-center justify-content-center">
+      <div class="mb-3 mt-3">
+        <button class="btn btn-primary btn-center" type="submit" (click)="getReporte()">
+          Generar
+        </button>
+      </div>
+    </div>
+    </div>
+  
+  </form>
+</div>
+
+<div class="background-content-private p-2 mb-4" [ngStyle]="{ display: dataSource.data.length > 0 ? 'block' : 'none' }">
+  <p class="title-content">RESULTADOS DE BÚSQUEDA</p>
+
+  <div class="estiloTabla" >
+    <table mat-table id="informeDinamico" [dataSource]="dataSource">
+      <caption></caption>
+      <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
+        <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+        <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns displayedColumns"></mat-row>
+    </table>
+  </div>
+  <div>
+    <mat-paginator 
+      [pageSizeOptions]="[5, 10, 20]" 
+      showFirstLastButtons 
+      aria-label="Select page of request">
+  </mat-paginator>
+  </div>
+ 
+
+  <div class="col-lg-12 mb-3 d-flex align-items-center margin-button justify-content-md-end">
+    <button class="btn btn-primary btn-center" type="button" (click)="exportarExcel()">
+      Exportar
+    </button>
+  </div>
+</div>
+<div class="background-content-private p-2 mb-4" [ngStyle]="{ display: dataSource.data.length > 0 ? 'none' : 'block' }">
+  <app-no-data mensaje="No se encontraron datos"></app-no-data>
+</div>

@@ -1,0 +1,74 @@
+<mat-dialog-content>
+  <form
+    [formGroup]="form"
+    class="d-flex justify-content-center align-items-center flex-column box-modal-info"
+  >
+    <div class="row w-100">
+      <div class="col-12">
+        <fieldset class="border border-primary p-2">
+          <legend class="float-none w-75 p-2 text-primary">
+            Seleccionar Perfil
+          </legend>
+          <div class="w-90">
+            <div class="form-group mb-3">
+              <label for="comisaria" class="form-label">Comisaría</label>
+              <select
+                class="form-select"
+                formControlName="comisaria"
+                [ngClass]="{
+                  'input-req': isRequired('comisaria') && mostrarValidaciones
+                }"
+              >
+                <option
+                  *ngFor="let comisaria of comisarias"
+                  [value]="comisaria.idComisaria"
+                >
+                  {{ comisaria.nombreComisaria }}
+                </option>
+              </select>
+              <div
+                *ngIf="isRequired('comisaria') && mostrarValidaciones"
+                class="text-danger"
+              >
+                Debe seleccionar una comisaría
+              </div>
+            </div>
+            <div class="form-group mb-3">
+              <label for="perfil" class="form-label">Perfil</label>
+              <select
+                class="form-select"
+                formControlName="perfil"
+                [ngClass]="{
+                  'input-req': isRequired('perfil') && mostrarValidaciones
+                }"
+              >
+                <option value="" disabled>Seleccione perfil</option>
+                <option
+                  *ngFor="let perfil of perfilesFiltrados"
+                  [value]="perfil.perfil"
+                >
+                  {{ perfil.nombrePerfil }}
+                </option>
+              </select>
+              <div
+                *ngIf="isRequired('perfil') && mostrarValidaciones"
+                class="text-danger"
+              >
+                Debe seleccionar un perfil
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button class="btn btn-outline-primary px-3" (click)="cerrarSesion()">
+    Cancelar
+  </button>
+  <button mat-button class="btn btn-primary px-3" (click)="guardar()">
+    Continuar
+  </button>
+</mat-dialog-actions>

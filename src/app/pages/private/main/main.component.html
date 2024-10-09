@@ -1,0 +1,26 @@
+<img src="assets/images/Grupo%204235.svg" width="15px" height="15px" class="sidenav-flecha-open" [ngClass]="{
+    'sidenav-flecha-close': !openDrawer
+  }" alt="flag" (click)="abrirCerrarSidenav()" />
+
+
+<app-header></app-header>
+
+<mat-drawer-container class="example-container" autosize>
+  <mat-drawer class="sidenav-css" mode="side" disableClose="true" opened="true"
+    [ngStyle]="{ width: openDrawer ? '20%' : '4%' }">
+
+    <app-sidenav [openDrawer]="openDrawer" (eventOpenDrawer)="openDrawer = $event"></app-sidenav>
+
+    <div class="text-center">
+      <span class="position-absolute bottom-0 translate-middle-x mb-4 fecha-tamano">
+        {{ fecha | date: "dd/MM/yyyy - H:mm:ss" }}
+      </span>
+    </div>
+  </mat-drawer>
+  <mat-drawer-content>
+    <div class="contenido">
+      <router-outlet></router-outlet>
+    </div>
+    <app-footer></app-footer>
+  </mat-drawer-content>
+</mat-drawer-container>

@@ -1,0 +1,220 @@
+<form
+  class="background-gray rounded-basic p-3 mb-3"
+  [formGroup]="myForm"
+  autocomplete="off"
+  (submit)="consultarCasos()"
+>
+  <div class="row">
+    <p class="title-content me-5 mb-3 text-center">Búsqueda de seguimientos</p>
+  </div>
+  <div class="row">
+    <div class="col-lg-3">
+      <div class="mb-3">
+        <label for="nombre" class="form-label">Nombres</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="nombres"
+          placeholder="Nombres"
+          maxlength="50"
+          id="nombre"
+          [ngClass]="{
+            'input-req': isRequiredNombre() && mostrarValidaciones
+          }"
+        />
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <div class="mb-3">
+        <label for="primera" class="form-label">Primer Apellido</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="primerApellido"
+          placeholder="Primer Apellido"
+          maxlength="50"
+          id="primera"
+          [ngClass]="{
+            'input-req': isRequiredPrimerApellido() && mostrarValidaciones
+          }"
+        />
+      </div>
+    </div>
+
+    <div class="col-lg-3">
+      <div class="mb-3">
+        <label for="segundo" class="form-label">Segundo Apellido</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="segundoApellido"
+          placeholder="Segundo Apellido"
+          id="segundo"
+          maxlength="50"
+        />
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <div class="mb-3">
+        <label for="numdoc" class="form-label">Número de documento</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="numeroDocumento"
+          placeholder="Número de documento"
+          id="numdoc"
+          maxlength="20"
+        />
+      </div>
+    </div>
+
+    <div class="col-lg-3">
+      <div class="mb-3">
+        <label for="codigo" class="form-label">Código solicitud</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="codSolicitud"
+          placeholder="Código solicitud"
+          maxlength="40"
+          id="codigo"
+        />
+      </div>
+    </div>
+
+    <div class="col-lg-3">
+      <label for="fecha" class="form-label">Fecha</label>
+      <div class="input-group">
+        <input
+          matInput
+          readonly
+          (click)="picker.open()"
+          placeholder="DD/MM/YYYY"
+          class="form-control form-control-date-Picker sinborde-DatePicker"
+          [matDatepicker]="picker"
+          formControlName="fecha"
+          id="fecha"
+        />
+        <button
+          *ngIf="myForm.get('fecha')?.value"
+          matSuffix
+          mat-icon-button
+          class="clearInput"
+          (click)="myForm.get('fecha')?.setValue('')"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+        <span class="input-group-text sinfondo-DatePicker">
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </span>
+      </div>
+    </div>
+
+    <div class="col-lg-3 d-flex align-items-center justify-content-center">
+      <div class="mb-3 mt-4">
+        <button type="submit" class="btn btn-primary">
+          <img
+            src="assets/images/busqueda.svg"
+            alt="serach"
+            class="img-fluid me-2"
+          />
+          Buscar
+        </button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="mostrarValidaciones" class="msj-req">
+    {{ validacionCampos }}
+  </div>
+</form>
+
+<div class="background-content-private p-4 mb-4">
+  <div class="d-flex align-items-center mb-4">
+    <p class="title-content me-5 mb-0">Solicitudes con seguimientos vigentes</p>
+    <button class="btn button-new" (click)="abrirModalCrearSeguimiento()">
+      Crear seguimiento
+    </button>
+  </div>
+
+  <div style="max-width: 700px !important" *ngIf="dataSource.data.length === 0">
+    <app-no-data
+      mensaje="No se han encontrado solicitudes de servicio relacionadas con el ciudadano."
+    ></app-no-data>
+  </div>
+
+  <div [ngStyle]="{ display: dataSource.data.length > 0 ? 'block' : 'none' }">
+    <table
+      class="w-100"
+      mat-table
+      [dataSource]="dataSource"
+      id="table-private"
+      *ngIf="dataSource.data.length > 0"
+    >
+      <ng-container matColumnDef="codsolicitud">
+        <mat-header-cell *matHeaderCellDef>Código Solicitud</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{ element.codsolicitud }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="nombresApellidos">
+        <mat-header-cell *matHeaderCellDef>Nombre Víctima</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{ element.nombresApellidos }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="tipoIdentificacion">
+        <mat-header-cell *matHeaderCellDef>Tipo Identificación</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{ element.tipoIdentificacion }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="numeroDocumento">
+        <mat-header-cell *matHeaderCellDef
+          >Número Identificación</mat-header-cell
+        >
+        <mat-cell *matCellDef="let element">{{
+          element.numeroDocumento
+        }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="fechaSeguimiento">
+        <mat-header-cell *matHeaderCellDef>Fecha Seguimiento</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{ element.fechaSeguimiento }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="tipoProceso">
+        <mat-header-cell *matHeaderCellDef>Proceso</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{ element.tipoProceso }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="accion">
+        <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <button mat-icon-button matTooltip="Ver seguimiento" color="primary">
+            <img src="assets/images/eye.svg" alt="detail" class="img-fluid" />
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </table>
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20]"
+      showFirstLastButtons
+      aria-label="Select page of request"
+    >
+    </mat-paginator>
+  </div>
+</div>

@@ -1,0 +1,23 @@
+<table hidden id="ref">
+    <ng-template #vacio>______________________________</ng-template>
+    <ng-template #vacio2>___________________</ng-template>
+    <tr>
+        <td>El Suscrito Comisario(a) ______________________________, teniendo en cuenta lo informado mediante oficio ______________________, reporta el caso del (la) señor(a) <span *ngIf="dataReporte.nombreVictima;else vacio">{{dataReporte.nombreVictima | titlecase}}</span></td>
+    </tr>
+</table>
+
+<table hidden id="ordena">
+    <tr>
+        <td>
+            1.- Por intermedio del profesional de trabajo social o de desarrollo familiar, se practique Visita Domiciliaria con Consulta Vecinal al inmueble ubicado en la <span *ngIf="dataReporte.nombreVictima;else vacio">{{dataReporte.direccionResidenciaVictima }}</span>, lo anterior con el fin de verificar las condiciones habitacionales, socio familiares, dinámica familiar, redes vinculadores y factores de riesgo y de protección de la persona <span *ngIf="dataReporte.nombreVictima;else vacio">{{dataReporte.nombreVictima | titlecase }}</span>  y de la persona __________________________________________ conforme lo informado en el oficio  ________________ y averiguar los datos de ubicación de la persona________________________________. 
+        </td>
+    </tr>
+</table>
+
+<table hidden id="ordena-2">
+    <tr>
+        <td>
+            2.– Una vez realizada la visita domiciliaria y revisado el informe que allegue el profesional en trabajo social o de desarrollo familiar, se tramitará lo correspondiente.  
+        </td>
+    </tr>
+</table>

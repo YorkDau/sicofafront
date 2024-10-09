@@ -1,0 +1,65 @@
+<div id="sidebar">
+  <div class="ps-3 py-3 mb-0 negrilla-area" *ngIf="openDrawer">
+    ÁREA DE {{ loadMenu ? (menuPerfil[0]?.inicioTitulo | uppercase) : "" }}
+  </div>
+  <div class="py-4" *ngIf="!openDrawer"></div>
+  <hr class="linehr" />
+  <ng-container *ngIf="loadMenu">
+    <mat-selection-list [multiple]="false">
+      <ng-container *ngFor="let item of menuPerfil; let i = index">
+        <ng-container *ngIf="item.subRutas.length == 0">
+          <mat-list-option
+            class="quitarpadding"
+            [routerLink]="item.ruta"
+            (click)="setStep(i + 1)"
+          >
+            <div class="item-img">
+              <img [src]="item.icon" width="15px" height="15px" alt="home" />
+              <span *ngIf="openDrawer">{{ item.titulo }}</span>
+            </div>
+          </mat-list-option>
+        </ng-container>
+        <ng-container *ngIf="item.subRutas.length > 0">
+          <mat-accordion>
+            <mat-expansion-panel
+              [hideToggle]="!openDrawer"
+              (click)="functionEventOpenDrawers()"
+              [expanded]="step === i + 1"
+              (opened)="setStep(i + 1)"
+            >
+              <mat-expansion-panel-header class="specific-class">
+                <mat-panel-title>
+                  <div class="item-img">
+                    <img
+                      [src]="item.icon"
+                      width="15px"
+                      height="15px"
+                      alt="comisaria"
+                    />
+                    <span *ngIf="openDrawer">{{ item.titulo }}</span>
+                  </div>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+
+              <ng-container *ngFor="let sub of item.subRutas">
+                <mat-list-option class="quitarpadding" [routerLink]="sub.ruta">
+                  <div class="item-fleca">
+                    <img
+                      src="assets/images/angulo-pequeno-derecho.svg"
+                      width="10px"
+                      height="10px"
+                      alt="fleca"
+                    />
+                    <span class="subTituloPrincipal quitarpadding">
+                      {{ sub.titulo }}
+                    </span>
+                  </div>
+                </mat-list-option>
+              </ng-container>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </ng-container>
+      </ng-container>
+    </mat-selection-list>
+  </ng-container>
+</div>

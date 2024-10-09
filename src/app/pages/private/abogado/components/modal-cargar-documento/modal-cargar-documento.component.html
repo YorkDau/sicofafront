@@ -1,0 +1,59 @@
+<div class="position-relative">
+  <button
+    mat-icon-button
+    class="close-button position-absolute"
+    (click)="cerrarModal(false)"
+  >
+    <mat-icon class="close-icon" color="warn"> close </mat-icon>
+  </button>
+</div>
+
+<p class="title-modal">
+  CARGA DE DOCUMENTOS RELACIONADOS CON LA DECISIÓN DEL JUEZ
+</p>
+
+<form
+  class="p-3 mt-1"
+  [formGroup]="cargaForm"
+  autocomplete="off"
+  (submit)="guardarDocumento()"
+>
+  <div class="mb-3">
+    <label for="nombrearchivo" class="form-label">
+      Nombre del archivo a cargar*
+    </label>
+    <input
+      type="text"
+      class="form-control"
+      formControlName="nombrearchivo"
+      maxlength="50"
+      placeholder="Nombre del archivo"
+      id="nombrearchivo"
+      [ngClass]="{
+        'input-req': isRequired('nombrearchivo') && mostrarValidaciones
+      }"
+    />
+    <div
+      *ngIf="isRequired('nombrearchivo') && mostrarValidaciones"
+      class="msj-req"
+    >
+      {{ msgObligatorio }}
+    </div>
+  </div>
+  <div class="mb-3">
+    <app-carga-archivo
+      [textoCargar]="'Seleccionar documento'"
+      (baseArchivo)="obtenerArchivo($event)"
+    ></app-carga-archivo>
+  </div>
+  <div class="position-relative float-end" style="top: 10px">
+    <button
+      type="button"
+      class="btn btn-danger px-4 me-3"
+      (click)="cerrarModal(false)"
+    >
+      Cancelar
+    </button>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+  </div>
+</form>

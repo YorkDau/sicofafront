@@ -1,0 +1,54 @@
+<form class="box-user" [formGroup]="formLogin" (submit)="iniciarSesion()">
+  <div class="w-50">
+    <div class="mb-3">
+      <div class="alert alert alert-light" role="alert" *ngIf="!mostrarAlerta">        
+      </div>      
+    </div>
+    <div class="mb-3">
+      <div class="alert alert-danger" role="alert" *ngIf="mostrarAlerta">
+        Usuario y/o contraseña invalidos o usuario inactivo
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="usuario" class="form-label">Usuario</label>
+      <input type="email" class="form-control" id="usuario" placeholder="Usuario" formControlName="usuario"
+        maxlength="100" [ngClass]="{
+          'input-req':
+            (isRequired('usuario') && mostrarValidaciones) ||
+            (patternValid('usuario') && mostrarValidaciones)
+        }" />
+      <div *ngIf="isRequired('usuario') && mostrarValidaciones" class="msj-req mt-2">
+        {{ msgObligatorio }}
+      </div>
+      <div *ngIf="patternValid('usuario') && mostrarValidaciones" class="msj-req mt-2">
+        {{ msgCorreoInv }}
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="password" class="form-label">Contraseña</label>
+      <input type="password" class="form-control" id="password" placeholder="Contraseña"
+        formControlName="password" maxlength="30" [ngClass]="{
+          'input-req':
+            (isRequired('password') && mostrarValidaciones) ||
+            (patternValid('password') && mostrarValidaciones)
+        }" />
+      <div *ngIf="isRequired('password') && mostrarValidaciones" class="msj-req mt-2">
+        {{ msgObligatorio }}
+      </div>
+
+      <div *ngIf="isRequired('perfil') && mostrarValidaciones" class="msj-req mt-2">
+        {{ msgObligatorio }}
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <a class="reset-password" routerLink="reset-password"> ¿Olvido su contraseña?</a>
+    </div>
+
+    <div class="mb-3 mt-5">
+      <button class="btn btn-primary" type="submit">Continuar</button>
+    </div>
+  </div>
+</form>

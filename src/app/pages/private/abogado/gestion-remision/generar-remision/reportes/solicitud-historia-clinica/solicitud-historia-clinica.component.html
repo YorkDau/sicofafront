@@ -1,0 +1,87 @@
+<ng-template #vacio>_______________________</ng-template>
+<ng-template #vacio2>______</ng-template>
+<table hidden id="cuerpo">
+    <tr>
+        <td>
+            De acuerdo con la Ley 1257 de 2008, el Decreto 1069 de 2015, Decreto Único Reglamentario 780 de 2016,
+            Decreto 1630 de 2019, Ley 2126 de 2021, cordialmente le comunico que el Comisario(a) de Familia, en
+            resolución de la fecha ___ de ______ de 20__, dentro de trámite de Medida de Protección No. ___, otorgó
+            medidas de atención al NNA¹ _______, y/o a la señora <span *ngIf="dataReporte.nombreVictima;else vacio">
+            {{ dataReporte.nombreVictima | titlecase }}</span>, quien 
+            reside en la <span *ngIf="dataReporte.direccionResidenciaVictima; else vacio">{{ dataReporte.direccionResidenciaVictima }}</span> 
+            <span *ngIf="dataReporte.barrioVictima;">{{ dataReporte.barrioVictima | titlecase }}</span>, 
+            teléfono <span *ngIf="dataReporte.telefonoVictima;else vacio">{{ dataReporte.telefonoVictima }}</span>, para que se sirva llevar a cabo una evaluación de la 
+            situación especial de riesgo de la (s) víctima (s), quien(es) viene-n siendo agredido (s)
+            por el señor <span *ngIf="dataReporte.nombreAgresor;else vacio">{{ dataReporte.nombreAgresor | titlecase }}</span> identificado con la C.C. No. 
+            <span *ngIf="dataReporte.numeroDocumentoAgresor;else vacio">{{ dataReporte.numeroDocumentoAgresor }}</span>.
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            Sírvase proceder conforme a sus funciones y protocolo de policía, así mismo prestar protección especial
+            a la (s) victima (s) y advertir al precitado señor el cumplimiento de las medidas ordenadas, para
+            salvaguardar la integridad de la (s) víctima (s) y del grupo familiar.
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            De las actuaciones adelantadas, remitir el correspondiente informe a este Despacho, haciendo el
+            respectivo seguimiento y otorgando la debida protección.
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            Sin otro particular, agradezco su gentil atención.
+        </td>
+    </tr>
+
+    <tr>
+        <td>Cordial saludo.</td>
+    </tr>
+</table>
+
+<table hidden id="cuerpo2">
+    <tr>
+        <td colspan="2">
+            Teniendo en cuenta la Ley 1257 de 2008, Ley 2126 de 2021, el Decreto Único Reglamentario 1069 de
+            2015, Decreto Único Reglamentario 780 de 2016, Decreto 1630 de 2019, sírvase prestar la atención
+            inmediata y oportuna al NNA² ____________ o a la señora <span *ngIf="dataReporte.nombreVictima;else vacio">{{ dataReporte.nombreVictima | titlecase }}</span>, 
+            identificada con la <span *ngIf=" dataReporte.tipoDocumentoVictima;else vacio2">{{ dataReporte.tipoDocumentoVictima | uppercase }}</span> No. 
+            <span *ngIf="dataReporte.numeroDocumentoVictima;else vacio">{{ dataReporte.numeroDocumentoVictima  }}</span> quien ha sido víctima de violencia intrafamiliar, 
+            maltrato infantil, por parte del señor  <span *ngIf="dataReporte.nombreAgresor;else vacio">{{ dataReporte.nombreAgresor | titlecase }}</span>, quien se identifica 
+            con la C.C. No. <span *ngIf="dataReporte.numeroDocumentoAgresor;else vacio">{{ dataReporte.numeroDocumentoAgresor  }}</span>, teniendo en cuenta que la víctima se encuentra 
+            agredida física, psicológica, emocionalmente y en situación especial de riesgo.
+        </td>
+    </tr>
+
+    <tr>
+        <td colspan="2">
+            Así mismo, se le informa que el NNA o la señora <span *ngIf="dataReporte.nombreVictima;else vacio">{{ dataReporte.nombreVictima | titlecase }}</span>, sufre de 
+            _____________ y debe continuar estrictamente con su tratamiento.
+        </td>
+    </tr>
+
+    <tr>
+        <td style="vertical-align: top;">-</td>
+
+        <td>
+            Igualmente, se le informa que este Despacho adoptó las siguientes medidas de protección
+        provisionales o definitivas _________________ a favor de la (s) victima (s) 
+        <span *ngIf="dataReporte.nombreVictima;else vacio">{{ dataReporte.nombreVictima | titlecase }}</span>.
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            De las actuaciones adelantadas, sírvase allegar el Resumen de atención de su estado de salud física y
+            emocional en que se encuentra, su historia clínica.  
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            Cordialmente,
+        </td>
+    </tr>
+</table>

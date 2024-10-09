@@ -1,0 +1,422 @@
+<div class="background-content-private p-5 mb-4">
+  <p class="title-medium" style="font-size: 30px">
+    {{ titulo }}
+  </p>
+
+  <form
+    [formGroup]="registroForm"
+    (ngSubmit)="guardarComisaria()"
+    autocomplete="off"
+  >
+    <!-- primera parte -->
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="mb-3">
+          <label for="codigoComisaria" class="form-label">
+            Código comisaría*
+          </label>
+          <input
+            type="text"
+            class="form-control"
+            id="codigoComisaria"
+            placeholder="Código comisaría"
+            maxlength="10"
+            formControlName="codigoComisaria"
+            [ngClass]="{
+              'input-req':
+                (isRequired('codigoComisaria', registroForm) ||
+                  patternValid('codigoComisaria', registroForm)) &&
+                mostrarValidaciones
+            }"
+          />
+          <div
+            *ngIf="
+              (isRequired('codigoComisaria', registroForm) ||
+                patternValid('codigoComisaria', registroForm)) &&
+              mostrarValidaciones
+            "
+            class="msj-req"
+          >
+            {{ msgObligatorio }}
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <label for="nombre" class="form-label">Nombre comisaría*</label>
+        <input
+          type="text"
+          class="form-control"
+          id="nombre"
+          placeholder="Nombre comisaría"
+          maxlength="100"
+          formControlName="nombreComisaria"
+          [ngClass]="{
+            'input-req':
+              isRequired('nombreComisaria', registroForm) && mostrarValidaciones
+          }"
+        />
+        <div
+          *ngIf="
+            isRequired('nombreComisaria', registroForm) && mostrarValidaciones
+          "
+          class="msj-req"
+        >
+          {{ msgObligatorio }}
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <label for="departamento" class="form-label">Departamento*</label>
+        <select
+          formControlName="departamento"
+          class="form-select"
+          (change)="cargarCiudades($event.target.value, true)"
+          [ngClass]="{
+            'input-req':
+              isMin('departamento', registroForm) && mostrarValidaciones
+          }"
+        >
+          <option [value]="0">Seleccione departamento</option>
+          <option [value]="item.departamentoID" *ngFor="let item of listaDepto">
+            {{ item.departamentoNombre }}
+          </option>
+        </select>
+        <div
+          *ngIf="isMin('departamento', registroForm) && mostrarValidaciones"
+          class="msj-req"
+        >
+          {{ msgObligatorio }}
+        </div>
+      </div>
+    </div>
+
+    <!-- segunda parte -->
+    <div class="row">
+      <div class="col-lg-4">
+        <label for="municipio" class="form-label">Ciudad o municipio*</label>
+        <select
+          formControlName="idCiudadMunicipio"
+          class="form-select"
+          [ngClass]="{
+            'input-req':
+              isMin('idCiudadMunicipio', registroForm) && mostrarValidaciones
+          }"
+        >
+          <option [value]="0">Seleccione ciudad o municipio</option>
+          <option [value]="item.ciudmunID" *ngFor="let item of listaCiudad">
+            {{ item.nombCiudMun }}
+          </option>
+        </select>
+        <div
+          *ngIf="
+            isMin('idCiudadMunicipio', registroForm) && mostrarValidaciones
+          "
+          class="msj-req"
+        >
+          {{ msgObligatorio }}
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <label for="telefono" class="form-label">Teléfono*</label>
+        <input
+          type="number"
+          class="form-control"
+          id="telefono"
+          placeholder="Télefono"
+          maxlength="10"
+          formControlName="telefono"
+          [ngClass]="{
+            'input-req':
+              isRequired('telefono', registroForm) && mostrarValidaciones
+          }"
+          oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+        />
+        <div
+          *ngIf="isRequired('nombre', registroForm) && mostrarValidaciones"
+          class="msj-req"
+        >
+          {{ msgObligatorio }}
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="mb-3">
+          <label for="email" class="form-label"> Correo electrónico* </label>
+          <input
+            type="email"
+            class="form-control"
+            id="direccion"
+            placeholder="Correo electrónico"
+            maxlength="50"
+            formControlName="correo"
+            [ngClass]="{
+              'input-req':
+                (isRequired('correo', registroForm) ||
+                  patternValid('correo', registroForm)) &&
+                mostrarValidaciones
+            }"
+          />
+          <div
+            *ngIf="isRequired('correo', registroForm) && mostrarValidaciones"
+            class="msj-req"
+          >
+            {{ msgObligatorio }}
+          </div>
+          <div
+            *ngIf="patternValid('correo', registroForm) && mostrarValidaciones"
+            class="msj-req"
+          >
+            {{ msgCorreoInv }}
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="mb-3">
+          <label for="direccion" class="form-label"> Dirección* </label>
+          <input
+            type="text"
+            class="form-control"
+            id="direccion"
+            placeholder="Dirección"
+            maxlength="100"
+            formControlName="direccion"
+            [ngClass]="{
+              'input-req':
+                isRequired('direccion', registroForm) && mostrarValidaciones
+            }"
+          />
+          <div
+            *ngIf="isRequired('direccion', registroForm) && mostrarValidaciones"
+            class="msj-req"
+          >
+            {{ msgObligatorio }}
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="mb-3">
+          <label for="naturaleza" class="form-label"> Naturaleza </label>
+          <input
+            type="text"
+            class="form-control"
+            id="naturaleza"
+            placeholder="Naturaleza"
+            maxlength="50"
+            formControlName="naturaleza"
+          />
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="mb-3">
+          <label for="modalidad" class="form-label"> Modalidad </label>
+          <input
+            type="text"
+            class="form-control"
+            id="modalidad"
+            placeholder="Modalidad"
+            maxlength="50"
+            formControlName="modalidad"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="my-4">
+      <!-- Inserción -->
+      <ng-container *ngIf="!objComisaria">
+        <p class="title-modal text-start">DATOS COMISARIO</p>
+
+        <div *ngFor="let com of comisario.controls" class="my-4">
+          <ng-container [formGroup]="com">
+            <!-- array form -->
+            <div class="row">
+              <div class="col-lg-4 mb-3">
+                <label for="tipoD" class="form-label">Tipo de documento*</label>
+                <select
+                  id="tipoD"
+                  class="form-select"
+                  formControlName="idDocumento"
+                  [ngClass]="{
+                    'input-req':
+                      isMin('idDocumento', com) && mostrarValidaciones
+                  }"
+                >
+                  <option
+                    [value]="item.id_Dominio"
+                    *ngFor="let item of listaTipoDocumento"
+                  >
+                    {{ item.nombre_Dominio }}
+                  </option>
+                </select>
+                <div
+                  *ngIf="isMin('idDocumento', com) && mostrarValidaciones"
+                  class="msj-req"
+                >
+                  {{ msgObligatorio }}
+                </div>
+              </div>
+
+              <div class="col-lg-4 mb-3">
+                <label for="numDoc" class="form-label">Número documento*</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="numDoc"
+                  placeholder="Número documento"
+                  maxlength="10"
+                  formControlName="numeroDocumento"
+                  [ngClass]="{
+                    'input-req':
+                      isRequired('numeroDocumento', com) && mostrarValidaciones
+                  }"
+                />
+                <div
+                  *ngIf="
+                    isRequired('numeroDocumento', com) && mostrarValidaciones
+                  "
+                  class="msj-req"
+                >
+                  {{ msgObligatorio }}
+                </div>
+              </div>
+
+              <div class="col-lg-4 mb-3">
+                <label for="nombresC" class="form-label">Nombres*</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="nombresC"
+                  placeholder="Nombres comisario"
+                  maxlength="100"
+                  formControlName="nombres"
+                  [ngClass]="{
+                    'input-req':
+                      isRequired('nombres', com) && mostrarValidaciones
+                  }"
+                />
+                <div
+                  *ngIf="isRequired('nombres', com) && mostrarValidaciones"
+                  class="msj-req"
+                >
+                  {{ msgObligatorio }}
+                </div>
+              </div>
+
+              <div class="col-lg-4 mb-3">
+                <label for="apellidosC" class="form-label">Apellidos*</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="nombresC"
+                  placeholder="Apellidos comisario"
+                  maxlength="100"
+                  formControlName="apellido"
+                  [ngClass]="{
+                    'input-req':
+                      isRequired('apellido', com) && mostrarValidaciones
+                  }"
+                />
+                <div
+                  *ngIf="isRequired('apellido', com) && mostrarValidaciones"
+                  class="msj-req"
+                >
+                  {{ msgObligatorio }}
+                </div>
+              </div>
+
+              <div class="col-lg-4 mb-3">
+                <label for="telefonoC" class="form-label">Teléfono</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="telefonoC"
+                  placeholder="Teléfono"
+                  maxlength="10"
+                  formControlName="telefonoFijo"
+                  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                />
+              </div>
+
+              <div class="col-lg-4 mb-3">
+                <div class="mb-3">
+                  <label for="celular" class="form-label"> Celular* </label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="celular"
+                    placeholder="Celular"
+                    maxlength="10"
+                    formControlName="celular"
+                    [ngClass]="{
+                      'input-req':
+                        isRequired('celular', com) && mostrarValidaciones
+                    }"
+                    oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                  />
+                  <div
+                    *ngIf="isRequired('celular', com) && mostrarValidaciones"
+                    class="msj-req"
+                  >
+                    {{ msgObligatorio }}
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4 mb-3">
+                <label for="email" class="form-label">
+                  Correo electrónico*
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="email"
+                  placeholder="Correo electrónico"
+                  maxlength="50"
+                  formControlName="correoElectronico"
+                  [ngClass]="{
+                    'input-req':
+                      (isRequired('correoElectronico', com) ||
+                        patternValid('correoElectronico', com)) &&
+                      mostrarValidaciones
+                  }"
+                />
+                <div
+                  *ngIf="
+                    isRequired('correoElectronico', com) && mostrarValidaciones
+                  "
+                  class="msj-req"
+                >
+                  {{ msgObligatorio }}
+                </div>
+                <div
+                  *ngIf="
+                    patternValid('correoElectronico', com) && mostrarValidaciones
+                  "
+                  class="msj-req"
+                >
+                  {{ msgCorreoInv }}
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </ng-container>
+      <!-- Consulta -->
+      <ng-container *ngIf="objComisaria">
+        <p class="title-modal text-start">USUARIOS COMISARÍA</p>
+        <app-listado-comisarios
+          [idComisaria]="objComisaria.idComisaria"
+        ></app-listado-comisarios>
+      </ng-container>
+    </div>
+
+    <div class="d-flex justify-content-end">
+      <button
+        type="button"
+        class="btn btn-danger me-3"
+        routerLink="../listado-comisarias"
+      >
+        Cancelar
+      </button>
+      <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+  </form>
+</div>

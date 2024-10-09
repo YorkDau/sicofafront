@@ -1,0 +1,143 @@
+<!-- <p class="p-class"><strong>Medida {{i + 1}}:</strong> {{this.medidasAtencionList[i].nomMedida}}</p> -->
+<form [formGroup]="form">
+  <p class="p-class">
+    <strong>Medida {{ numMedida }}:</strong> {{ nombreMedida }}
+  </p>
+
+  <div>
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-input"
+        type="radio"
+        id="sinVerificar"
+        value="SIN VERIFICAR"
+        formControlName="rCumplimiento"
+        [ngClass]="{
+          'input-req':
+            isRequiredMedidas(form, 'rCumplimiento') && mostrarValidaciones
+        }"
+      />
+      <label for="sinVerificar" class="form-label"> Sin Verificar</label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-input"
+        type="radio"
+        id="cumplio"
+        value="CUMPLE"
+        formControlName="rCumplimiento"
+        [ngClass]="{
+          'input-req':
+            isRequiredMedidas(form, 'rCumplimiento') && mostrarValidaciones
+        }"
+      />
+      <label for="cumplio" class="form-label"> Cumplió</label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-input"
+        type="radio"
+        id="parcialmenteCumplida"
+        value="PARCIALMENTE CUMPLIDA"
+        formControlName="rCumplimiento"
+        [ngClass]="{
+          'input-req':
+            isRequiredMedidas(form, 'rCumplimiento') && mostrarValidaciones
+        }"
+      />
+      <label for="parcialmenteCumplida" class="form-label">
+        Parcialmente Cumplida</label
+      >
+      <br />
+    </div>
+  </div>
+  <div>
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-input"
+        type="radio"
+        id="incumplio"
+        value="NO CUMPLE"
+        formControlName="rCumplimiento"
+        [ngClass]="{
+          'input-req':
+            isRequiredMedidas(form, 'rCumplimiento') && mostrarValidaciones
+        }"
+      />
+      <label for="incumplio" class="form-label"> Incumplió</label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-input"
+        type="radio"
+        id="prorrogo"
+        value="PRORROGA"
+        formControlName="rCumplimiento"
+        [ngClass]="{
+          'input-req':
+            isRequiredMedidas(form, 'rCumplimiento') && mostrarValidaciones
+        }"
+      />
+      <label for="prorrogo" class="form-label"> Prorrogar</label>
+    </div>
+  </div>
+  <div
+    *ngIf="isRequiredMedidas(form, 'rCumplimiento') && mostrarValidaciones"
+    class="msj-req"
+  >
+    {{ msgObligatorio }}
+  </div>
+  <div>
+    <div *ngIf="form.value.rCumplimiento === 'PRORROGA'">
+      <div class="input-group">
+        <input
+          matInput
+          readonly
+          (click)="picker.open()"
+          placeholder="DD/MM/YYYY"
+          class="form-control form-control-date-Picker sinborde-DatePicker date-picker-width"
+          [matDatepicker]="picker"
+          id="fecha"
+          formControlName="fechaProrroga"
+          [ngClass]="{
+            'input-req': isRequiredFecha(form) && mostrarValidaciones
+          }"
+        />
+        <span class="input-group-text sinfondo-DatePicker date-picker-margin">
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </span>
+        <app-carga-archivo
+          apariencia="new"
+          textoCargar="Cargar Documento Sustentación de Prorroga"
+          (baseArchivo)="enviarArchivo($event)"
+          [archivoCargado]="cargarArchivo()"
+          [deleteIcon]="false"
+          [deleteAction]="false"
+          [downloadIcon]="variable"
+        ></app-carga-archivo>
+      </div>
+      <div *ngIf="isRequiredFecha(form) && mostrarValidaciones" class="msj-req">
+        {{ msgObligatorio }}
+      </div>
+      <br />
+      <div class="col-5">
+        <input
+          class="form-control"
+          id="justificacionProrroga"
+          placeholder="Justificacion de Prorroga"
+          formControlName="justificacionProrroga"
+        />
+      </div>
+      <div
+        *ngIf="isRequiredJustificacion(form) && mostrarValidaciones"
+        class="msj-req"
+      >
+        {{ msgObligatorio }}
+      </div>
+    </div>
+  </div>
+</form>

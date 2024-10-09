@@ -1,0 +1,131 @@
+<!-- grid -->
+<div [ngStyle]="{ display: dataSource.data.length > 0 ? 'block' : 'none' }">
+  <div class="box-grid d-flex flex-column mt-5 ms-5 mb-5">
+    <!-- Sin Llamada de vida -->
+    <div class="message-grid p-4" *ngIf="!llamadaDeVida">
+      Selecciona la comisaría de familia donde deseas reportar tu caso.
+    </div>
+
+    <!-- Con Llamada de vida -->
+    <div
+      class="message-grid w-auto d-flex p-4"
+      style="width: fit-content !important; border-radius: 10px 10px 0px 0px"
+      *ngIf="llamadaDeVida"
+    >
+      <img
+        src="assets/images/telefono.svg"
+        alt="llamada-vida"
+        width="43"
+        height="43"
+        class="me-3"
+      />
+      <span>
+        {{ llamadaDeVida }}
+      </span>
+    </div>
+
+    <div class="bg-white" *ngIf="llamadaDeVida">
+      <span style="font-weight: 500">
+        <app-no-data
+          mensaje="Acércate de manera inmediata ya que una vez la autoridad competente tenga conocimiento de los hechos de violencia en el contexto familiar, deberá adoptar Medidas de Protección Provisionales"
+        >
+        </app-no-data>
+      </span>
+    </div>
+
+    <div class="bg-white">
+      <div class="message-comisaria">
+        <span class="ms-4"> Comisarías de familia más cercanas </span>
+      </div>
+      <mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="accion">
+          <mat-cell *matCellDef="let row" class="first-cell">
+            <input
+              id="comisariaN"
+              class="form-check-input"
+              type="radio"
+              name="check"
+              [disabled]="!row.dispAgenda"
+              (click)="almacenarCodigoComisaria(row.comisariaID)"
+            />
+            <div class="row-message" *ngIf="row.cita_online && !row.dispAgenda">
+              <span class="text-row"> Sin disponibilidad de agenda</span>
+            </div>
+            <div class="row-no-cita" *ngIf="!row.cita_online">
+              <span class="text-row">
+                Comisaría sin servicio de agendamiento online. Si tu caso es
+                urgente acércate a la comisaría pronto.
+              </span>
+            </div>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="nombre">
+          <mat-cell
+            *matCellDef="let row"
+            [ngClass]="{ 'text-disabled': !row.dispAgenda }"
+          >
+            <label for="comisariaN">
+              {{ row.nombComisaria }}
+            </label>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="horario">
+          <mat-cell
+            *matCellDef="let row"
+            [ngClass]="{ 'text-disabled': !row.dispAgenda }"
+          >
+            <div class="width-cell">
+              {{ row.horarioSemanal }}
+            </div>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="direccion">
+          <mat-cell
+            *matCellDef="let row"
+            [ngClass]="{ 'text-disabled': !row.dispAgenda }"
+          >
+            {{ row.direccion }}
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="telefono">
+          <mat-cell
+            *matCellDef="let row"
+            [ngClass]="{ 'text-disabled': !row.dispAgenda }"
+          >
+            <div>
+              <p>{{ row.celular }}</p>
+              <p>{{ row.telefono }}</p>
+            </div>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="correo">
+          <mat-cell
+            *matCellDef="let row"
+            [ngClass]="{ 'text-disabled': !row.dispAgenda }"
+          >
+            {{ row.correo_electronico }}
+          </mat-cell>
+        </ng-container>
+
+        <mat-row *matRowDef="let row; columns: columnas"></mat-row>
+      </mat-table>
+      <mat-paginator
+        [pageSizeOptions]="[5, 10, 20]"
+        showFirstLastButtons
+        aria-label="Select page of periodic elements"
+        class="mt-5"
+      >
+      </mat-paginator>
+      <div class="d-flex justify-content-end align-items-center m-5">
+        <button class="btn btn-primary" type="button" (click)="agendarCita()">
+          Continuar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="not-data-grid ms-5 mt-5 w-50" *ngIf="dataSource.data.length === 0">
+  <app-no-data mensaje="Sin registros."> </app-no-data>
+</div>

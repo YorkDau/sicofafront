@@ -1,0 +1,113 @@
+#titulo, #ordenamiento {
+    background-color: white;
+    width: 100%;
+
+    td{
+        text-align: justify;
+        font-size: 13px;
+        padding: 0 0.5em;
+        border: 1px solid black;
+    }
+
+    .header{
+        background-color:#0068b3;
+        color: white;
+        font-weight: bold;
+    }
+
+    .tdHeader{
+        text-align: justify;
+        font-size: 13px;
+        padding: 0 0.5em;
+        border-top: none;
+        border: 1px solid black;
+    }
+
+    .segundo-titulo {
+        background-color: rgb(146, 197, 226);
+        font-weight: bold;
+    }
+    .ordenamiento {
+        background-color: white;
+        width: 100%;
+    }
+}
+#titulo-medida-1, #titulo-medida-2, #titulo-medida-3, #titulo-medida-4, #titulo-medida-5, #titulo-medida-6, #titulo-medida-7, #titulo-medida-8, #titulo-medida-9  {
+  background-color: white;
+  width: 100%;
+
+  td{
+    text-align: justify;
+    font-size: 13px;
+    padding: 0 0.5em;
+    border: 1px solid black;
+  }
+  .segundo-titulo{
+    background-color: rgb(146, 197, 226);
+        font-weight: bold;
+  }
+  .ordenamiento {
+    background-color: white;
+    width: 100%;
+}
+
+ }
+
+#verificar, #explicacion-respuesta{
+    background-color: white;
+    width: 100%;
+    td{
+      /* padding: 0.5em; */
+      text-align: justify;
+      font-size: 12px;
+      font-style: italic;
+    }
+  }
+
+  .titulos{
+    background-color: white;
+    width: 100%;
+    td{
+      /* padding: 0.5em; */
+      text-align: justify;
+      font-size: 14px;
+      font-weight: bold;
+    }
+    .comentario{
+      text-align: justify;
+      font-size: 8px;
+    }
+  }
+  .aclaraciones{
+    background-color: white;
+    width: 100%;
+    td{
+      /* padding: 0.5em; */
+      text-align: justify;
+      font-size: 10px;
+      padding: 0 0.5em;
+        border: 1px solid black;
+    }
+  }
+
+  #preguntas{
+    background-color: white;
+    width: 100%;
+    td{
+      /* padding: 0.5em; */
+      text-align: end;
+      font-size: 8px;
+    }
+  }
+
+  #aclaracion-final{
+    background-color: white;
+    width: 100%;
+      td{
+        /* padding: 0.5em; */
+        text-align: justify;
+        font-size: 12px;
+      }
+
+  }
+  

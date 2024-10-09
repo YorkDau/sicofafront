@@ -1,0 +1,21 @@
+<div class="box-citas mt-5 mb-5">
+  <div class="banner-box p-3">
+    Agendamiento de cita a Comisaría de familia {{ nombreComisaria! }}
+  </div>
+
+  <div>
+    <mat-stepper linear #stepper labelPosition="bottom">
+      <mat-step [stepControl]="horarioForm" [editable]="false">
+        <ng-template matStepLabel>Agenda tu cita</ng-template>
+
+        <app-horario
+          (selHorario)="validarHorarioSeleccionado($event, stepper)"
+        ></app-horario>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Completa tus datos</ng-template>
+        <app-usuario></app-usuario>
+      </mat-step>
+    </mat-stepper>
+  </div>
+</div>

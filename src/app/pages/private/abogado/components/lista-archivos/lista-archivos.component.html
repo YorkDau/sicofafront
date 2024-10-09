@@ -1,0 +1,56 @@
+<div class="py-3">
+  <div class="w-50" *ngIf="dataSource.data.length === 0">
+    <app-no-data [mensaje]="mensajeSinReg"> </app-no-data>
+  </div>
+  <div [ngStyle]="{ display: dataSource.data.length > 0 ? 'block' : 'none' }">
+    <mat-table [dataSource]="dataSource" id="table-private">
+      <ng-container *ngFor="let column of columnas">
+        <ng-container [matColumnDef]="column.key">
+          <mat-header-cell mat-header-cell *matHeaderCellDef>
+            {{ column.header }}
+          </mat-header-cell>
+          <mat-cell mat-cell *matCellDef="let element">
+            {{ element[column.key] }}
+          </mat-cell>
+        </ng-container>
+      </ng-container>
+      <ng-container matColumnDef="Acciones">
+        <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <app-carga-archivo
+            [uploadIcon]="true"
+            [deleteIcon]="false"
+            [deleteAction]="false"
+            [disableDownload]="true"
+            [apariencia]="'icon'"
+            [downloadIcon]="false"
+            (baseArchivo)="editarArchivo($event, row)"
+            matTooltip="Editar adjunto"
+          ></app-carga-archivo>
+          <button
+            type="button"
+            mat-icon-button
+            matTooltip="Descargar adjunto"
+            (click)="descargarArchivo(row)"
+          >
+            <mat-icon class="material-icons-outlined table-icon-color">
+              file_download
+            </mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row
+        mat-header-row
+        *matHeaderRowDef="displayedColumns"
+      ></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </mat-table>
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20]"
+      showFirstLastButtons
+      aria-label="Select page of request"
+    >
+    </mat-paginator>
+  </div>
+</div>

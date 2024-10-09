@@ -1,0 +1,18 @@
+<app-entrevista-interventiva
+  *ngIf="tipoFormato == 'Informe_De_Seguimiento_Entrevista_Interventiva'"
+></app-entrevista-interventiva>
+<app-entrevista-domiciliaria 
+  *ngIf="tipoFormato == 'Auto_Ordenando_Visita_Domiciliaria'"
+  [dataReporte]="dataReporte"
+></app-entrevista-domiciliaria>
+<app-seguimiento-medidas
+  *ngIf="tipoFormato == 'Formato_Seguimiento_Medidas_Proteccion'"
+></app-seguimiento-medidas>
+<app-verificacion-proteccion
+  *ngIf="tipoFormato == 'Instrumento_Verificacion_De_La_Efectividad_De_La_Medida_De_Proteccion'"
+></app-verificacion-proteccion>
+<app-seguimiento-medidas-atencion
+*ngIf="
+tipoFormato == 'Instrumento_Para_El_Seguimiento_A_Las_Medidas_De_Atencion'
+"
+></app-seguimiento-medidas-atencion>

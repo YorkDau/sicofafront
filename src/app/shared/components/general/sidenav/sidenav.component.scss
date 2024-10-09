@@ -1,0 +1,56 @@
+.item-img {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 15px !important;
+  align-items: center !important;
+}
+
+.item-fleca {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 5px !important;
+  align-items: center !important;
+}
+
+.mat-expansion-panel {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.linehr {
+  border: solid 1px white;
+  opacity: 0.8;
+  margin: 0;
+  padding: 0 !important;
+}
+
+.mat-list-option {
+  color: var(--white);
+}
+
+.mat-expansion-panel-header-title {
+  color: var(--white);
+}
+
+.mat-expansion-panel-header {
+  padding: 0 16px !important;
+}
+
+span.subTituloPrincipal {
+  font-size: var(--font-13) !important;
+  padding-left: 0 !important;
+}
+
+:host::ng-deep .quitarpadding > .mat-list-item-content-reverse,
+.mat-list-item-content,
+.mat-expansion-panel-body {
+  padding-right: 0px !important;
+}
+
+.negrilla-area {
+  font-weight: 500;
+}
+
+::ng-deep .specific-class > .mat-expansion-indicator:after {
+  color: white;
+}

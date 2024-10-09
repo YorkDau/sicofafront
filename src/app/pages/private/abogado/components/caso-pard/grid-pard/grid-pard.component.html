@@ -1,0 +1,70 @@
+<div class="w-50" *ngIf="dataSource.data.length === 0">
+  <app-no-data [mensaje]="mensajeSinReg"> </app-no-data>
+</div>
+
+<div [ngStyle]="{ display: dataSource.data.length > 0 ? 'block' : 'none' }">
+  <mat-table [dataSource]="dataSource" id="table-private">
+    <ng-container *ngFor="let column of columnas">
+      <ng-container [matColumnDef]="column.key">
+        <mat-header-cell mat-header-cell *matHeaderCellDef>
+          {{ column.header | titlecase }}
+        </mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element">
+          {{ element[column.key] | titlecase }}
+        </mat-cell>
+      </ng-container>
+    </ng-container>
+    <ng-container matColumnDef="Acciones">
+      <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+      <mat-cell *matCellDef="let row; let i = index">
+        <button
+          *ngIf="visualizarReporte"
+          type="button"
+          mat-icon-button
+          matTooltip="Ver adjunto"
+          (click)="generarReporte()"
+        >
+          <img src="assets/images/eye.svg" alt="eye" width="19" height="19" />
+        </button>
+        <app-carga-archivo
+          [uploadIcon]="true"
+          [deleteIcon]="false"
+          [deleteAction]="false"
+          [disableDownload]="true"
+          [apariencia]="'icon'"
+          [downloadIcon]="false"
+          (baseArchivo)="cargarArchivo($event, row)"
+          matTooltip="Cargar adjunto"
+        ></app-carga-archivo>
+        <button
+          type="button"
+          mat-icon-button
+          matTooltip="Descargar adjunto"
+          (click)="descargarArchivo(row)"
+          [disabled]="!ocultarDescargarReporte(row)"
+        >
+          <mat-icon
+            class="material-icons-outlined table-icon-color"
+            [ngStyle]="{
+              color: !ocultarDescargarReporte(row) ? '#7A7E83' : ''
+            }"
+          >
+            print
+          </mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row
+      mat-header-row
+      *matHeaderRowDef="displayedColumns"
+    ></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+  </mat-table>
+  <mat-paginator
+    [pageSizeOptions]="[5, 10, 20]"
+    showFirstLastButtons
+    aria-label="Select page of request"
+  >
+  </mat-paginator>
+</div>

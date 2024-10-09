@@ -1,0 +1,154 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": "144699eb-1243-4310-9816-9be3648b9304"
+  },
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "CO_1030_COMISARIA": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/co-1030-comisaria",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              "src/styles.scss",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/ngx-spinner/animations/ball-clip-rotate.css"
+            ],
+            "scripts": [
+              "node_modules/@popperjs/core/dist/umd/popper.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.min.js",
+              "node_modules/html2canvas/dist/html2canvas.min.js",
+              "node_modules/jspdf/dist/jspdf.es.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "jspdf-autotable",
+              "core-js/modules/web.dom-collections.iterator.js",
+              "raf",
+              "core-js/modules/es.string.trim.js",
+              "core-js/modules/es.string.starts-with.js",
+              "core-js/modules/es.string.split.js",
+              "core-js/modules/es.string.replace.js",
+              "core-js/modules/es.string.match.js",
+              "core-js/modules/es.string.includes.js",
+              "core-js/modules/es.string.ends-with.js",
+              "core-js/modules/es.regexp.to-string.js",
+              "core-js/modules/es.promise.js",
+              "core-js/modules/es.array.reverse.js",
+              "core-js/modules/es.array.reduce.js",
+              "core-js/modules/es.array.iterator.js",
+              "core-js/modules/es.array.index-of.js"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "40mb",
+                  "maximumError": "50mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "20kb",
+                  "maximumError": "40kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "qa": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "40mb",
+                  "maximumError": "50mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "20kb",
+                  "maximumError": "40kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.qa.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "CO_1030_COMISARIA:build:production",
+              "proxyConfig": "./proxy.conf.json"
+            },
+            "qa": {
+              "browserTarget": "CO_1030_COMISARIA:build:qa",
+              "proxyConfig": "./proxy.conf.json"
+            },
+            "development": {
+              "browserTarget": "CO_1030_COMISARIA:build:development",
+              "proxyConfig": "./proxy.conf.json"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "CO_1030_COMISARIA:build"
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "CO_1030_COMISARIA"
+}

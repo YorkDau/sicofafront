@@ -1,0 +1,113 @@
+<div class="background-gray rounded-basic p-4 pt-5 ps-5 pe-5 mb-3">
+
+    <h1 class="internal-title rounded-basic">
+        Sección a cargo del área legal
+    </h1>
+    <form [formGroup]="form" class="ps-5 pe-5 mt-5">
+
+        <div class="row align-items-start">
+            <div class="col-12 offset mb-2">
+                <strong>COMPETENCIA DEL CASO</strong>
+            </div>
+        </div>
+
+        <div class="row px-0 p-3">
+            <div class="row">
+                <div class="col-lg-12">
+                    <label class="form-label">¿El caso es competencia de la comisaría?</label>
+                    <div class="pt-2">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" value="si"
+                                formControlName="competenciaComisaria" name="competenciaComisaria"
+                                id="competencia_si" />
+                            <label class="form-check-label form-label" for="competencia_si"> Si </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" value="no"
+                                formControlName="competenciaComisaria" name="competenciaComisaria"
+                                id="competencia_no" />
+                            <label class="form-check-label form-label" for="competencia_no"> No </label>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-lg-12 mt-2">
+                    <label class="form-label">Se identificaron documentos de los menores de edad. ¿Desea iniciar por el
+                        proceso de PARD?</label>
+                    <div class="pt-2">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" value="si" formControlName="procesoPard"
+                                name="procesoPard" id="pard_si" />
+                            <label class="form-check-label form-label" for="pard_si"> Si </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" value="no" formControlName="procesoPard"
+                                name="procesoPard" id="pard_no" />
+                            <label class="form-check-label form-label" for="pard_no"> No </label>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-lg-12">
+                    <div class="mb-3">
+                        <label for="observaciones" class="form-label">Observaciones (*)</label>
+                        <textarea type="text" class="form-control resize-none" formControlName="observaciones"
+                            placeholder="Observaciones" id="observaciones" maxlength="3000"
+                            style="min-height: 150px; max-height: 150px; resize: none;" [ngClass]="{
+                                'input-req':
+                                maxLength('observaciones') && mostrarValidaciones ||
+                                isRequired('observaciones') && mostrarValidaciones
+                            }"></textarea>
+                        <div *ngIf="maxLength('observaciones') && mostrarValidaciones" class="msj-req">
+                            {{ msgInvalido }}
+                        </div>
+                        <div class="msj-req" *ngIf="isRequired('observaciones') && mostrarValidaciones">
+                            {{ msgObligatorio }}
+                        </div>
+                        <div class="row float-end pe-3">
+                            {{ f.observaciones.value?.length }}/3000
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mx-0 mt-2 py-4">
+            <div class="col-12 d-flex justify-content-end px-0">
+                <app-auto-tramite class="me-2" *ngIf="perfil === 'ABO'"></app-auto-tramite>
+
+                <app-carga-archivo *ngIf="(!this.infoInicial?.idAnexoAutoTramite || this.infoInicial?.idAnexoAutoTramite === '' || this.infoInicial?.idAnexoAutoTramite === 0) && perfil === 'ABO'"
+                    (baseArchivo)="cargarArchivo($event)" 
+                    textoCargar="Cargar formato firmado">
+                </app-carga-archivo>
+
+                <app-carga-archivo *ngIf="(this.infoInicial?.idAnexoAutoTramite !== '' && this.infoInicial?.idAnexoAutoTramite !== 0)"
+                    (baseArchivo)="cargarArchivo($event)" 
+                    [deleteIcon]="delete" 
+                    [downloadIcon]="delete"
+                    [archivoCargado]="iFile"
+                    textoCargar="Cargar formato firmado">
+                </app-carga-archivo>
+
+            </div>
+        </div>        
+
+    </form>
+
+</div>
+
+<div class="row mx-0 mt-5 mb-5 py-4 p-5" *ngIf="perfil === 'ABO'">
+    <div class="col-12 d-flex justify-content-end px-0">
+        <button class="btn btn-danger px-4 ms-3" (click)="cancelar()">
+            Cancelar
+        </button>
+        <button class="btn btn-primary px-4 ms-3" (click)="guardar()">Guardar</button>
+        <button class="btn btn-primary px-4 ms-3" (click)="modalConfirmaCerrarActuacion()">
+            Cerrar Actuaciones
+        </button>
+    </div>
+</div>

@@ -1,0 +1,234 @@
+<div class="container fondo-formulario mb-5">
+  <form [formGroup]="myForm" (ngSubmit)="registrar()">
+    <div class="row pb-3 align-items-start">
+      <div class="col-8 offset">
+        <h3 class="pb-3 title-normal">{{ titulo }}</h3>
+
+        <h5>INFORMACIÓN PERSONAL</h5>
+        <h6>Los campos con asterisco (*) son obligatorios</h6>
+      </div>
+    </div>
+
+    <div class="row align-items-center">
+      <div class="col-4 p-3">
+        <label>Tipo de Documento*</label>
+
+        <select
+          class="form-select"
+          [ngClass]="{
+            'input-req': isRequired('tipDoc') && mostrarValidaciones
+          }"
+          formControlName="tipDoc"
+        >
+          <option disabled value="">Tipo de Documento</option>
+          <option
+            *ngFor="let tipoDocumento of selectTipoDocumento"
+            [value]="tipoDocumento.id_Dominio"
+          >
+            {{ tipoDocumento.nombre_Dominio }}
+          </option>
+        </select>
+        <div
+          class="msj-req"
+          *ngIf="isRequired('tipDoc') && mostrarValidaciones"
+        >
+          {{ msgObligatorio }}
+        </div>
+      </div>
+
+      <div class="col-4 p-3">
+        <label>Número de Documento*</label>
+
+        <input
+          type="text"
+          class="form-control"
+          [ngClass]="{
+            'input-req': isRequired('nroDoc') && mostrarValidaciones
+          }"
+          formControlName="nroDoc"
+          maxlength="30"
+          placeholder="No. de Documento"
+          (keyup)="existe = false"
+          (focusout)="yaExisteCiudadano()"
+          (input)="soloNumero('nroDoc')"
+        />
+        <div
+          class="msj-req"
+          *ngIf="isRequired('nroDoc') && mostrarValidaciones"
+        >
+          {{ msgObligatorio }}
+        </div>
+        <div class="msj-req" *ngIf="existe">Ya existe este ciudadano</div>
+      </div>
+
+      <div class="col-4 p-3">
+        <label>Primer Nombre*</label>
+
+        <input
+          type="text"
+          class="form-control"
+          [ngClass]="{
+            'input-req': isRequired('pnombre') && mostrarValidaciones
+          }"
+          formControlName="pnombre"
+          maxlength="50"
+          placeholder="Texto"
+        />
+
+        <div
+          class="msj-req"
+          *ngIf="isRequired('pnombre') && mostrarValidaciones"
+        >
+          {{ msgObligatorio }}
+        </div>
+      </div>
+
+      <div class="col-4 p-3">
+        <label>Segundo Nombre</label>
+
+        <input
+          type="text"
+          class="form-control"
+          formControlName="snombre"
+          maxlength="50"
+          placeholder="Texto"
+        />
+      </div>
+
+      <div class="col-4 p-3">
+        <label>Primer Apellido*</label>
+
+        <input
+          type="text"
+          class="form-control"
+          [ngClass]="{
+            'input-req': isRequired('papellidos') && mostrarValidaciones
+          }"
+          formControlName="papellidos"
+          maxlength="50"
+          placeholder="Texto"
+        />
+        <div
+          class="msj-req"
+          *ngIf="isRequired('papellidos') && mostrarValidaciones"
+        >
+          {{ msgObligatorio }}
+        </div>
+      </div>
+
+      <div class="col-4 p-3">
+        <label>Segundo Apellido</label>
+
+        <input
+          type="text"
+          class="form-control"
+          formControlName="sapellidos"
+          maxlength="50"
+          placeholder="Texto"
+        />
+      </div>
+
+      <div class="col-4 p-3">
+        <label>Correo Electrónico*</label>
+        <input
+          type="text"
+          maxlength="100"
+          class="form-control"
+          [ngClass]="{
+            'input-req':
+              (isRequiredDatosContacto() && mostrarValidaciones) ||
+              (isRequiredCorreo() && mostrarValidaciones)
+          }"
+          formControlName="correoElectronico"
+          placeholder="Correo Electrónico"
+        />
+        <div
+          class="msj-req"
+          *ngIf="isRequiredDatosContacto() && mostrarValidaciones"
+        >
+          {{ msgObligatorioContacto }}
+        </div>
+        <div class="msj-req" *ngIf="isRequiredCorreo() && mostrarValidaciones">
+          {{ msgObligatorioCorreo }}
+        </div>
+      </div>
+
+      <div class="col-4 p-3">
+        <label>Teléfono</label>
+        <input
+          type="text"
+          maxlength="20"
+          class="form-control"
+          [ngClass]="{
+            'input-req': isRequiredDatosContacto() && mostrarValidaciones
+          }"
+          formControlName="telefono"
+          placeholder="Teléfono fijo"
+          (input)="soloNumero('telefono')"
+        />
+        <div
+          class="msj-req"
+          *ngIf="isRequiredDatosContacto() && mostrarValidaciones"
+        >
+          {{ msgObligatorioContacto }}
+        </div>
+      </div>
+
+      <div class="col-4 p-3">
+        <label>Celular</label>
+        <input
+          type="text"
+          maxlength="10"
+          class="form-control"
+          [ngClass]="{
+            'input-req': isRequiredDatosContacto() && mostrarValidaciones
+          }"
+          formControlName="celular"
+          placeholder="Número de Celular"
+          (input)="soloNumero('celular')"
+        />
+        <div
+          class="msj-req"
+          *ngIf="isRequiredDatosContacto() && mostrarValidaciones"
+        >
+          {{ msgObligatorioContacto }}
+        </div>
+      </div>
+      <div class="row col-4">
+        <label>Perfiles*</label>
+        <mat-form-field>
+          <mat-label>Perfil</mat-label>
+          <mat-select formControlName="perfiles" multiple>
+            <div *ngFor="let perfil of perfiles">
+              <mat-option [value]="perfil.idPerfil">{{ perfil.nombrePerfil }}</mat-option>
+            </div>
+          </mat-select>
+        </mat-form-field>
+
+        <div
+          class="msj-req"
+          *ngIf="isRequired('perfiles') && mostrarValidaciones"
+        >
+          {{ msgObligatorio }}
+        </div>
+      </div>
+
+
+    </div>
+
+    <div class="row p-3 mt-3">
+      <div class="col-12">
+        <button class="btn btn-primary float-end mx-4 px-5" type="submit">
+          Registrar usuario
+        </button>
+
+        <input
+          type="button"
+          class="btn btn-danger float-end px-3"
+          (click)="modalConfirmacion()"
+          value="Cancelar"
+        />
+      </div>
+    </div>
+  </form>
+</div>

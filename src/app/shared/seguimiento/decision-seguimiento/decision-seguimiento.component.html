@@ -1,0 +1,383 @@
+<div class="background-gray rounded-basic p-4 mb-3">
+  <strong class="row mx-0 mt-2 py-3"
+    >Formatos de seguimiento realizados y en ejecución</strong
+  >
+  <div>
+    <div class="d-flex justify-content-center">
+      <table
+        class="w-100"
+        mat-table
+        [dataSource]="dataSource"
+        id="table-private"
+        *ngIf="dataSource.data.length > 0"
+      >
+        <ng-container class="w-25" matColumnDef="tipoFormato">
+          <mat-header-cell *matHeaderCellDef>Tipo de Formato</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <div>
+              {{ element.nombreRemision.split("_").join(" ") }}
+            </div>
+          </mat-cell>
+        </ng-container>
+        <ng-container class="w-25" matColumnDef="fecha">
+          <mat-header-cell *matHeaderCellDef>Fecha</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <div>
+              {{ element.fecha }}
+            </div>
+          </mat-cell>
+        </ng-container>
+        <ng-container class="w-25" matColumnDef="acciones">
+          <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <button
+              mat-icon-button
+              matTooltip="Descargar adjunto"
+              (click)="descargarArchivo(element)"
+              color="primary"
+            >
+              <mat-icon class="material-icons-outlined">file_download</mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="background-gray rounded-basic p-4 mb-3">
+  <div class="row-2 col-12">
+    <h5 class="subtitle-medium mb-3">
+      CONCLUSIÓN DE LA ACTUACIÓN DE SEGUIMIENTO
+    </h5>
+    <p class="text-up">
+      ¿Se determina que es posible finalizar seguimiento de todas las medidas?
+    </p>
+    <p>
+      Recuerde que la finalización del seguimiento corrobora que las medidas se
+      estan cumpliendo.
+    </p>
+    <form [formGroup]="myForm">
+      <div class="form-check form-check-inline">
+        <input
+          class="form-check-input"
+          type="radio"
+          id="si-conclucion"
+          value="Si"
+          name="rConclusion"
+          formControlName="rConclusion"
+          [ngClass]="{
+            'input-req': isRequired('rConclusion') && mostrarValidaciones
+          }"
+          (click)="eliminarControlsMedidas()"
+        />
+        <label for="si-conclucion" class="form-label"> SI</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input
+          class="form-check-input"
+          type="radio"
+          id="no-conclusion"
+          value="No"
+          name="rConclusion"
+          formControlName="rConclusion"
+          [ngClass]="{
+            'input-req': isRequired('rConclusion') && mostrarValidaciones
+          }"
+          (click)="addCotrolsMedidas()"
+        />
+        <label for="no-conclusion" class="form-label"> NO</label>
+      </div>
+      <div
+        *ngIf="isRequired('rConclusion') && mostrarValidaciones"
+        class="msj-req"
+      >
+        {{ msgObligatorio }}
+      </div>
+      <div class="mt-4" *ngIf="myForm.value.rConclusion === 'Si'">
+        <h6>
+          Formato de diligenciación de documento de cierre de seguimiento de
+          medidas: <button class="btn button-new mt-2">Generar</button>
+        </h6>
+      </div>
+      <div class="mt-4" *ngIf="myForm.value.rConclusion === 'No'">
+        <div class="background-filter-private">
+          <h6 class="mb-4 mt-3">
+            <strong
+              >Seleccione la acción que desea aplicar a las medidas de
+              protección.</strong
+            >
+          </h6>
+          <div class="background-white rounded-basic" *ngIf="noTieneMedidas()">
+            <mat-accordion id="accordion-private">
+              <div *ngIf="medidasProteccionList.length > 0">
+                <mat-expansion-panel hideToggle>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title class="text-blue">
+                      Medidas de protección
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <div
+                    *ngFor="
+                      let medidaP of getMedidasProteccion.controls;
+                      let i = index
+                    "
+                  >
+                    <ng-container [formGroup]="medidaP">
+                      <p class="p-class">
+                        <strong>Medida {{ i + 1 }}:</strong>
+                        {{ this.medidasProteccionList[i].nomMedida }}
+                      </p>
+                      <div>
+                        <div class="form-check form-check-inline">
+                          <input
+                            class="form-check-input"
+                            type="radio"
+                            id="sinVerificar"
+                            value="SIN VERIFICAR"
+                            formControlName="rCumplimiento"
+                            [ngClass]="{
+                              'input-req':
+                                isRequiredMedidas(medidaP, 'rCumplimiento') &&
+                                mostrarValidaciones
+                            }"
+                          />
+                          <label for="sinVerificar" class="form-label">
+                            Sin Verificiar</label
+                          >
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input
+                            class="form-check-input"
+                            type="radio"
+                            id="cumplio"
+                            value="CUMPLE"
+                            formControlName="rCumplimiento"
+                            [ngClass]="{
+                              'input-req':
+                                isRequiredMedidas(medidaP, 'rCumplimiento') &&
+                                mostrarValidaciones
+                            }"
+                          />
+                          <label for="cumplio" class="form-label">
+                            Cumplió</label
+                          >
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input
+                            class="form-check-input"
+                            type="radio"
+                            id="incumplio"
+                            value="NO CUMPLE"
+                            formControlName="rCumplimiento"
+                            [ngClass]="{
+                              'input-req':
+                                isRequiredMedidas(medidaP, 'rCumplimiento') &&
+                                mostrarValidaciones
+                            }"
+                          />
+                          <label for="incumplio" class="form-label">
+                            Incumplió</label
+                          >
+                        </div>
+                      </div>
+                      <div
+                        *ngIf="
+                          isRequiredMedidas(medidaP, 'rCumplimiento') &&
+                          mostrarValidaciones
+                        "
+                        class="msj-req"
+                      >
+                        {{ msgObligatorio }}
+                      </div>
+                      <hr />
+                    </ng-container>
+                  </div>
+                </mat-expansion-panel>
+              </div>
+              <div *ngIf="medidasAtencionList.length > 0">
+                <mat-expansion-panel
+                  hideToggle
+                  (opened)="panelOpenState = true"
+                  (closed)="panelOpenState = false"
+                >
+                  <mat-expansion-panel-header>
+                    <mat-panel-title class="text-blue">
+                      Medidas de Atención
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+
+                  <ng-container *ngFor="let form of medidasForm; let i = index">
+                    <app-medida
+                      [form]="form"
+                      [data]="medidasAtencionList"
+                      [objSol]="objSol"
+                    ></app-medida>
+                    <hr />
+                  </ng-container>
+                </mat-expansion-panel>
+              </div>
+              <div *ngIf="medidasEstabilizacionList.length > 0">
+                <mat-expansion-panel hideToggle>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title class="text-blue">
+                      Medidas de Estabilización
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <div
+                    *ngFor="
+                      let medidaE of getMedidasEstabilizacion.controls;
+                      let i = index
+                    "
+                  >
+                    <ng-container [formGroup]="medidaE">
+                      <p class="p-class">
+                        <strong>Medida {{ i + 1 }}:</strong>
+                        {{ this.medidasEstabilizacionList[i].textoMedida }}
+                      </p>
+                      <div>
+                        <div class="form-check form-check-inline">
+                          <div class="form-check form-check-inline">
+                            <input
+                              class="form-check-input"
+                              type="radio"
+                              id="sinVerificar"
+                              value="SIN VERIFICAR"
+                              formControlName="rCumplimiento"
+                              [ngClass]="{
+                                'input-req':
+                                  isRequiredMedidas(medidaE, 'rCumplimiento') &&
+                                  mostrarValidaciones
+                              }"
+                            />
+                            <label for="cumplio" class="form-label">
+                              Sin Verificar</label
+                            >
+                          </div>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input
+                            class="form-check-input"
+                            type="radio"
+                            id="cumplio"
+                            value="CUMPLE"
+                            formControlName="rCumplimiento"
+                            [ngClass]="{
+                              'input-req':
+                                isRequiredMedidas(medidaE, 'rCumplimiento') &&
+                                mostrarValidaciones
+                            }"
+                          />
+                          <label for="cumplio" class="form-label">
+                            Cumplió</label
+                          >
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input
+                            class="form-check-input"
+                            type="radio"
+                            id="incumplio"
+                            value="NO CUMPLE"
+                            formControlName="rCumplimiento"
+                            [ngClass]="{
+                              'input-req':
+                                isRequiredMedidas(medidaE, 'rCumplimiento') &&
+                                mostrarValidaciones
+                            }"
+                          />
+                          <label for="incumplio" class="form-label">
+                            Incumplió</label
+                          >
+                        </div>
+                      </div>
+                      <div
+                        *ngIf="
+                          isRequiredMedidas(medidaE, 'rCumplimiento') &&
+                          mostrarValidaciones
+                        "
+                        class="msj-req"
+                      >
+                        {{ msgObligatorio }}
+                      </div>
+                    </ng-container>
+                    <hr />
+                  </div>
+                </mat-expansion-panel>
+              </div>
+            </mat-accordion>
+          </div>
+          <div *ngIf="!noTieneMedidas()">
+            <app-no-data
+              mensaje="Esta solicitud no tiene medidas."
+            ></app-no-data>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="myForm.value.rConclusion === 'No'">
+        <hr />
+        <p class="p-class">¿Se incumplió una o varias medidas?</p>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            id="si-incumplimiento"
+            [value]="1"
+            name="rIncumplimiento"
+            formControlName="rIncumplimiento"
+          />
+          <label for="si-incumplimiento" class="form-label"> SI</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            id="no-incumplimiento"
+            [value]="0"
+            name="rIncumplimiento"
+            formControlName="rIncumplimiento"
+          />
+          <label for="no-incumplimiento" class="form-label"> NO</label>
+        </div>
+      </div>
+      <div>
+        <h6 class="mb-4 mt-3">
+          <hr />
+          <strong>Justificación de la decisión</strong>
+          <p class="text">
+            Ingrese las observaciones que considere pertinentes.
+          </p>
+          <textarea
+            class="form-control input-box"
+            formControlName="justificacion"
+            [ngClass]="{
+              'input-req': isRequired('justificacion') && mostrarValidaciones
+            }"
+          ></textarea>
+          <div
+            *ngIf="isRequired('justificacion') && mostrarValidaciones"
+            class="msj-req"
+          >
+            {{ msgObligatorio }}
+          </div>
+        </h6>
+      </div>
+    </form>
+
+    <h6 class="mb-4 mt-3">
+      <strong>Responsable del seguimiento</strong>
+      <p class="text mt-3">{{ usuarioLogueado }}</p>
+    </h6>
+
+    <div class="mt-3 d-flex justify-content-end gap-3">
+      <button class="px-3 btn btn-danger" (click)="cancelar()">Cancelar</button>
+      <button class="px-4 btn btn-primary" (click)="archivarDiligencia()">
+        Archivar Diligencias
+      </button>
+      <button class="px-4 btn btn-primary" (click)="cerrarActuaciones()">
+        Cerrar Actuaciones
+      </button>
+    </div>
+  </div>
+</div>

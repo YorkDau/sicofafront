@@ -1,0 +1,51 @@
+<section class="background-filter-private rounded-basic p-4 pt-5 ps-5 mb-5">
+    <div class="ps-5">
+        <h1 class="text-blue mb-2" style="font-size: 30px">
+            NUEVA PRE - SOLICITUD DE SERVICIO
+        </h1>
+
+        <div class="text-blue mb-4" style="opacity: 0.6">
+            <strong class="me-1">Estado Caso:</strong>
+            <span *ngIf="perfil === 'AUX'"> Recepción Presolicitud </span>
+            <span *ngIf="perfil === 'ABO'"> Determinación Competencia del caso </span>
+            <span *ngIf="perfil === 'PSI' || perfil === 'TSO'"> Verificación de la denuncia </span>
+        </div>
+
+        <!-- <div id="tabs" class="d-flex align-items-baseline" style="gap: 1rem">
+            <div class="me-3 elements-tab" routerLink="./" routerLinkActive="elements-tab-active"
+                [routerLinkActiveOptions]="{ exact: true }"
+            >
+                Recepción Caso y Datos Ciudadano
+            </div>
+            <div class="me-3 elements-tab" routerLink="./legal" routerLinkActive="elements-tab-active"
+                [routerLinkActiveOptions]="{ exact: true }"             
+            >
+                Revisión Área Legal
+            </div>
+            <div class="me-3 elements-tab" routerLink="./verificacion" routerLinkActive="elements-tab-active"
+                [routerLinkActiveOptions]="{ exact: true }"
+            >
+                Verificación Denuncia
+            </div>
+        </div> -->
+
+        <div id="tabs" class="d-flex align-items-baseline" style="gap: 1rem">
+            <div class="me-3 elements-tab" routerLink="./" routerLinkActive="elements-tab-active"
+                [routerLinkActiveOptions]="{ exact: true }">
+                Recepción Caso y Datos Ciudadano
+            </div>
+            <div class="me-3 elements-tab" routerLink="./legal" routerLinkActive="elements-tab-active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                *ngIf="(perfil === 'ABO' || perfil === 'PSI' || perfil === 'TSO') && activarTabs">
+                Revisión Área Legal
+            </div>
+            <div class="me-3 elements-tab" routerLink="./verificacion" routerLinkActive="elements-tab-active"
+                [routerLinkActiveOptions]="{ exact: true }" *ngIf="(perfil === 'PSI' || perfil === 'TSO') && activarTabs">
+                Verificación Denuncia
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<router-outlet></router-outlet>

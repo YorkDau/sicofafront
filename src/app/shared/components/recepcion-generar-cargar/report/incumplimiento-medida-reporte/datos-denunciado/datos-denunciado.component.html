@@ -1,0 +1,56 @@
+<table
+  class="table-bordered"
+  id="datos-denunciado"
+  aria-describedby="reporte incumplimiento"
+  hidden
+>
+  <tr class="numh">
+    <td>DATOS DEL DENUNCIADO INCIDENTADO - AGRESOR</td>
+  </tr>
+  <tr>
+    <td>Nombre completo: {{ datosAgresor.nombreCompleto | titlecase }}</td>
+  </tr>
+  <tr>
+    <td>Identificación: {{ datosAgresor.numeroDocumento }}</td>
+  </tr>
+  <tr>
+    <td>Nombre de la institución:</td>
+  </tr>
+  <tr>
+    <td>Edad: {{ datosAgresor.edad }}</td>
+  </tr>
+  <tr>
+    <td>
+      Dirección de residencia actual:
+      {{ datosAgresor.direccionResidencia.trim() }}
+    </td>
+  </tr>
+  <tr>
+    <td>Correo electrónico: {{ datosAgresor.correoElectronico }}</td>
+  </tr>
+  <tr>
+    <td>Teléfono:{{ datosAgresor.telefono }}</td>
+  </tr>
+  <ng-container *ngIf="victimaSecundaria.length">
+    <tr>
+      <td>¿Existen otras víctimas?</td>
+    </tr>
+    <tr>
+      <td>¿Quiénes?</td>
+    </tr>
+  </ng-container>
+  <ng-container *ngFor="let item of victimaSecundaria">
+    <tr>
+      <td>Nombre completo: {{ item.nombreCompleto | titlecase }}</td>
+    </tr>
+    <tr>
+      <td>Identificación: {{ item.numeroDocumento }}</td>
+    </tr>
+    <tr>
+      <td>Edad: {{ item.edad }}</td>
+    </tr>
+    <tr>
+      <td>Relación con el agresor:{{ item.tipoRelacion }}</td>
+    </tr>
+  </ng-container>
+</table>

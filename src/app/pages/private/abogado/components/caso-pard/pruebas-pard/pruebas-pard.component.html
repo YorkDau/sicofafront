@@ -1,0 +1,14 @@
+<div class="mt-5 ms-2">
+  <div class="title-modal text-start">
+    PRUEBAS PERICIALES DECRETADAS DE OFICIO
+  </div>
+
+  <div class="mt-4" *ngIf="listaPruebas">
+    <app-grid-pard
+      [columnas]="columnas"
+      [registros]="listaPruebas"
+      [visualizarReporte]="false"
+      [tipoReporte]="0"
+    ></app-grid-pard>
+  </div>
+</div>

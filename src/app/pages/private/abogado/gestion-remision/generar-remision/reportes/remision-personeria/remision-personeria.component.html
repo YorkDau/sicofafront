@@ -1,0 +1,26 @@
+<table hidden id="cuerpo">
+  <ng-template #vacio>_______________________</ng-template>
+  <tr>
+    <td>Respetados Doctores:</td>
+  </tr>
+  <tr>
+    <td>
+      Deseándoles éxito en tan valiosa gestión. De manera atenta me permito
+      remitir al (la) señor(a)
+      <span *ngIf="dataReporte.nombreVictima; else vacio"></span
+      >{{ dataReporte.nombreVictima | titlecase }} , al curso pedagógico sobre
+      derechos de las víctimas de violencia en el contexto familiar, perspectiva
+      de género, acciones legales para su garantía, consecuencias jurídicas y
+      competencias institucionales.
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Curso que realizará la personería de ______ a través de __________ para lo
+      cual usted deberá solicitar la inscripción en ______________________
+    </td>
+  </tr>
+  <tr>
+    <td>Cordialmente,</td>
+  </tr>
+</table>

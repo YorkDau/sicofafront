@@ -1,0 +1,161 @@
+<form [formGroup]="victimaForm">
+  <div class="row mb-4">
+    <div class="col-lg-4 mb-3">
+      <label for="primern" class="form-label"> Primer nombre </label>
+      <input
+        type="text"
+        class="form-control"
+        id="primern"
+        placeholder="Primer nombre"
+        formControlName="primerNombre"
+      />
+    </div>
+    <div class="col-lg-4 mb-3">
+      <label for="segundon" class="form-label"> Segundo nombre </label>
+      <input
+        type="text"
+        class="form-control"
+        id="segundon"
+        placeholder="Segundo nombre"
+        formControlName="segundoNombre"
+      />
+    </div>
+    <div class="col-lg-4 mb-3">
+      <label for="primera" class="form-label"> Primer apellido </label>
+      <input
+        type="text"
+        class="form-control"
+        id="primera"
+        placeholder="Primer apellido"
+        formControlName="primerApellido"
+      />
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-lg-4 mb-3">
+      <label for="segundoa" class="form-label"> Segundo apellido </label>
+      <input
+        type="text"
+        class="form-control"
+        id="segundoa"
+        placeholder="Segundo apellido"
+        formControlName="segundoApellido"
+      />
+    </div>
+    <div class="col-lg-4 mb-3">
+      <label for="tipodoc" class="form-label"> Tipo documento </label>
+      <input
+        type="text"
+        class="form-control"
+        id="tipodoc"
+        placeholder="Tipo documento"
+        formControlName="tipoDocumento"
+      />
+    </div>
+    <div class="col-lg-4 mb-3">
+      <label for="numdoc" class="form-label"> Número documento </label>
+      <input
+        type="text"
+        class="form-control"
+        id="numdoc"
+        placeholder="Número documento"
+        formControlName="numeroDocumento"
+      />
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-lg-4 mb-3">
+      <label for="dir" class="form-label"> Dirección residencia </label>
+      <input
+        type="text"
+        class="form-control"
+        id="dir"
+        placeholder="Dirección residencia"
+        formControlName="direccion"
+      />
+    </div>
+    <div class="col-lg-4 mb-3">
+      <label for="barrio" class="form-label"> Barrio </label>
+      <input
+        type="text"
+        class="form-control"
+        id="barrio"
+        placeholder="Barrio"
+        formControlName="barrio"
+      />
+    </div>
+    <div class="col-lg-4 mb-3">
+      <label for="tel" class="form-label"> Teléfono de la víctima </label>
+      <input
+        type="text"
+        class="form-control"
+        id="tel"
+        placeholder="Teléfono de la víctima"
+        formControlName="telefono"
+      />
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-lg-4 mb-3">
+      <label for="correo" class="form-label"> Correo electrónico </label>
+      <input
+        type="text"
+        class="form-control"
+        id="correo"
+        placeholder="Correo"
+        formControlName="correo"
+      />
+    </div>
+    <div class="col-lg-4 mb-3">
+      <p class="form-label">Ocupación de la víctima</p>
+      <input
+        type="text"
+        class="form-control"
+        id="correo"
+        placeholder="Ocupación"
+        formControlName="ocupacion"
+      />
+    </div>
+    <div class="col-lg-4 mb-3">
+      <label for="nivele" class="form-label"
+        >Nivel de estudios de la víctima</label
+      >
+      <input
+        type="text"
+        class="form-control"
+        id="nivele"
+        placeholder="Ocupación"
+        formControlName="nivelEstudio"
+      />
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-lg-5 mb-3">
+      <label for="parent" class="form-label">
+        Parentesco de la víctima con el agresor(a)
+      </label>
+      <input
+        type="text"
+        class="form-control"
+        id="parent"
+        placeholder="Parentesco"
+        formControlName="parentesco"
+      />
+    </div>
+    <div class="col-lg-4 mb-3">
+      <label for="estc" class="form-label">Estado civil de la víctima</label>
+      <input
+        type="text"
+        class="form-control"
+        id="parent"
+        placeholder="Estado civil"
+        formControlName="estadoCivil"
+      />
+    </div>
+    <div class="col-lg-4"></div>
+  </div>
+</form>

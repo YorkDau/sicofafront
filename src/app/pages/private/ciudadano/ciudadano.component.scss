@@ -1,0 +1,21 @@
+.margin-button {
+  margin-top: 33px;
+}
+
+@media (max-width: 992px) {
+  .margin-button {
+    margin-top: 0;
+  }
+}
+
+.mat-column-accion {
+  justify-content: center;
+}
+
+.mat-column-numero_solicitudes {
+  justify-content: center;
+}
+
+.mat-column-fecha_ult_solicitud {
+  justify-content: center;
+}

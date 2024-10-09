@@ -1,0 +1,604 @@
+<article hidden id="reporte-riesgo" class="bg-white">
+  <table
+    hidden="hidden"
+    class="table-bordered"
+    id="encabezado"
+    aria-describedby="encabezado"
+  >
+    <tr>
+      <td rowspan="2" class="logo">Minjusticia</td>
+
+      <td class="text-center">FORMATO</td>
+
+      <td rowspan="2" class="text-center">VERSIÓN: 0.1</td>
+    </tr>
+
+    <tr>
+      <td class="text-center">INFORME DE ENTREVISTA PSICOLOGICA Y EMOCIONAL</td>
+    </tr>
+
+    <tr></tr>
+  </table>
+
+  <table
+    hidden
+    class="table-bordered"
+    id="entrevista-emocional"
+    aria-describedby="entrevista-emocional"
+  >
+    <tr>
+      <td colspan="4" class="btn-primary text-uppercase">
+        1. DATOS DE IDENTIFICACIÓN
+      </td>
+    </tr>
+
+    <tr>
+      <th colspan="1">Nombre completo:</th>
+
+      <td colspan="3">
+        {{ getNombreCompletoVictima() | titlecase }}
+      </td>
+    </tr>
+
+    <tr>
+      <th colspan="1">Fecha de nacimiento:</th>
+
+      <td colspan="3">
+        {{
+          datosIdentificacion && datosIdentificacion.fechaNacimiento
+            ? (datosIdentificacion.fechaNacimiento | date : "dd/MM/yyyy")
+            : ""
+        }}
+      </td>
+    </tr>
+
+    <tr>
+      <th colspan="1">Identificacion:</th>
+
+      <td colspan="3">
+        <div
+          *ngIf="!datosIdentificacion || !datosIdentificacion.tipoDocumento"
+          class="d-flex flex-column"
+          style="gap: 1rem"
+        >
+          <div
+            *ngFor="let item of listarDominios('Tipo_identificacion')"
+            class="d-flex align-items-center"
+          >
+            <span>[ ]{{ item }}</span>
+            <br />
+          </div>
+        </div>
+
+        <div class="mt-3">
+          <strong>
+            {{
+              datosIdentificacion && datosIdentificacion.tipoDocumento
+                ? datosIdentificacion.tipoDocumento
+                : ""
+            }}
+          </strong>
+
+          No.
+
+          <strong
+            *ngIf="datosIdentificacion && datosIdentificacion.numeroDocumento"
+          >
+            {{ datosIdentificacion.numeroDocumento }}
+          </strong>
+
+          <span
+            *ngIf="!datosIdentificacion || !datosIdentificacion.numeroDocumento"
+            >___________________</span
+          >
+        </div>
+      </td>
+    </tr>
+
+    <tr>
+      <th colspan="1">Escolaridad:</th>
+
+      <td colspan="3">
+        <div
+          *ngIf="!datosIdentificacion || !datosIdentificacion.escolaridad"
+          class="d-flex flex-column"
+          style="gap: 1rem"
+        >
+          <div
+            *ngFor="let item of listarDominios('Nivel_Academico')"
+            class="d-flex align-items-center"
+          >
+            <span>[ ]{{ item }}</span>
+            <br />
+          </div>
+        </div>
+
+        <span *ngIf="datosIdentificacion && datosIdentificacion.escolaridad">
+          {{ datosIdentificacion.escolaridad }}
+        </span>
+      </td>
+    </tr>
+
+    <tr>
+      <th colspan="1">Servicio de salud:</th>
+
+      <td colspan="3">
+        <span *ngIf="datosIdentificacion && datosIdentificacion.eps">
+          {{ datosIdentificacion.eps | titlecase }}
+        </span>
+      </td>
+    </tr>
+
+    <tr>
+      <th colspan="1">Datos de contacto:</th>
+
+      <td colspan="3">
+        <strong style="margin-right: 5px">Teléfono:</strong>
+
+        {{
+          datosIdentificacion && datosIdentificacion.telefono
+            ? datosIdentificacion.telefono
+            : "_______________"
+        }}
+
+        <br />
+
+        <strong style="margin-right: 5px">Direccion:</strong>
+
+        {{
+          datosIdentificacion && datosIdentificacion.direccion
+            ? datosIdentificacion.direccion
+            : "___________________________"
+        }}
+      </td>
+    </tr>
+
+    <tr>
+      <th colspan="1">Contacto de confianza:</th>
+
+      <td colspan="3">
+        <strong style="margin-right: 5px">Nombre:</strong>
+
+        <span>
+          {{
+            datosIdentificacion && datosIdentificacion.nombreContacto
+              ? datosIdentificacion.nombreContacto
+              : "__________________________________"
+          }}
+        </span>
+
+        <br />
+
+        <strong style="margin-right: 5px">Teléfono:</strong>
+
+        <span>
+          {{
+            datosIdentificacion && datosIdentificacion.telefonoContacto
+              ? datosIdentificacion.telefonoContacto
+              : "_________________"
+          }}
+        </span>
+
+        <br />
+
+        <strong style="margin-right: 5px">Direccion:</strong>
+
+        <span>
+          {{
+            datosIdentificacion && datosIdentificacion.direccionContacto
+              ? datosIdentificacion.direccionContacto
+              : "__________________________________"
+          }}
+        </span>
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="4" class="btn-primary text-uppercase">2. MOTIVO</td>
+    </tr>
+
+    <tr>
+      <td colspan="4" style="height: 200px">
+        <span>
+          {{ motivo && motivo.descripcionA ? motivo.descripcionA : "" }}
+        </span>
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="4" class="btn-primary text-uppercase">
+        3. ANTECEDENTES IMPORTANTES Y SITUACION ACTUAL
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="4" style="height: 200px">
+        <span>
+          {{
+            antecendentesYSituacionActual &&
+            antecendentesYSituacionActual.descripcionA
+              ? antecendentesYSituacionActual.descripcionA
+              : ""
+          }}
+        </span>
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="4" class="btn-primary text-uppercase">
+        4. PROCEDIMIENTO – METODOLOGÍA
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="4" class="h6">
+        Contarle a la mujer el objetivo de este proceso y el paso a paso que
+        contiene. Es importante partir de que las mujeres pueden tener
+        afectaciones emocionales en el momento de la entrevista, por esta razón
+        es importante hablar en un tono de voz bajo, de manera pausada y
+        asegurarse de que ella ha entendido lo explicado, también es pertinente
+        abrir un espacio para que la mujer haga las preguntas que tenga del
+        proceso.
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="4" style="height: 200px">
+        <span>
+          {{
+            procedimientoMetodologia && procedimientoMetodologia.descripcionA
+              ? procedimientoMetodologia.descripcionA
+              : ""
+          }}
+        </span>
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="4" class="btn-primary text-uppercase">
+        5. RELATO DE LOS HECHOS
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="4" class="h6">
+        Es importante indagar en los hechos de violencia de los que ha sido
+        víctima la mujer, no solo los últimos, sino también indagar la historia
+        de violencias. Las afectaciones que estas han producido en la mujer a
+        nivel emocional, familiar, laboral y social. Así mismo es importante
+        indagar y resaltar la capacidad de agencia que ha tenido la mujer y las
+        acciones que ha generado para afrontar o salir de los escenarios de
+        riesgo y los ciclos de violencias.
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="4" style="height: 200px">
+        <span>
+          {{
+            relatoDeLosHechos && relatoDeLosHechos.descripcionA
+              ? relatoDeLosHechos.descripcionA
+              : ""
+          }}
+        </span>
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="4" class="btn-primary text-uppercase">6. REDES DE APOYO</td>
+    </tr>
+
+    <tr>
+      <td colspan="4" class="h6">
+        Escenarios y relaciones personales, familiares, laborales, organizativas
+        o sociales que podrían favorecer la seguridad y protección de la mujer.
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="4">
+        <div
+          *ngIf="checksRedesApoyo && checksRedesApoyo.length"
+          class="d-flex flex-column"
+          style="gap: 1rem"
+        >
+          <div
+            *ngFor="let item of checksRedesApoyo"
+            class="d-flex align-items-center"
+          >
+            <div
+              class="border mx-1"
+              style="width: 22px; height: 22px"
+              *ngIf="!item.respuesta"
+            >
+              [ ]
+            </div>
+
+            <div
+              class="border mx-1 d-flex align-items-center justify-content-center"
+              style="width: 22px; height: 22px"
+              *ngIf="item.respuesta"
+            >
+              [X]
+              <div
+                class="border mx-1 bg-dark"
+                style="width: 15px; height: 15px"
+              ></div>
+            </div>
+
+            <span>{{ item.nombreDominio }}</span>
+            <br />
+          </div>
+        </div>
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="4" class="h6">
+        Amplie información de redes de apoyo informadas por la persona:
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="4" style="height: 200px">
+        <span>
+          {{
+            descripcionRedApoyo && descripcionRedApoyo.descripcionA
+              ? descripcionRedApoyo.descripcionA
+              : ""
+          }}
+        </span>
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="4" class="btn-primary text-uppercase">
+        7. TIPOS DE REDES DE APOYO
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="4" class="h6">
+        Respaldo concreto que puede recibir la mujer por parte de sus redes de
+        apoyo: económico, emocional, cuidado de sus hijos o hijas, refugio,
+        asesoría jurídica, etc. de tipo:
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="4">
+        <div
+          *ngIf="checksTiposRedesApoyo && checksTiposRedesApoyo.length"
+          class="d-flex flex-column"
+          style="gap: 1rem"
+        >
+          <div
+            *ngFor="let item of checksTiposRedesApoyo"
+            class="d-flex align-items-center"
+          >
+            <div
+              class="border mx-1"
+              style="width: 22px; height: 22px"
+              *ngIf="!item.respuesta"
+            >
+              [ ]
+            </div>
+
+            <div
+              class="border mx-1 d-flex align-items-center justify-content-center"
+              style="width: 22px; height: 22px"
+              *ngIf="item.respuesta"
+            >
+              <div
+                class="border mx-1 bg-dark"
+                style="width: 15px; height: 15px"
+              >
+                [X]
+              </div>
+            </div>
+
+            <span>{{ item.nombreDominio }}</span>
+            <br />
+          </div>
+        </div>
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="4" class="h6">
+        Amplie información de redes de apoyo informadas por la persona:
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="4" style="height: 200px">
+        <span>
+          {{
+            descripcionRedApoyo && descripcionRedApoyo.descripcionB
+              ? descripcionRedApoyo.descripcionB
+              : ""
+          }}
+        </span>
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="4" class="btn-primary text-uppercase">
+        8. PERCEPCIÓN DE LA MUJER SOBRE SU SITUACIÓN DE RIESGO Y LAS VIOLENCIAS
+        DE LAS QUE ES VÍCTIMA
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="4" class="h6">
+        Identificar la percepción que tiene la mujer sobre los hechos de
+        violencias de los que ha sido víctima, de los escenarios de riesgo en
+        los que se encuentra y las acciones personales e institucionales que la
+        mujer ha iniciado.
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="4" class="h6">Percepción de la mujer</td>
+    </tr>
+
+    <tr>
+      <td colspan="4" style="height: 200px">
+        <span>
+          {{
+            descripcionPercepcionDeLaVictima &&
+            descripcionPercepcionDeLaVictima.descripcionA
+              ? descripcionPercepcionDeLaVictima.descripcionA
+              : ""
+          }}
+        </span>
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="4" class="btn-primary text-uppercase">
+        9. Persistencia o evidencia de nuevos factores de riesgo
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="4">
+        <div
+          *ngIf="
+            checksPercepcionDeLaVictima && checksPercepcionDeLaVictima.length
+          "
+          class="d-flex flex-column"
+          style="gap: 1rem"
+        >
+          <div
+            *ngFor="let item of checksPercepcionDeLaVictima"
+            class="d-flex align-items-center"
+          >
+            <div
+              class="border mx-1"
+              style="width: 22px; height: 22px"
+              *ngIf="!item.respuesta"
+            >
+              [ ]
+            </div>
+
+            <div
+              class="border mx-1 d-flex align-items-center justify-content-center"
+              style="width: 22px; height: 22px"
+              *ngIf="item.respuesta"
+            >
+              [X]
+              <div
+                class="border mx-1 bg-dark"
+                style="width: 15px; height: 15px"
+              ></div>
+            </div>
+
+            <span>{{ item.nombreDominio }}</span>
+            <br />
+          </div>
+        </div>
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="4" class="h6">
+        Amplie información de nuevos factores de riesgo informados por la
+        persona:
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="4" style="height: 200px">
+        <span>
+          {{
+            descripcionPercepcionDeLaVictima &&
+            descripcionPercepcionDeLaVictima.descripcionB
+              ? descripcionPercepcionDeLaVictima.descripcionB
+              : ""
+          }}
+        </span>
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="4" class="btn-primary text-uppercase">10. CONCLUSIONES</td>
+    </tr>
+
+    <tr>
+      <td colspan="4" style="height: 200px">
+        <span>
+          {{
+            conclusionYRecomendacion && conclusionYRecomendacion.descripcionA
+              ? conclusionYRecomendacion.descripcionA
+              : ""
+          }}
+        </span>
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="4" class="btn-primary text-uppercase">
+        11. RECOMENDACIONES
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="4" style="height: 200px">
+        <span>
+          {{
+            conclusionYRecomendacion && conclusionYRecomendacion.descripcionB
+              ? conclusionYRecomendacion.descripcionB
+              : ""
+          }}
+        </span>
+      </td>
+    </tr>
+
+    <tr>
+      <td class="h6">NOMBRE:</td>
+
+      <td colspan="3">
+        {{ funcionario && funcionario.nombre ? funcionario.nombre : "" }}
+      </td>
+    </tr>
+
+    <tr>
+      <td class="h6">PROFESIÓN:</td>
+
+      <td colspan="3">
+        {{ funcionario && funcionario.perfil ? funcionario.perfil : "" }}
+      </td>
+    </tr>
+
+    <tr>
+      <td class="h6">T.P.:</td>
+
+      <td colspan="3"></td>
+    </tr>
+
+    <tr>
+      <td class="h6">UBICACIÓN LABORAL:</td>
+
+      <td colspan="3">
+        {{
+          funcionario && funcionario.nombreComisaria
+            ? funcionario.nombreComisaria
+            : ""
+        }}
+        &nbsp;
+        {{
+          funcionario && funcionario.direccionComisaria
+            ? funcionario.direccionComisaria
+            : ""
+        }}
+      </td>
+    </tr>
+
+    <tr style="height: 100px">
+      <td class="h6">FIRMA:</td>
+
+      <td colspan="3"></td>
+    </tr>
+  </table>
+</article>

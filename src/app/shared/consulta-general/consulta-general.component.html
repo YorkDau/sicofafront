@@ -1,0 +1,166 @@
+<div class="background-content-private rounded-basic p-4 mb-4">
+    <div class="p-3">
+        <div id="tab-child" class="d-flex align-items-center">
+            <div class="tab-style"
+            [ngClass]="{
+                active: tabGeneral && !tabTareas && !tabAnexos
+            }"
+            (click)="cambiarTab(0)"
+            >General</div>
+            <div class="tab-style"
+            [ngClass]="{
+                active: tabTareas && (!tabGeneral || !tabAnexos)
+            }"
+            (click)="cambiarTab(1)"
+            >Tareas</div>
+            <div class="tab-style" 
+              [ngClass]="{
+                  active: tabAnexos && (!tabGeneral || !tabTareas)
+              }"
+              (click)="cambiarTab(2)"
+            >Anexos</div>
+        </div>
+    </div>
+    <ng-container *ngIf="tabGeneral">
+      <form [formGroup]="myForm"> 
+      <div class="mt-3 p-2">
+            <div class="row">
+                <div class="col-lg-4 p-2">
+                    <div class="mb-3">
+                        <label for="fechaSolicitud" class="form-label">Fecha de Solicitud</label>
+                        <div class="input-group">
+                            <input
+                              matInput
+                              readonly
+                              (click)="picker.open()"
+                              placeholder="DD/MM/YYYY"
+                              class="form-control form-control-date-Picker sinborde-DatePicker date-picker-width"
+                              [matDatepicker]="picker"
+                              formControlName="fechaSolicitud"
+                              id="fecha"
+                            />
+                            <span class="input-group-text sinfondo-DatePicker date-picker-margin">
+                              <mat-datepicker-toggle
+                                matSuffix
+                                [for]="picker"
+                              ></mat-datepicker-toggle>
+                              <mat-datepicker #picker></mat-datepicker>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 p-2">
+                    <div class="mb-3">
+                        <label for="estadoSolicitud" class="form-label">Estado Solicitud</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="estadoSolicitud"
+                          formControlName="estadoSolicitud"
+                        >
+                    </div>
+                </div>
+                <div class="col-lg-4 p-2">
+                  <div class="mb-3">
+                    <label for="subEstadoSolicitud" class="form-label">Subestado de la Solicitud</label>
+                    <input
+                          type="text"
+                          class="form-control"
+                          id="subEstadoSolicitud"
+                          formControlName="subEstadoSolicitud"
+                          
+                        >
+                  </div>
+                </div>
+            </div>
+            <div class="row">
+              <div class="col p-2">
+                <div class="mb-3">
+                  <label for="relatoHechos" class="form-label">Relato de los hechos</label>
+                  <textarea
+                          type="text"
+                          class="form-control input-box"
+                          id="relatoHechos"
+                          formControlName="relatosHechos"
+                          
+                        ></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-4 p-2">
+                <label class="form-label">Información de los Involucrados</label>
+              </div>
+            </div>
+            <div *ngFor="let involucrado of involucrados.controls; let i = index">
+            <div class="row">
+              <div class="col-lg-4 p-2">
+                <label class="form-label">Involucrado N° {{i+1}}</label>
+              </div>
+            </div>
+            <ng-container [formGroup]="involucrado">
+            <div class="row">
+              <div class="col-lg-4 p-2">
+                <div class="mb-3">
+                  <label for="tipoDocumento" class="form-label">Tipo de Documento</label>
+                  <select  
+                    id="tipoDocumento" 
+                    formControlName="tipoDocumento"
+                    class="form-select">
+                    <option
+                        *ngFor="let documento of listaTipoDocumento"
+                        [value]="documento.id_Dominio">
+                        {{documento.nombre_Dominio}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-lg-4 p-2">
+                <div class="mb-3">
+                  <label for="numeroDocumento" class="form-label">Número de Documento</label>
+                  <input 
+                    type="text"  
+                    id="numeroDocumento"
+                    formControlName="numeroDocumento"
+                    class="form-control">
+                </div>
+              </div>
+              <div class="col-lg-4 p-2">
+                <div class="mb-3">
+                  <label for="tipoInvolucrado" class="form-label">Tipo de Involucrado</label>
+                  <input 
+                    type="text"  
+                    id="tipoInvolucrado"
+                    formControlName="tipoInvolucrado"
+                    class="form-control">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col p-2">
+                <div class="mb-3">
+                  <label for="nombreCompleto" class="form-label">Nombre completo del involucrado</label>
+                  <input 
+                    type="text"  
+                    id="nombreCompleto"
+                    formControlName="nombres"
+                    class="form-control">
+                </div>
+              </div>
+            </div>
+          </ng-container>
+          </div>
+        </div> 
+      </form>        
+    </ng-container>
+    <ng-container *ngIf="tabTareas">
+        <app-tareas [informacionGeneral]="informacionGeneral"></app-tareas>
+    </ng-container>
+    <ng-container *ngIf="tabAnexos">
+        <app-tabla-anexos [informacionGeneral]="informacionGeneral"></app-tabla-anexos>
+    </ng-container>
+    <div class="mt-3 d-flex justify-content-end gap-3">
+        <button 
+          class="px-3 btn btn-danger"
+          [routerLink]="['../../casos']">Cancelar</button>
+    </div>
+</div>

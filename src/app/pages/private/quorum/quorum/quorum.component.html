@@ -1,0 +1,139 @@
+<section class="background-content-private p-4 mb-3">
+  <div class="p-4">
+    <h4 class="text-blue text-uppercase">VERIFICAR COMPARECENCIA</h4>
+    <p>
+      Confirme la comparecencia de las partes para el correcto diligenciamiento
+      del fallo
+    </p>
+
+    <div>
+      <mat-table [dataSource]="dataSource" id="table-private">
+        <ng-container matColumnDef="nombreInvolucrado">
+          <mat-header-cell *matHeaderCellDef>
+            Nombre del implicado
+          </mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            {{ row.nombreInvolucrado | titlecase }}
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="esVictima">
+          <mat-header-cell *matHeaderCellDef>
+            Tipo de implicado
+          </mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            {{ row.esVictima ? "Accionante" : "Accionado" }}
+            {{ row.esPricipal ? "Principal" : "" }}
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="estado">
+          <mat-header-cell *matHeaderCellDef>
+            Estado asistencia
+          </mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <div [ngSwitch]="row.estado">
+              <div *ngSwitchCase="0">No Asiste</div>
+              <div *ngSwitchCase="1">Asiste</div>
+              <div *ngSwitchCase="2">Excusa con justa causa</div>
+              <div *ngSwitchCase="3">Excusa sin justa causa</div>
+              <div *ngSwitchDefault></div>
+            </div>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="accion">
+          <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+          <mat-cell *matCellDef="let row" class="d-flex align-items-center w-100">
+            <button mat-icon-button matTooltip="Marcar que asiste" matTooltipPosition="right" matTooltipHideDelay="500"
+              matTooltipClass="background-tooltip" [disabled]="isAsiste(row)" (click)="marcarAsistio(row)">
+              <mat-icon class="material-icons-outlined" [ngClass]="{
+                  'table-icon-color': !isAsiste(row),
+                  'text-secondary': isAsiste(row)
+                }">check_circle</mat-icon>
+            </button>
+            <button mat-icon-button matTooltip="Marcar que no asiste" matTooltipPosition="right"
+              matTooltipHideDelay="500" matTooltipClass="background-tooltip" [disabled]="
+                isNoAsiste(row) && (!row.idAnexo || row.idAnexo !== -1)
+              " (click)="marcarNoAsiste(row)">
+              <mat-icon class="material-icons-outlined" [ngClass]="{
+                  'table-icon-color': !isNoAsiste(row),
+                  'text-secondary': isNoAsiste(row)
+                }">cancel</mat-icon>
+            </button>
+            <app-carga-archivo (baseArchivo)="cargarExcusa($event, row)" [archivoCargado]="{
+                idSolicitud: this.tarea.idSolicitud,
+                idArchivo: row.idAnexo ? row.idAnexo : -1
+              }" [disableDownload]="!row.idAnexo || row.idAnexo == -1" [reset]="false" apariencia="icon"
+              textoCargar="Cargar excusa" textoDescargar="Descargar excusa" [deleteIcon]="false" [reset]="true">
+            </app-carga-archivo>
+            <button mat-icon-button matTooltip="Marcar como excusa justa" matTooltipPosition="right"
+              matTooltipHideDelay="500" matTooltipClass="background-tooltip"
+              [disabled]="!isArchivoCargado(row) || isJustaCausa(row)" (click)="marcarJustaCausa(row)">
+              <mat-icon class="material-icons-outlined" [ngClass]="{
+                  'table-icon-color':
+                    !isJustaCausa(row) || isArchivoCargado(row),
+                  'text-secondary': !isArchivoCargado(row) || isJustaCausa(row)
+                }">task</mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
+        <mat-header-row mat-header-row *matHeaderRowDef="columnas"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: columnas"></mat-row>
+      </mat-table>
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of request"
+        #paginator>
+      </mat-paginator>
+    </div>
+
+    <div class="form-group col-lg-12 mb-4 mt-4">
+      <h4 class="text-blue text-uppercase">
+        Reprogramar
+        {{
+        tarea.tipoProceso.toLowerCase().includes("seguimiento")
+        ? "el seguimiento"
+        : "la audiencia"
+        }}
+      </h4>
+      <p>
+        {{
+        tarea.tipoProceso.toLowerCase().includes("seguimiento")
+        ? "El seguimiento"
+        : "La audiencia"
+        }}
+        es reprogramable siempre que uno de los involucrados principales haya
+        presentado una excusa válida.
+      </p>
+      <h6>
+        ¿Desea reprogramar
+        {{
+        tarea.tipoProceso.toLowerCase().includes("seguimiento")
+        ? "el seguimiento"
+        : "la audiencia"
+        }}?
+      </h6>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="radioReprogramar" [(ngModel)]="radioReprogramar"
+          [value]="true" />
+        <label class="form-check-label"> Si </label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="radioReprogramar" [value]="false"
+          [(ngModel)]="radioReprogramar" />
+        <label class="form-check-label"> No </label>
+      </div>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-end mt-4 text-nowrap flex-wrap w-100" style="gap: 1rem">
+      <button type="button" class="btn btn-danger" (click)="cancelar()">
+        Cancelar
+      </button>
+      <button type="button" class="btn btn-primary" (click)="archivarDiligencias()">
+        Archivar diligencias
+      </button>
+      <button type="button" class="btn btn-primary" (click)="guardar()">
+        Guardar
+      </button>
+      <button type="button" class="btn btn-primary" (click)="modalConfirmaCerrarActuacion()">
+        Cerrar actuaciones
+      </button>
+    </div>
+  </div>
+</section>

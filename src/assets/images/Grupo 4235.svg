@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21">
+  <g id="Grupo_4235" data-name="Grupo 4235" transform="translate(-8888.71 5412.41)">
+    <g id="Elipse_576" data-name="Elipse 576" transform="translate(8888.71 -5412.41)" fill="#e2e6ea" stroke="#a6bdeb" stroke-width="1">
+      <circle cx="10.5" cy="10.5" r="10.5" stroke="none"/>
+      <circle cx="10.5" cy="10.5" r="10" fill="none"/>
+    </g>
+    <path id="angulo-pequeno-derecho" d="M15.015,9.582,10.706,5.272A.939.939,0,1,0,9.382,6.605l4.319,4.3a.939.939,0,0,1,0,1.333l-4.319,4.3a.939.939,0,0,0,1.324,1.333l4.309-4.309A2.817,2.817,0,0,0,15.015,9.582Z" transform="translate(8911.181 -5390.265) rotate(180)" fill="#007ad5"/>
+  </g>
+</svg>

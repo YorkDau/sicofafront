@@ -1,0 +1,505 @@
+<table hidden class="table-bordered" id="seguridad">
+  <ng-template #vacio>
+    <span>________________________</span>
+  </ng-template>
+
+  <ng-template #vacio2>
+    <span>_____</span>
+  </ng-template>
+  <tr>
+    <th style="text-align: center;" colspan="2">
+      ORIENTACIÓN Y RECOMENDACIONES A LAS MUJERES VÍCTIMAS DE VIOLENCIA EN EL
+      CONTEXTO FAMILIAR
+    </th>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <br><br>
+      MP - VIF¹ No.
+      <div *ngIf="idSolicitud === 0">___________________</div>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <div style="text-align: justify !important">
+          <br><br>
+          Una vez revisada la solicitud de medida de protección allegada por hechos
+          de VIOLENCIA EN EL CONTEXTO FAMILIAR denunciados por la señora
+          <!-- <strong
+          > --><span class="negrilla" *ngIf="idSolicitud != 0; else vacio">{{
+            nombreVictima | titlecase
+          }}</span
+          ><!--  </strong
+        > -->, identificada con
+          <span class="negrilla" *ngIf="idSolicitud != 0; else vacio2">{{
+            tipoDocumentoVictima
+          }}</span>
+          No.
+          <span class="negrilla" *ngIf="idSolicitud != 0; else vacio">{{
+            documentoVictima
+          }}</span>
+          expedida en
+          <span class="negrilla" *ngIf="idSolicitud != 0; else vacio">{{
+            lugarExpDocumentoVictima
+          }}</span
+          >, a su favor y en contra del señor
+          <span
+            class="negrilla"
+            *ngIf="idSolicitud != 0; else vacio"
+            [ngClass]="{
+              'text-transparent': idSolicitud == 0
+            }"
+            >{{ nombreAgresor | titlecase }}</span
+          >, identificado con
+          <span class="negrilla" *ngIf="idSolicitud != 0; else vacio2">{{
+            tipoDocumentoAgresor
+          }}</span>
+          No.
+          <span class="negrilla" *ngIf="idSolicitud != 0; else vacio">{{
+            documentoAgresor
+          }}</span>
+          expedida en
+          <span class="border-bottom border-dark text-transparent"></span>
+          se procede a informar a la denunciante sobre lo siguiente:
+        <br />
+      </div>
+    
+    </td>
+  </tr>
+  <tr>
+    <td class="item"></td>
+    <td>
+      El DERECHO a solicitar en cualquier momento como MEDIDA DE PROTECCIÓN su UBICACIÓN en CASA 
+      REFUGIO (PROGRAMA QUE EXISTA), a la COMISARÍA DE FAMILIA competente, junto con sus hijos e 
+      hijas menores de edad en caso de considerarse que se encuentren en riesgo para su vida e 
+      integridad personal y por hechos de violencia en el contexto familiar.
+    </td>
+  </tr>
+  <tr>
+    <td class="item"></td>
+    <td>
+      El DERECHO que le asiste de contar con MEDIDAS DE ATENCIÓN2 (numeral 2 del
+      artículo 2.9.2.1.2.1 del Decreto 780 de 2016) por el sector salud en caso de
+      afectación de su salud física o psicológica como consecuencia de la violencia y
+      MEDIDAS DE ESTABILIZACIÓN3, las que podrá solicitar ante la COMISARÍA DE
+      FAMILIA, competente para el caso.
+
+    </td>
+  </tr>
+  <tr>
+    <td class="item">
+      
+    </td>
+    <td>
+      El DERECHO A NO SER CONFRONTADA con el denunciado en cualquiera de los
+      espacios de atención y en los procedimientos administrativos y judiciales en los
+      que se les cite, literal K), Artículo 8º de la Ley 1257 de 2008 lo que deberá
+      manifestar ante la COMISARÍA DE FAMILIA competente antes de la audiencia.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      Adicionalmente, son DERECHOS DE LAS MUJERES Y LAS VICTIMAS: (art 7 y 8 Ley
+      1257 de 2008).
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      DERECHOS DE LAS MUJERES. Además de otros derechos reconocidos en la
+      Constitución Política, la ley o en los tratados y convenios internacionales
+      debidamente ratificados por el Estado colombiano, las mujeres tienen derecho a una
+      vida digna, a la integridad física, sexual y psicológica, a la intimidad, a no ser
+      sometidas a tortura o a tratos crueles, inhumanos y degradantes, a la igualdad real y
+      efectiva, a no ser sometidas a forma alguna de discriminación, a la libertad y
+      autonomía, al libre desarrollo de la personalidad, a la salud, a la salud sexual y
+      reproductiva y a la seguridad personal.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      DERECHOS DE LAS VÍCTIMAS DE VIOLENCIA. Toda víctima de alguna de las
+      formas de violencia tiene derecho a:
+    </td>
+  </tr>
+  <tr>
+    <td class="item">
+      a.
+    </td>
+    <td>
+      Recibir atención integral a través de servicios con cobertura suficiente, accesible
+      y de calidad.
+    </td>
+  </tr>
+  <tr>
+    <td class="item">
+      b.
+    </td>
+    <td>
+      Recibir orientación, asesoramiento jurídico y asistencia técnica legal con carácter
+      gratuito, inmediato y especializado desde el momento en que el hecho
+      constitutivo de violencia se ponga en conocimiento de la autoridad.
+    </td>
+  </tr>
+  <tr>
+    <td class="item">
+      c.
+    </td>
+    <td>
+      Ordenar que el agresor asuma los costos de esta atención y asistencia.
+      Corresponde al Estado garantizar este derecho realizando las acciones
+      correspondientes frente al agresor y en todo caso garantizará la prestación de
+      este servicio a través de la defensoría pública.
+    </td>
+  </tr>
+  <tr>
+    <td class="item">
+      d.
+    </td>
+    <td>
+      Recibir información clara, completa, veraz y oportuna en relación con sus
+      derechos y con los mecanismos y procedimientos contemplados en el artículo 8
+      de la ley 1257 de 2008 y demás normas concordantes;
+    </td>
+  </tr>
+  <tr>
+    <td class="item">
+      e.
+    </td>
+    <td>
+      Dar su consentimiento informado para los exámenes medicolegales en los casos
+      de violencia sexual y escoger el sexo del facultativo para la práctica de estos,
+      dentro de las posibilidades ofrecidas por el servicio. Las entidades promotoras y
+      prestadoras de servicios de salud promoverán la existencia de facultativos de
+      ambos sexos para la atención de víctimas de violencia.
+
+    </td>
+  </tr>
+  <tr>
+    <td class="item">
+      f.
+    </td>
+    <td>
+      Recibir información clara, completa, veraz y oportuna en relación con la salud
+      sexual y reproductiva;
+    </td>
+  </tr>
+  <tr>
+    <td class="item">
+      g.
+    </td>
+    <td>
+      Ser tratada con reserva de identidad al recibir la asistencia médica, legal, o
+      asistencia social respecto de sus datos personales, los de sus descendientes o
+      los de cualquiera otra persona que esté bajo su guarda o custodia;
+    </td>
+  </tr>
+  <tr>
+    <td class="item">
+      h.
+    </td>
+    <td>
+      Recibir asistencia médica, psicológica, psiquiátrica y forense especializada e
+      integral en los términos y condiciones establecidos en el ordenamiento jurídico
+      para ellas y sus hijos e hijas.
+    </td>
+  </tr>
+  <tr>
+    <td class="item">
+      i.
+    </td>
+    <td>
+      Acceder a los mecanismos de protección y atención para ellas, sus hijos e hijas;
+    </td>
+  </tr>
+  <tr>
+    <td class="item">
+      j.
+    </td>
+    <td>
+      La verdad, la justicia, la reparación y garantías de no repetición frente a los
+      hechos constitutivos de violencia;
+    </td>
+  </tr>
+  <tr>
+    <td class="item">
+      k.
+    </td>
+    <td>
+      La estabilización de su situación conforme a los términos previstos en esta ley.
+    </td>
+  </tr>
+  <tr>
+    <td class="item">
+      l.
+    </td>
+    <td>
+      A decidir voluntariamente si puede ser confrontada con el agresor en cualquiera
+      de los espacios de atención y en los procedimientos administrativos, judiciales o
+      de otro tipo.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      DEBERES DE LA FAMILIA. (Art 14 Ley 1257 de 2008) La familia tendrá el deber de
+      promover los derechos de las mujeres en todas sus etapas vitales reconocidos,
+      consagrados en esta ley y así mismo la eliminación de todas las formas de violencia
+      y desigualdad contra la mujer. Son deberes de la familia para estos efectos:
+    </td>
+  </tr>
+  <tr>
+    <td class="item"></td>
+    <td>Prevenir cualquier acto que amenace o vulnere los derechos de las mujeres
+      señalados en esta ley.
+    </td>
+  </tr>
+  <tr>
+    <td class="item"></td>
+    <td>Abstenerse de realizar todo acto o conducta que implique maltrato físico, sexual,
+      psicológico o patrimonial contralas mujeres.
+    </td>
+  </tr>
+  <tr>
+    <td class="item"></td>
+    <td>Abstenerse de realizar todo acto o conducta que implique discriminación contra
+      las mujeres.      
+    </td>
+  </tr>
+  <tr>
+    <td class="item"></td>
+    <td>Realizar todas las acciones que sean necesarias para asegurar el ejercicio de los
+      derechos de las mujeres y eliminar la violencia y discriminación en su contra en
+      el entorno de la familia.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">Teniendo en cuenta lo anterior, se realizan las siguientes:
+    </td>
+  </tr>
+  <tr>
+    <th colspan="2">RECOMENDACIONES</th>
+  </tr>
+  <tr>
+    <th colspan="2">1. SOBRE SEGURIDAD:</th>
+  </tr>
+  <tr>
+    <td class="item">a.</td>
+    <td>Presente original del APOYO POLICIVO ante la ESTACIÓN DE POLICÍA DE LA
+      LOCALIDAD DONDE VIVA Y/O TRABAJE y en el CAI más cercano, lo antes posible
+      para que pueda recibir orientaciones para su autoprotección y se informe a la
+      POLICIA debidamente, sobre la Medida de Protección Provisional que hemos
+      brindado en esta Comisaría de Familia. (Documento Adjunto).
+    </td>
+  </tr>
+  <tr>
+    <td class="item">b.</td>
+    <td>Si identifica que el agresor o agresora incumple la medida de protección, por
+      favor notificarlo a la comisaría de familia. Así mismo, tome medidas de seguridad
+      necesarias para su protección: Mantenga a la mano su celular con los teléfonos
+      del cuadrante y otros números que suministren en el evento que deba pedir
+      ayuda.
+    </td>
+  </tr>
+  <tr>
+    <td class="item">c.</td>
+    <td>Así mismo, se le recomienda acudir a su red de apoyo familiar, social y
+      comunitaria tanto para mantener alertados sobre cualquier situación de riesgo a
+      su integridad que pueda presentarse, informe a un familiar o amigo(a) de
+      confianza para recibir acogida, acompañamiento o que le puedan brindar apoyo
+      emocional en un momento dado.      
+    </td>
+  </tr>
+  <tr>
+    <td class="item">d.</td>
+    <td>Mantenga en un lugar seguro llaves, documentos y otros artículos tanto para Ud.
+      o para sus hijos en caso de que tenga que salir de emergencia.
+    </td>
+  </tr>
+  <tr>
+    <td class="item">e.</td>
+    <td>Si el agresor le persigue o la ha amenazado, cambie sus hábitos, salga a horas
+      diferentes, trate de andar por la calle acompañada, cambie las guardas de su
+      casa, no le informe al agresor ni a sus personas más cercanas acerca de sus
+      decisiones de irse o decisiones trascendentales, si puede cambiar de domicilio
+      hágalo.      
+    </td>
+  </tr>
+  <tr>
+    <td class="item">f.</td>
+    <td>No acepte encuentros clandestinos con el agresor, con el argumento de que
+      necesita hablar con Ud. o necesita darle algo para los hijos especialmente
+      cuando el agresor no mostraba interés por aportar para las necesidades de ellos
+      o suyas, él teme por las reacciones frente a las decisiones que ha estado
+      tomando.
+    </td>
+  </tr>
+  <tr>
+    <td class="item">g.</td>
+    <td>Mantenga un código con su familiar, vecino(a) o amigo(a) de confianza o los hijos
+      con quien Usted vive, para que sepan cuando se encuentre en peligro y sepan
+      cuando llamar a la Policía a pedir ayuda. Esos códigos claves pueden ser poner
+      un objeto en determinada posición, el uso de una palabra o frase, un gesto o
+      movimiento clave que ya han establecido con antelación.
+    </td>
+  </tr>
+  <tr>
+    <td class="item">h.</td>
+    <td>Si en un momento se siente acorralada por su agresor(a) grite lo más fuerte
+      posible y la mayor parte del tiempo que pueda, no se avergüence de hacerlo,
+      el(la) agresor(a) es quien debería avergonzarse por responder con violencia por
+      sus frustraciones. Si presiente que va a ser agredida, salga de su hogar junto con
+      sus hijos sin importar la hora y acuda a su familia, vecinos o amigos.
+    </td>
+  </tr>
+  <tr>
+    <td class="item">i.</td>
+    <td>Recuerde que para situación de emergencia en estos casos se puede llamar a la
+      LINEA 123 (o la línea habilitada en el lugar o región donde se encuentre), el
+      número del cuadrante y demás números que haya proporcionado la policía al
+      recibir su apoyo policivo.      
+    </td>
+  </tr>
+  <tr>
+    <th colspan="2">2. SOBRE REDES DE APOYO:</th>
+  </tr>
+  <tr>
+    <td colspan="2">
+      Puede acudir o usar a las siguientes redes de apoyo institucional para mujeres:
+    </td>
+  </tr>
+  <tr>
+    <td class="item">a.</td>
+    <td>CASA DE ACOGIDA PARA MUJERES: en donde le pueden brindar gratuitamente
+      apoyo psicosocial y orientación jurídica en el evento que lo requiera</td>
+  </tr>
+  <tr>
+    <td class="item">b.</td>
+    <td>En el caso que requiera recibir orientación, puede solicitar apoyo en las
+      instituciones presentes en su territorio que brinden atención y apoyo a las
+      víctimas de violencia.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      Con base en todo lo anterior se sensibiliza y aclara a la señora
+      <span class="negrilla" *ngIf="idSolicitud != 0; else vacio">{{
+        nombreVictima | titlecase
+      }}</span
+      >, que a partir de su decisión y de las anteriores recomendaciones, su
+      integridad también es su responsabilidad, dado que la Comisaria de Familia
+      le ha advertido sobre los mecanismos para su protección en pro de
+      garantizar su vida y su integridad de acuerdo con lo establecido por la
+      Ley 1257 de 2008 y demás disposiciones legales.
+    </td>
+  </tr>
+  <tr>
+    <th colspan="2">ORIENTACION PROCESO LEGAL EN CASO DE MEDIDAS DE PROTECCIÓN</th>
+  </tr>
+  <tr>
+    <td class="item"></td>
+    <td>La Comisaría de Familia competente procederá a su citación y a la del
+      accionado(a) o accionados(as), a una audiencia, que tendrá lugar entre los cinco
+      (5) y diez (10) días siguientes a la presentación de la petición, se aclara que esta
+      citación depende de la agenda de la comisaría. A esta audiencia deberá concurrir
+      usted, recordándole que tiene el derecho a la no confrontación con el agresor o
+      agresores, lo que podrá solicitar por correo electrónico a la comisaría competente o 
+      de manera presencial. En caso de que lo haya manifestado, en la
+      remisión del proceso se informará su decisión al competente.
+    </td>
+  </tr>
+  <tr>
+    <td class="item"></td>
+    <td>De esta audiencia usted y el agresor o agresores, serán notificados
+      personalmente o por aviso fijado a la entrada de la residencia del agresor. Si se
+      aportó correo electrónico se realizará igualmente por este medio, solicitándole
+      que acuse el recibido del mismo, para que la comisaría tenga conocimiento de
+      su enteramiento.      
+    </td>
+  </tr>
+  <tr>
+    <td class="item"></td>
+    <td>La audiencia señalada, podrá realizarse de manera virtual, según sus condiciones
+      personales de salud y/o a lo ordenado por el gobierno nacional o distrital, con
+      relación a la pandemia o los sistemas de conectividad de cada Comisaría de
+      Familia.
+    </td>
+  </tr>
+  <tr>
+    <td class="item"></td>
+    <td>En la audiencia de ley, usted podrá ratificar y ampliar su versión de los hechos y
+      solicitar y/o aportar las pruebas que considere pertinentes y conducentes y que
+      correspondan a los hechos (documentales, mensajes de texto, mensajes de
+      WhatsApp, fotos, videos, etc.), lo que se le solicita realizar en un CD o memoria
+      que pueda dejar en la comisaría, ya que esto hace parte del proceso, podrá
+      igualmente llevar testigos de los hechos o cualquier prueba que soporte
+      legalmente su denuncia. Es importante señalar, que si fue remitida (o) a medicina
+      legal, debe allegar el resultado de la valoración realizada. De la misma forma el
+      agresor podrá presentar descargos, lo que puede realizar antes de la audiencia o
+      durante el desarrollo de esta, e igualmente solicitar pruebas y allegar las que
+      considere.      
+    </td>
+  </tr>
+  <tr>
+    <td class="item"></td>
+    <td>La Comisaría de Familia decretará y practicará las pruebas que considere
+      conducentes y emitirá una decisión frente al proceso y a las medidas de
+      protección a su favor, pudiendo confirmar las ordenadas inicialmente, modificar
+      las mismas o revocarlas.      
+    </td>
+  </tr>
+  <tr>
+    <td class="item"></td>
+    <td>Durante el proceso se le informará y explicarán las diferentes etapas y los
+      recursos de ley que tiene frente a la decisión final, en caso de desacuerdo.
+    </td>
+  </tr>
+  <tr>
+    <td class="item"></td>
+    <td>El correo, dirección y teléfono de la Comisaría de Familia competente, se le
+      informó a la persona que solicitó el servicio.      
+    </td>
+  </tr>
+  <tr>
+    <br><br>
+    <td colspan="2" style="text-align: left;">En constancia firma que fue orientada,
+    </td>
+    
+  </tr>
+  <tr>
+
+    <td colspan="2">
+      <br><br><br><br><br><br>
+      ___________________________________
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      NOMBRE
+      <span class="negrilla" *ngIf="idSolicitud != 0; else vacio">{{
+        nombreVictima | titlecase
+      }}</span>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      FECHA
+      <span class="negrilla" *ngIf="idSolicitud != 0; else vacio">{{
+        fechaImpresion | date: "dd/MM/yyyy"
+      }}</span>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <span class="negrilla" *ngIf="idSolicitud != 0; else vacio2">{{
+        tipoDocumentoVictima
+      }}</span>
+      No.
+      <span class="negrilla" *ngIf="idSolicitud != 0; else vacio">{{
+        documentoVictima
+      }}</span>
+    </td>
+  </tr>
+    
+
+
+
+</table> 

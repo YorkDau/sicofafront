@@ -1,0 +1,107 @@
+<div class="container fondo-formulario mb-5">
+  <form [formGroup]="myForm" (ngSubmit)="registrar()">
+    <div class="row pb-3 align-items-start">
+      <div class="col-8 offset">
+        <h3 class="pb-3 title-normal">{{ titulo }}</h3>
+
+        <h5>INFORMACIÓN</h5>
+        <h6>Los campos con asterisco (*) son obligatorios</h6>
+      </div>
+    </div>
+
+    <div class="row align-items-center">
+      <div class="col-4 p-3">
+        <label>Nombre</label>
+        <input
+          type="text"
+          class="form-control"
+          [ngClass]="{
+            'input-req': isRequired('nombrePerfil') && mostrarValidaciones
+          }"
+          formControlName="nombrePerfil"
+          maxlength="50"
+          placeholder="nombre"
+        />
+
+        <div
+          class="msj-req"
+          *ngIf="isRequired('nombrePerfil') && mostrarValidaciones"
+        >
+          {{ msgObligatorio }}
+        </div>
+      </div>
+
+      <div class="col-4 p-3">
+        <label>Código*</label>
+
+        <input
+          type="text"
+          class="form-control"
+          [ngClass]="{
+            'input-req': isRequired('codigo') && mostrarValidaciones
+          }"
+          formControlName="codigo"
+          maxlength="50"
+          placeholder="codigo"
+        />
+        <div
+          class="msj-req"
+          *ngIf="isRequired('codigo') && mostrarValidaciones"
+        >
+          {{ msgObligatorio }}
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="col-4 p-3">
+          <label>Estado</label>
+          <div class="form-check form-check-inline">
+
+            <input
+              class="form-check-input"
+              type="checkbox"
+              id="decretar"
+              formControlName="estado"
+            />
+            <label class="form-check-label" for="decretar">{{myForm.get('estado')?.value ? 'Activo': 'Inactivo'}}</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row col-4">
+        <label>Actividades*</label>
+        <mat-form-field>
+          <mat-label>Activad</mat-label>
+          <mat-select formControlName="actividades" multiple>
+            <div *ngFor="let actividad of actividades">
+              <mat-option [value]="actividad.idActividad">{{ actividad.nombreTarea }}</mat-option>
+            </div>
+          </mat-select>
+        </mat-form-field>
+
+        <div
+          class="msj-req"
+          *ngIf="isRequired('actividades') && mostrarValidaciones"
+        >
+          {{ msgObligatorio }}
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row p-3 mt-3">
+      <div class="col-12">
+        <button class="btn btn-primary float-end mx-4 px-5" type="submit">
+          {{tituloSubmit}}
+        </button>
+
+        <input
+          type="button"
+          class="btn btn-danger float-end px-3"
+          (click)="modalConfirmacion()"
+          value="Cancelar"
+        />
+      </div>
+    </div>
+  </form>
+</div>

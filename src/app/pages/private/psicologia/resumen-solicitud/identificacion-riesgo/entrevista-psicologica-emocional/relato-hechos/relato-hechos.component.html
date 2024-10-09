@@ -1,0 +1,20 @@
+<form [formGroup]="form" class="mt-3">
+
+  <h4 class="mb-3">RELATO DE LOS HECHOS</h4>
+
+  <app-no-data
+    mensaje="Es importante indagar en los hechos de violencia de los que ha sido víctima la mujer, no solo los últimos, sino también indagar la historia de violencias. Las afectaciones que estas han producido en la mujer a nivel emocional, familiar, laboral y social. Así mismo es importante indagar y resaltar la capacidad de agencia que ha tenido la mujer y las acciones que ha generado para afrontar o salir de los escenarios de riesgo y los ciclos de violencias.">
+  </app-no-data>
+
+  <div class="form-group col-lg-12 mt-4">
+    <textarea type="text" class="form-control" placeholder="Relato de los Hechos" formControlName="descripcionA"
+      rows="5" maxlength="5000"></textarea>
+
+  </div>
+</form>
+
+<div class="d-flex align-items-center justify-content-end mt-5" style="gap: 1rem">
+  <button type="button" class="btn btn-outline-danger" (click)="cancelar()">Cancelar</button>
+  <button type="button" class="btn btn-primary" (click)="guardar('Anterior')">Anterior</button>
+  <button type="button" class="btn btn-primary" (click)="guardar('Siguiente')">Siguiente</button>
+</div>

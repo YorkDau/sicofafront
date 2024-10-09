@@ -1,0 +1,13 @@
+<section class="background-gray rounded-basic p-4 mb-3">
+  <h1 class="text-blue mb-4" style="font-size: 30px">
+    {{ tituloMensaje }}
+  </h1>
+
+  <div id="tabs" class="d-flex align-items-baseline" style="gap: 1rem">
+    <div class="me-3" class="elements-tab-active">
+      {{ tab1Mensaje }}
+    </div>    
+  </div>
+</section>
+
+<router-outlet></router-outlet>

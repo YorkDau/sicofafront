@@ -1,0 +1,48 @@
+<div *ngIf="dataReporte">
+  <app-medicina-legal
+    *ngIf="tipoReporte == 'Oficio_Remisorio_Medicina_legal'"
+    [dataReporte]="dataReporte"
+  ></app-medicina-legal>
+  <app-secreataria-mujer
+    *ngIf="tipoReporte == 'Remision_secretaria_de_la_Mujer_u_otro_organo'"
+    [dataReporte]="dataReporte"
+  ></app-secreataria-mujer>
+  <app-psicologia-externa
+    *ngIf="tipoReporte == 'Remision_Proceso_Psicologia_Externa'"
+    [dataReporte]="dataReporte"
+  ></app-psicologia-externa>
+  <app-remision-apoyo-policivo-mujer
+    *ngIf="tipoReporte == 'Remision_Apoyo_Policivo_Victima_Mujer'"
+    [dataReporte]="dataReporte"
+  ></app-remision-apoyo-policivo-mujer>
+  <app-denuncia-fiscalia
+    *ngIf="tipoReporte == 'Recepcion_Denuncia_Fiscalia'"
+    [dataReporte]="dataReporte"
+  ></app-denuncia-fiscalia>
+  <app-visita-domiciliaria
+    *ngIf="tipoReporte == 'Remision_Visita_domiciliaria'"
+    [dataReporte]="dataReporte"
+  ></app-visita-domiciliaria>
+  <app-remision-sistema-salud
+    *ngIf="
+      tipoReporte == 'Solicitud_afiliacion_Regimen_de_salud' ||
+      tipoReporte == 'Remision_Tratamiento_Terapeutico'
+    "
+    [dataReporte]="dataReporte"
+  ></app-remision-sistema-salud>
+  <app-solicitud-protocologo-riesgo
+    *ngIf="tipoReporte == 'Solicitud_Protocolo_de_Riesgo'"
+    [dataReporte]="dataReporte"
+  ></app-solicitud-protocologo-riesgo>
+  <app-solicitud-historia-clinica
+    *ngIf="
+      tipoReporte == 'Solicitud_Historia_Clinica' ||
+      tipoReporte == 'Solicitud_Evaluacion_del_Riesgo_Remisiones_NNA'
+    "
+    [dataReporte]="dataReporte"
+  ></app-solicitud-historia-clinica>
+  <app-remision-personeria
+    *ngIf="tipoReporte == 'Remision_Formato_Personeria'"
+    [dataReporte]="dataReporte"
+  ></app-remision-personeria>
+</div>

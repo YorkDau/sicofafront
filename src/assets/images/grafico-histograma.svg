@@ -1,0 +1,8 @@
+<svg id="grafico-histograma" xmlns="http://www.w3.org/2000/svg" width="19.585" height="19.585" viewBox="0 0 19.585 19.585">
+  <path id="Trazado_3236" data-name="Trazado 3236" d="M18.769,17.953H4.08A2.448,2.448,0,0,1,1.632,15.5V.816A.816.816,0,1,0,0,.816V15.5a4.085,4.085,0,0,0,4.08,4.08H18.769a.816.816,0,0,0,0-1.632Z" transform="translate(0 0)" fill="#fff"/>
+  <path id="Trazado_3237" data-name="Trazado 3237" d="M5.816,18.344a.816.816,0,0,0,.816-.816V11.816a.816.816,0,1,0-1.632,0v5.712A.816.816,0,0,0,5.816,18.344Z" transform="translate(-0.92 -2.024)" fill="#fff"/>
+  <path id="Trazado_3238" data-name="Trazado 3238" d="M10,9.816V17.16a.816.816,0,1,0,1.632,0V9.816a.816.816,0,0,0-1.632,0Z" transform="translate(-1.84 -1.656)" fill="#fff"/>
+  <path id="Trazado_3239" data-name="Trazado 3239" d="M15,12.816v4.9a.816.816,0,1,0,1.632,0v-4.9a.816.816,0,1,0-1.632,0Z" transform="translate(-2.759 -2.208)" fill="#fff"/>
+  <path id="Trazado_3240" data-name="Trazado 3240" d="M20,8.816v8.16a.816.816,0,0,0,1.632,0V8.816a.816.816,0,1,0-1.632,0Z" transform="translate(-3.679 -1.472)" fill="#fff"/>
+  <path id="Trazado_3241" data-name="Trazado 3241" d="M5.816,7.344a.816.816,0,0,0,.577-.239L9.319,4.179a.836.836,0,0,1,1.154,0l1.772,1.772a2.448,2.448,0,0,0,3.462,0l4.558-4.558A.816.816,0,1,0,19.112.239L14.553,4.8a.816.816,0,0,1-1.154,0L11.627,3.025a2.448,2.448,0,0,0-3.462,0L5.239,5.951a.816.816,0,0,0,.577,1.393Z" transform="translate(-0.92 0)" fill="#fff"/>
+</svg>

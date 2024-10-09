@@ -1,0 +1,281 @@
+<table hidden id="cuerpo" aria-describedby="cuerpo">
+  <tr>
+    <th>
+      A efecto de que se adelante la investigación penal que en derecho
+      corresponda y en el marco de las competencias Constitucionales y legales
+      asignadas a la Fiscalía General de la Nación y a las Comisarías de
+      Familia, damos a conocer la siguiente información:
+    </th>
+  </tr>
+</table>
+<table hidden id="datosReferencia" aria-describedby="datosReferencia">
+  <tr class="header">
+    <th>I.DELITO DE REFERENCIA</th>
+  </tr>
+  <tr id="violencia">
+    <td>Violencia intrafamiliar – Maltrato Infantil</td>
+  </tr>
+</table>
+<table hidden id="datosSolicitante" aria-describedby="datosSolicitante">
+  <tr class="header">
+    <th colspan="2">II.DATOS DEL SOLICITANTE - ACCIONANTE</th>
+  </tr>
+  <tr>
+    <td class="tdHeader">Nombres y apellidos</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Documento de identidad</td>
+    <td>C.C. T.I. C.E. No.____________ Expedida en ___________</td>
+  </tr>
+  <tr>
+    <td>Edad</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Género</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Dirección de la residencia</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Barrio:</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Teléfono/celular:</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Correo electrónico:</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Información de un familiar</td>
+    <td></td>
+  </tr>
+</table>
+<table hidden id="datosVictima" aria-describedby="datosVictima">
+  <tr class="header">
+    <th colspan="2">DATOS DE LA VÍCTIMA</th>
+  </tr>
+  <tr>
+    <td class="tdHeader">Nombre completo</td>
+    <td>
+      <span *ngIf="dataReporte.nombreVictima">{{
+        dataReporte.nombreVictima | titlecase
+      }}</span>
+    </td>
+  </tr>
+  <tr>
+    <td>Documento de identidad</td>
+    <td>
+      <span *ngIf="dataReporte.tipoDocumentoVictima">{{
+        dataReporte.tipoDocumentoVictima | uppercase
+      }}</span>
+      No.
+      <span *ngIf="dataReporte.numeroDocumentoVictima">{{
+        dataReporte.numeroDocumentoVictima
+      }}</span>
+      Expedida en
+      <span *ngIf="dataReporte.lugarExpedicionVictima">{{
+        dataReporte.lugarExpedicionVictima | titlecase
+      }}</span>
+    </td>
+  </tr>
+  <tr>
+    <td>Edad</td>
+    <td>
+      <span *ngIf="dataReporte.edadVictima">{{ dataReporte.edadVictima }}</span>
+    </td>
+  </tr>
+  <tr>
+    <td>Género</td>
+    <td>
+      <span *ngIf="dataReporte.generoVictima">{{
+        dataReporte.generoVictima
+      }}</span>
+    </td>
+  </tr>
+  <tr>
+    <td class="tdHeader">Dirección de residencia</td>
+    <td>
+      <span *ngIf="dataReporte.direccionResidenciaVictima">{{
+        dataReporte.direccionResidenciaVictima
+      }}</span>
+    </td>
+  </tr>
+  <tr>
+    <td>Barrio:</td>
+    <td>
+      <span *ngIf="dataReporte.barrioVictima">{{
+        dataReporte.barrioVictima | titlecase
+      }}</span>
+    </td>
+  </tr>
+  <tr>
+    <td>Teléfono/celular</td>
+    <td>
+      <span *ngIf="dataReporte.telefonoVictima">{{
+        dataReporte.telefonoVictima
+      }}</span>
+    </td>
+  </tr>
+  <tr>
+    <td>Correo electrónico</td>
+    <td>
+      <span *ngIf="dataReporte.correoElectronicoVictima">{{
+        dataReporte.correoElectronicoVictima
+      }}</span>
+    </td>
+  </tr>
+</table>
+<table hidden id="datosVictima2" aria-describedby="datosVictima2">
+  <tr>
+    <th>Información de un familiar</th>
+    <td>
+      <span *ngIf="dataReporte.informacionFamiliarVictima"></span
+      >{{ dataReporte.informacionFamiliarVictima }}
+    </td>
+  </tr>
+</table>
+<table hidden id="datosAgresor" aria-describedby="datosAgresor">
+  <tr class="header">
+    <th colspan="2">III. DATOS DEL AGRESOR(A)</th>
+  </tr>
+  <tr>
+    <td class="tdHeader">Nombre completo</td>
+    <td>
+      <span *ngIf="dataReporte.nombreAgresor">{{
+        dataReporte.nombreAgresor | titlecase
+      }}</span>
+    </td>
+  </tr>
+  <tr>
+    <td>Identificación</td>
+    <td>
+      <span *ngIf="dataReporte.tipoDocumentoAgresor">{{
+        dataReporte.tipoDocumentoAgresor
+      }}</span>
+      No.
+      <span *ngIf="dataReporte.numeroDocumentoAgresor">{{
+        dataReporte.numeroDocumentoAgresor
+      }}</span>
+      Expedida en ___________
+    </td>
+  </tr>
+  <tr>
+    <td>Edad</td>
+    <td>
+      <span *ngIf="dataReporte.edadAgresor">{{ dataReporte.edadAgresor }}</span>
+    </td>
+  </tr>
+  <tr>
+    <td>Género</td>
+    <td>
+      <span *ngIf="dataReporte.generoAgresor">{{
+        dataReporte.generoAgresor
+      }}</span>
+    </td>
+  </tr>
+  <tr>
+    <td>Dirección de residencia</td>
+    <td>
+      <span *ngIf="dataReporte.direcionResidenciaAgresor">{{
+        dataReporte.direcionResidenciaAgresor
+      }}</span>
+    </td>
+  </tr>
+  <tr>
+    <td>Barrio</td>
+    <td>
+      <span *ngIf="dataReporte.barrioAgresor">{{
+        dataReporte.barrioAgresor | titlecase
+      }}</span>
+    </td>
+  </tr>
+  <tr>
+    <td>Teléfono/celular</td>
+    <td>
+      <span *ngIf="dataReporte.telefonoAgresor">{{
+        dataReporte.telefonoAgresor
+      }}</span>
+    </td>
+  </tr>
+  <tr>
+    <td>Correo electrónico</td>
+    <td>
+      <span *ngIf="dataReporte.correoElectronicoAgresor">{{
+        dataReporte.correoElectronicoAgresor
+      }}</span>
+    </td>
+  </tr>
+</table>
+<table hidden id="relatoHechos" aria-describedby="relatoHechos">
+  <tr>
+    <th style="font-weight: bold">IV. RELATO DE LOS HECHOS</th>
+  </tr>
+  <tr>
+    <td>
+      (Circunstancias de tiempo, modo y lugar de los hechos. Precisar fecha y
+      tipo de violencia e indagar sise conocen antecedentes de VIF y/o amenazas
+      contra la vida).
+    </td>
+  </tr>
+  <tr>
+    <td>
+      RELATO: “EL RELATO DEBE DE IR MUY ACORDE CON LA SOLICITUD DE MEDIDAS DE
+      PROTECCIÓN”
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <span *ngIf="dataReporte.relatoHechos">{{
+        dataReporte.relatoHechos
+      }}</span>
+    </td>
+  </tr>
+</table>
+<table hidden id="anexo" aria-describedby="anexo">
+  <tr>
+    <th style="font-weight: bold">
+      Anexo copia de las diligencias tramitadas por la Comisaría de Familia,
+      entre ellas:
+    </th>
+  </tr>
+  <tr>
+    <td>
+      - Solicitud de medida de protección o del incidente de incumplimiento.
+    </td>
+  </tr>
+  <tr>
+    <td>- Auto que avoca conocimiento del asunto.</td>
+  </tr>
+  <tr>
+    <td>
+      - Instrumento de identificación preliminar del riesgo para la vida y la
+      integridad personal por violencias al interior de la familia
+    </td>
+  </tr>
+  <tr>
+    <td>
+      - Informe Pericial de Clínica Forense y/o Valoración de riesgo de muerte
+    </td>
+  </tr>
+  <tr>
+    <td>
+      - Oficios encaminados a dar cumplimiento a las medidas de protección.
+    </td>
+  </tr>
+  <tr>
+    <td>
+      - Otros documentos con los que se cuente y que puedan orientar las
+      acciones de investigación de la Fiscalía.
+    </td>
+  </tr>
+  <tr>
+    <td>Cordialmente,</td>
+  </tr>
+</table>

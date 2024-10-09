@@ -1,0 +1,67 @@
+<table
+  class="table-bordered"
+  hidden
+  id="quien-medida"
+  aria-describedby="quien medida"
+  *ngIf="victima"
+>
+  <tr>
+    <td class="numh">NÚMERO DE HISTORIA</td>
+    <td>Víctima(s)</td>
+    <td></td>
+    <td>Tercero</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td colspan="5">Nombre: {{ victima.nombres }} {{ victima.apellidos }}</td>
+  </tr>
+  <tr>
+    <td colspan="5">Edad: {{ victima.edad }}</td>
+  </tr>
+  <tr>
+    <td colspan="5">Identificación: {{ victima.numeroDocumento }}</td>
+  </tr>
+  <tr>
+    <td colspan="5">Dirección de residencia: {{ victima.direccion }}</td>
+  </tr>
+  <tr>
+    <td colspan="5">Barrio: {{ victima.barrio }}</td>
+  </tr>
+  <tr>
+    <td colspan="5">Teléfono de la víctima: {{ victima.telefono }}</td>
+  </tr>
+  <tr>
+    <td class="text-muted">Teléfono contacto del tercero:</td>
+    <td class="text-muted" colspan="4">Parentesco con la víctima:</td>
+  </tr>
+  <tr>
+    <td colspan="5">
+      Lugar de ocurrencia de los hechos:
+      {{ relato?.lugarHechos }}
+    </td>
+  </tr>
+  <tr>
+    <td colspan="5">Correo electrónico: {{ victima.correo }}</td>
+  </tr>
+  <tr>
+    <td colspan="5">
+      Parentesco de la víctima con el agresor(a):
+      {{ victima.parentesco }}
+    </td>
+  </tr>
+  <tr>
+    <td colspan="5">
+      Nivel de estudios de la víctima:
+      {{ victima.nivelEstudio }}
+    </td>
+  </tr>
+  <tr>
+    <td colspan="5">
+      Estado Civil de la víctima:
+      {{ victima.estadoCivil }}
+    </td>
+  </tr>
+  <tr>
+    <td colspan="5">Ocupación de la víctima: {{ victima.ocupacion }}</td>
+  </tr>
+</table>

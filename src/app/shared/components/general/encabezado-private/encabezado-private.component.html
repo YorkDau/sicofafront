@@ -1,0 +1,29 @@
+<section class="background-gray rounded-basic p-4 mb-3">
+  <div *ngIf="accionante" class="p-3">
+    <div class="d-flex align-items-center mb-2">
+      <h4 class="text-muted me-3 mb-0">
+        Accionante: {{ accionante.nombreAccionante!.trim() | titlecase }}
+      </h4>
+      <img src="assets/images/user_gray.svg" alt="user" class="img-fluid" />
+    </div>
+
+    <div class="text-muted mb-2">
+      <span class="me-1">Víctimas:</span>
+      <span *ngFor="let item of accionante.victimas; let i = index">
+        {{
+          (accionante.victimas.length === i + 1 ? item : item.concat(", "))
+            | titlecase
+        }}
+      </span>
+    </div>
+    <h3 class="text-blue mb-2">
+      #{{ accionante.codigoSolicitudServicio }} -
+      <span *ngIf="objSol"> {{ objSol.actividad }}</span>
+    </h3>
+
+    <div class="text-blue mb-2" style="opacity: 0.6">
+      <strong class="me-1">Estado Caso:</strong>
+      <span> {{ accionante.estadoCaso | titlecase }} </span>
+    </div>
+  </div>
+</section>

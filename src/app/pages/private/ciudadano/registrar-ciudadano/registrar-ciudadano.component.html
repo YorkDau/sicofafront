@@ -1,0 +1,765 @@
+<div class="container fondo-formulario mb-5">
+  <form [formGroup]="myForm" (ngSubmit)="registrar()">
+    <div class="row pb-3 align-items-start">
+      <div class="col-8 offset">
+        <h3 class="pb-3 title-normal">{{ titulo }}</h3>
+
+        <h5>INFORMACIÓN PERSONAL</h5>
+        <h6>Los campos con asterisco (*) son obligatorios</h6>
+      </div>
+    </div>
+
+    <div class="row align-items-center">
+      <div class="col-4 p-3">
+        <label>Tipo de Documento*</label>
+
+        <select
+          class="form-select"
+          [ngClass]="{
+            'input-req': isRequired('tipDoc') && mostrarValidaciones
+          }"
+          formControlName="tipDoc"
+          (change)="isColombiano($event)"
+        >
+          <option disabled value="">Tipo de Documento</option>
+          <option
+            *ngFor="let tipoDocumento of selectTipoDocumento"
+            [value]="tipoDocumento.id_Dominio"
+          >
+            {{ tipoDocumento.nombre_Dominio }}
+          </option>
+        </select>
+        <div
+          class="msj-req"
+          *ngIf="isRequired('tipDoc') && mostrarValidaciones"
+        >
+          {{ msgObligatorio }}
+        </div>
+      </div>
+
+      <div class="col-4 p-3">
+        <label>Número de Documento*</label>
+
+        <input
+          type="text"
+          class="form-control"
+          [ngClass]="{
+            'input-req': isRequired('nroDoc') && mostrarValidaciones
+          }"
+          formControlName="nroDoc"
+          maxlength="30"
+          placeholder="No. de Documento"
+          (keyup)="existe = false"
+          (focusout)="yaExisteCiudadano()"
+          (input)="soloNumero('nroDoc')"
+        />
+        <div
+          class="msj-req"
+          *ngIf="isRequired('nroDoc') && mostrarValidaciones"
+        >
+          {{ msgObligatorio }}
+        </div>
+        <div class="msj-req" *ngIf="existe">Ya existe este ciudadano</div>
+      </div>
+
+      <div class="col-4 p-3">
+        <label>Primer Nombre*</label>
+
+        <input
+          type="text"
+          class="form-control"
+          [ngClass]="{
+            'input-req': isRequired('pnombre') && mostrarValidaciones
+          }"
+          formControlName="pnombre"
+          maxlength="50"
+          placeholder="Texto"
+        />
+
+        <div
+          class="msj-req"
+          *ngIf="isRequired('pnombre') && mostrarValidaciones"
+        >
+          {{ msgObligatorio }}
+        </div>
+      </div>
+
+      <div class="col-4 p-3">
+        <label>Segundo Nombre</label>
+
+        <input
+          type="text"
+          class="form-control"
+          formControlName="snombre"
+          maxlength="50"
+          placeholder="Texto"
+        />
+      </div>
+
+      <div class="col-4 p-3">
+        <label>Primer Apellido*</label>
+
+        <input
+          type="text"
+          class="form-control"
+          [ngClass]="{
+            'input-req': isRequired('papellidos') && mostrarValidaciones
+          }"
+          formControlName="papellidos"
+          maxlength="50"
+          placeholder="Texto"
+        />
+        <div
+          class="msj-req"
+          *ngIf="isRequired('papellidos') && mostrarValidaciones"
+        >
+          {{ msgObligatorio }}
+        </div>
+      </div>
+
+      <div class="col-4 p-3">
+        <label>Segundo Apellido</label>
+
+        <input
+          type="text"
+          class="form-control"
+          formControlName="sapellidos"
+          maxlength="50"
+          placeholder="Texto"
+        />
+      </div>
+
+      <div class="col-4 p-3">
+        <label>Fecha de Expedición</label>
+
+        <div class="input-group rounded">
+          <input
+            matInput="matInput"
+            readonly
+            (click)="picker.open()"
+            placeholder="DD/MM/AAAA"
+            formControlName="fechaExp"
+            class="form-control form-control-date-Picker sinborde-DatePicker"
+            maxlength="10"
+            [matDatepicker]="picker"
+            [min]="minDate"
+            [max]="maxDate"
+          />
+
+          <label class="input-group-text sinfondo-DatePicker">
+            <mat-datepicker-toggle
+              matSuffix="matSuffix"
+              [for]="picker"
+            ></mat-datepicker-toggle>
+
+            <mat-datepicker #picker></mat-datepicker>
+          </label>
+        </div>
+      </div>
+
+      <div class="col-4 p-3">
+        <label>Lugar de Expedición</label>
+
+        <select class="form-select" formControlName="lugarExp">
+          <option disabled value="">Lugar de Expedición</option>
+          <option
+            *ngFor="let lugar_expedicion of selectLugarExpedicion"
+            [value]="lugar_expedicion.ciudmunID"
+          >
+            {{ lugar_expedicion.nombCiudMun }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-4 p-3">
+        <label>Fecha de Nacimiento</label>
+
+        <div class="input-group rounded">
+          <input
+            matInput
+            readonly
+            (click)="pickerNacimiento.open()"
+            placeholder="DD/MM/AAAA"
+            formControlName="fechaNac"
+            class="form-control form-control-date-Picker sinborde-DatePicker"
+            maxlength="10"
+            [matDatepicker]="pickerNacimiento"
+            (dateChange)="calcularEdad($event)"
+            [min]="minDate"
+            [max]="maxDate"
+          />
+          <label class="input-group-text sinfondo-DatePicker">
+            <mat-datepicker-toggle
+              matSuffix="matSuffix"
+              [for]="pickerNacimiento"
+            ></mat-datepicker-toggle>
+
+            <mat-datepicker #pickerNacimiento></mat-datepicker>
+          </label>
+        </div>
+      </div>
+
+      <div class="col-4 p-3">
+        <label>Edad*</label>
+        <input
+          type="text"
+          class="form-control bg-white"
+          [ngClass]="{
+            'input-req': isRequired('edad') && mostrarValidaciones
+          }"
+          formControlName="edad"
+          maxlength="3"
+          placeholder="Edad"
+          (input)="soloNumero('edad')"
+        />
+        <div class="msj-req" *ngIf="isRequired('edad') && mostrarValidaciones">
+          {{ msgObligatorio }}
+        </div>
+      </div>
+
+      <div class="col-4 p-3">
+        <label>País de Nacimiento</label>
+
+        <select
+          class="form-select"
+          formControlName="pais"
+          (change)="cargaSelectDepartamento($event)"
+        >
+          <option disabled value="">País de Nacimiento</option>
+          <option *ngFor="let pais of selectPaises" [value]="pais.paisID">
+            {{ pais.nombrePais }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-4 p-3" *ngIf="cColombiano">
+        <label>Departamento de Nacimiento</label>
+
+        <select
+          class="form-select"
+          formControlName="departamento"
+          (change)="cargaSelectMunicipio($event)"
+        >
+          <option disabled value="">Departamento de Nacimiento</option>
+          <option
+            *ngFor="let departamento of selectDepartamento"
+            [value]="departamento.departamentoID"
+          >
+            {{ departamento.departamentoNombre }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-4 p-3" *ngIf="cColombiano">
+        <label>Municipio de Nacimiento</label>
+
+        <select
+          class="form-select"
+          formControlName="municipio"
+          (change)="cargaSelectLocalidad($event)"
+        >
+          <option disabled value="">Municipio de Nacimiento</option>
+          <option
+            *ngFor="let municipio of selectMunicipio"
+            [value]="municipio.ciudmunID"
+          >
+            {{ municipio.nombCiudMun }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-4 p-3" *ngIf="isBogota()">
+        <label>Localidad</label>
+
+        <select class="form-select" formControlName="localidad">
+          <option disabled value="">Localidad</option>
+          <option
+            *ngFor="let localidad of selectLocalidad"
+            [value]="localidad.localidadID"
+          >
+            {{ localidad.localidadNombre }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-4 p-3">
+        <label>Barrio</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="barrio"
+          maxlength="30"
+          placeholder="Barrio"
+        />
+      </div>
+
+      <div class="col-4 p-3">
+        <label>Dirección de Residencia</label>
+        <input
+          type="text"
+          maxlength="100"
+          class="form-control"
+          formControlName="dirResidencia"
+          placeholder="Dirección de Residencia"
+        />
+      </div>
+
+      <div class="col-4 p-3">
+        <label>Sexo</label>
+        <select class="form-select" formControlName="sexo">
+          <option disabled value="">Sexo</option>
+          <option *ngFor="let sexo of selectSexo" [value]="sexo.id_Dominio">
+            {{ sexo.nombre_Dominio }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-4 p-3">
+        <label>Identidad de Género</label>
+
+        <select class="form-select" formControlName="idGenero">
+          <option disabled value="">Identidad de Género</option>
+          <option
+            *ngFor="let genero of selectGenero"
+            [value]="genero.id_Dominio"
+          >
+            {{ genero.nombre_Dominio }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-4 p-3">
+        <label>Orientación Sexual</label>
+
+        <select class="form-select" formControlName="orientacionSexual">
+          <option disabled value="">Orientación Sexual</option>
+          <option
+            *ngFor="let orientacion of selectOrientacion"
+            [value]="orientacion.id_Dominio"
+          >
+            {{ orientacion.nombre_Dominio }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-4 p-3">
+        <label>Nivel Académico*</label>
+
+        <select
+          class="form-select"
+          [ngClass]="{
+            'input-req': isRequired('nivAcademico') && mostrarValidaciones
+          }"
+          formControlName="nivAcademico"
+        >
+          <option disabled value="">Nivel Académico</option>
+          <option
+            *ngFor="let nivelAcademico of selectNivel_Academico"
+            [value]="nivelAcademico.id_Dominio"
+          >
+            {{ nivelAcademico.nombre_Dominio }}
+          </option>
+        </select>
+        <div
+          class="msj-req"
+          *ngIf="isRequired('nivAcademico') && mostrarValidaciones"
+        >
+          {{ msgObligatorio }}
+        </div>
+      </div>
+
+      <div class="col-4 p-3">
+        <label>Teléfono</label>
+        <input
+          type="text"
+          maxlength="20"
+          class="form-control"
+          [ngClass]="{
+            'input-req': isRequiredDatosContacto() && mostrarValidaciones
+          }"
+          formControlName="telefono"
+          placeholder="Teléfono fijo"
+          (input)="soloNumero('telefono')"
+        />
+        <div
+          class="msj-req"
+          *ngIf="isRequiredDatosContacto() && mostrarValidaciones"
+        >
+          {{ msgObligatorioContacto }}
+        </div>
+      </div>
+
+      <div class="col-4 p-3">
+        <label>Celular</label>
+        <input
+          type="text"
+          maxlength="10"
+          class="form-control"
+          [ngClass]="{
+            'input-req': isRequiredDatosContacto() && mostrarValidaciones
+          }"
+          formControlName="celular"
+          placeholder="Número de Celular"
+          (input)="soloNumero('celular')"
+        />
+        <div
+          class="msj-req"
+          *ngIf="isRequiredDatosContacto() && mostrarValidaciones"
+        >
+          {{ msgObligatorioContacto }}
+        </div>
+      </div>
+
+      <div class="col-4 p-3">
+        <label>Correo Electrónico</label>
+        <input
+          type="text"
+          maxlength="100"
+          class="form-control"
+          [ngClass]="{
+            'input-req':
+              (isRequiredDatosContacto() && mostrarValidaciones) ||
+              (isRequiredCorreo() && mostrarValidaciones)
+          }"
+          formControlName="correoElectronico"
+          placeholder="Correo Electrónico"
+        />
+        <div
+          class="msj-req"
+          *ngIf="isRequiredDatosContacto() && mostrarValidaciones"
+        >
+          {{ msgObligatorioContacto }}
+        </div>
+        <div class="msj-req" *ngIf="isRequiredCorreo() && mostrarValidaciones">
+          {{ msgObligatorioCorreo }}
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-3 px-0 p-3">
+      <div class="row">
+        <div class="col-lg-4">
+          <label class="form-label">¿ Tiene alguna discapacidad ?</label>
+          <div class="pt-2">
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                formControlName="rDiscapacidad"
+                value="no"
+                name="rDiscapacidad"
+              />
+              <label class="form-check-label form-label" for="no"> NO </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                value="si"
+                formControlName="rDiscapacidad"
+                name="rDiscapacidad"
+              />
+              <label class="form-check-label form-label" for="si"> SI </label>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4" *ngIf="cDiscapacidad">
+          <label class="form-label">Indique cúal*</label>
+          <div class="pt-2">
+            <select
+              class="form-select"
+              [ngClass]="{
+                'input-req': isRequiredDiscapacidad() && mostrarValidaciones
+              }"
+              formControlName="discapacidad"
+            >
+              <option disabled value="">Discapacidad</option>
+              <option
+                *ngFor="let discapacidad of selectDiscapacidad"
+                [value]="discapacidad.id_Dominio"
+              >
+                {{ discapacidad.nombre_Dominio }}
+              </option>
+            </select>
+            <div
+              class="msj-req"
+              *ngIf="isRequiredDiscapacidad() && mostrarValidaciones"
+            >
+              {{ msgObligatorio }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-lg-4">
+          <label class="form-label"
+            >¿ Se encuentra en estado de embarazo ?</label
+          >
+          <div class="pt-2">
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                value="no"
+                name="rEmbarazo"
+                formControlName="rEmbarazo"
+              />
+              <label class="form-check-label form-label" for="no"> NO </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                value="si"
+                name="rEmbarazo"
+                formControlName="rEmbarazo"
+              />
+              <label class="form-check-label form-label" for="si"> SI </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                value="ns"
+                name="rEmbarazo"
+                formControlName="rEmbarazo"
+              />
+              <label class="form-check-label form-label" for="ns"> NS </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                value="na"
+                name="rEmbarazo"
+                formControlName="rEmbarazo"
+              />
+              <label class="form-check-label form-label" for="na"> NA </label>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4" *ngIf="cEmbarazo">
+          <label class="form-label">Indique cuantos meses*</label>
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{
+              'input-req': isRequiredEmbarazo() && mostrarValidaciones
+            }"
+            formControlName="embarazo"
+            maxlength="1"
+            placeholder="Meses de embarazo"
+            onkeypress="return ((event.charCode >= 48 && event.charCode <= 57))"
+          />
+          <div
+            class="msj-req"
+            *ngIf="isRequiredEmbarazo() && mostrarValidaciones"
+          >
+            {{ msgObligatorio }}
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-lg-4">
+          <label class="form-label"
+            >¿ Se encuentra afiliado al Sistema de Seguridad Social en Salud
+            ?</label
+          >
+          <div class="pt-2">
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                id="noA"
+                name="rAfiliado"
+                formControlName="rAfiliado"
+                value="no"
+              />
+              <label class="form-check-label form-label" for="noA"> NO </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="rAfiliado"
+                value="si"
+                id="siA"
+                formControlName="rAfiliado"
+              />
+              <label class="form-check-label form-label" for="siA"> SI </label>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4" *ngIf="cAfiliado">
+          <label class="form-label">EPS</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="eps"
+            maxlength="50"
+            placeholder="EPS"
+          />
+        </div>
+        <div class="col-lg-4" *ngIf="cAfiliado">
+          <label class="form-label">IPS</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="ips"
+            maxlength="50"
+            placeholder="IPS"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="row px-0 p-3">
+      <label class="px-0 py-2">
+        ¿ Pertenece a población de especial protección constitucional ?
+      </label>
+
+      <div class="form-check py-2">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          formControlName="chkLGBTI"
+          id="chkLGBTI"
+        />
+
+        <label class="form-check-label" for="chkLGBTI">Población LGTBI+</label>
+      </div>
+
+      <div class="form-check py-2">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          formControlName="chkNinoAdolecente"
+          id="chkNinoAdolecente"
+        />
+
+        <label class="form-check-label" for="chkNinoAdolecente"
+          >Niño/a - Adolescente</label
+        >
+      </div>
+
+      <div class="form-check py-2">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          formControlName="chkMigrante"
+          id="chkMigrante"
+        />
+
+        <label class="form-check-label" for="chkMigrante">Migrante</label>
+      </div>
+
+      <div class="form-check py-2">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          formControlName="chkVictimaComArm"
+          id="chkVictimaComArm"
+        />
+
+        <label class="form-check-label" for="chkVictimaComArm"
+          >Víctima de conflicto armado</label
+        >
+      </div>
+
+      <div class="form-check py-2">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          formControlName="chkPerLideresa"
+          id="chkPerLideresa"
+        />
+
+        <label class="form-check-label" for="chkPerLideresa">
+          Personas lideresas o defensoras de derechos humano
+        </label>
+      </div>
+
+      <div class="form-check py-2">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          formControlName="chkPerHabitalidad"
+          id="chkPerHabitalidad"
+        />
+
+        <label class="form-check-label" for="chkPerHabitalidad">
+          Personas con habitalidad en la calle
+        </label>
+      </div>
+
+      <div class="form-check py-2">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          formControlName="chkIndigena"
+          id="chkIndigena"
+        />
+
+        <label class="form-check-label" for="chkIndigena">
+          Indígena, Afrodescendientes, Afrodescendiente Palenquero, Comunidad
+          Raizal, Comunidad Rom/Gitano
+        </label>
+      </div>
+
+      <div *ngIf="isChecked('chkIndigena')" class="col-4 px-0">
+        <label>Pueblo Indígena*</label>
+
+        <input
+          type="text"
+          class="form-control"
+          [ngClass]="{
+            'input-req': isRequiredIndigena() && mostrarValidaciones
+          }"
+          formControlName="indigena"
+          placeholder="Pueblo Indígena"
+        />
+        <div
+          class="msj-req"
+          *ngIf="isRequiredIndigena() && mostrarValidaciones"
+        >
+          {{ msgObligatorio }}
+        </div>
+      </div>
+    </div>
+    <div class="row py-3 px-0">
+      <div class="form-check py-2">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          formControlName="aceptaTratamiento"
+          id="aceptaTratamiento"
+        />
+
+        <label class="form-check-label text-danger" for="aceptaTratamiento">
+          Acepta el tratamiento de los datos*
+        </label>
+        <div
+          class="msj-req"
+          *ngIf="isRequired('aceptaTratamiento') && mostrarValidaciones"
+        >
+          {{ msgObligatorio }}
+        </div>
+      </div>
+    </div>
+
+    <div class="row p-3 mt-3">
+      <div class="col-12">
+        <button class="btn btn-primary float-end mx-4 px-5" type="submit">
+          Registrar ciudadano
+        </button>
+
+        <input
+          type="button"
+          class="btn btn-danger float-end px-3"
+          (click)="modalConfirmacion()"
+          value="Cancelar"
+        />
+      </div>
+    </div>
+  </form>
+</div>

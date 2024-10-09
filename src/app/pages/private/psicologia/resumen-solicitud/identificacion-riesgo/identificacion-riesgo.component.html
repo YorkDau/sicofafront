@@ -1,0 +1,32 @@
+<app-encabezado-private></app-encabezado-private>
+<section class="background p-5 pb-0">
+  <div class="d-flex flex-wrap">
+    <div class="tab-style" [ngClass]="{ active: selectedTab == 1 }">
+      Identificación del Riesgo
+    </div>
+    <div class="tab-style" [ngClass]="{ active: selectedTab == 2 }">
+      Entrevista psicológica y emocional
+    </div>
+    <div class="tab-style" [ngClass]="{ active: selectedTab == 3 }">
+      Sugerencia Apoyo Externo
+    </div>
+  </div>
+</section>
+
+<div class="mb-5">
+  <ng-container *ngIf="selectedTab == 1">
+    <app-identificacion-del-riesgo
+      (siguienteTab)="cambiarTab(2)"
+    ></app-identificacion-del-riesgo>
+  </ng-container>
+
+  <ng-container *ngIf="selectedTab == 2">
+    <app-entrevista-psicologica-emocional
+      (siguienteTab)="cambiarTab(3)"
+    ></app-entrevista-psicologica-emocional>
+  </ng-container>
+
+  <ng-container *ngIf="selectedTab == 3">
+    <app-sugerencia-apoyo-externo></app-sugerencia-apoyo-externo>
+  </ng-container>
+</div>

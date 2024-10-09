@@ -1,0 +1,118 @@
+<form [formGroup]="formDescripcionHechos" class="mt-5">
+  <h4 class="mb-5">DESCRIPCIÓN DE LOS HECHOS</h4>
+  <div class="row">
+    <div class="form-group col-lg-4 mb-4">
+      <label for="fecha" class="form-label"
+        >Fecha<span class="mx-1">*</span></label
+      >
+      <div class="input-group">
+        <input
+          matInput
+          readonly
+          (click)="picker.open()"
+          placeholder="DD/MM/YYYY"
+          class="form-control form-control-date-Picker sinborde-DatePicker"
+          [matDatepicker]="picker"
+          id="fecha"
+          formControlName="fecha"
+          [ngClass]="{
+            'border-danger': isRequiredField(
+              formDescripcionHechos,
+              'lugarHechos'
+            )
+          }"
+          [max]="dateMax"
+          [min]="dateMin"
+        />
+        <span class="input-group-text sinfondo-DatePicker">
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group col-lg-4 mb-4">
+      <label class="form-label text-capitalize"
+        >lugar<span class="mx-1">*</span></label
+      >
+      <input
+        type="text"
+        class="form-control"
+        [ngClass]="{
+          'border-danger': isRequiredField(formDescripcionHechos, 'lugarHechos')
+        }"
+        placeholder="Lugar"
+        formControlName="lugarHechos"
+        required
+        maxlength="100"
+      />
+      <small
+        class="form-text text-danger"
+        *ngIf="isRequiredField(formDescripcionHechos, 'lugarHechos')"
+        >Campo requerido</small
+      >
+    </div>
+
+    <div class="form-group col-lg-4 mb-4">
+      <label class="form-label text-capitalize"
+        >hora aproximada<span class="mx-1">*</span></label
+      >
+      <input
+        type="time"
+        class="form-control"
+        [ngClass]="{
+          'border-danger': isRequiredField(formDescripcionHechos, 'hora')
+        }"
+        placeholder="hh:mm a.m."
+        formControlName="hora"
+        required
+      />
+      <small
+        class="form-text text-danger"
+        *ngIf="isRequiredField(formDescripcionHechos, 'hora')"
+        >Campo requerido</small
+      >
+    </div>
+
+    <div class="form-group col-lg-12 mt-4">
+      <label class="form-label text-capitalize"
+        >descripción de los hechos</label
+      >
+      <textarea
+        type="text"
+        class="form-control"
+        [ngClass]="{
+          'border-danger': isRequiredField(
+            formDescripcionHechos,
+            'descripcionHechos'
+          )
+        }"
+        placeholder="Descripción de los hechos"
+        formControlName="descripcionHechos"
+        rows="5"
+        required
+        maxlength="10000"
+      ></textarea>
+      <small
+        class="form-text text-danger"
+        *ngIf="isRequiredField(formDescripcionHechos, 'descripcionHechos')"
+        >Campo requerido</small
+      >
+    </div>
+  </div>
+</form>
+
+<div
+  class="d-flex align-items-center justify-content-end mt-5"
+  style="gap: 1rem"
+>
+  <button type="button" class="btn btn-outline-danger" (click)="cancelar()">
+    Cancelar
+  </button>
+  <button type="button" class="btn btn-primary" (click)="guardar()">
+    Siguiente
+  </button>
+</div>

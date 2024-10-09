@@ -1,0 +1,187 @@
+<button type="button" class="btn btn-primary" (click)="generarPDF()">
+    Imprimir formato auto de trámite
+</button>
+
+<table hidden class="table-bordered" id="seguridad">
+    <ng-template #vacio>
+        <span>______________________________________________</span>
+    </ng-template>
+
+    <ng-template #vacio2>
+        <span>____</span>
+    </ng-template>
+    <tr>
+        <th style="text-align: center;" colspan="2">
+            PROCESO PROTECCIÓN
+        </th>
+    </tr>
+    <tr>
+        <th style="text-align: center;" colspan="2">
+            FORMATO AUTO DE TRÁMITE
+        </th>
+    </tr>
+
+    <tr>
+        <td></td>
+    </tr>
+
+    <tr>
+        <td colspan="2" class="negrilla">
+            <div>                
+                COMISARIO(A) DE FAMILIA:
+                <span class="negrilla" *ngIf="informacion?.nombreComisario; else vacio">{{ informacion?.nombreComisario
+                    |
+                    titlecase}}</span>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" class="negrilla">
+            NIÑO, NIÑA O ADOLESCENTE:
+            <span class="negrilla" *ngIf="informacion?.nombreVictima; else vacio">{{ informacion?.nombreVictima |
+                titlecase}}</span>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" class="negrilla">
+            DOCUMENTO DE IDENTIDAD:
+            <span class="negrilla" *ngIf="informacion?.numeroDocumentoVictima; else vacio">{{
+                informacion?.numeroDocumentoVictima | titlecase}}</span>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" class="negrilla">
+            HISTORIA DE ATENCION No.
+            <span class="negrilla" *ngIf="informacion?.codigoSolicitud; else vacio2">{{ informacion?.codigoSolicitud |
+                titlecase}}</span>
+        </td>
+    </tr>
+
+    <tr>
+        <td></td>
+    </tr>
+
+    <tr>
+        <td colspan="2">
+            <div style="text-align: justify !important">
+                Ciudad <span *ngIf="informacion?.ciudad; else vacio2"> {{ informacion?.ciudad }}</span>, día
+                <span>{{ dia }}</span> del Mes de <span>{{ mes }}</span> del año
+                <span>{{ anio }}</span>
+            </div>
+        </td>
+    </tr>
+
+    <tr>
+        <td></td>
+        <td></td>
+    </tr>
+
+    <tr>
+        <td colspan="2">
+            <div style="text-align: justify !important">
+                El (la) suscrito(a) Comisario(a) de Familia de la Comisaria de Familia de la Regional <span
+                    *ngIf="informacion?.nombreComisaria; else vacio">{{ informacion?.nombreComisaria }}</span>, con
+                base en la información allegada por <span *ngIf="informacion?.nombreDenunciante; else vacio">{{
+                    informacion?.nombreDenunciante }}</span> a este despacho respecto a la
+                presunta amenaza o vulneración de derechos del (niño, niña o adolescente) <span
+                    *ngIf="informacion?.nombreVictima; else vacio">{{ informacion?.nombreVictima }}</span> y en uso de
+                las facultades legales
+                conferidas en los artículos 81 y 82 del Código de Infancia y Adolescencia:
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <div style="text-align: justify !important">
+                <b>ORDENA</b> a los integrantes del equipo técnico interdisciplinario, adelantar las siguientes
+                actuaciones, de
+                acuerdo con lo establecido en el artículo 52 de la Ley 1098 de 2006, modificado por el artículo 1° de la
+                Ley 1878 de 2018:
+            </div>
+        </td>
+    </tr>
+
+    <tr>
+        <td></td>
+    </tr>
+
+    <tr>
+        <td style="width: 200px;" class="negrilla item">
+            PRIMERO:
+        </td>
+        <td>
+            Realizar valoración inicial psicológica y emocional.
+        </td>
+    </tr>
+    <tr>
+        <td style="width: 200px;" class="negrilla item">
+            SEGUNDO:
+        </td>
+        <td>
+            Realizar valoración inicial de nutrición y revisión del esquema de vacunación.
+        </td>
+    </tr>
+    <tr>
+        <td style="width: 200px;" class="negrilla item">
+            TERCERO:
+        </td>
+        <td>
+            Realizar valoración inicial del entorno familiar, redes vinculares e identificación de elementos protectores
+            y de riesgo para la garantía de los derechos.
+        </td>
+    </tr>
+    <tr>
+        <td style="width: 200px;" class="negrilla item">
+            CUARTO:
+        </td>
+        <td>
+            Realizar verificación de la inscripción en el registro civil de nacimiento.
+    </tr>
+    <tr>
+        <td style="width: 200px;" class="negrilla item">
+            QUINTO:
+        </td>
+        <td>
+            Realizar verificación de la vinculación al sistema de salud y seguridad social.
+        </td>
+    </tr>
+    <tr>
+        <td style="width: 200px;" class="negrilla item">
+            SEXTO:
+        </td>
+        <td>
+            Realizar verificación a la vinculación al sistema educativo.
+        </td>
+    </tr>
+    <tr>
+        <td style="width: 200px;" class="negrilla item">
+            SÉPTIMO:
+        </td>
+        <td>
+            Realizar informes de las anteriores actuaciones, toda vez que se incorporarán como prueba para definir el
+            trámite a seguir.
+        </td>
+    </tr>
+
+    <tr>
+        <td></td>
+    </tr>
+    
+    <tr>
+        <th colspan="2" style="text-align: center;">
+            CÚMPLASE
+        </th>
+    </tr>
+    <tr>
+        <td colspan="2" style="text-align: center;">
+            <br><br><br><br><br><br><br><br>
+            (Firma)
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" style="text-align: center;" class="negrilla item">
+            Comisario(a) de Familia
+        </td>
+    </tr>
+
+</table>

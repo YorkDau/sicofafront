@@ -1,0 +1,39 @@
+<app-cabecera-reporte
+  [tituloReporte]="tituloReporte | uppercase"
+></app-cabecera-reporte>
+
+<table class="table" hidden id="reporte-auto" aria-describedby="reporte medida">
+  <ng-container *ngFor="let sec of listaSecciones">
+    <ng-container *ngIf="sec.estadoSeccion">
+      <tr>
+        <td class="fw-bold">
+          {{ sec.nombreSeccion }}
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          {{ sec.textoSeccion }}
+        </td>
+      </tr>
+    </ng-container>
+  </ng-container>
+</table>
+
+<table id="firma-medida" hidden aria-describedby="firma-medida">
+  <tr>
+    <td>Comisaria de Familia</td>
+  </tr>
+  <tr>
+    <td>El (la) notificado(a):</td>
+  </tr>
+  <tr>
+    <td>C.C:</td>
+  </tr>
+  <tr>
+    <td>Correo electrónico:</td>
+  </tr>
+  <tr>
+    <td>Celular:</td>
+  </tr>
+</table>

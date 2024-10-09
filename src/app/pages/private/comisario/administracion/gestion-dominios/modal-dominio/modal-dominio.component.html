@@ -1,0 +1,188 @@
+<div *ngIf="this.data.flag">
+  <form
+    [formGroup]="formCrear"
+    class="d-flex justify-content-center align-items-center flex-column box-modal-info"
+  >
+    <div class="row w-100">
+      <div class="col-12">
+        <fieldset class="border border-primary p-2">
+          <legend class="float-none w-75 p-2 text-primary">
+            Crear Nuevo Dominio
+          </legend>
+          <div class="row p-2 m-0">
+            <div class="col-5">
+              <label>Nombre del Dominio: </label>
+            </div>
+            <div class="col-7 pe-4">
+              <input
+                type="text"
+                class="form-control"
+                maxlength="50"
+                formControlName="nombreDominio"
+                placeholder="Nombre del Dominio"
+                [ngClass]="{
+                  'input-req':
+                    isRequiredCrear('nombreDominio') && mostrarValidaciones
+                }"
+              />
+            </div>
+          </div>
+          <div
+            class="msj-req offset-7"
+            *ngIf="isRequiredCrear('nombreDominio') && mostrarValidaciones"
+          >
+            {{ msgObligatorio }}
+          </div>
+          <div class="row p-2 m-0">
+            <div class="col-5">
+              <label>Código del Dominio: </label>
+            </div>
+            <div class="col-7 pe-4">
+              <input
+                type="text"
+                class="form-control"
+                maxlength="10"
+                formControlName="codigoDominio"
+                placeholder="Código del Dominio"
+                [ngClass]="{
+                  'input-req':
+                    isRequiredCrear('codigoDominio') && mostrarValidaciones
+                }"
+              />
+            </div>
+          </div>
+          <div
+            class="msj-req offset-7"
+            *ngIf="isRequiredCrear('codigoDominio') && mostrarValidaciones"
+          >
+            {{ msgObligatorio }}
+          </div>
+          <br />
+        </fieldset>
+      </div>
+    </div>
+
+    <div class="row pt-3 pb-1">
+      <div class="col-12">
+        <span>¿Está seguro de crear este dominio?</span>
+      </div>
+    </div>
+    <div class="d-flex mt-2" style="gap: 1rem">
+      <button
+        class="btn btn-danger px-3"
+        style="min-width: 144px"
+        type="button"
+        (click)="cerrarModal()"
+      >
+        Cancelar
+      </button>
+
+      <button
+        class="btn btn-primary px-3"
+        style="min-width: 144px"
+        type="button"
+        (click)="guardar()"
+      >
+        Continuar
+      </button>
+    </div>
+  </form>
+</div>
+<div *ngIf="!this.data.flag">
+  <form
+    [formGroup]="formModificar"
+    class="d-flex justify-content-center align-items-center flex-column box-modal-info"
+  >
+    <div class="row w-100">
+      <div class="col-12">
+        <fieldset class="border border-primary p-2">
+          <legend class="float-none w-75 p-2 text-primary">
+            Modificar Dominio
+          </legend>
+          <div class="row p-2 m-0">
+            <div class="col-5">
+              <label>Nombre del Dominio: </label>
+            </div>
+            <div class="col-7 pe-4">
+              <input
+                type="text"
+                class="form-control"
+                maxlength="50"
+                formControlName="nombreDominio"
+                placeholder="Nombre del Dominio"
+              />
+            </div>
+          </div>
+          <div class="row p-2 m-0">
+            <div class="col-5">
+              <label>Código del Dominio: </label>
+            </div>
+            <div class="col-7 pe-4">
+              <input
+                type="text"
+                class="form-control"
+                maxlength="10"
+                disabled="true"
+                formControlName="codigoDominio"
+                placeholder="Código del Dominio"
+              />
+            </div>
+          </div>
+          <div class="row p-2 m-0">
+            <div class="col-5">
+              <label>Estado: </label>
+            </div>
+            <div class="col-7 pe-4">
+              <div class="form-check form-check-inline">
+                <input
+                  type="radio"
+                  class="form-check-input"
+                  id="activo"
+                  [value]="true"
+                  formControlName="estado"
+                />
+                <label for="activo" class="form-label">Activo</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input
+                  type="radio"
+                  class="form-check-input"
+                  id="inactivo"
+                  [value]="false"
+                  formControlName="estado"
+                />
+                <label for="inactivo" class="form-label">Inactivo</label>
+              </div>
+            </div>
+          </div>
+          <br />
+        </fieldset>
+      </div>
+    </div>
+
+    <div class="row pt-3 pb-1">
+      <div class="col-12">
+        <span>¿Está seguro de modificar este dominio?</span>
+      </div>
+    </div>
+    <div class="d-flex mt-2" style="gap: 1rem">
+      <button
+        class="btn btn-danger px-3"
+        style="min-width: 144px"
+        type="button"
+        (click)="cerrarModal()"
+      >
+        Cancelar
+      </button>
+
+      <button
+        class="btn btn-primary px-3"
+        style="min-width: 144px"
+        type="button"
+        (click)="guardar()"
+      >
+        Continuar
+      </button>
+    </div>
+  </form>
+</div>

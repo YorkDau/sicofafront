@@ -1,0 +1,106 @@
+<form [formGroup]="myForm" class="px-4">
+  <button mat-icon-button class="close-button">
+    <mat-icon class="close-icon" color="warn" (click)="cerrarModal()">
+      close
+    </mat-icon>
+  </button>
+  <div class="row mb-3 encabezado-titulo">
+    <h6 class="text-white" [ngClass]="{ 'titulo-entidad': isEntidad }">
+      {{ titulo }}
+    </h6>
+  </div>
+
+  <div class="row espaciado-top">
+    <label class="texto-pequeno" for="">{{ vEntidadComisaria }}</label>
+
+    <select
+      class="form-select"
+      [ngClass]="{
+        'input-req': vEntidad && mostrarValidaciones
+      }"
+      *ngIf="isEntidad"
+      formControlName="entidad"
+    >
+      <option disabled value="">Entidad</option>
+      <option
+        *ngFor="let entidad of selectEntidad"
+        [value]="entidad.id_entidad_externa"
+      >
+        {{ entidad.nombre }}
+      </option>
+    </select>
+    <div class="msj-req" *ngIf="vEntidad && mostrarValidaciones">
+      {{ msgObligatorio }}
+    </div>
+    <select
+      class="form-select"
+      [ngClass]="{
+        'input-req': vComisaria && mostrarValidaciones
+      }"
+      *ngIf="!isEntidad"
+      formControlName="comisaria"
+    >
+      <option disabled value="">Comisaría</option>
+      <option
+        *ngFor="let comisaria of selectComisaria"
+        [value]="comisaria.id_comisaria"
+      >
+        {{ comisaria.nombre }}
+      </option>
+    </select>
+    <div class="msj-req" *ngIf="vComisaria && mostrarValidaciones">
+      {{ msgObligatorio }}
+    </div>
+  </div>
+
+  <div class="row py-3">
+    <label class="texto-pequeno" for="justificacion"
+      >Justificación de la Remisión</label
+    >
+    <textarea
+      [ngClass]="{
+        'input-req': vJustificacion && mostrarValidaciones
+      }"
+      class="form-control textareaModal"
+      id="justificacion"
+      cols="20"
+      rows="2"
+      value=""
+      maxlength="10000"
+      placeholder="Texto"
+      formControlName="justificacion"
+    ></textarea>
+    <div class="msj-req" *ngIf="vJustificacion && mostrarValidaciones">
+      {{ msgObligatorio }}
+    </div>
+  </div>
+
+  <div class="row py-1">
+    <label class="texto-pequeno fw-bold">Remitente</label>
+    <label class="texto-pequeno fw-bold remitente-color"
+      >{{ remitente }} - Profesional de Recepción</label
+    >
+    <label class="texto-pequeno">Información brindada</label>
+    <textarea
+      formControlName="infoBrindada"
+      class="form-control textareaModal"
+      id="informacion"
+      cols="20"
+      rows="2"
+      value=""
+      placeholder="Texto"
+    ></textarea>
+  </div>
+
+  <div class="row pt-4">
+    <div class="col-12 d-flex bd-highlight px-0">
+      <button
+        *ngIf="data.nroSolicitud == ''"
+        class="btn btn-primary px-3 ms-auto"
+        (click)="confirmar()"
+      >
+        Continuar
+      </button>
+    </div>
+  </div>
+</form>

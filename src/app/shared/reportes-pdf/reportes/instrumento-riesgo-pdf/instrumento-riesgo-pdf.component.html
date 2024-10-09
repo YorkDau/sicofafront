@@ -1,0 +1,1052 @@
+<article
+*ngIf="valoresCargados"
+  hidden
+  id="reporte-riesgo"
+  class="bg-white p-3"
+  style="font-size: 14px"
+>
+  <table
+    hidden
+    class="table-bordered"
+    id="encabezado"
+    aria-describedby="encabezado"
+  >
+    <tr>
+      <td rowspan="2" class="logo">Minjusticia</td>
+      <td class="text-center">FORMATO</td>
+      <td rowspan="2" class="text-center">VERSIÓN: 0.1</td>
+    </tr>
+    <tr>
+      <td class="text-center">
+        INSTRUMENTO DE VALORACIÓN DEL RIESGO PARA LA VIDA Y LA INTEGRIDAD
+        PERSONAL POR VIOLENCIAS DE GÉNERO EN EL CONTEXTO FAMILIAR Y OTRAS
+        VIOLENCIAS
+      </td>
+    </tr>
+    <tr></tr>
+  </table>
+
+  <table
+    hidden
+    class="table-bordered"
+    id="instrumento-riesgo"
+    aria-describedby="instrumento-riesgo"
+  >
+    <tr>
+      <th colspan="4" class="btn-primary">I. DATOS INSTITUCIONALES</th>
+    </tr>
+    <tr>
+      <th>Comisaría de familia:</th>
+      <td>
+        {{
+          datosInstitucionales && datosInstitucionales.comisaria
+            ? datosInstitucionales && datosInstitucionales.comisaria
+            : ""
+        }}
+      </td>
+      <th>Fecha de diligenciamiento:</th>
+      <td>
+        {{ date | date : "dd/MM/yyyy" }}
+      </td>
+    </tr>
+    <tr>
+      <th>Departamento:</th>
+      <td>
+        {{
+          datosInstitucionales && datosInstitucionales.departamentoComisaria
+            ? datosInstitucionales && datosInstitucionales.departamentoComisaria
+            : ""
+        }}
+      </td>
+      <th>Municipio:</th>
+      <td>
+        {{
+          datosInstitucionales && datosInstitucionales.municipioComisaria
+            ? datosInstitucionales && datosInstitucionales.municipioComisaria
+            : ""
+        }}
+      </td>
+    </tr>
+    <tr>
+      <th colspan="2">Expediente número:</th>
+      <td colspan="2">
+        {{
+          datosInstitucionales && datosInstitucionales.numeroExpediente
+            ? datosInstitucionales && datosInstitucionales.numeroExpediente
+            : ""
+        }}
+      </td>
+    </tr>
+    <tr>
+      <td colspan="4">
+        A continuación, le realizaré una serie de preguntas las cuales tienen el
+        objetivo de conocer a profundidad los hechos violentos de los que usted
+        fue víctima y de esta manera orientar las medidas que la Comisaría debe
+        adelantar en su caso para contribuir a la seguridad y protección de su
+        vida y su integridad personal. La información que usted brinde es
+        confidencial y sólo será utilizada para dar trámite a las medidas a que
+        haya lugar. Cualquier pregunta que usted no comprenda, no dude en pedir
+        aclaración.
+        <br /><br />
+        <em>Nota:</em> tener en cuenta que los(as) Comisarios(as) son
+        competentes para conocer la violencia en el contexto familiar que, para
+        los efectos de esta ley, comprende toda acción u omisión que pueda
+        causar o resulte en daño o sufrimiento físico, sexual, psicológico,
+        patrimonial o económico, amenaza, agravio, ofensa o cualquier otra forma
+        de agresión que se comete por uno o más miembros del núcleo familiar,
+        contra uno o más integrantes del mismo, aunque no convivan bajo el mismo
+        techo. <br /><br />
+        También serán competentes cuando las anteriores conductas se cometan
+        entre las siguientes personas:
+        <br /><br />
+        a. Las y los cónyuges o compañeros permanentes, aunque se hubieren
+        separado o divorciado.
+        <br /><br />
+        b. El padre y la madre de familia, aun cuando no convivan en el mismo
+        hogar, si el maltrato se dirige contra el otro progenitor o progenitora.
+        <br /><br />
+        c. Las Personas encargadas del cuidado de uno o varios miembros de una
+        familia en su domicilio o residencia o cualquier lugar en el que se
+        realice la conducta, que no sean parte del núcleo familiar, y de los
+        integrantes de la familia.
+        <br /><br />
+        d. Personas que residan en el mismo hogar o integren la unidad doméstica
+        sin relación de parentesco.
+        <br /><br />
+        e.Personas con las que se sostiene o se haya sostenido una relación de
+        pareja, cohabitacional o no, de carácter permanente que se caracterice
+        por una clara e inequívoca vocación de estabilidad.
+        <br /><br />
+        PARÁGRAFO 1. Cuando en un mismo municipio concurran Defensorías de
+        Familia y Comisarías de Familia, la competencia se determinará así:
+        <br /><br />
+        1. El comisario o la comisaria de familia se encargará de prevenir,
+        garantizar y restablecer los derechos de los niños, niñas y adolescentes
+        cuando se presenten vulneraciones o amenazas de derechos dentro del
+        contexto de la violencia familiar, excepto cuando se trate de cualquier
+        forma de violencia sexual.
+        <br /><br />
+        2. El defensor o la defensora de familia se encargará de prevenir,
+        garantizar y restablecer los derechos de los niños, niñas y adolescentes
+        en las circunstancias de vulneración o amenaza de derechos diferentes de
+        los suscitados en el contexto de la violencia familiar.
+        <br /><br />
+        3. El defensor o la defensora de familia será competente respecto de
+        cualquier forma de violencia sexual, sin distinción de quien cometa la
+        vulneración. En caso de existir dentro del mismo núcleo familiar otros
+        niños, niñas y adolescentes víctimas de violencias distintas a la
+        sexual, el defensor o la defensora de familia asumirá competencia frente
+        a todos ellos.
+        <br /><br />
+        4. En aquellos casos en los cuales además de la violencia sexual en el
+        contexto familiar contra el niño, niña o adolescente, se hayan
+        presentado hechos de violencia contra uno o varios de los integrantes
+        adultos de su núcleo familiar, la competencia será asumida por el
+        comisario o la comisaria de familia.
+      </td>
+    </tr>
+    <tr>
+      <th colspan="4" class="btn-primary">II. DATOS DE IDENTIFICACIÓN</th>
+    </tr>
+    <tr>
+      <th colspan="4" class="btn-light">
+        A. Datos de Identificación de la Víctima
+      </th>
+    </tr>
+    <tr>
+      <th>1. Nombres:</th>
+      <td>{{ getNombreCompleto(victima, true) }}</td>
+      <th>Apellidos:</th>
+      <td>{{ getNombreCompleto(victima, false, true) }}</td>
+    </tr>
+    <tr>
+      <th>2. Fecha de nacimiento:</th>
+      <td>
+        {{
+          victima && victima.fechaNacimiento
+            ? (victima.fechaNacimiento | date : "dd/MM/yyyy")
+            : ""
+        }}
+      </td>
+      <th>3. Identificacion:</th>
+      <td>
+        <div
+          *ngIf="!victima || !victima.tipoDocumento"
+          class="d-flex flex-column"
+          style="gap: 1rem"
+        >
+          <div
+            *ngFor="let item of listarDominios('Tipo_identificacion')"
+            class="d-flex align-items-center"
+          >
+            <span>[ ]{{ item }}</span>
+            <br />
+          </div>
+          <span>No. _________________</span>
+        </div>
+        <ng-container *ngIf="victima && victima.tipoDocumento">
+          <span>{{
+            buscarDominio("Tipo_identificacion", victima.tipoDocumento, true)
+          }}</span>
+          No.
+          <span>{{
+            victima && victima.numeroDocumento ? victima.numeroDocumento : ""
+          }}</span>
+        </ng-container>
+      </td>
+    </tr>
+    <tr>
+      <th>4. Sexo:</th>
+      <td>
+        <div
+          *ngIf="!victima || !victima.sexo"
+          class="d-flex flex-column"
+          style="gap: 1rem"
+        >
+          <div
+            *ngFor="let item of listarDominios('Sexo')"
+            class="d-flex align-items-center"
+          >
+            <span>[ ]{{ item }}</span>
+            <br />
+          </div>
+        </div>
+        <span *ngIf="victima && victima.sexo">{{
+          buscarDominio("Sexo", victima.sexo)
+        }}</span>
+      </td>
+      <th>5. Identidad de género:</th>
+      <td>
+        <div
+          *ngIf="!victima || !victima.identidadGenero"
+          class="d-flex flex-column"
+          style="gap: 1rem"
+        >
+          <div
+            *ngFor="let item of listarDominios('Genero')"
+            class="d-flex align-items-center"
+          >
+            <span>[ ]{{ item }}</span>
+            <br />
+          </div>
+        </div>
+        <span *ngIf="victima && victima.identidadGenero">{{
+          buscarDominio("Genero", victima.identidadGenero)
+        }}</span>
+      </td>
+    </tr>
+    <tr>
+      <th>6. Ocupación:</th>
+      <td>{{ victima && victima.ocupacion ? victima.ocupacion : "" }}</td>
+      <th>7. Escolaridad:</th>
+      <td>
+        <div
+          *ngIf="!victima || !victima.idEscolaridad"
+          class="d-flex flex-column"
+          style="gap: 1rem"
+        >
+          <div
+            *ngFor="let item of listarDominios('Nivel_Academico')"
+            class="d-flex align-items-center"
+          >
+            <span>[ ]{{ item }}</span>
+            <br />
+          </div>
+        </div>
+        <span *ngIf="victima && victima.idEscolaridad">{{
+          buscarDominio("Nivel_Academico", victima.idEscolaridad)
+        }}</span>
+      </td>
+    </tr>
+    <tr>
+      <th colspan="2">8. Tiene hijos:</th>
+      <td colspan="2">
+        {{ victima && victima.numeroHijos ? "Si, " + victima.numeroHijos : "" }}
+      </td>
+    </tr>
+    <tr *ngIf="victima && victima.numeroHijos">
+      <th>#</th>
+      <th>Edad</th>
+      <th>Sexo</th>
+      <th>¿Bajo custodia de?</th>
+    </tr>
+    <ng-container *ngIf="victima && victima.numeroHijos">
+      <tr *ngFor="let hijo of victima.hijos; let i = index">
+        <td>Hijo #{{ i + 1 }}</td>
+        <td>{{ hijo.edad ? hijo.edad : "Menos de 1 año" }}</td>
+        <td>
+          <div
+            *ngIf="!hijo || !hijo.sexo"
+            class="d-flex flex-column"
+            style="gap: 1rem"
+          >
+            <div
+              *ngFor="let item of listarDominios('Sexo')"
+              class="d-flex align-items-center"
+            >
+              <span>[ ]{{ item }}</span>
+              <br />
+            </div>
+          </div>
+          <span *ngIf="hijo && hijo.sexo">{{
+            buscarDominio("Sexo", hijo.sexo)
+          }}</span>
+        </td>
+        <td>
+          <div
+            *ngIf="!hijo || !hijo.custodia"
+            class="d-flex flex-column"
+            style="gap: 1rem"
+          >
+            <div
+              *ngFor="let item of listarDominios('Tipo_Relacion')"
+              class="d-flex align-items-center"
+            >
+              <span>[ ]{{ item }}</span>
+              <br />
+            </div>
+          </div>
+          <span *ngIf="hijo && hijo.custodia">{{
+            buscarDominio("Tipo_Relacion", hijo.custodia)
+          }}</span>
+        </td>
+      </tr>
+    </ng-container>
+    <tr>
+      <th>9. Relación de Pareja:</th>
+      <td>
+        <div
+          *ngIf="!victima || !victima.relacionPareja"
+          class="d-flex flex-column"
+          style="gap: 1rem"
+        >
+          <div
+            *ngFor="let item of listarDominios('Estado_Civil')"
+            class="d-flex align-items-center"
+          >
+            <span>[ ]{{ item }}</span>
+            <br />
+          </div>
+        </div>
+        <span *ngIf="victima && victima.relacionPareja">{{
+          buscarDominio("Estado_Civil", victima.relacionPareja)
+        }}</span>
+      </td>
+      <th>
+        10. De acuerdo con su cultura, pueblo o rasgos físicos es o se reconoce
+        como:
+      </th>
+      <td>
+        <div
+          *ngIf="!victima || !victima.cultura"
+          class="d-flex flex-column"
+          style="gap: 1rem"
+        >
+          <div
+            *ngFor="let item of listarDominios('Tipo_Cultura')"
+            class="d-flex align-items-center"
+          >
+            <span>[ ]{{ item }}</span>
+            <br />
+          </div>
+          <span>Otra _________________</span>
+        </div>
+        <span *ngIf="victima && victima.cultura">{{
+          buscarDominio("Tipo_Cultura", victima.cultura)
+        }}</span>
+      </td>
+    </tr>
+    <tr>
+      <th>11. Relación con el agresor:</th>
+      <td>
+        <div
+          *ngIf="!victima || !victima.relacionAgresor"
+          class="d-flex flex-column"
+          style="gap: 1rem"
+        >
+          <div
+            *ngFor="let item of listarDominios('Tipo_Relacion')"
+            class="d-flex align-items-center"
+          >
+            <span>[ ]{{ item }}</span>
+            <br />
+          </div>
+          <span> _________________</span>
+        </div>
+        <span *ngIf="victima && victima.relacionAgresor">{{
+          buscarDominio("Tipo_Relacion", victima.relacionAgresor)
+        }}</span>
+        <span *ngIf="victima && victima.descripcionRelacionAgresor">
+          Otra: {{ victima.descripcionRelacionAgresor }}
+        </span>
+      </td>
+      <th>12. ¿Tiene usted alguna discapacidad?</th>
+      <td>
+        <div
+          *ngIf="!victima || !victima.relacionAgresor"
+          class="d-flex flex-column"
+          style="gap: 1rem"
+        >
+          <div
+            *ngFor="let item of listarDominios('Discapacidad')"
+            class="d-flex align-items-center"
+          >
+            <span>[ ]{{ item }}</span>
+            <br />
+          </div>
+          <span>Otra _________________</span>
+        </div>
+        <span *ngIf="victima && victima.idDiscapacidad">{{
+          buscarDominio("Discapacidad", victima.idDiscapacidad)
+        }}</span>
+      </td>
+    </tr>
+    <tr>
+      <th>13. ¿Se encuentra en estado de embarazo?</th>
+      <td>
+        <span *ngIf="victima && victima.embarazo">
+          {{ victima.embarazo ? victima.embarazo : "SI__ NO__ NS__ NA__" }}
+        </span>
+        <span
+          *ngIf="
+            victima &&
+            victima.embarazo &&
+            victima.embarazo.toLowerCase() == 'si' &&
+            victima.mesesEmbarazo
+          "
+        >
+          - Meses:
+          {{ victima.mesesEmbarazo ? victima.mesesEmbarazo : "Menos de 1 mes" }}
+        </span>
+      </td>
+      <th>14. ¿Es usted víctima del conflicto armado?</th>
+      <td>
+        <span *ngIf="victima && victima.victimaConflicto">
+          {{ victima.victimaConflicto ? "Si" : "No" }}
+        </span>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        15. ¿Se encuentra afiliada al Sistema de Seguridad Social en Salud?
+      </th>
+      <td colspan="3">
+        <span *ngIf="victima && victima.eps">
+          <strong> EPS:</strong> {{ victima.eps }}
+        </span>
+        <span *ngIf="victima && victima.ips">
+          <strong> IPS:</strong> {{ victima.ips }}
+        </span>
+      </td>
+    </tr>
+    <tr>
+      <th colspan="4" class="btn-light">
+        B. Datos de Identificación del presunto agresor
+      </th>
+    </tr>
+    <tr>
+      <th>1. Nombres:</th>
+      <td>{{ getNombreCompleto(agresor, true) }}</td>
+      <th>Apellidos:</th>
+      <td>{{ getNombreCompleto(agresor, false, true) }}</td>
+    </tr>
+    <tr>
+      <th>2. Fecha de nacimiento:</th>
+      <td>
+        {{
+          agresor && agresor.fechaNacimiento
+            ? (agresor.fechaNacimiento | date : "dd/MM/yyyy")
+            : ""
+        }}
+      </td>
+      <th>3. Identificacion:</th>
+      <td>
+        <div
+          *ngIf="!agresor || !agresor.tipoDocumento"
+          class="d-flex flex-column"
+          style="gap: 1rem"
+        >
+          <div
+            *ngFor="let item of listarDominios('Tipo_identificacion')"
+            class="d-flex align-items-center"
+          >
+            <span>[ ]{{ item }}</span>
+            <br />
+          </div>
+          <span>No. _________________</span>
+        </div>
+        <ng-container *ngIf="agresor && agresor.tipoDocumento">
+          <span>{{
+            buscarDominio("Tipo_identificacion", agresor.tipoDocumento, true)
+          }}</span>
+          No.
+          <span>{{
+            agresor && agresor.numeroDocumento ? agresor.numeroDocumento : ""
+          }}</span>
+        </ng-container>
+      </td>
+    </tr>
+    <tr>
+      <th>4. Sexo:</th>
+      <td>
+        <div
+          *ngIf="!agresor || !agresor.sexo"
+          class="d-flex flex-column"
+          style="gap: 1rem"
+        >
+          <div
+            *ngFor="let item of listarDominios('Sexo')"
+            class="d-flex align-items-center"
+          >
+            <span>[ ]{{ item }}</span>
+            <br />
+          </div>
+        </div>
+        <span *ngIf="agresor && agresor.sexo">{{
+          buscarDominio("Sexo", agresor.sexo)
+        }}</span>
+      </td>
+      <th>5. Identidad de género:</th>
+      <td>
+        <div
+          *ngIf="!agresor || !agresor.identidadGenero"
+          class="d-flex flex-column"
+          style="gap: 1rem"
+        >
+          <div
+            *ngFor="let item of listarDominios('Genero')"
+            class="d-flex align-items-center"
+          >
+            <span>[ ]{{ item }}</span>
+            <br />
+          </div>
+        </div>
+        <span *ngIf="agresor && agresor.identidadGenero">{{
+          buscarDominio("Genero", agresor.identidadGenero)
+        }}</span>
+      </td>
+    </tr>
+    <tr>
+      <th>6. Ocupación:</th>
+      <td>{{ agresor && agresor.ocupacion ? agresor.ocupacion : "" }}</td>
+      <th>7. Escolaridad:</th>
+      <td>
+        <div
+          *ngIf="!agresor || !agresor.idEscolaridad"
+          class="d-flex flex-column"
+          style="gap: 1rem"
+        >
+          <div
+            *ngFor="let item of listarDominios('Nivel_Academico')"
+            class="d-flex align-items-center"
+          >
+            <span>[ ]{{ item }}</span>
+            <br />
+          </div>
+        </div>
+        <span *ngIf="agresor && agresor.idEscolaridad">{{
+          buscarDominio("Nivel_Academico", agresor.idEscolaridad)
+        }}</span>
+      </td>
+    </tr>
+    <tr>
+      <th colspan="2">8. Tiene hijos:</th>
+      <td colspan="2">
+        {{ agresor && agresor.numeroHijos ? "Si, " + agresor.numeroHijos : "" }}
+      </td>
+    </tr>
+    <tr *ngIf="agresor && agresor.numeroHijos">
+      <th>#</th>
+      <th>Edad</th>
+      <th>Sexo</th>
+      <th>¿Bajo custodia de?</th>
+    </tr>
+    <ng-container *ngIf="agresor && agresor.numeroHijos">
+      <tr *ngFor="let hijo of agresor.hijos; let i = index">
+        <td>Hijo #{{ i + 1 }}</td>
+        <td>{{ hijo.edad ? hijo.edad : "Menos de 1 año" }}</td>
+        <td>
+          <div
+            *ngIf="!hijo || !hijo.sexo"
+            class="d-flex flex-column"
+            style="gap: 1rem"
+          >
+            <div
+              *ngFor="let item of listarDominios('Sexo')"
+              class="d-flex align-items-center"
+            >
+              <span>[ ]{{ item }}</span>
+              <br />
+            </div>
+          </div>
+          <span *ngIf="hijo && hijo.sexo">{{
+            buscarDominio("Sexo", hijo.sexo)
+          }}</span>
+        </td>
+        <td>
+          <div
+            *ngIf="!hijo || !hijo.custodia"
+            class="d-flex flex-column"
+            style="gap: 1rem"
+          >
+            <div
+              *ngFor="let item of listarDominios('Tipo_Relacion')"
+              class="d-flex align-items-center"
+            >
+              <span>[ ]{{ item }}</span>
+            </div>
+          </div>
+          <span *ngIf="hijo && hijo.custodia">{{
+            buscarDominio("Tipo_Relacion", hijo.custodia)
+          }}</span>
+        </td>
+      </tr>
+    </ng-container>
+    <tr>
+      <th>
+        9. De acuerdo con su cultura, pueblo o rasgos físicos es o se reconoce
+        como:
+      </th>
+      <td>
+        <div
+          *ngIf="!agresor || !agresor.cultura"
+          class="d-flex flex-column"
+          style="gap: 1rem"
+        >
+          <div
+            *ngFor="let item of listarDominios('Tipo_Cultura')"
+            class="d-flex align-items-center"
+          >
+            <span>[ ]{{ item }}</span>
+            <br />
+          </div>
+          <span> Otra __________</span>
+        </div>
+        <span *ngIf="agresor && agresor.cultura">{{
+          buscarDominio("Tipo_Cultura", agresor.cultura)
+        }}</span>
+      </td>
+      <th>
+        10. Sabe usted sí el agresor pertenece aun grupo organizado al margen
+        dela ley, o grupo delictivo organizado?
+      </th>
+      <td>
+        <span>
+          {{
+            agresor && agresor.agresorConflicto ? "Si" : !agresor ? "" : "No"
+          }}</span
+        >
+        <span>
+          {{
+            agresor &&
+            agresor.agresorConflicto &&
+            agresor.agresorconflictoDescripcion
+              ? agresor.agresorconflictoDescripcion
+              : ""
+          }}</span
+        >
+      </td>
+    </tr>
+    <tr>
+      <th colspan="4" class="btn-primary">III. DESCRIPCIÓN DE LOS HECHOS</th>
+    </tr>
+    <tr>
+      <th>Fecha y hora</th>
+      <td>
+        {{
+          descripcionHechos && descripcionHechos.fecha
+            ? (descripcionHechos.fecha | date : "dd/MM/yyyy hh:mm a")
+            : ""
+        }}
+      </td>
+      <th>Lugar</th>
+      <td>
+        {{
+          descripcionHechos && descripcionHechos.lugarHechos
+            ? descripcionHechos.lugarHechos
+            : ""
+        }}
+      </td>
+    </tr>
+    <tr style="height: 200px">
+      <td colspan="4" name="descripcionHechos" id="descripcionHechos">
+        {{
+          descripcionHechos && descripcionHechos.descripcionHechos
+            ? descripcionHechos.descripcionHechos
+            : ""
+        }}
+      </td>
+    </tr>
+    <tr>
+      <th colspan="4" class="btn-primary">IV. TIPOS DE VIOLENCIA</th>
+    </tr>
+    <tr>
+      <th colspan="4" class="btn-light">A. PSICOLÓGICA</th>
+    </tr>
+    <tr>
+      <th colspan="2">Pregunta</th>
+      <th>Respuesta</th>
+      <th>Hace cuanto</th>
+    </tr>
+    <tr *ngFor="let pregunta of listarPreguntas('Psicológica'); let i = index">
+      <td colspan="2">
+        {{ i + 1 }}.
+        {{ pregunta.descripcion }}
+      </td>
+      <td>
+        {{
+          pregunta.puntuacionPrevio
+            ? "Si"
+            : pregunta.puntuacionPrevio == null
+            ? "Si___ No___"
+            : "No"
+        }}
+      </td>
+      <td>
+        {{
+          !pregunta.puntuacionPrevio && pregunta.puntuacionPrevio != null
+            ? "No aplica"
+            : pregunta.puntuacionPrevio == null || pregunta.mesPrevio == null
+            ? "Menos de un mes___  Mas de un mes___"
+            : pregunta.mesPrevio
+            ? "Menos de un mes"
+            : "Mas de un mes"
+        }}
+      </td>
+    </tr>
+    <tr>
+      <th colspan="4" class="btn-light">B. ECONÓMICA</th>
+    </tr>
+    <tr>
+      <th colspan="2">Pregunta</th>
+      <th>Respuesta</th>
+      <th>Hace cuanto</th>
+    </tr>
+    <tr *ngFor="let pregunta of listarPreguntas('Económica'); let i = index">
+      <td colspan="2">
+        {{ i + 10 }}.
+        {{ pregunta.descripcion }}
+      </td>
+      <td>
+        {{
+          pregunta.puntuacionPrevio
+            ? "Si"
+            : pregunta.puntuacionPrevio == null
+            ? "Si___ No___"
+            : "No"
+        }}
+      </td>
+      <td>
+        {{
+          !pregunta.puntuacionPrevio && pregunta.puntuacionPrevio != null
+            ? "No aplica"
+            : pregunta.puntuacionPrevio == null || pregunta.mesPrevio == null
+            ? "Menos de un mes___  Mas de un mes___"
+            : pregunta.mesPrevio
+            ? "Menos de un mes"
+            : "Mas de un mes"
+        }}
+      </td>
+    </tr>
+    <tr>
+      <th colspan="4" class="btn-light">C. PATRIMONIAL</th>
+    </tr>
+    <tr>
+      <th colspan="2">Pregunta</th>
+      <th>Respuesta</th>
+      <th>Hace cuanto</th>
+    </tr>
+    <tr *ngFor="let pregunta of listarPreguntas('Patrimonial'); let i = index">
+      <td colspan="2">
+        {{ i + 14 }}.
+        {{ pregunta.descripcion }}
+      </td>
+      <td>
+        {{
+          pregunta.puntuacionPrevio
+            ? "Si"
+            : pregunta.puntuacionPrevio == null
+            ? "Si___ No___"
+            : "No"
+        }}
+      </td>
+      <td>
+        {{
+          !pregunta.puntuacionPrevio && pregunta.puntuacionPrevio != null
+            ? "No aplica"
+            : pregunta.puntuacionPrevio == null || pregunta.mesPrevio == null
+            ? "Menos de un mes___  Mas de un mes___"
+            : pregunta.mesPrevio
+            ? "Menos de un mes"
+            : "Mas de un mes"
+        }}
+      </td>
+    </tr>
+    <tr>
+      <th colspan="4" class="btn-light">D. Coerción o Amenazas</th>
+    </tr>
+    <tr>
+      <th colspan="2">Pregunta</th>
+      <th>Respuesta</th>
+      <th>Hace cuanto</th>
+    </tr>
+    <tr
+      *ngFor="
+        let pregunta of listarPreguntas('Coerción o Amenazas');
+        let i = index
+      "
+    >
+      <td colspan="2">
+        {{ i + 17 }}.
+        {{ pregunta.descripcion }}
+      </td>
+      <td>
+        {{
+          pregunta.puntuacionPrevio
+            ? "Si"
+            : pregunta.puntuacionPrevio == null
+            ? "Si___ No___"
+            : "No"
+        }}
+      </td>
+      <td>
+        {{
+          !pregunta.puntuacionPrevio && pregunta.puntuacionPrevio != null
+            ? "No aplica"
+            : pregunta.puntuacionPrevio == null || pregunta.mesPrevio == null
+            ? "Menos de un mes___  Mas de un mes___"
+            : pregunta.mesPrevio
+            ? "Menos de un mes"
+            : "Mas de un mes"
+        }}
+      </td>
+    </tr>
+    <tr>
+      <th colspan="4" class="btn-light">E. FÍSICA</th>
+    </tr>
+    <tr>
+      <th colspan="2">Pregunta</th>
+      <th>Respuesta</th>
+      <th>Hace cuanto</th>
+    </tr>
+    <tr *ngFor="let pregunta of listarPreguntas('Física'); let i = index">
+      <td colspan="2">
+        {{ i + 23 }}.
+        {{ pregunta.descripcion }}
+      </td>
+      <td>
+        {{
+          pregunta.puntuacionPrevio
+            ? "Si"
+            : pregunta.puntuacionPrevio == null
+            ? "Si___ No___"
+            : "No"
+        }}
+      </td>
+      <td>
+        {{
+          !pregunta.puntuacionPrevio && pregunta.puntuacionPrevio != null
+            ? "No aplica"
+            : pregunta.puntuacionPrevio == null || pregunta.mesPrevio == null
+            ? "Menos de un mes___  Mas de un mes___"
+            : pregunta.mesPrevio
+            ? "Menos de un mes"
+            : "Mas de un mes"
+        }}
+      </td>
+    </tr>
+    <tr>
+      <th colspan="4" class="btn-light">F. SEXUAL</th>
+    </tr>
+    <tr>
+      <th colspan="2">Pregunta</th>
+      <th>Respuesta</th>
+      <th>Hace cuanto</th>
+    </tr>
+    <tr *ngFor="let pregunta of listarPreguntas('Sexual'); let i = index">
+      <td colspan="2">
+        {{ i + 33 }}.
+        {{ pregunta.descripcion }}
+      </td>
+      <td>
+        {{
+          pregunta.puntuacionPrevio
+            ? "Si"
+            : pregunta.puntuacionPrevio == null
+            ? "Si___ No___"
+            : "No"
+        }}
+      </td>
+      <td>
+        {{
+          !pregunta.puntuacionPrevio && pregunta.puntuacionPrevio != null
+            ? "No aplica"
+            : pregunta.puntuacionPrevio == null || pregunta.mesPrevio == null
+            ? "Menos de un mes___  Mas de un mes___"
+            : pregunta.mesPrevio
+            ? "Menos de un mes"
+            : "Mas de un mes"
+        }}
+      </td>
+    </tr>
+
+    <tr>
+      <th colspan="4" class="btn-primary">
+        V. CIRCUNSTANCIAS AGRAVANTES DE LA VIOLENCIA
+      </th>
+    </tr>
+    <tr>
+      <th colspan="3">Pregunta</th>
+      <th>Respuesta</th>
+    </tr>
+    <tr
+      *ngFor="
+        let pregunta of listarPreguntas('Circunstancias agravantes');
+        let i = index
+      "
+    >
+      <td colspan="3">
+        {{ i + 37 }}.
+        {{ pregunta.descripcion }}
+      </td>
+      <td>
+        {{
+          pregunta.puntuacionPrevio
+            ? "Si"
+            : pregunta.puntuacionPrevio == null
+            ? "Si___ No___"
+            : "No"
+        }}
+      </td>
+    </tr>
+    <tr>
+      <th colspan="4" class="btn-primary">
+        VI. PERCEPCIÓN DE LA VÍCTIMA FRENTE AL RIESGO DE LA VIOLENCIA
+      </th>
+    </tr>
+    <tr>
+      <th colspan="3">Pregunta</th>
+      <th>Respuesta</th>
+    </tr>
+    <tr
+      *ngFor="
+        let pregunta of listarPreguntas(
+          'Percepción de la víctima frente al riesgo de la violencia'
+        );
+        let i = index
+      "
+    >
+      <td colspan="3">
+        {{ i + 37 }}.
+        {{ pregunta.descripcion }}
+      </td>
+      <td>
+        {{
+          pregunta.puntuacionPrevio
+            ? "Si"
+            : pregunta.puntuacionPrevio == null
+            ? "Si___ No___"
+            : "No"
+        }}
+      </td>
+    </tr>
+    <tr>
+      <th colspan="4" class="btn-primary">VII. VALORACIÓN</th>
+    </tr>
+    <tr>
+      <td colspan="4">
+        Tenga en cuenta que el riesgo se entiende como un peligro que puede
+        suceder, con cierta probabilidad en el futuro y del que no se pueden
+        controlar sus causas de manera absoluta. Para efectos de las decisiones
+        a tomar por parte del comisario/a se considera:
+      </td>
+    </tr>
+    <tr>
+      <th>Valoracion:</th>
+      <td>
+        <span *ngIf="idSolicitud > 1">{{
+          valoracion && valoracion.puntuacion ? valoracion.puntuacion : 0
+        }}</span>
+        <span *ngIf="idSolicitud == 0">_________</span>
+      </td>
+      <th>Tipo de riesgo</th>
+      <td>
+        <span *ngIf="idSolicitud > 1">{{
+          valoracion && valoracion.indicadorRiesgo
+            ? valoracion.indicadorRiesgo
+            : ""
+        }}</span>
+        <span *ngIf="idSolicitud == 0">______________________</span>
+      </td>
+    </tr>
+    <tr>
+      <th colspan="4">Recomendaciones:</th>
+    </tr>
+    <tr style="height: 200px">
+      <td colspan="4">
+        {{ valoracion && valoracion.descripcion ? valoracion.descripcion : "" }}
+      </td>
+    </tr>
+    <tr>
+      <th colspan="2" style="height: 100px">Firma de la víctima principal</th>
+      <th colspan="2" style="height: 100px">
+        Firma de quien aplica el instrumento
+      </th>
+    </tr>
+    <tr>
+      <th>Nombre:</th>
+      <td class="text-capitalize">
+        {{ getNombreCompleto(victima, true, true) }}
+      </td>
+      <th>Nombre:</th>
+      <td class="text-capitalize">
+        {{
+          reporte && reporte.nombre_psicologo ? reporte.nombre_psicologo : ""
+        }}
+      </td>
+    </tr>
+    <tr>
+      <th>Documento:</th>
+      <td>
+        <ng-container *ngIf="idSolicitud == 0">
+          ____ No. _____________
+        </ng-container>
+        <ng-container *ngIf="victima && victima.tipoDocumento">
+          <span>{{
+            buscarDominio("Tipo_identificacion", victima.tipoDocumento, true)
+          }}</span>
+          No.
+          <span>{{
+            victima && victima.numeroDocumento ? victima.numeroDocumento : ""
+          }}</span>
+        </ng-container>
+      </td>
+
+      <th>Cargo:</th>
+      <td>
+        {{ reporte && reporte.nombre_psicologo ? reporte.cargo_psicolo : "" }}
+      </td>
+    </tr>
+
+    <tr>
+      <th>Dirección de residencia:</th>
+      <td>
+        {{
+          victima && victima.direccionRecidencia
+            ? victima.direccionRecidencia
+            : ""
+        }}
+      </td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>Teléfono de la víctima:</th>
+      <td>
+        {{ victima && victima.telefono ? victima.telefono : "" }}
+      </td>
+      <td></td>
+      <td></td>
+    </tr>
+  </table>
+</article>

@@ -1,0 +1,127 @@
+<div class="box-auto">
+  <div class="box-auto__banner">
+    <span class="ms-4"> {{ titulo }} </span>
+  </div>
+  <div class="p-5">
+    <div class="box-mod4">
+      <div class="box-mod4__header">
+        {{ tituloAuto | uppercase }}
+      </div>
+      <div class="row">
+        <div class="col-lg-5">
+          <div class="box-mod4__left-side p-3">
+            <button
+              type="button"
+              class="btn btn-outline-primary"
+              (click)="generarReporte()"
+            >
+              Previsualizar auto
+            </button>
+
+            <div class="box-mod4__left-side__containaer mt-3">
+              <app-secciones
+                (tituloPantalla)="obtenerTitulo($event)"
+                (observaciones)="obtenerObservacion($event)"
+                (aplicaRevision)="mostrarFallo = $event"
+              ></app-secciones>
+            </div>
+            <div class="mt-3">
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="validarAutoPrevioGuardar(false)"
+              >
+                Guardar Borrador
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-7">
+          <div class="container ps-0" *ngIf="objAutoPadre">
+            <div class="row">
+              <div class="box-mod4__container-title mt-3 mb-4">
+                <ng-container *ngIf="objAutoPadre">
+                  {{ objAutoPadre.nombreSeccion | uppercase }}
+                </ng-container>
+              </div>
+
+              <div
+                [ngClass]="{
+                  'col-lg-12':
+                    objAutoPadre && !objAutoPadre.seccion.involucrados,
+                  'col-lg-8': objAutoPadre.seccion.involucrados.length
+                }"
+              >
+                <div class="box-auto__container-section">
+                  <ng-container *ngIf="objAutoPadre.seccion.textoSeccion">
+                    <textarea
+                      class="form-control"
+                      id="sectionPere"
+                      rows="15"
+                      [value]="objAutoPadre.seccion.textoSeccion"
+                      style="resize: none"
+                      #textPadre
+                      (focusout)="ajustarArregloAutoPadre(objAutoPadre.seccion)"
+                    ></textarea>
+                  </ng-container>
+                </div>
+              </div>
+              <div
+                class="col-lg-4"
+                *ngIf="objAutoPadre.seccion.involucrados.length"
+              >
+                <div class="box-mod4__right-side">
+                  <app-involucrados-auto></app-involucrados-auto>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-container *ngIf="user?.perfil === COMISARIO && mostrarFallo">
+      <app-observaciones-auto
+        [observaciones]="comentarios"
+        [mostrarObservaciones]="checkAprobacionComisario"
+        (comentarios)="obtenerComentarios($event)"
+        (checkComisario)="obtenerCheckComisario($event)"
+      ></app-observaciones-auto>
+    </ng-container>
+
+    <div class="mt-4" *ngIf="user?.perfil === ABOGADO && comentarios">
+      <label for="obs" class="form-label">Observaciones del comisario:</label>
+      <textarea
+        class="form-control"
+        id="obs"
+        rows="6"
+        style="resize: none"
+        [value]="comentarios"
+        readonly
+      ></textarea>
+    </div>
+  </div>
+</div>
+
+<div class="row mx-0 mt-2 py-4">
+  <div class="col-12 d-flex justify-content-end px-0">
+    <button
+      type="button"
+      class="btn btn-danger px-4 ms-3"
+      (click)="cancelarSolicitud()"
+    >
+      Cancelar
+    </button>
+    <button type="button" class="btn btn-primary px-4 ms-3">
+      Archivar Diligencias
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary px-4 ms-3"
+      (click)="modalConfirmaCerrarActuacion()"
+    >
+      Cerrar Actuaciones
+    </button>
+  </div>
+</div>
+
+<app-reporte-auto [tituloReporte]="tituloAuto"></app-reporte-auto>

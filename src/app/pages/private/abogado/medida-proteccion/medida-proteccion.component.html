@@ -1,0 +1,82 @@
+<div class="background-content-private p-2 mb-4">
+  <div
+    class="d-flex mb-2 arrow-back"
+    [routerLink]="['../historico-medidas', objSolicitud.idSolicitud]"
+  >
+    <mat-icon>keyboard_arrow_left</mat-icon> Volver
+  </div>
+
+  <div class="p-5">
+    <p class="title-medium" style="font-size: 30px">
+      SOLICITUD DE MEDIDA DE PROTECCIÓN
+    </p>
+
+    <p>
+      LEY 294 DE 1995 MODIFICADA PARCIALMENTE POR LA LEY 575 DE 2000 Y LEY 2126
+      DE 2021
+    </p>
+
+    <div class="row">
+      <div class="col-lg-4">
+        <label for="ciudad" class="form-label"> Ciudad </label>
+        <input
+          type="text"
+          class="form-control"
+          id="ciudad"
+          placeholder="Ciudad"
+          [value]="this.objSolicitud.municipioComisaria"
+          [attr.disabled]="true"
+        />
+      </div>
+      <div class="col-lg-4 mb-3">
+        <label for="fecha" class="form-label">Fecha</label>
+        <input
+          type="text"
+          class="form-control"
+          id="fecha"
+          [attr.disabled]="true"
+          [value]="fechaActual | date: 'dd/MM/yyyy'"
+        />
+      </div>
+      <div class="col-lg-4"></div>
+    </div>
+
+    <p style="text-align: justify">
+      Los datos que se consignan a continuación se desprenden de la información
+      recibida del accionante - víctima y consignada respectivamente, por el
+      funcionario que recibe la solicitud y que se transcriben fielmente, para
+      el conocimiento del Despacho.
+    </p>
+
+    <p class="subtitle-form mb-5 mt-5">¿QUIÉN PRESENTA LA SOLICITUD?</p>
+
+    <div *ngIf="victimaForm">
+      <app-victima [victima]="victimaForm"></app-victima>
+      <app-reporte-medida
+        [victima]="victimaForm"
+        [agresor]="agresorForm"
+        [tipoViolencia]="tipoViolencia"
+      ></app-reporte-medida>
+    </div>
+
+    <p class="subtitle-form mb-5 mt-5">DATOS PRESUNTO AGRESOR</p>
+
+    <div *ngIf="agresorForm">
+      <app-agresor [agresor]="agresorForm"></app-agresor>
+    </div>
+    <p class="subtitle-form mb-5 mt-5">
+      RELATO DE LOS HECHOS – ÚLTIMOS 30 DÍAS
+    </p>
+
+    <app-relato-hechos></app-relato-hechos>
+  </div>
+
+  <div class="d-flex justify-content-end p-5">
+    <button class="btn btn-primary me-3" (click)="guardarInfo()">
+      Guardar
+    </button>
+    <button class="btn btn-primary" (click)="generarPDF()">
+      Generar Documento
+    </button>
+  </div>
+</div>

@@ -1,0 +1,293 @@
+<form [formGroup]="derechosPrimero" autocomplete="off">
+  <p class="form-label" style="font-size: 22px">Derechos</p>
+
+  <p class="form-label my-5">CUSTODIA CUIDADO PERSONAL</p>
+
+  <div class="row">
+    <div class="col-lg-4">
+      <label for="responsable" class="form-label">
+        Responsable de la custodia*
+      </label>
+      <input
+        type="text"
+        class="form-control"
+        id="responsable"
+        placeholder="Nombre completo"
+        maxlength="50"
+        formControlName="nombreResponsableCustodia"
+        [ngClass]="{
+          'input-req':
+            isRequired('nombreResponsableCustodia') && mostrarValidaciones
+        }"
+      />
+      <div
+        *ngIf="isRequired('nombreResponsableCustodia') && mostrarValidaciones"
+        class="msj-req"
+      >
+        {{ msgObligatorio }}
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <label for="parentesco" class="form-label">Parentesco*</label>
+      <input
+        type="text"
+        class="form-control"
+        id="parentesco"
+        placeholder="Parentesco"
+        maxlength="50"
+        formControlName="parentescoResponsableCustodia"
+        [ngClass]="{
+          'input-req':
+            isRequired('parentescoResponsableCustodia') && mostrarValidaciones
+        }"
+      />
+      <div
+        *ngIf="
+          isRequired('parentescoResponsableCustodia') && mostrarValidaciones
+        "
+        class="msj-req"
+      >
+        {{ msgObligatorio }}
+      </div>
+    </div>
+  </div>
+
+  <p class="form-label my-5">CUIDADO PERSONAL</p>
+
+  <div class="row">
+    <div class="col-lg-4">
+      <label for="cuidado" class="form-label">
+        Responsable del cuidado personal*
+      </label>
+      <input
+        type="text"
+        class="form-control"
+        id="cuidado"
+        placeholder="Nombre completo"
+        maxlength="100"
+        formControlName="nombreResponsableCuidado"
+        [ngClass]="{
+          'input-req':
+            isRequired('nombreResponsableCuidado') && mostrarValidaciones
+        }"
+      />
+      <div
+        *ngIf="isRequired('nombreResponsableCuidado') && mostrarValidaciones"
+        class="msj-req"
+      >
+        {{ msgObligatorio }}
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <label for="parentescoD" class="form-label">Parentesco*</label>
+      <input
+        type="text"
+        class="form-control"
+        id="parentescoD"
+        placeholder="Parentesco"
+        maxlength="50"
+        formControlName="parentescoResponsableCuidado"
+        [ngClass]="{
+          'input-req':
+            isRequired('parentescoResponsableCuidado') && mostrarValidaciones
+        }"
+      />
+      <div
+        *ngIf="
+          isRequired('parentescoResponsableCuidado') && mostrarValidaciones
+        "
+        class="msj-req"
+      >
+        {{ msgObligatorio }}
+      </div>
+    </div>
+  </div>
+
+  <p class="form-label mt-5 mb-3">VINCULACIÓN AL SISTEMA DE SALUD</p>
+
+  <div class="w-100 mb-4">
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-input"
+        type="radio"
+        id="siS"
+        name="vinculacionSistemaSalud"
+        [value]="true"
+        formControlName="vinculacionSistemaSalud"
+      />
+      <label class="form-check-label" for="siS">SI</label>
+    </div>
+
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-input"
+        type="radio"
+        id="noS"
+        name="vinculacionSistemaSalud"
+        [value]="false"
+        formControlName="vinculacionSistemaSalud"
+      />
+      <label class="form-check-label" for="noS">NO</label>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="mostrarInfoSalud">
+    <div class="col-lg-4">
+      <label for="eps" class="form-label"> EPS* </label>
+      <input
+        type="text"
+        class="form-control"
+        id="eps"
+        placeholder="Nombre EPS"
+        maxlength="100"
+        formControlName="nombreEPS"
+        [ngClass]="{
+          'input-req': isRequired('nombreEPS') && mostrarValidaciones
+        }"
+      />
+      <div
+        *ngIf="isRequired('nombreEPS') && mostrarValidaciones"
+        class="msj-req"
+      >
+        {{ msgObligatorio }}
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <label for="regimen" class="form-label">Régimen*</label>
+      <input
+        type="text"
+        class="form-control"
+        id="regimen"
+        placeholder="Régimen"
+        maxlength="50"
+        formControlName="regimen"
+        [ngClass]="{
+          'input-req': isRequired('regimen') && mostrarValidaciones
+        }"
+      />
+      <div *ngIf="isRequired('regimen') && mostrarValidaciones" class="msj-req">
+        {{ msgObligatorio }}
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <label for="beneficiario" class="form-label">Beneficiario de*</label>
+      <input
+        type="text"
+        class="form-control"
+        id="beneficiario"
+        placeholder="Nombre completo"
+        maxlength="50"
+        formControlName="beneficiarioDeNombre"
+        [ngClass]="{
+          'input-req': isRequired('beneficiarioDeNombre') && mostrarValidaciones
+        }"
+      />
+      <div
+        *ngIf="isRequired('beneficiarioDeNombre') && mostrarValidaciones"
+        class="msj-req"
+      >
+        {{ msgObligatorio }}
+      </div>
+    </div>
+  </div>
+
+  <p class="form-label my-5">ESTADO DE SALUD</p>
+
+  <div class="w-100">
+    <p class="form-label">Física adecuada</p>
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-input"
+        type="radio"
+        id="fisicaS"
+        name="fisicaAdecuada"
+        [value]="true"
+        formControlName="fisicaAdecuada"
+      />
+      <label class="form-check-label" for="fisicaS">SI</label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-input"
+        type="radio"
+        id="fisicaN"
+        name="fisicaAdecuada"
+        [value]="false"
+        formControlName="fisicaAdecuada"
+      />
+      <label class="form-check-label" for="fisicaN">NO</label>
+    </div>
+
+    <p class="form-label">Nutricional adecuada</p>
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-input"
+        type="radio"
+        id="nutricionalS"
+        name="nutricionalAdecuada"
+        [value]="true"
+        formControlName="nutricionalAdecuada"
+      />
+      <label class="form-check-label" for="nutricionalS">SI</label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-input"
+        type="radio"
+        id="nutricionalN"
+        name="nutricionalAdecuada"
+        [value]="false"
+        formControlName="nutricionalAdecuada"
+      />
+      <label class="form-check-label" for="nutricionalN">NO</label>
+    </div>
+
+    <p class="form-label">Psicológica adecuada</p>
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-input"
+        type="radio"
+        id="adecuadaS"
+        name="psicologaAdecuada"
+        [value]="true"
+        formControlName="psicologaAdecuada"
+      />
+      <label class="form-check-label" for="adecuadaS">SI</label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-input"
+        type="radio"
+        id="adecuadaN"
+        name="psicologaAdecuada"
+        [value]="false"
+        formControlName="psicologaAdecuada"
+      />
+      <label class="form-check-label" for="adecuadaN">NO</label>
+    </div>
+
+    <p class="form-label">Vacunación completa para la edad</p>
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-input"
+        type="radio"
+        id="edadS"
+        name="vacunacionCompleta"
+        [value]="true"
+        formControlName="vacunacionCompleta"
+      />
+      <label class="form-check-label" for="edadS">SI</label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-input"
+        type="radio"
+        id="edadN"
+        name="vacunacionCompleta"
+        [value]="false"
+        formControlName="vacunacionCompleta"
+      />
+      <label class="form-check-label" for="edadN">NO</label>
+    </div>
+  </div>
+</form>

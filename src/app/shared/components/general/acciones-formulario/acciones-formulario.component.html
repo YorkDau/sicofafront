@@ -1,0 +1,27 @@
+<div class="p-3">
+  <div
+    class="d-flex align-items-center justify-content-end text-nowrap flex-wrap w-100 gap-3"
+  >
+    <button type="button" class="btn btn-danger" (click)="cancelarSolicitud()">
+      Cancelar
+    </button>
+    <button type="button" class="btn btn-primary" *ngIf="false">
+      Archivar diligencias
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      *ngIf="mostrarGuardar"
+      (click)="guardar()"
+    >
+      Guardar
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="modalConfirmaCerrarActuacion()"
+    >
+      Cerrar actuaciones
+    </button>
+  </div>
+</div>

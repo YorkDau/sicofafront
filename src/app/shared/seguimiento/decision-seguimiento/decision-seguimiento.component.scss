@@ -1,0 +1,47 @@
+.text-up {
+    color: #212529;
+    font-weight: 400;
+    letter-spacing: 0px;
+    margin-bottom: -8px;
+}
+.text{
+  color: #212529;
+  font-weight: 400;
+  letter-spacing: 0px;
+}
+
+.title-h6 {
+    font-weight: 600;
+    letter-spacing: 0px;
+}
+
+#accordion-private .mat-expansion-panel-header{
+  font-size: var(--font-16);
+  font-weight: 600;
+  letter-spacing: 0.18px;
+}
+
+.background-white{
+  background-color: white;
+}
+#accordion-private .mat-expansion-panel {
+  box-shadow: none;
+}
+
+.p-class {
+  font-weight: 500;
+}
+
+.date-picker-width{
+  min-width: 80px;
+  max-width: 250px;
+}
+.date-picker-margin{
+  margin-right: 30px;
+}
+.input-box{
+  max-width: 950px;
+  min-width: 800px;
+  min-height: 100px;
+  max-height: 150px;
+}

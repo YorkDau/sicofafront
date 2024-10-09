@@ -1,0 +1,16 @@
+.text-justify {
+  text-align: justify;
+}
+
+.container-tipov {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+}
+
+@media (max-width:720px) {
+  .container-tipov{
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(1, 1fr);
+  }
+}

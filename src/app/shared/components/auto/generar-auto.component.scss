@@ -1,0 +1,44 @@
+.box-auto {
+  width: 100%;
+  .box-auto__banner {
+    background: #cbd7e2 0% 0% no-repeat padding-box;
+    border-radius: 11px 11px 0px 0px;
+    opacity: 1;
+    letter-spacing: 0px;
+    color: #343a40;
+    height: 66px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    padding: 1rem;
+  }
+}
+
+.box-mod4__left-side__containaer {
+  background: #f1f4f4 0% 0% no-repeat padding-box;
+  border-radius: 10px;
+  opacity: 1;
+}
+
+.box-mod4__container-title {
+  background: #d1ecf1 0% 0% no-repeat padding-box;
+  border: 1px solid #bee5eb;
+  border-radius: 4px;
+  opacity: 1;
+  color: #343a40;
+  height: 43px;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+}
+
+.box-auto__container-section {
+  height: 392px;
+  overflow-y: auto;
+}
+
+textarea {
+  white-space: normal;
+  text-align: justify;
+}

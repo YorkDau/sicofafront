@@ -1,0 +1,41 @@
+<div class="box-title">
+  <div class="d-flex justify-content-end">
+    <button mat-icon-button class="me-3">
+      <mat-icon color="white" (click)="cerrarModal()"> close </mat-icon>
+    </button>
+  </div>
+  <p class="text-title">SELECCIÓN AGRESOR PRINCIPAL</p>
+</div>
+
+<form
+  class="d-flex flex-column p-5"
+  [formGroup]="formVicAg"
+  autocomplete="off"
+  (submit)="registrarInvolucrado()"
+>
+  <p class="form-label mt-4">
+    Seleccione quién de los agresores ingresados es el agresor principal
+  </p>
+  <label for="agresor" class="form-label"> Agresor Principal </label>
+  <select
+    id="agresor"
+    class="form-select"
+    formControlName="agresor"
+    [ngClass]="{
+      'input-req': isRequired('agresor') && mostrarValidaciones
+    }"
+  >
+    <option value="">Seleccione</option>
+    <option [value]="item.numero_documento" *ngFor="let item of listaAgresores">
+      {{ item.primer_nombre }} {{ item.segundo_nombre }}
+      {{ item.primer_apellido }} {{ item.segundo_apellido }}
+    </option>
+  </select>
+  <div *ngIf="isRequired('agresor') && mostrarValidaciones" class="msj-req">
+    {{ msgObligatorio }}
+  </div>
+
+  <div class="d-flex justify-content-end mt-5">
+    <button type="submit" class="btn btn-primary">Continuar</button>
+  </div>
+</form>

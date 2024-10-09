@@ -1,0 +1,103 @@
+<section class="background p-5">
+  <div
+    class="text-blue"
+    style="font-weight: bold; font-size: 20px; max-width: 929px"
+  >
+    INFORME DE ENTREVISTA PSICOLÓGICA Y EMOCIONAL
+  </div>
+  <app-entrevista-psicologica-emocional-pdf
+    [idSolicitud]="idSolicitud"
+    [temp]="temp"
+  ></app-entrevista-psicologica-emocional-pdf>
+  <button class="btn btn-primary" (click)="imprimirPDFVacio()">
+    Imprimir formato vacío
+  </button>
+
+  <mat-stepper
+    labelPosition="bottom"
+    linear
+    [orientation]="orientation"
+    #stepper
+    class="mt-4"
+    selectedIndex="0"
+  >
+    <mat-step>
+      <ng-template matStepLabel class="text-capitalize">
+        Datos Identificación</ng-template
+      >
+      <app-datos-identificacion
+        *ngIf="stepper.selectedIndex == 0"
+        (siguientePaso)="cambiarPasoIdentificacionDelRiesgo($event)"
+      ></app-datos-identificacion>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel class="text-capitalize">Motivo</ng-template>
+      <app-motivo
+        *ngIf="stepper.selectedIndex == 1"
+        (siguientePaso)="cambiarPasoIdentificacionDelRiesgo($event)"
+      >
+      </app-motivo>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel class="text-capitalize"
+        >Antecendentes y Situación Actual</ng-template
+      >
+      <app-antecedentes
+        *ngIf="stepper.selectedIndex == 2"
+        (siguientePaso)="cambiarPasoIdentificacionDelRiesgo($event)"
+      >
+      </app-antecedentes>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel class="text-capitalize"
+        >Procedimiento / Metodología</ng-template
+      >
+      <app-procedimiento-metodologia
+        *ngIf="stepper.selectedIndex == 3"
+        (siguientePaso)="cambiarPasoIdentificacionDelRiesgo($event)"
+      ></app-procedimiento-metodologia>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel class="text-capitalize"
+        >Relato de los Hechos</ng-template
+      >
+      <app-relato-hechos
+        *ngIf="stepper.selectedIndex == 4"
+        (siguientePaso)="cambiarPasoIdentificacionDelRiesgo($event)"
+      >
+      </app-relato-hechos>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel class="text-capitalize"
+        >Redes de Apoyo</ng-template
+      >
+      <app-redes-apoyo
+        *ngIf="stepper.selectedIndex == 5"
+        (siguientePaso)="cambiarPasoIdentificacionDelRiesgo($event)"
+      >
+      </app-redes-apoyo>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel class="text-capitalize"
+        >Percepción de la Víctima</ng-template
+      >
+      <app-percepcion-victima-entrevista
+        *ngIf="stepper.selectedIndex == 6"
+        (siguientePaso)="cambiarPasoIdentificacionDelRiesgo($event)"
+      >
+      </app-percepcion-victima-entrevista>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel class="text-capitalize"
+        >Conclusión y Recomendaciones</ng-template
+      >
+      <app-conclusion-recomendaciones
+        *ngIf="stepper.selectedIndex == 7"
+        (siguientePaso)="cambiarPasoIdentificacionDelRiesgo($event)"
+        (siguienteTab)="siguienteTab.emit($event)"
+        (imprimirPDFCompleto)="imprimirPDFCompleto()"
+      >
+      </app-conclusion-recomendaciones>
+    </mat-step>
+  </mat-stepper>
+</section>

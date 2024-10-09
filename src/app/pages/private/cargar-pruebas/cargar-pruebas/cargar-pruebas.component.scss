@@ -1,0 +1,5 @@
+.no-clickable {
+  pointer-events: none !important;
+  opacity: 0.5;
+  filter: grayscale(100%);
+}

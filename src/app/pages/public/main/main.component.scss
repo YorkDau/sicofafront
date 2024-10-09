@@ -1,0 +1,15 @@
+main {
+  background: url("/assets/images/femmes.png") no-repeat;
+  background-position: 100%;
+}
+.box-title {
+  border-bottom: 2px solid var(--lochmara);
+}
+
+.box-search {
+  background-color: var(--white);
+  box-shadow: 0px 5px 20px #6c757d3b;
+  border: 1px solid #00000033;
+  border-radius: 4px 4px 30px 30px;
+  opacity: 1;
+}

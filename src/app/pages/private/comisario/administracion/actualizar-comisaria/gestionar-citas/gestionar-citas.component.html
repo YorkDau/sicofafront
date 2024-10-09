@@ -1,0 +1,62 @@
+<div class="background-gray rounded-basic p-4 mb-4">
+  <div class="d-flex align-items-center mb-4">
+    <p class="title-content m-0 me-3">Citas de la comisaría</p>
+    <button class="btn button-new" (click)="abrirModalAgregarCita()">
+      Agregar Cita
+    </button>
+  </div>
+  <div>
+    <app-no-data
+      *ngIf="!citas || citas.length == 0"
+      mensaje="No se encontraron citas para esta comisaría."
+    ></app-no-data>
+    <table
+      class="w-100"
+      mat-table
+      [dataSource]="dataSource"
+      id="table-private"
+      *ngIf="citas && citas.length > 0"
+    >
+      <ng-container matColumnDef="fecha">
+        <mat-header-cell *matHeaderCellDef>Fecha</mat-header-cell>
+        <mat-cell *matCellDef="let item">
+          <div>
+            {{ item.fechaCita | date: "fullDate" }}
+          </div>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="hora">
+        <mat-header-cell *matHeaderCellDef>Hora</mat-header-cell>
+        <mat-cell *matCellDef="let item">
+          <div>
+            {{ item.horaCita | date: "shortTime" }}
+          </div>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="activo">
+        <mat-header-cell *matHeaderCellDef>Activo</mat-header-cell>
+        <mat-cell *matCellDef="let item">
+          <div>
+            <input
+              type="checkbox"
+              [checked]="item.activo"
+              class="form-check-input"
+              (change)="actualizarCita(item)"
+            />
+          </div>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </table>
+  </div>
+  <div>
+    <mat-paginator
+      class="background-gray"
+      [pageSizeOptions]="[5, 10, 20]"
+      showFirstLastButtons
+      aria-label="Select page of request"
+    >
+    </mat-paginator>
+  </div>
+</div>

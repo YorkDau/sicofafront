@@ -1,0 +1,104 @@
+<form
+    [formGroup]="myForm"
+    class="background-gray rounded-basic p-3 mb-3">
+    <div class="row">
+    <p class="title-content me-5 mb-3 text-center">Busqueda de Usuarios</p>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Filtro</label>
+                <input
+                type="text"
+                class="form-control"
+                placeholder="Documento, Nombres, Correo"
+                formControlName="filtro"
+                id="nombre">
+            </div>
+        </div>
+        <div class="col-lg-3 d-flex align-items-center justify-content-center">
+            <div class="mb-3 mt-4">
+              <button class="btn btn-primary" (click)="applyFilter()">
+                <img
+                  src="assets/images/busqueda.svg"
+                  alt="serach"
+                  class="img-fluid me-2"
+                  
+                />
+                Buscar
+              </button>
+            </div>
+          </div>
+    </div>
+</form>
+
+<div class="background-content-private p-4 mb-4">
+    <div class="d-flex align-items-baseline mb-4">
+        <p class="title-content me-5 mb-3 ">Lista de Usuarios</p>
+        <button 
+            class="btn button-new"
+            [routerLink]="['../crear-usuario']"
+            > Crear Nuevo Usuario</button>
+    </div>
+    <div class="d-flex justify-content-lg-start">
+        <table 
+        class="w-100"
+        mat-table
+        [dataSource]="dataSource"
+        id="table-private">
+        <ng-container matColumnDef="numeroDocumento">
+            <mat-header-cell *matHeaderCellDef>N. Documento</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <div>{{element.numeroDocumento}}</div>
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="nombre">
+            <mat-header-cell *matHeaderCellDef>Nombres</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <div>{{element.nombres}} {{element.apellidos}}</div>
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="estado">
+            <mat-header-cell *matHeaderCellDef>Estado</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <div>{{element.activo ? 'Activo' : 'Inactivo'}}</div>
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="correo">
+            <mat-header-cell *matHeaderCellDef>Correo Electronico</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <div>{{element.correoElectronico}}</div>
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="perfil">
+            <mat-header-cell *matHeaderCellDef>Perfil/es</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <div>{{element.perfiles}}</div>
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="acciones">
+            <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <div style="width: 200px;">
+                    <button mat-icon-button matTooltip="Modificar Usuario" matTooltipPosition="right" matTooltipHideDelay="500"
+                        matTooltipClass="background-tooltip"
+                        aria-label="Button that displays a tooltip when focused or hovered over" 
+                        [routerLink]="['../modificar-usuario', element.idUsuarioSistema]">
+                        <img src="assets/images/irProceso.svg" alt="detail" class="img-fluid" />
+                      </button>
+                </div>
+            </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns displayedColumns"></mat-row>
+        </table>
+    </div>
+    <div >
+        <mat-paginator 
+                [pageSizeOptions]="[5, 10, 20]"
+                showFirstLastButtons
+                aria-label="Select page of request"
+                >
+            </mat-paginator>
+    </div>
+</div>

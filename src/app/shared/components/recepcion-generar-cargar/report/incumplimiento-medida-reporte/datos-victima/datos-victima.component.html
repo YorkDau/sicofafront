@@ -1,0 +1,33 @@
+<table
+  class="table-bordered"
+  id="datos-victima"
+  aria-describedby="reporte incumplimiento"
+  hidden
+>
+  <tr class="numh">
+    <td>DATOS DEL INCIDENDANTE - VÍCTIMA</td>
+  </tr>
+  <tr>
+    <td>Nombre completo: {{ datosVictima.nombreCompleto | titlecase }}</td>
+  </tr>
+  <tr>
+    <td>Cargo:</td>
+  </tr>
+  <tr>
+    <td>Identificación: {{ datosVictima.numeroDocumento }}</td>
+  </tr>
+  <tr>
+    <td>Edad: {{ datosVictima.edad }}</td>
+  </tr>
+  <tr>
+    <td>
+      Dirección de residencia actual: {{ datosVictima.direccionResidencia }}
+    </td>
+  </tr>
+  <tr>
+    <td>Correo electrónico: {{ datosVictima.correoElectronico }}</td>
+  </tr>
+  <tr>
+    <td>Teléfono de contacto de la víctima: {{ datosVictima.telefono }}</td>
+  </tr>
+</table>

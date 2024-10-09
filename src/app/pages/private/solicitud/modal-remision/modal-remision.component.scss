@@ -1,0 +1,63 @@
+::ng-deep .fondoModal > .mat-dialog-container {
+  background: var(--athens) 0% 0% no-repeat padding-box !important;
+  border-radius: 15px;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+
+.textareaModal {
+  resize: none;
+}
+
+.texto-pequeno {
+  font-size: var(--font-14);
+  font-weight: 500;
+  padding-bottom: 5px;
+  padding-left: 5px;
+}
+
+.sin-borde-form-control {
+  box-shadow: -5px 3px 6px #00000029 !important;
+}
+
+.remitente-color {
+  color: #168597;
+}
+
+.encabezado-titulo {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 105%;
+  z-index: 100;
+  background-color: #0168b3;
+  padding: 20px;
+  h6 {
+    padding-left: 2%;
+    padding-right: 9%;
+    text-align: center;
+    font-size: 1rem;
+    letter-spacing: 1px;
+  }
+}
+
+.titulo-entidad {
+  padding-left: 7% !important;
+}
+
+.close-button {
+  position: absolute !important;
+  right: 20px !important;
+  top: 8px !important;
+  z-index: 99999 !important;
+}
+
+.close-icon {
+  transition: 1s ease-in-out;
+  color: white !important;
+}
+
+.espaciado-top {
+  padding-top: 22%;
+}

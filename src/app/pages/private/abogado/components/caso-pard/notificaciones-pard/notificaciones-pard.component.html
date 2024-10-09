@@ -1,0 +1,84 @@
+<div class="mt-5 ms-2">
+  <div class="title-modal text-start">NOTIFICACIONES Y COMUNICADOS</div>
+
+  <form
+    [formGroup]="involucradosPARDForm"
+    class="mt-4"
+    (submit)="validarFormulario()"
+  >
+    <p class="form-label">
+      Seleccione el formato que desea realizar y cargue el resultado una vez
+      realizadas:
+    </p>
+
+    <div class="mt-4">
+      <label for="formato" class="form-label">
+        Pruebas periciales a realizar
+      </label>
+      <div class="d-flex align-items-center w-100" *ngIf="listaInvolucrados.length">
+        <ng-select
+          [items]="listaInvolucrados"
+          [closeOnSelect]="false"
+          [multiple]="true"
+          bindLabel="nombreInvolucrado"
+          placeholder="Seleccione"
+          appendTo="body"
+          formControlName="involucrados"
+          [ngClass]="{
+            'input-req': isRequired('involucrados') && mostrarValidaciones
+          }"
+        >
+          <ng-template ng-header-tmp>
+            <div>
+              <button
+                type="button"
+                class="btn btn-link"
+                (click)="onSelectAll()"
+              >
+                Seleccionar todos
+              </button>
+              <button type="button" class="btn btn-link" (click)="onClearAll()">
+                Limpiar todos
+              </button>
+            </div>
+          </ng-template>
+          <ng-template
+            ng-option-tmp
+            let-item="item"
+            let-item$="item$"
+            let-index="index"
+          >
+            <input
+              id="item-{{ index }}"
+              type="checkbox"
+              [checked]="item$.selected"
+            />
+            {{ item.nombreInvolucrado }}
+          </ng-template>
+        </ng-select>
+
+        <button type="submit" class="btn btn-primary ms-5">
+          Notificar involucrados
+        </button>
+      </div>
+      <div
+        *ngIf="isRequired('involucrados') && mostrarValidaciones"
+        class="msj-req"
+      >
+        {{ msgObligatorio }}
+      </div>
+    </div>
+  </form>
+
+  <div class="mt-4" *ngIf="gridInvolucradosSub">
+    <app-grid-pard
+      [columnas]="columnas"
+      [registros]="gridInvolucradosSub"
+      [tipoReporte]="2"
+      [tipoDocumento]="tipoDocumentoPARD"
+    ></app-grid-pard>
+  </div>
+</div>
+
+<app-notificacion-x-aviso></app-notificacion-x-aviso>
+<app-notificacion-x-estado></app-notificacion-x-estado>

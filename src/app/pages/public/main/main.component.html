@@ -1,0 +1,90 @@
+<app-header></app-header>
+<main class="min-vh-100 container-fluid">
+  <!-- form search -->
+  <div class="row mt-5 ms-5">
+    <div class="col-lg-6">
+      <div class="title-normal ps-4 box-title">
+        ESTAMOS PARA TÍ, LAS COMISARÍAS DE FAMILIA TE PROTEGEMOS
+      </div>
+      <div class="box-search p-3">
+        <span class="subtitle-normal">Solicita tu cita presencial</span>
+        <p class="form-label">Indícanos donde estás ubicado.</p>
+
+        <form
+          [formGroup]="searchForm"
+          class="row"
+          (ngSubmit)="buscarComisaria()"
+        >
+          <div class="col-lg-4">
+            <div class="mb-3">
+              <label for="departamento" class="form-label">
+                Departamento*
+              </label>
+              <select
+                id="departamento"
+                class="form-select"
+                [ngClass]="{
+                  'input-req': departamento !== '' && mostrarValidaciones
+                }"
+                formControlName="departamento"
+                (change)="getCiudades($event)"
+              >
+                <option disabled value="">Departamento</option>
+                <option
+                  *ngFor="let item of listaDepartamentos"
+                  [value]="item.depID"
+                >
+                  {{ item.nombDep }}
+                </option>
+              </select>
+              <div
+                *ngIf="departamento !== '' && mostrarValidaciones"
+                class="msj-req"
+              >
+                {{ departamento }}
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="mb-3">
+              <label for="ciudad" class="form-label"> Ciudad / Municipio* </label>
+              <select
+                id="ciudad"
+                class="form-select"
+                [ngClass]="{
+                  'input-req': ciudad !== '' && mostrarValidaciones
+                }"
+                formControlName="ciudad"
+              >
+                <option disabled value="">Ciudad/Municipio</option>
+                <option
+                  *ngFor="let item of listaCiudad"
+                  [value]="item.ciudmunID"
+                >
+                  {{ item.nombCiudMun }}
+                </option>
+              </select>
+              <div *ngIf="ciudad !== '' && mostrarValidaciones" class="msj-req">
+                {{ ciudad }}
+              </div>
+            </div>
+          </div>
+          <div
+            class="col-lg-4 d-flex align-items-center justify-content-center"
+          >
+            <div class="mt-3">
+              <button type="submit" class="btn btn-primary">
+                <img src="assets/images/busqueda.svg" alt="serach" class="img-fluid me-2"/>
+                Buscar
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="col-lg-6"></div>
+  </div>
+
+  <router-outlet></router-outlet>
+</main>
+<app-footer></app-footer>

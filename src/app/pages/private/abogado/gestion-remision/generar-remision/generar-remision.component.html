@@ -1,0 +1,126 @@
+<div class="background-gray rounded-basic p-4 mb-3">
+  <form [formGroup]="myForm">
+    <h4 class="text-blue mb-4">GESTIÓN DE REMISIONES</h4>
+    <div class="form-check px-4">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        id="remisionPersonalizada"
+        formControlName="requiereRemision"
+      />
+      <label class="form-check-label" for="remisionPersonalizada">
+        ¿Requiere cargar una remisión personalizada?
+      </label>
+    </div>
+
+    <div class="col-4 p-0 my-3">
+      <h6>Involucrado*</h6>
+      <select
+        formControlName="involucrado"
+        class="form-select"
+        [ngClass]="{
+          'input-req': isRequired('involucrado') && mostrarValidaciones
+        }"
+        (change)="cargarSelectTipoRemisiones($event)"
+      >
+        <option disabled value="">Seleccione</option>
+        <option
+          *ngFor="let involucrad of listaInvolucrados"
+          [value]="involucrad.idInvolucrado"
+        >
+          {{ involucrad.nombres|titlecase }} - {{ involucrad.documento }}
+        </option>
+      </select>
+      <div
+        class="msj-req"
+        *ngIf="isRequired('involucrado') && mostrarValidaciones"
+      >
+        {{ msgObligatorio }}
+      </div>
+    </div>
+
+    <div *ngIf="!hablitarRemisionPersonalizada()">
+      <h6>
+        Seleccione la remisión para <strong>medidas provisionales</strong> que
+        desea realizar:
+      </h6>
+      <div class="col-4 p-0 my-3">
+        <h6>Remisión medidas provisionales*</h6>
+        <select
+          formControlName="remision"
+          class="form-select"
+          [ngClass]="{
+            'input-req':
+              isRequiredRemisionNoPersonalizada() && mostrarValidaciones
+          }"
+          (change)="obtenerDatosRemision($event)"
+        >
+          <option disabled value="">Seleccione</option>
+          <option
+            *ngFor="let remision of listaTipoRemisiones"
+            [value]="remision.nombre"
+          >
+            {{ remision.nombre }}
+          </option>
+        </select>
+        <div
+          class="msj-req"
+          *ngIf="isRequiredRemisionNoPersonalizada() && mostrarValidaciones"
+        >
+          {{ msgObligatorio }}
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="hablitarRemisionPersonalizada()">
+      <div class="col-4 p-0 my-3">
+        <h6>Nombre de la Remisión*</h6>
+        <input
+          type="text"
+          maxlength="100"
+          class="form-control"
+          [ngClass]="{
+            'input-req':
+              isRequiredRemisionPersonalizada() && mostrarValidaciones
+          }"
+          formControlName="nombreRemision"
+          placeholder="Nombre de la Remisión"
+          (input)="soloLetras('nombreRemision')"
+        />
+        <div
+          class="msj-req"
+          *ngIf="isRequiredRemisionPersonalizada() && mostrarValidaciones"
+        >
+          {{ msgObligatorio }}
+        </div>
+      </div>
+    </div>
+    <app-reportes
+      [tipoReporte]="myForm.value.remision"
+      [dataReporte]="dataReporte"
+    ></app-reportes>
+    <div class="my-4 d-flex">
+      <button
+        class="px-4 me-3 btn btn-primary"
+        *ngIf="!hablitarRemisionPersonalizada()"
+        (click)="imprimir()"
+      >
+        Imprimir Remisión
+      </button>
+
+      <app-carga-archivo
+        (baseArchivo)="enviarArchivo($event)"
+      ></app-carga-archivo>
+    </div>
+
+    <div class="mt-3 d-flex justify-content-end gap-3">
+      <button
+        class="px-3 btn btn-primary"
+        [routerLink]="['../../gestion-remision/', this.objSol.idSolicitud]"
+      >
+        Volver
+      </button>
+      <button class="px-4 btn btn-primary" (click)="guardar()">Guardar</button>
+    </div>
+  </form>
+</div>

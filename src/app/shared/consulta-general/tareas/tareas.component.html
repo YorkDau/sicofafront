@@ -1,0 +1,50 @@
+<div class="estilo-tabla">
+    <table  mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="nombreTarea">
+            <th mat-header-cell *matHeaderCellDef>Nombre de la Tarea</th>
+            <td *matCellDef="let element">
+                {{element.nombreTarea}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="nombreProceso">
+            <th mat-header-cell *matHeaderCellDef>Proceso</th>
+            <td *matCellDef="let element">
+                {{element.nombreProceso}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="usuario">
+            <th mat-header-cell *matHeaderCellDef>Usuario que la ejecuta</th>
+            <td *matCellDef="let element">
+                {{element.usuario}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="fechaCreacion">
+            <th mat-header-cell *matHeaderCellDef>Fecha de creación</th>
+            <td *matCellDef="let element">
+                {{element.fechaCreacion | date: "dd/MM/yyyy"}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="fechaTerminacion">
+            <th mat-header-cell *matHeaderCellDef>fecha de terminación</th>
+            <td *matCellDef="let element">
+                {{element.fechaTerminacion | date: "dd/MM/yyyy"}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="estadoTarea">
+            <th mat-header-cell *matHeaderCellDef>Estado</th>
+            <td *matCellDef="let element">
+                {{element.estadoTarea}}
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>
+<div>
+    <mat-paginator 
+                [pageSizeOptions]="[5, 10, 20]"
+                showFirstLastButtons
+                aria-label="Select page of request"
+                >
+            </mat-paginator>
+</div>

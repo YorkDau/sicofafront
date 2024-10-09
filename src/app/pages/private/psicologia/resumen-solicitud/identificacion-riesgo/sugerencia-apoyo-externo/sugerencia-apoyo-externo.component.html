@@ -1,0 +1,166 @@
+<form [formGroup]="myForm" class="background-gray2 rounded-basic p-4 mb-3">
+  <div class="px-4">
+    <h4 class="color-text-azul">
+      ORIENTACIÓN Y RECOMENDACIONES A LAS MUJERES VÍCTIMAS DE VIOLENCIA EN EL
+      CONTEXTO FAMILIAR
+    </h4>
+
+    <label class="form-label"
+      >Seleccione las recomendaciones a las que (según el municipio / localidad
+      de la comisaría de familia) el ciudadano tiene acceso y a las que según el
+      riesgo identificado el ciudadano debe adoptar.
+    </label>
+  </div>
+
+  <div class="row my-3 mx-0 px-4">
+    <div class="col-12 bg-titulo-sug p-3 px-0">
+      <h5 class="text-white m-0">
+        RECOMENDACIONES SOBRE SEGURIDAD, REDES DE APOYO Y ENTIDADES EXTERNAS
+      </h5>
+    </div>
+    <div class="row mx-0 px-0 border border-primary rounded-bottom">
+      <div class="col-3 px-0">
+        <mat-selection-list class="pt-0" [multiple]="false">
+          <mat-list-option class="border-bottom" (click)="cambiarTab(0)">
+            <div class="item-img">
+              <img
+                src="assets/images/document.svg"
+                width="15px"
+                height="15px"
+                alt="leaf"
+              />
+              <label
+                class="form-label"
+                [ngClass]="{
+                  'fw-bolder': seguridad
+                }"
+                >Seguridad</label
+              >
+              <img
+                src="assets/images/angulo-pequeno-derecho-azul.svg"
+                width="15px"
+                height="15px"
+                alt="leaf"
+              />
+            </div>
+          </mat-list-option>
+          <mat-list-option class="border-bottom" (click)="cambiarTab(1)">
+            <div class="item-img">
+              <img
+                src="assets/images/document.svg"
+                width="15px"
+                height="15px"
+                alt="leaf"
+              />
+              <label
+                class="form-label"
+                [ngClass]="{
+                  'fw-bolder': redes
+                }"
+                >Redes de Apoyo</label
+              >
+              <img
+                src="assets/images/angulo-pequeno-derecho-azul.svg"
+                width="15px"
+                height="15px"
+                alt="leaf"
+              />
+            </div>
+          </mat-list-option>
+        </mat-selection-list>
+      </div>
+
+      <div class="col-9 px-0 bg-white" *ngIf="seguridad">
+        <div class="row p-4">
+          <div class="col-12" *ngFor="let seguridad of checkSeguridad">
+            <div class="form-check py-2" *ngIf="seguridad">
+              <div class="d-flex">
+                <div class="d-flex align-items-center justify-content-center">
+                  <ul>
+                    <li></li>
+                  </ul>
+                </div>
+                <label class="form-label text-justify">
+                  {{ seguridad.nombreDominio }}
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-9 px-0 bg-white" *ngIf="redes">
+        <div class="row p-4">
+          <div class="col-12" *ngFor="let redesApoyo of checkRedesApoyo">
+            <div class="form-check py-2" *ngIf="redesApoyo">
+              <div class="d-flex">
+                <div class="d-flex align-items-center justify-content-center">
+                  <ul>
+                    <li></li>
+                  </ul>
+                </div>
+                <label class="form-label text-justify">
+                  {{ redesApoyo.nombreDominio }}
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <app-seguridad-redes-apoyo-pdf
+    [idSolicitud]="idSolicitud"
+    [temp]="temp"
+  ></app-seguridad-redes-apoyo-pdf>
+
+  <div class="row mt-3 px-4">
+    <div class="col-6">
+      <fieldset class="border border-primary p-2">
+        <legend class="float-none w-auto p-2 color-text-azul">
+          Generación de Formatos
+        </legend>
+        <div class="px-2 d-flex gap-4 align-items-baseline">
+          <button class="btn btn-primary" (click)="imprimirPDF()">
+            Imprimir Formato Vacío
+          </button>
+          <button
+            *ngIf="tarea && tarea.idSolicitud"
+            class="btn btn-primary"
+            (click)="imprimirPDF(true)"
+          >
+            Imprimir Formato Completo
+          </button>
+        </div>
+      </fieldset>
+    </div>
+    <div class="col-6">
+      <fieldset class="border border-primary p-2">
+        <legend class="float-none w-auto p-2 color-text-azul">
+          Cargar Formato
+        </legend>
+        <app-carga-archivo
+          (baseArchivo)="cargarArchivo($event)"
+          [archivoCargado]="file"
+        ></app-carga-archivo>
+      </fieldset>
+    </div>
+  </div>
+
+  <div class="d-flex align-items-center justify-content-end mt-5 gap-3 px-4">
+    <button type="button" class="btn btn-danger" (click)="cancelar()">
+      Cancelar
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="archivarDiligencias()"
+    >
+      Archivar diligencias
+    </button>
+    <button type="button" class="btn btn-primary" (click)="cerrarActuaciones()">
+      Cerrar actuaciones
+    </button>
+  </div>
+</form>

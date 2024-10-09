@@ -1,0 +1,21 @@
+<form [formGroup]="form" class="mt-3">
+
+  <h4 class="mb-3">PROCEDIMIENTO - METODOLOGÍA</h4>
+
+  <app-no-data
+    mensaje="Contarle a la mujer el objetivo de este proceso y el paso a paso que contiene. Es importante partir de que las mujeres pueden tener afectaciones emocionales en el momento de la entrevista, por esta razón es importante hablar en un tono de voz bajo, de manera pausada y asegurarse de que ella ha entendido lo explicado, también es pertinente abrir un espacio para que la mujer haga las preguntas que tenga del proceso.">
+  </app-no-data>
+
+  <div class="form-group col-lg-12 mt-4">
+    <label class="form-label text-capitalize">Procedimiento - Metodología</label>
+    <textarea type="text" class="form-control" placeholder="Procedimiento - Metodología" formControlName="descripcionA"
+      rows="5" maxlength="5000"></textarea>
+
+  </div>
+</form>
+
+<div class="d-flex align-items-center justify-content-end mt-5" style="gap: 1rem">
+  <button type="button" class="btn btn-outline-danger" (click)="cancelar()">Cancelar</button>
+  <button type="button" class="btn btn-primary" (click)="guardar('Anterior')">Anterior</button>
+  <button type="button" class="btn btn-primary" (click)="guardar('Siguiente')">Siguiente</button>
+</div>

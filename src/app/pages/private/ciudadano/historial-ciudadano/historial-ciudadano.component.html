@@ -1,0 +1,182 @@
+<div class="mb-5" *ngIf="ciudadano">
+  <div class="info-general background-filter-private mb-4">
+    <div class="row">
+      <div class="col-lg-1 d-flex justify-content-between">
+        <div class="d-flex bd-highlight m-3">
+          <img
+            src="assets/images/Usuario.svg"
+            height="76px"
+            width="57px"
+            alt="person"
+          />
+        </div>
+      </div>
+
+      <div class="col-lg-11">
+        <div class="row">
+          <div class="col-lg-6">
+            <h2 class="title-medium">CIUDADANO</h2>
+            <h4 class="subtitle-normal">
+              {{ printNombreCiudadano() | titlecase }}
+            </h4>
+          </div>
+
+          <div class="col-lg-6 d-flex" *ngIf="ciudadano.requiereModificacon">
+            <app-no-data
+              mensaje="Los datos del ciudadano están incompletos"
+            ></app-no-data>
+            <div
+              class="fondo-img-edit d-inline-flex mt-3 ms-3 pointer-event"
+              (click)="completarInformacionCiudadano()"
+            >
+              <img src="assets/images/edit.svg" alt="editar" />
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-4 p-3">
+            <label class="fw-bolder texto-pequeno d-block"
+              >Tipo de documento:</label
+            >
+            {{
+              ciudadano && ciudadano.tipo_documento
+                ? ciudadano.tipo_documento
+                : "Sin dato"
+            }}
+          </div>
+          <div class="col-4 p-3">
+            <label class="fw-bolder texto-pequeno d-block"
+              >Número de celular:</label
+            >
+            {{
+              ciudadano && ciudadano.celular ? ciudadano.celular : "Sin dato"
+            }}
+          </div>
+          <div class="col-4 p-3">
+            <label class="fw-bolder texto-pequeno d-block"
+              >Fecha de nacimiento:</label
+            >
+            {{
+              ciudadano &&
+              ciudadano.fecha_nacimiento &&
+              ciudadano.fecha_nacimiento != "0001-01-01T00:00:00"
+                ? (ciudadano.fecha_nacimiento | date : "dd/MM/yyyy")
+                : "Sin dato"
+            }}
+          </div>
+
+          <div class="col-4 p-3">
+            <label class="fw-bolder texto-pequeno d-block"
+              >Número de documento:</label
+            >
+            {{
+              ciudadano && ciudadano.numero_documento
+                ? ciudadano.numero_documento
+                : "Sin dato"
+            }}
+          </div>
+          <div class="col-4 p-3">
+            <label class="fw-bolder texto-pequeno d-block"
+              >Correo electrónico:</label
+            >
+            {{
+              ciudadano && ciudadano.correo_electronico
+                ? ciudadano.correo_electronico
+                : "Sin dato"
+            }}
+          </div>
+          <div class="col-4 p-3">
+            <label class="fw-bolder texto-pequeno d-block">Edad:</label>
+            {{
+              ciudadano && ciudadano.edad
+                ? ciudadano.edad +
+                  "
+            años"
+                : "Sin dato"
+            }}
+          </div>
+
+          <div class="col-12 p-3 d-flex">
+            <label class="fw-bolder texto-pequeno text-lg-nowrap me-1"
+              >Población de especial protección constitucional:
+            </label>
+            <ul *ngIf="validarPoblacionEspecial()" class="d-flex flex-wrap">
+              <li
+                class="text-capitalize me-4"
+                *ngIf="ciudadano.pueblo_indigena != 'No'"
+              >
+                {{ ciudadano.pueblo_indigena }}
+              </li>
+              <li
+                class="text-capitalize me-4"
+                *ngIf="ciudadano.poblacion_lgtbi"
+              >
+                poblacion LGBTI
+              </li>
+              <li
+                class="text-capitalize me-4"
+                *ngIf="ciudadano.nino_nina_adolecente"
+              >
+                niño o niña adolescente
+              </li>
+              <li
+                class="text-capitalize me-4"
+                *ngIf="ciudadano.victima_conflicto_armado"
+              >
+                victima conflicto armado
+              </li>
+              <li
+                class="text-capitalize me-4"
+                *ngIf="ciudadano.persona_lider_defensor_DH"
+              >
+                lider defensor DH
+              </li>
+              <li
+                class="text-capitalize me-4"
+                *ngIf="ciudadano.persona_habitalidad_calle"
+              >
+                habitabilidad calle
+              </li>
+              <li class="text-capitalize me-4" *ngIf="ciudadano.migrante">
+                migrante
+              </li>
+            </ul>
+            <ng-container *ngIf="!validarPoblacionEspecial()">
+              No pertenece
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="background-content-private p-4 mb-4">
+    <div class="d-flex align-items-center px-4 mb-4">
+      <p class="title-content me-5 mb-0">SOLICITUDES DE SERVICIO</p>
+      <button
+        class="btn button-new"
+        [routerLink]="['/solicitud']"
+        *ngIf="!ciudadano.requiereModificacon && this.mostrarOcultarBoton"
+      >
+        Nueva Solicitud
+      </button>
+    </div>
+
+    <div style="max-width: 372px !important">
+      <app-no-data
+        mensaje="No se han encontrado solicitudes de servicio relacionadas con el ciudadano."
+        *ngIf="!listaRecepcion.length"
+      ></app-no-data>
+    </div>
+    <aurora-table
+      [data]="listaRecepcion"
+      [columns]="columns"
+      [actions]="actions"
+      [pageSizeOptions]="[5, 10, 20]"
+      *ngIf="listaRecepcion.length"
+    >
+    </aurora-table>
+    
+  </div>
+</div>

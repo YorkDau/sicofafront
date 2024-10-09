@@ -1,0 +1,13 @@
+mat-icon {
+  &.description {
+    $size: 40px;
+    color: #004884;
+    font-size: $size;
+    width: $size;
+    height: $size;
+  }
+}
+
+.file {
+  width: 380px;
+}

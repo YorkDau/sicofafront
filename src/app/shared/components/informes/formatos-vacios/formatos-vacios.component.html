@@ -1,0 +1,50 @@
+<div class="background-gray rounded-basic p-4 mb-3">
+    <p class="title-medium me-5 mb-3 text-center">GENERAR FORMATOS</p>
+    <div >
+        <div class="d-flex justify-content-center">
+            <table 
+                class="w-75"
+                mat-table
+                [dataSource]="dataSource"
+                id="table-especific">
+            <ng-container  matColumnDef="nombreDocumento">
+                <th class="w-100" mat-header-cell  *matHeaderCellDef>Nombre del Documento</th>
+                <td class="w-100 " mat-cell *matCellDef="let element">
+                    <div>{{element.nombreDocumento.split(".pdf").join("")}}</div>
+                </td>
+            </ng-container>
+            <ng-container  matColumnDef="versionDocumento">
+                <th  class="column " mat-header-cell *matHeaderCellDef>Versión</th>
+                <td  class="column " mat-cell *matCellDef="let element">
+                    <div >{{element.versionDocumento}}</div>
+                </td>
+            </ng-container>
+            <ng-container  matColumnDef="acciones">
+                <th class="column" mat-header-cell *matHeaderCellDef>Descargar</th>
+                <td  class="column text-center" mat-cell *matCellDef="let element">
+                    <button
+                      mat-icon-button
+                      matTooltip="Descargar adjunto"
+                      color="primary"
+                      (click)="descargarFormato(element)"
+                    >
+                      <mat-icon
+                      class="material-icons-outlined">file_download</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns displayedColumns"></mat-row>
+            </table>
+        </div>
+        <div class="d-flex justify-content-center">
+            <mat-paginator 
+                [pageSizeOptions]="[5, 10, 20]"
+                showFirstLastButtons
+                aria-label="Select page of request"
+                class="w-75"
+                >
+            </mat-paginator>
+        </div>
+    </div>
+</div>

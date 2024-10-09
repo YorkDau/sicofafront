@@ -1,0 +1,102 @@
+<div class="row encabezado-titulo">
+  <h6 class="text-white">REALIZAR PROGRAMACION</h6>
+</div>
+<form [formGroup]="form" class="d-flex m-0 p-0">
+  <div class="bg-form-audiencia p-3" style="width: 300px">
+    <h5 class="my-4">Ingrese la información de la programación a agendar.</h5>
+    <label class="form-label mt-3">Tipo de programación</label>
+    <select
+      class="form-select"
+      [ngClass]="{
+        'input-req': isRequired('razon') && mostrarValidaciones
+      }"
+      formControlName="razon"
+    >
+      <option disabled value="">Seleccione el tipo</option>
+      <option
+        *ngFor="let razon of listaTiposProgramacion"
+        [value]="razon.idTipoAudiencia"
+      >
+        {{ razon.descripcion }}
+      </option>
+    </select>
+    <div class="msj-req" *ngIf="isRequired('razon') && mostrarValidaciones">
+      {{ msgObligatorio }}
+    </div>
+    <div class="my-4 bg-verifique rounded-2 p-3">
+      Verifique que la fecha seleccionada para la realización de la programación
+      no supere los 10 días hábiles desde el día en que se solicitan las medidas
+      de protección.
+    </div>
+    <div class="mx-0 mb-4 p-0">
+      <label class="form-label mt-3">Fecha y Hora Inicial</label>
+
+      <input
+        class="form-control"
+        type="datetime-local"
+        formControlName="fechaInicial"
+        max="{{ maxDate | date: 'yyyy-MM-ddThh:mm' }}"
+        min="{{ minDate | date: 'yyyy-MM-ddThh:mm' }}"
+      />
+      <span
+        class="msj-req"
+        *ngIf="isRequired('fechaInicial') && mostrarValidaciones"
+      >
+        {{ msgObligatorio }}
+      </span>
+      <span
+        class="msj-req"
+        *ngIf="isRequiredFechaActualMayorInicial() && mostrarValidacionesFechas"
+      >
+        {{ msgMenorFechaActual }}
+      </span>
+    </div>
+    <div class="mx-0 mb-4 p-0">
+      <label class="form-label mt-3">Fecha y Hora Final</label>
+      <input
+        class="form-control"
+        type="datetime-local"
+        formControlName="fechaFinal"
+        max="{{ maxDate | date: 'yyyy-MM-ddThh:mm' }}"
+        min="{{ minDate | date: 'yyyy-MM-ddThh:mm' }}"
+      />
+      <span
+        class="msj-req"
+        *ngIf="isRequired('fechaFinal') && mostrarValidaciones"
+      >
+        {{ msgObligatorio }}
+      </span>
+      <span
+        class="msj-req"
+        *ngIf="isRequiredFechaFinalInferiorInicial() && mostrarValidaciones"
+      >
+        {{ msgFinalMenorInicio }}
+      </span>
+      <span
+        class="msj-req"
+        *ngIf="isRequiredFechaActualMayorFinal() && mostrarValidacionesFechas"
+      >
+        {{ msgMenorFechaActual }}
+      </span>
+    </div>
+  </div>
+
+  <div class="w-100 border-bottom border-end pe-3 px-3">
+    <app-calendario [events]="eventosCalendario"></app-calendario>
+  </div>
+</form>
+
+<div class="row mx-0 mt-5 py-4">
+  <div class="col-12 d-flex justify-content-end px-0" style="gap: 1rem">
+    <button type="button" class="btn btn-danger" (click)="cancelar()">
+      Cancelar
+    </button>
+    <button type="button" class="btn btn-primary">Archivar Diligencias</button>
+    <button type="button" class="btn btn-primary" (click)="guardar()">
+      Guardar
+    </button>
+    <button type="button" class="btn btn-primary" (click)="cerrarActuacion()">
+      Cerrar Actuaciones
+    </button>
+  </div>
+</div>

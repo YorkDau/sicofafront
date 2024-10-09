@@ -1,0 +1,140 @@
+<div class="background-filter-private d-flex flex-column w-100 mb-3">
+  <div class="d-flex align-items-center mb-3">
+    <span class="title-medium">PERFILES</span>
+
+    <button  class="btn button-new ms-4" routerLink="../registro-perfil">
+      Nuevo Perfil
+    </button>
+  </div>
+
+  <p class="subtitle-medium">
+    Encuentre los registros que previamente han sido registrados en el sistema
+  </p>
+
+  <!-- filtros -->
+  <form
+    [formGroup]="ciudadanoForm"
+    class="row"
+    autocomplete="off"
+    (submit)="consultarCiudadano()"
+  >
+    <div class="col-lg-3 mb-3">
+      <label for="nombre" class="form-label">Nombre perfil</label>
+      <input
+        type="text"
+        class="form-control"
+        [ngClass]="{
+          'input-req': isRequired('obl') && mostrarValidaciones
+        }"
+        id="nombre"
+        placeholder="Nombre usuario"
+        formControlName="nombre_ciudadano"
+        maxlength="50"
+      />
+    </div>
+    <div class="col-lg-3 mb-3">
+      <label for="apellido" class="form-label">Codigo</label>
+      <input
+        type="text"
+        class="form-control"
+        [ngClass]="{
+          'input-req': isRequired('obl') && mostrarValidaciones
+        }"
+        id="apellido"
+        placeholder="Apellido usuario"
+        formControlName="apellido_ciudadano"
+        maxlength="50"
+      />
+    </div>
+    <div class="col-lg-3 mb-3">
+      <label for="documento" class="form-label">Estado</label>
+      <input
+        type="text"
+        class="form-control"
+        [ngClass]="{
+          'input-req': isRequired('obl') && mostrarValidaciones
+        }"
+        id="documento"
+        placeholder="Número de documento"
+        formControlName="numero_documento"
+        maxlength="20"
+      />
+    </div>
+    <div
+      class="col-lg-3 mb-3 d-flex align-items-center margin-button justify-content-lg-center"
+    >
+      <button class="btn btn-primary" type="submit">
+        <img
+          src="assets/images/busqueda.svg"
+          alt="serach"
+          class="img-fluid me-2"
+        />
+        Buscar
+      </button>
+    </div>
+  </form>
+  <div *ngIf="isRequired('obl') && mostrarValidaciones" class="msj-req">
+    Los campos de nombre y Codido o estado son obligatorios
+  </div>
+</div>
+<div class="background-content-private p-2 mb-4">
+  <p class="title-content">RESULTADOS DE BÚSQUEDA</p>
+
+  <div class="not-data-grid w-75" *ngIf="dataSource.data.length === 0">
+    <app-no-data
+      mensaje="No se han encontrado ciudadanos con los criterios de búsqueda ingresados. Proceda al registro del ciudadano en el sistema."
+    >
+    </app-no-data>
+  </div>
+  <mat-table
+    [dataSource]="dataSource"
+    id="table-private"
+    *ngIf="dataSource.data.length > 0"
+  >
+    <ng-container matColumnDef="nombrePerfil">
+      <mat-header-cell *matHeaderCellDef> Nombre</mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        {{ row.nombrePerfil }}
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="codigo">
+      <mat-header-cell *matHeaderCellDef> Código</mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        {{ row.codigo }}
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="estado">
+      <mat-header-cell *matHeaderCellDef> Estado</mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        {{ row.estado }}
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="accion">
+      <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <button
+          mat-icon-button
+          matTooltip="Visualizar"
+          matTooltipPosition="right"
+          matTooltipHideDelay="500"
+          matTooltipClass="background-tooltip"
+          aria-label="Button that displays a tooltip when focused or hovered over"
+          (click)="verPerfil(row)"
+        >
+          <img src="assets/images/eye.svg" alt="detail" class="img-fluid" />
+        </button>
+      </mat-cell>
+    </ng-container>
+    <mat-header-row mat-header-row *matHeaderRowDef="columnas"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: columnas"></mat-row>
+  </mat-table>
+</div>
+<div class="mt-5" [hidden]="ocultarPaginador">
+  <mat-paginator
+    [pageSizeOptions]="[5, 10, 20]"
+    showFirstLastButtons
+    aria-label="Select page of request"
+  >
+  </mat-paginator>
+</div>
+

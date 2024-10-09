@@ -1,0 +1,184 @@
+<form [formGroup]="relatoForm" class="row">
+  <div class="col-lg-4 mb-3">
+    <label for="fecha" class="form-label">
+      Fecha últimos hechos de agresión
+    </label>
+    <input
+      type="text"
+      class="form-control"
+      id="fecha"
+      formControlName="fecha"
+      placeholder="DD/MM/YYYY"
+    />
+  </div>
+  <div class="col-lg-4">
+    <label for="hora" class="form-label">Hora</label>
+    <input
+      type="text"
+      class="form-control"
+      id="hora"
+      placeholder="Hora"
+      formControlName="hora"
+    />
+  </div>
+  <div class="col-lg-4">
+    <label for="lugar" class="form-label">
+      Lugar de ocurrencia de los hechos
+    </label>
+    <input
+      type="text"
+      class="form-control"
+      id="lugar"
+      placeholder="Lugar"
+      formControlName="lugarHechos"
+    />
+  </div>
+
+  <p>
+    Indique de manera clara y detallada cómo ocurrieron los hechos que motivaron
+    esta solicitud (fecha, hora, lugar de los hechos):
+  </p>
+
+  <div class="w-100">
+    <label for="relato" class="form-label">Relato</label>
+    <textarea
+      id="relato"
+      class="form-control"
+      rows="8"
+      placeholder="Relato"
+      style="resize: none"
+      formControlName="descripcionHechos"
+    ></textarea>
+  </div>
+</form>
+
+<div class="w-100 mt-5">
+  <p class="subtitle-form">TIPOS DE VIOLENCIA</p>
+
+  <ng-container *ngIf="listaTipoViolencia.length">
+    <div class="container-tipov">
+      <div
+        class="form-check form-check-inline"
+        *ngFor="let item of listaTipoViolencia"
+      >
+        <input
+          class="form-check-input"
+          type="checkbox"
+          [id]="item.id_Dominio"
+          (click)="marcarTipoViolencia(item.id_Dominio)"
+          [checked]="item.seleccionado"
+        />
+        <label class="form-label" [for]="item.id_Dominio">
+          {{ item.nombre_Dominio }}
+        </label>
+      </div>
+    </div>
+  </ng-container>
+</div>
+
+<form [formGroup]="testimonialForm" autocomplete="off">
+  <div class="w-100 mt-4">
+    <label for="pruebas" class="form-label">
+      PRUEBAS. Documentos a aportar
+    </label>
+    <textarea
+      id="relato"
+      class="form-control"
+      rows="4"
+      placeholder="Documentos a aportar"
+      style="resize: none"
+      formControlName="pruebas"
+      maxlength="10000"
+    ></textarea>
+  </div>
+
+  <p class="subtitle-form mt-5">TESTIMONIAL</p>
+
+  <div class="row mt-4">
+    <div class="col-lg-4">
+      <label for="nombre" class="form-label">Nombre del testigo</label>
+      <input
+        type="text"
+        class="form-control"
+        id="nombre"
+        placeholder="Nombre del testigo"
+        formControlName="nombre"
+        maxlength="100"
+      />
+    </div>
+    <div class="col-lg-4">
+      <label for="celular" class="form-label">Celular</label>
+      <input
+        type="text"
+        class="form-control"
+        id="celular"
+        placeholder="Celular"
+        formControlName="celular"
+        maxlength="10"
+        (input)="formatInput($any($event).target)"
+      />
+    </div>
+    <div class="col-lg-4">
+      <label for="dir" class="form-label">Dirección residencia</label>
+      <input
+        type="text"
+        class="form-control"
+        id="dir"
+        placeholder="Dirección"
+        formControlName="direccion"
+        maxlength="100"
+      />
+    </div>
+  </div>
+
+  <div class="row mt-4">
+    <div class="col-lg-4">
+      <label for="email" class="form-label">Correo electrónico</label>
+      <input
+        type="text"
+        class="form-control"
+        id="email"
+        placeholder="Correo electrónico"
+        formControlName="correo"
+        maxlength="50"
+      />
+    </div>
+  </div>
+
+  <div class="w-100" *ngIf="listaTextos.length">
+    <label for="inf" class="mt-4 mb-3 text-justify">
+      {{ listaTextos[0].nombre_Dominio }}
+    </label>
+
+    <input
+      type="text"
+      class="form-control"
+      id="inf"
+      placeholder="Texto"
+      formControlName="texto1"
+      maxlength="150"
+    />
+  </div>
+
+  <div class="w-100" *ngIf="listaTextos.length">
+    <label for="obs" class="mt-4 mb-3 text-justify">
+      {{ listaTextos[1].nombre_Dominio }}
+    </label>
+
+    <textarea
+      id="obs"
+      class="form-control"
+      rows="4"
+      placeholder="Observaciones"
+      style="resize: none"
+      formControlName="observaciones"
+      maxlength="10000"
+    ></textarea>
+  </div>
+
+  <div class="mt-3" *ngIf="listaTextos.length">
+    <p class="text-justify" *ngFor="let item of listaTextos | slice: 2">
+      {{ item.nombre_Dominio }}
+    </p>
+  </div>
+</form>

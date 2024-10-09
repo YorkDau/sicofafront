@@ -1,0 +1,33 @@
+<div class="w-100 p-5">
+  <p class="form-label">
+    {{ tituloFormulario | uppercase }}
+  </p>
+
+  <div class="row mt-4 mb-4">
+    <div class="col-lg-6 d-flex align-items-center">
+      <button
+        type="button"
+        class="btn button-new me-4"
+        (click)="generarReporte()"
+      >
+        Generar reporte
+      </button>
+    </div>
+    <div class="col-lg-6">
+      <app-carga-archivo
+        (baseArchivo)="enviarArchivo($event)"
+      ></app-carga-archivo>
+    </div>
+  </div>
+</div>
+
+<app-acciones-formulario
+  [callBackFunction]="guardarArchivo"
+  [callBackFunctionNative]="guardarArchivoNativo"
+></app-acciones-formulario>
+
+<app-incumplimiento
+  [datosIncumplimiento]="datosIncumplimiento"
+></app-incumplimiento>
+
+<app-solicitud-levantamiento></app-solicitud-levantamiento>

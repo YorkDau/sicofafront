@@ -1,0 +1,49 @@
+<form [formGroup]="myForm" class="background-gray rounded-basic p-4 mb-4">
+  <div class="row">
+    <h3 class="title-content text-capitalize">Busqueda de Tipo de Dominios</h3>
+    <div class="col-lg-4 form-group mb-3">
+      <label for="nombre" class="form-label text-capitalize"
+        >Nombre del Tipo de Dominio</label
+      >
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Nombre del tipo dominio"
+        formControlName="nombreTipoDominio"
+        maxlength="50"
+        (input)="replaceSpaces($event.target)"
+      />
+    </div>
+    <div class="col-lg-4 form-group">
+      <label for="nombre" class="form-label text-capitalize opacity-0"
+        >Nombre del Tipo de Dominio</label
+      >
+      <button class="btn btn-primary">
+        <img
+          src="assets/images/busqueda.svg"
+          alt="serach"
+          class="img-fluid me-2"
+        />
+        Buscar
+      </button>
+    </div>
+  </div>
+</form>
+
+<div class="background-content-private p-4 mb-4">
+  <div class="row">
+    <p class="title-content mb-3 text-capitalize">
+      Listado de Tipos de Dominio
+    </p>
+  </div>
+
+  <aurora-table
+    [data]="dominios"
+    [columns]="columns"
+    [actions]="actions"
+    [valueSearch]="myForm.get('nombreTipoDominio')?.value"
+    [actionsGestionDominios]="EnviarActionsGestionDominios"
+    *ngIf="dominios && dominios.length"
+  >
+  </aurora-table>
+</div>

@@ -1,0 +1,575 @@
+<div class="background-gray rounded-basic p-4 pt-5 ps-5 pe-5 mb-3">
+  <h1 class="internal-title rounded-basic">
+    Sección a cargo del área de recepción
+  </h1>
+
+  <form [formGroup]="form" class="ps-5 pe-5" *ngIf="load">
+    <div class="row pe-5 mt-5">
+      <div class="col-md-6 col-lg-3">
+        <div class="mb-3">
+          <label for="id_tipo_entidad" class="form-label"
+            >Tipo Entidad (*)</label
+          >
+          <select
+            formControlName="id_tipo_entidad"
+            name="id_tipo_entidad"
+            id="id_tipo_entidad"
+            class="form-select"
+            [ngClass]="{
+              'input-req': isRequired('id_tipo_entidad') && mostrarValidaciones
+            }"
+          >
+            <option disabled value="">Seleccione</option>
+            <option
+              *ngFor="let entidad of listaTipoEntidad"
+              [value]="entidad.id_Dominio"
+            >
+              {{ entidad.nombre_Dominio }}
+            </option>
+          </select>
+          <div
+            class="msj-req"
+            *ngIf="isRequired('id_tipo_entidad') && mostrarValidaciones"
+          >
+            {{ msgObligatorio }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="div" class="separator mb-5"></div>
+
+    <div class="row pe-5 mb-5">
+      <div class="col-lg-3">
+        <div class="row alinear">
+          <label for="id_tipo_documento" class="form-label"
+            >Tipo Documento</label
+          >
+          <select
+            formControlName="id_tipo_documento"
+            name="id_tipo_documento"
+            id="id_tipo_documento"
+            (change)="clearInfo()"
+            class="form-select"
+          >
+            <option disabled value="">Seleccione</option>
+            <option
+              *ngFor="let documento of listaTipoDocumento"
+              [value]="documento.id_Dominio"
+            >
+              {{ documento.nombre_Dominio }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="col-lg-3">
+        <div class="row alinear">
+          <div class="d-flex">
+            <label for="numero_documento" class="form-label"
+              >Número de Documento</label
+            >
+            <div
+              class="h-100 pointer-event"
+              matTooltip="Oprima la tecla tab para consultar la información por el tipo y numero de documento seleccionados"
+              matTooltipPosition="above"
+              matTooltipHideDelay="500"
+              matTooltipClass="blued-tooltip"
+            >
+              <mat-icon
+                class="material-icons-outlined"
+                style="font-size: 1rem; color: #007ad5"
+                >info
+              </mat-icon>
+            </div>
+          </div>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="numero_documento"
+            (keydown.Tab)="getInformacionCiudadano($event, 'D')"
+            placeholder="tab -> Número de Documento"
+            maxlength="15"
+            id="numero_documento"
+          />
+        </div>
+      </div>
+
+      <div class="col-lg-5">
+        <div class="row alinear">
+          <label for="nombre_completo" class="form-label"
+            >Nombre Completo Solicitante o razón</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            formControlName="nombre_completo"
+            placeholder="Nombre completo solicitante o razón social"
+            maxlength="50"
+            id="nombre_completo"
+          />
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-3">
+        <div class="row alinear">
+          <label for="correo_electronico" class="form-label"
+            >Correo Solicitante</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            formControlName="correo_electronico"
+            [ngClass]="{
+              'input-req':
+                patternValid('correo_electronico') && mostrarValidaciones
+            }"
+            placeholder="Correo Solicitante"
+            maxlength="50"
+            id="nombre"
+          />
+          <div
+            *ngIf="patternValid('correo_electronico') && mostrarValidaciones"
+            class="msj-req"
+          >
+            {{ msgInvalido }}
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3">
+        <div class="row alinear">
+          <label for="nombre" class="form-label">Teléfono solicitante</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="telefono"
+            (input)="soloNumeroV('telefono')"
+            [ngClass]="{
+              'input-req': patternValid('telefono') && mostrarValidaciones
+            }"
+            placeholder="Telefono solicitante"
+            maxlength="50"
+            id="nombre"
+          />
+          <div
+            *ngIf="patternValid('telefono') && mostrarValidaciones"
+            class="msj-req"
+          >
+            {{ msgInvalido }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row pb-3 align-items-start">
+      <div class="col-12 offset mb-2">
+        <strong>SOPORTE DE LA SOLICITUD</strong>
+        <h6 class="mt-1 mb-2">
+          Cargue el documento recibido de la entidad relacionado con el presunto
+          caso de violencia en el contexto de la familia
+        </h6>
+      </div>
+    </div>
+
+    <div class="row mb-5">
+      <div class="col" *ngIf="crear">
+        <app-carga-archivo
+          (baseArchivo)="cargarArchivo($event)"
+          textoCargar="Cargar documento"
+        >
+        </app-carga-archivo>
+      </div>
+      <div class="col" *ngIf="!crear && iFile">
+        <app-carga-archivo
+          textoCargar="Cargar documento"
+          [downloadIcon]="delete"
+          [deleteIcon]="delete"
+          [archivoCargado]="iFile"
+        >
+        </app-carga-archivo>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-lg-12">
+        <div class="mb-3">
+          <label for="descripcion_hechos" class="form-label"
+            >Describa los hechos compartidos por el tercero (*):</label
+          >
+          <textarea
+            type="text"
+            class="form-control resize-none"
+            formControlName="descripcion_hechos"
+            placeholder="Descripción de los hechos"
+            id="descripcion_hechos"
+            maxlength="3000"
+            style="min-height: 150px; max-height: 150px; resize: none"
+            [ngClass]="{
+              'input-req':
+                (maxLength('descripcion_hechos') && mostrarValidaciones) ||
+                (isRequired('descripcion_hechos') && mostrarValidaciones)
+            }"
+          ></textarea>
+          <div
+            *ngIf="maxLength('descripcion_hechos') && mostrarValidaciones"
+            class="msj-req"
+          >
+            {{ msgInvalido }}
+          </div>
+          <div
+            class="msj-req"
+            *ngIf="isRequired('descripcion_hechos') && mostrarValidaciones"
+          >
+            {{ msgObligatorio }}
+          </div>
+          <div class="row float-end pe-3">
+            {{ f.descripcion_hechos.value?.length }}/3000
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row px-0 p-3">
+      <div class="row">
+        <div class="col-lg-12">
+          <label class="form-label"
+            >¿Que tipo de Pre-solicitud desea radicar?</label
+          >
+          <div class="pt-2">
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                value="DEN"
+                formControlName="tipo_presolicitud"
+                name="tipo_presolicitud"
+                id="denuncia"
+                (change)="changeTipoPresolicitud($event)"
+              />
+              <label class="form-check-label form-label" for="denuncia">
+                Denuncia
+              </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                value="LEV"
+                formControlName="tipo_presolicitud"
+                name="tipo_presolicitud"
+                id="levantamiento"
+                (change)="changeTipoPresolicitud($event)"
+              />
+              <label class="form-check-label form-label" for="levantamiento">
+                Levantamiento de Medidas</label
+              >
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                value="INC"
+                formControlName="tipo_presolicitud"
+                name="tipo_presolicitud"
+                id="incumplimiento"
+                (change)="changeTipoPresolicitud($event)"
+              />
+              <label class="form-check-label form-label" for="incumplimiento">
+                Incumplimiento de Medidas
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row pb-3 align-items-start">
+      <div class="col-12 offset mb-2">
+        <strong>DATOS PRESUNTA VICTIMA</strong>
+      </div>
+      <div class="col-12" *ngIf="mostrarAlertaCasos">
+        <app-no-data
+          mensaje="La victima cuenta con casos asociados en proceso"
+        ></app-no-data>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-lg-3">
+        <div class="row alinear">
+          <label for="id_tipo_documento_Victima" class="form-label"
+            >Tipo Documento</label
+          >
+          <select
+            formControlName="id_tipo_documento_Victima"
+            name="id_tipo_documento_Victima"
+            id="id_tipo_documento_Victima"
+            (change)="clearInfoVictima()"
+            class="form-select"
+          >
+            <option disabled value="">Seleccione</option>
+            <option
+              *ngFor="let documento of listaTipoDocumento"
+              [value]="documento.id_Dominio"
+            >
+              {{ documento.nombre_Dominio }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="col-lg-3">
+        <div class="row alinear">
+          <div class="d-flex">
+            <label for="numero_documento_victima" class="form-label"
+              >Número de Documento</label
+            >
+            <div
+              class="h-100 pointer-event"
+              matTooltip="Oprima la tecla tab para consultar la información por el tipo y numero de documento seleccionados"
+              matTooltipPosition="above"
+              matTooltipHideDelay="500"
+              matTooltipClass="blued-tooltip"
+            >
+              <mat-icon
+                class="material-icons-outlined"
+                style="font-size: 1rem; color: #007ad5"
+                >info
+              </mat-icon>
+            </div>
+          </div>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="numero_documento_victima"
+            (keydown.Tab)="getInformacionCiudadano($event, 'V')"
+            placeholder="tab -> Número de Documento"
+            maxlength="15"
+            id="numero_documento_victima"
+          />
+        </div>
+      </div>
+
+      <div class="col-lg-3">
+        <div class="row alinear">
+          <label for="primer_nombre_victima" class="form-label"
+            >Primer Nombre</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            formControlName="primer_nombre_victima"
+            placeholder="Primer Nombre"
+            maxlength="50"
+            id="primer_nombre_victima"
+          />
+        </div>
+      </div>
+
+      <div class="col-lg-3">
+        <div class="row alinear">
+          <label for="segundo_nombre_victima" class="form-label"
+            >Segundo Nombre</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            formControlName="segundo_nombre_victima"
+            placeholder="Segundo Nombre"
+            maxlength="50"
+            id="segundo_nombre_victima"
+          />
+        </div>
+      </div>
+
+      <div class="col-lg-3">
+        <div class="row alinear">
+          <label for="primer_apellido_victima" class="form-label"
+            >Primer Apellido</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            formControlName="primer_apellido_victima"
+            placeholder="Primer Apellido"
+            maxlength="50"
+            id="primer_apellido_victima"
+          />
+        </div>
+      </div>
+
+      <div class="col-lg-3">
+        <div class="row alinear">
+          <label for="segundo_apellido_victima" class="form-label"
+            >Segundo Apellido</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            formControlName="segundo_apellido_victima"
+            placeholder="Segundo Apellido"
+            maxlength="50"
+            id="segundo_apellido_victima"
+          />
+        </div>
+      </div>
+
+      <div class="col-lg-3">
+        <div class="row alinear">
+          <label for="direccion_victima" class="form-label"
+            >Dirección de residencia</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{
+              'input-req': isRequired('obl') && mostrarValidaciones
+            }"
+            formControlName="direccion_victima"
+            placeholder="Dirección de residencia"
+            maxlength="50"
+            id="direccion_victima"
+          />
+        </div>
+      </div>
+
+      <div class="col-lg-3">
+        <div class="row alinear">
+          <label for="telefono_victima" class="form-label">Teléfono</label>
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{
+              'input-req': isRequired('obl') && mostrarValidaciones
+            }"
+            formControlName="telefono_victima"
+            placeholder="Teléfono"
+            maxlength="50"
+            id="telefono_victima"
+          />
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="row alinear">
+          <label for="correo_electronico_victima" class="form-label"
+            >Correo electrónico</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{
+              'input-req': isRequired('obl') && mostrarValidaciones
+            }"
+            formControlName="correo_electronico_victima"
+            placeholder="Correo electrónico"
+            maxlength="50"
+            id="correo_electronico_victima"
+          />
+        </div>
+      </div>
+
+      <div
+        class="col-lg-6"
+        *ngIf="mostrarCasos"
+      >
+        <div class="row alinear">
+          <label for="id_caso_asociado" class="form-label"
+            >Casos asociados (*)</label
+          >
+          <ng-select
+            class="shadow"
+            [ngClass]="{
+              'input-req': isRequired('id_caso_asociado') && mostrarValidaciones
+            }"
+            [items]="listaCasosAsociados"
+            bindValue="id_solicitud_servicio"
+            bindLabel="codigo_solicitud"
+            labelForId="id_caso_asociado"
+            placeholder="Seleccione"
+            formControlName="id_caso_asociado"
+          >
+          </ng-select>
+          <div
+            class="msj-req"
+            *ngIf="isRequired('id_caso_asociado') && mostrarValidaciones"
+          >
+            {{ msgObligatorio }}
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-12 mt-2">
+        <div class="mb-3">
+          <label for="datos_adicionales_victima" class="form-label"
+            >Datos Adicionales:</label
+          >
+          <textarea
+            type="text"
+            class="form-control resize-none"
+            formControlName="datos_adicionales_victima"
+            placeholder="Datos adicionales"
+            id="datos_adicionales_victima"
+            maxlength="3000"
+            style="min-height: 150px; max-height: 150px; resize: none"
+            [ngClass]="{
+              'input-req':
+                maxLength('datos_adicionales_victima') && mostrarValidaciones
+            }"
+          ></textarea>
+          <div
+            *ngIf="
+              maxLength('datos_adicionales_victima') && mostrarValidaciones
+            "
+            class="msj-req"
+          >
+            {{ msgInvalido }}
+          </div>
+          <div class="row float-end pe-3">
+            {{
+              f.datos_adicionales_victima.value?.length
+                ? f.datos_adicionales_victima.value?.length
+                : 0
+            }}/3000
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <p>
+          Al decir la competencia del caso se solicitará al equipo psicosocial
+          una visita domiciliaria para la verificación de la denuncia del niño,
+          niña o adolescente
+        </p>
+      </div>
+    </div>
+
+    <div
+      *ngIf="isRequired('obl') && mostrarValidaciones"
+      class="row msj-req"
+      style="font-size: 16 !important; font-weight: bold !important"
+    >
+      ** Debe ingresar al menos una direccion, teléfono o correo
+      obligatoriamente, en los datos de la victima**
+    </div>
+    <div class="row p-3 mt-3" *ngIf="crear">
+      <div class="col-12">
+        <div class="float-end">
+          <button type="button" class="btn btn-danger" (click)="cancelar()">
+            Cancelar
+          </button>
+          <button
+            class="btn btn-primary mx-4 px-5"
+            type="submit"
+            (click)="guardar()"
+          >
+            Guardar
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

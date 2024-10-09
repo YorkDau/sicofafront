@@ -1,0 +1,73 @@
+<section class="background p-5">
+  <div
+    class="text-blue"
+    style="font-weight: bold; font-size: 20px; max-width: 929px"
+  >
+    INSTRUMENTO DE VALORACIÓN DEL RIESGO PARA LA VIDA Y LA INTEGRIDAD PERSONAL
+    POR VIOLENCIA DE GÉNERO AL INTERIOR DE LA FAMILIA.
+  </div>
+
+  <!-- Se debe esperar que se carguen los datos, por eso hayu un intervalo -->
+  <!-- Saber cuando se cargó el documento antes de habilitar el boton de imprimir -->
+
+  <app-instrumento-riesgo-pdf
+    [temp]="temp"
+    (filasHijos)="idSolicitudInput > 0 ? getFilasHijos($event) : ''"
+    [idSolicitud]="idSolicitudInput > 0 ? idSolicitudInput : 0"
+  ></app-instrumento-riesgo-pdf>
+
+  <button type="button" class="btn btn-primary" (click)="imprimirPDFVacio()">
+    Imprimir formato vacío
+  </button>
+
+  <mat-stepper
+    labelPosition="bottom"
+    linear
+    [orientation]="orientation"
+    #stepper
+    class="mt-4"
+  >
+    <mat-step>
+      <ng-template matStepLabel> Descripción de los hechos </ng-template>
+      <app-descripcion-hechos
+        *ngIf="stepper.selectedIndex == 0"
+        (siguientePaso)="cambiarPasoIdentificacionDelRiesgo($event)"
+      >
+      </app-descripcion-hechos>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel> Tipos de violencia </ng-template>
+      <app-tipos-violencia
+        *ngIf="stepper.selectedIndex == 1"
+        (siguientePaso)="cambiarPasoIdentificacionDelRiesgo($event)"
+      >
+      </app-tipos-violencia>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel> Circunstancias agravantes </ng-template>
+      <app-circunstancias-agravantes
+        *ngIf="stepper.selectedIndex == 2"
+        (siguientePaso)="cambiarPasoIdentificacionDelRiesgo($event)"
+      >
+      </app-circunstancias-agravantes>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel> Percepción de la víctima </ng-template>
+      <app-percepcion-victima
+        *ngIf="stepper.selectedIndex == 3"
+        (siguientePaso)="cambiarPasoIdentificacionDelRiesgo($event)"
+      >
+      </app-percepcion-victima>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel> Valoración </ng-template>
+      <app-valoracion
+        (imprimirPDFCompleto)="imprimirPDFCompleto()"
+        *ngIf="stepper.selectedIndex == 4"
+        (siguientePaso)="cambiarPasoIdentificacionDelRiesgo($event)"
+        (siguienteTab)="cambiarTab($event)"
+      >
+      </app-valoracion>
+    </mat-step>
+  </mat-stepper>
+</section>

@@ -1,0 +1,140 @@
+<form [formGroup]="form">
+  <h3 class="mb-5">VALORACIÓN</h3>
+
+  <div class="d-flex align-items-center flex-wrap" style="gap: 2rem">
+    <strong>PUNTAJE FINAL VALORACIÓN</strong>
+
+    <span
+      class="p-2 pe-3 ps-3 bg-white shadow rounded-3 h3"
+      style="color: #004884"
+    >
+      {{ valoracion && valoracion.puntuacion ? valoracion.puntuacion : 0 }}
+    </span>
+  </div>
+
+  <p class="mt-5 mb-5">
+    Recuerde que el riesgo se entiende como un peligro que puede suceder con
+    cierta probabilidad en el futuro y del que no se pueden controlar sus causas
+    de manera absoluta. Para efectos de las decisiones a tomar por parte del
+    comisario/a se considera:
+  </p>
+
+  <div
+    class="d-flex align-items-center justify-content-between flex-wrap flex-lg-nowrap"
+    style="gap: 1rem"
+  >
+    <div
+      class="border-alert success p-2"
+      [ngClass]="{
+        active:
+          valoracion &&
+          valoracion.indicadorRiesgo.toLowerCase().includes('bajo')
+      }"
+    >
+      <div class="alert alert-success text-center p-2">
+        <h4 class="m-0">Riesgo Bajo</h4>
+
+        <p class="m-0">Puntuación menor o igual a 15pts</p>
+      </div>
+    </div>
+
+    <div
+      class="border-alert warning p-2"
+      [ngClass]="{
+        active:
+          valoracion &&
+          valoracion.indicadorRiesgo.toLowerCase().includes('medio')
+      }"
+    >
+      <div class="alert alert-warning text-center p-2">
+        <h4 class="m-0">Riesgo Medio</h4>
+
+        <p class="m-0">Puntuación entre 20 y 40pts</p>
+      </div>
+    </div>
+
+    <div
+      class="border-alert danger p-2"
+      [ngClass]="{
+        active:
+          valoracion &&
+          valoracion.indicadorRiesgo.toLowerCase().includes('alto')
+      }"
+    >
+      <div class="alert alert-danger text-center p-2">
+        <h4 class="m-0">Riesgo Alto</h4>
+
+        <p class="m-0">Puntuación mayor a 40pts</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group w-100 mt-4">
+    <label class="form-label text-capitalize">Recomendaciones*</label>
+
+    <textarea
+      type="text"
+      class="form-control"
+      [ngClass]="{ 'border-danger': isRequiredField(form, 'recomendaciones') }"
+      placeholder="Recomendaciones"
+      rows="5"
+      required="required"
+      formControlName="recomendaciones"
+      maxlength="5000"
+    ></textarea>
+
+    <small
+      class="form-text text-danger"
+      [ngClass]="{ 'opacity-0': !isRequiredField(form, 'recomendaciones') }"
+      >Campo requerido</small
+    >
+  </div>
+
+  <div
+    class="d-flex align-items-center mt-3 text-nowrap flex-wrap flex-lg-nowrap"
+    style="gap: 1rem"
+  >
+    <button type="button" class="btn btn-warning" (click)="imprimirCompleto()">
+      Imprimir formato completo
+    </button>
+
+    <app-carga-archivo
+      (baseArchivo)="cargarArchivo($event)"
+      [archivoCargado]="file"
+    ></app-carga-archivo>
+  </div>
+
+  <div
+    class="d-flex justify-content-end mt-5 me-5 flex-wrap flex-lg-nowrap text-nowrap"
+    style="gap: 1rem"
+  >
+    <button type="button" class="btn btn-outline-danger" (click)="cancelar()">
+      Cancelar
+    </button>
+
+    <button type="button" class="btn btn-primary" (click)="anterior()">
+      Anterior
+    </button>
+
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="archivarDiligencias()"
+    >
+      Archivar diligencias
+    </button>
+
+    <button type="button" class="btn btn-primary" (click)="guardar()">
+      Guardar
+    </button>
+
+    <button
+      type="submit"
+      class="btn btn-primary"
+      [disabled]="!form.valid"
+      (click)="postRegistrarRecomendaciones('Siguiente')"
+    >
+      Finalizar
+    </button>
+  </div>
+</form>

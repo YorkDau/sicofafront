@@ -1,0 +1,42 @@
+<form
+  [formGroup]="myForm"
+  class="d-flex justify-content-between align-items-center flex-column box-modal-info h-100"
+  (ngSubmit)="crearCita()"
+>
+  <div class="row w-100">
+    <div class="col-12">
+      <fieldset class="border border-primary p-2">
+        <legend class="float-none w-75 p-2 text-primary">Agregar Cita</legend>
+        <div class="row p-2 m-0">
+          <div class="col-5">
+            <label>Fecha y Hora</label>
+          </div>
+          <div class="col 7 pe-4">
+            <input
+              class="form-control"
+              type="datetime-local"
+              formControlName="fechaCita"
+              max="{{ maxDate | date: 'yyyy-MM-ddTHH:mm' }}"
+              min="{{ minDate | date: 'yyyy-MM-ddTHH:mm' }}"
+            />
+            <span class="msj-req" *ngIf="isRequired() && mostrarValidaciones">
+              {{ msgObligatorio }}
+            </span>
+          </div>
+        </div>
+      </fieldset>
+    </div>
+  </div>
+  <div class="d-flex mt-2" style="gap: 1rem">
+    <button
+      class="btn btn-danger px-3"
+      style="min-width: 144px"
+      type="button"
+      (click)="cerrarModal(false)"
+    >
+      Cancelar
+    </button>
+
+    <button class="btn btn-primary px-3" type="submit">Continuar</button>
+  </div>
+</form>

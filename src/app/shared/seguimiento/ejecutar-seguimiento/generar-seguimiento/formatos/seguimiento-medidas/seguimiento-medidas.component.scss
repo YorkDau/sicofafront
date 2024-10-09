@@ -1,0 +1,28 @@
+#preguntas-aplicables, #preguntas-aplicables-2 {
+    background-color: white;
+    width: 100%;
+
+    td{
+        text-align: justify;
+        font-size: 13px;
+        border: 1px solid black;
+        padding: 0 0.5em;
+
+    }
+
+    .header{
+        background-color:#0068b3;
+        color: white;
+        font-weight: bold;
+    }
+
+    .tdHeader{
+        width: 10%;
+    }
+    .header-principal {
+        width: 90%;
+    }
+    .comentarios{
+        border-right: 1px solid white;
+    }
+}

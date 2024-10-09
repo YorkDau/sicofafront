@@ -1,0 +1,21 @@
+.subtitle-ciudadano {
+  letter-spacing: 0px;
+  color: #343a40;
+  opacity: 1;
+  font-size: var(--font-24);
+  font-weight: 500;
+}
+
+::ng-deep .roundedModal .mat-dialog-container {
+  padding: 0 !important;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+  margin: 0 !important;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield !important;
+}

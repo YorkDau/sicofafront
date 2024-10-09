@@ -1,0 +1,89 @@
+<div class="background-gray rounded-basic p-4 mb-3">
+    <div class="Formatos">
+        <strong class="row mx-0 mt-2 py-3">Formatos de seguimiento realizados y en ejecución</strong>
+
+        <div class="d-flex justify-content-center">
+            <table class="w-100" mat-table [dataSource]="dataSource" id="table-private"
+                *ngIf="dataSource.data.length > 0">
+                <ng-container class="w-25" matColumnDef="tipoFormato">
+                    <mat-header-cell *matHeaderCellDef>Tipo de Formato</mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                        <div>
+                            {{ element.nombreRemision.split("_").join(" ") }}
+                        </div>
+                    </mat-cell>
+                </ng-container>
+                <ng-container class="w-25" matColumnDef="fecha">
+                    <mat-header-cell *matHeaderCellDef>Fecha</mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                        <div>
+                            {{ element.fecha }}
+                        </div>
+                    </mat-cell>
+                </ng-container>
+                <ng-container class="w-25" matColumnDef="acciones">
+                    <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                        <button mat-icon-button matTooltip="Descargar adjunto" (click)="descargarArchivo(element)"
+                            color="primary">
+                            <mat-icon class="material-icons-outlined">file_download</mat-icon>
+                        </button>
+                    </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+            </table>
+        </div>
+    </div>
+
+    <div class="medidas">
+        <strong class="row mx-0 mt-2 py-3">Lista de Medidas</strong>
+
+        <div class="justify-content-center">
+            <table class="w-100" mat-table [dataSource]="dataSourceMedidas" *ngIf="dataSourceMedidas.data.length > 0">
+                <ng-container class="w-25" matColumnDef="nomMedida">
+                    <mat-header-cell *matHeaderCellDef>Nombre de la Medida</mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                        <div>
+                            {{ element.nomMedida }}
+                        </div>
+                    </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumnsMedidas"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumnsMedidas"></mat-row>
+            </table>
+            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="pregunta">
+        <div class="row">
+            <div class="col-lg-12">
+                <label class="form-label">¿Se requiere modificar las órdenes de restablecimiento de derechos?</label>
+                <div class="pt-2">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" value="si" [(ngModel)]="requiereModificar"
+                            name="competenciaComisaria" id="competencia_si" />
+                        <label class="form-check-label form-label" for="competencia_si"> Si </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" value="no" [(ngModel)]="requiereModificar"
+                            name="competenciaComisaria" id="competencia_no" />
+                        <label class="form-check-label form-label" for="competencia_no"> No </label>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-3 d-flex justify-content-end gap-3">
+        <button class="px-3 btn btn-danger" (click)="cancelar()">Cancelar</button>
+        <button class="px-4 btn btn-primary" (click)="modalConfirmaCerrarActuacion()">
+          Cerrar Actuaciones
+        </button>
+      </div>
+
+</div>

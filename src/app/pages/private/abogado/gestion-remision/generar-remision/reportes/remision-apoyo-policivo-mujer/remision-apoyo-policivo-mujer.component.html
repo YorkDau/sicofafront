@@ -1,0 +1,200 @@
+<table hidden="hidden" id="cuerpo" aria-describedby="cuerpo">
+  <ng-template #vacio>_______________________</ng-template>
+
+  <tr>
+    <td>
+      Comedidamente me permito comunicarle que mediante providencia de la fecha
+      y con fundamento en los Art. 11 de la Ley 294 de 2011, modificado por el
+      Art. 6 de la Ley 575-200 y Art. 17 y 18 de la Ley 1257 de 2008, y ley 2126
+      – 2021, se dictó medida provisional de protección a favor de
+
+      <span *ngIf="dataReporte.nombreVictima; else vacio">
+        {{ dataReporte.nombreVictima | titlecase }}
+      </span>
+
+      con CC #
+
+      <span *ngIf="dataReporte.numeroDocumentoVictima; else vacio">
+        {{ dataReporte.numeroDocumentoVictima }}
+      </span>
+
+      residente (dirección de residencia de los últimos 30 días), en la
+      <span *ngIf="dataReporte.direccionResidenciaVictima; else vacio">{{
+        dataReporte.direccionResidenciaVictima
+      }}</span>
+      / barrio
+      <span *ngIf="dataReporte.barrioVictima; else vacio">{{
+        dataReporte.barrioVictima
+      }}</span>
+      , teléfono:
+      <span *ngIf="dataReporte.telefonoVictima; else vacio">{{
+        dataReporte.telefonoVictima
+      }}</span
+      >, quien es víctima del señor/a
+      <span *ngIf="dataReporte.nombreAgresor; else vacio">
+        {{ dataReporte.nombreAgresor | titlecase }} </span
+      >identificado con C.C. #<span
+        *ngIf="dataReporte.numeroDocumentoAgresor; else vacio"
+        >{{ dataReporte.numeroDocumentoAgresor }}</span
+      >, residente (dirección de residencia de los últimos 30 días) en la,
+      <span *ngIf="dataReporte.direcionResidenciaAgresor; else vacio">{{
+        dataReporte.direcionResidenciaAgresor
+      }}</span
+      >, barrio:
+      <span *ngIf="dataReporte.barrioAgresor; else vacio">{{
+        dataReporte.barrioAgresor
+      }}</span
+      >, correo electrónico:
+      <span *ngIf="dataReporte.correoElectronicoAgresor; else vacio">
+        {{ dataReporte.correoElectronicoAgresor }} </span
+      >. Se ordenan como medidas de protección provisionales:
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      (se copias las medias provisionales ordenadas en el auto de apertura
+      ejemplo:
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      a) ORDENAR al presunto agresor
+
+      <span *ngIf="dataReporte.nombreAgresor; else vacio">
+        {{ dataReporte.nombreAgresor | titlecase }}
+      </span>
+
+      ABSTENERSE de manera inmediata y sin ninguna condición de incurrir en
+      cualquier tipo de conducta de violencia física, verbal y/o psicológica en
+      contra de
+
+      <span *ngIf="dataReporte.nombreVictima; else vacio">
+        {{ dataReporte.nombreVictima | titlecase }}
+      </span>
+
+      ; amedrentarla, intimidarla, amenazarla; proferirle ofensas, humillaciones
+      utilizando lenguaje soez o inapropiado para dirigirse o referirse a ella,
+      sea personalmente, a través de los medios virtuales, en cualquier lugar
+      público o privado en que ésta se encuentre y menos aún en presencia de la
+      hija de _____________________________, la niña ______________ de 8 años
+      con TI (NUIP)_________________.
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      b) PROHIBIR al presunto agresor
+
+      <span *ngIf="dataReporte.nombreAgresor; else vacio">
+        {{ dataReporte.nombreAgresor | titlecase }}
+      </span>
+
+      , ingresar al lugar de residencia actual o futura, así como lugar de
+      trabajo de la víctima
+
+      <span *ngIf="dataReporte.nombreVictima; else vacio">
+        {{ dataReporte.nombreVictima | titlecase }}
+      </span>
+
+      y acercársele en el espacio o lugares públicos o privados donde ella se
+      encuentre. Ofíciese a la Administradora de Propiedad Horizontal del
+      conjunto residencial donde habita la víctima _____________________________
+      (sí la víctima vive en propiedad horizontal siempre que la víctima resida
+      en propiedad horizontal o conjunto cerrado con administración y/o
+      vigilancia.)
+    </td>
+  </tr>
+  <tr>
+    <td>
+      De conformidad con lo establecido en el artículo 11 del Decreto 652 de
+      2001 que reglamentó la Ley 294 de 1996 y la Ley 575 de 2000, la autoridad
+      competente podrá solicitar en forma escrita, el acompañamiento de la
+      Policía Nacional para hacer efectivas las medidas de protección.
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      Así mismo lo contemplado en el Artículo 8ª y 9 ª del Decreto 4799 de 2011:
+      En este caso, los miembros de la Policía Nacional deberán acudir de forma
+      inmediata, siguiendo la orden de la
+    </td>
+  </tr>
+</table>
+
+<table hidden="hidden" id="cuerpo2">
+  <tr>
+    <td>
+      autoridad competente, para lo cual, podrán aplicar sus protocolos de
+      atención, siempre que estos no contradigan la orden emitida. Con el
+      propósito de dar cumplimiento y ejecución efectiva a las medidas
+      impartidas por las autoridades competentes, la Policía Nacional deberá:
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      “a) Elaborar un protocolo de riesgo, de acuerdo con el cual, una vez
+      analizada la situación particular de la víctima, se establezcan los
+      mecanismos idóneos para poder dar cumplimiento a la medida
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      b) Elaborar un registro nacional que contenga información sobre las
+      medidas de protección y apoyos policivos ordenados por las autoridades
+      competentes, así como de las actas entregadas a las víctimas en
+      cumplimiento del artículo 20 de la Ley 294 de 1996.El citado registro será
+      diseñado por el Ministerio de Defensa con la asistencia técnica del
+      Observatorio de Asuntos de Género de la Alta Consejería para la Equidad de
+      la Mujer; y,
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      c)La Policía Nacional adjuntará a los informes ejecutivos que entregará a
+      la Fiscalía General de la Nación, una constancia de esos registros e
+      informará lo pertinente a la autoridad que emitió la medida”.
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      Artículo 9 del Decreto 4799-2011: En caso de que sea necesaria la
+      intervención inmediata para la protección de la vida e integridad personal
+      de las mujeres, la Policía Nacional podrá hacer uso de las facultades
+      establecidas en los artículos 29 y siguientes del Código Nacional de
+      Policía, o las normas que lo modifiquen o adicionen.”
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      El caso es competencia de la COMISARIA DE FAMILIA, ubicada en la
+
+      <span *ngIf="dataReporte.direccionComisaria; else vacio">
+        {{ dataReporte.direccionComisaria }}
+      </span>
+
+      barrio _________________, teléfono:
+
+      <span *ngIf="dataReporte.telefonoComisaria; else vacio">
+        {{ dataReporte.telefonoComisaria }}
+      </span>
+
+      , correo electrónico:
+
+      <span *ngIf="dataReporte.correoComisaria; else vacio">
+        {{ dataReporte.correoComisaria }}
+      </span>
+
+      , de atención de lunes a viernes de ___: ___ am a ___: ___ pm.
+    </td>
+  </tr>
+
+  <tr></tr>
+</table>

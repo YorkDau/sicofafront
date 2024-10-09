@@ -1,0 +1,45 @@
+<div class="background-filter-private d-flex flex-column w-100 mb-3 px-5">
+  <div class="d-flex">
+    <img src="assets/images/user_black.svg" alt="user" class="img-fluid me-3" />
+
+    <span class="subtitle-ciudadano"> {{ nombreCiudadano | uppercase }} </span>
+  </div>
+  <p class="title-medium">NUEVA SOLICITUD DE SERVICIO</p>
+
+  <div class="d-flex align-items-center">
+    <div
+      class="me-3"
+      [ngClass]="{
+        'elements-tab-active': tab1 && !tab2,
+        'elements-tab': !tab1 && tab2
+      }"
+      (click)="cambiarTab(0)"
+    >
+      Preguntas orientadoras
+    </div>
+    <div
+      [ngClass]="{
+        'elements-tab-active': tab2 && !tab1,
+        'elements-tab': !tab2 && tab1
+      }"
+      (click)="cambiarTab(1)"
+    >
+      Datos involucrados
+    </div>
+  </div>
+</div>
+
+<div class="mb-4">
+  <div class="animated fadeIn fast" *ngIf="tab1">
+    <app-preguntas
+      (passTap2)="cambiarTab($event)"
+      [idSolicitud]="solicitud"
+    ></app-preguntas>
+  </div>
+  <div class="animated fadeIn fast" *ngIf="tab2">
+    <app-involucrados
+      (passTap2)="cambiarTab($event)"
+      [idSolicitud]="solicitud"
+    ></app-involucrados>
+  </div>
+</div>

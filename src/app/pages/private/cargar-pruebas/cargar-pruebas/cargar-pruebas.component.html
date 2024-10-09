@@ -1,0 +1,188 @@
+<app-encabezado-private></app-encabezado-private>
+
+<section class="background-content-private mb-4 p-4">
+  <h4 class="text-blue mt-4 mb-4">Cargar pruebas para la audiencia</h4>
+
+  <form class="row" [formGroup]="form">
+    <div class="form-group col-lg-12 mb-4">
+      <div
+        class="form-check form-check-inline"
+        (click)="this.form.get('idInvolucrado')?.setValue('')"
+      >
+        <input
+          class="form-check-input"
+          type="radio"
+          name="tipoPrueba"
+          formControlName="tipoPrueba"
+          value="pericial"
+          (keyup)="puedeCargar()"
+        />
+        <label class="form-check-label"> Pericial </label>
+      </div>
+      <div
+        class="form-check form-check-inline"
+        (click)="this.form.get('idInvolucrado')?.setValue('')"
+      >
+        <input
+          class="form-check-input"
+          type="radio"
+          name="tipoPrueba"
+          formControlName="tipoPrueba"
+          value="involucrado"
+        />
+        <label class="form-check-label"> Involucrados </label>
+      </div>
+    </div>
+    <div class="form-group col-lg-4">
+      <label class="form-label text-capitalize">Nombre de la prueba *</label>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Nombre prueba"
+        maxlength="50"
+        formControlName="nombrePrueba"
+      />
+    </div>
+    <div class="form-group col-lg-4">
+      <label class="form-label text-capitalize">Quién la expide *</label>
+      <select
+        type="text"
+        class="form-control"
+        placeholder="Quien la expide"
+        maxlength="50"
+        formControlName="idInvolucrado"
+        disabled
+        *ngIf="this.form.get('tipoPrueba')?.value == 'pericial'"
+      >
+        <option value="">Seleccione una opcion</option>
+        <option
+          [value]="item.idInvolucrado"
+          *ngFor="let item of listaInvolucrados"
+        >
+          {{ item.nombres | titlecase }}
+        </option>
+      </select>
+      <select
+        type="text"
+        class="form-control"
+        placeholder="Quien la expide"
+        maxlength="50"
+        formControlName="idInvolucrado"
+        *ngIf="this.form.get('tipoPrueba')?.value == 'involucrado'"
+      >
+        <option value="">Seleccione una opcion</option>
+        <option
+          [value]="item.idInvolucrado"
+          *ngFor="let item of listaInvolucrados"
+        >
+          {{ item.nombres | titlecase }}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group col-lg-4">
+      <label class="form-label text-capitalize opacity-0"
+        >Cargar prueba *</label
+      >
+
+      <app-carga-archivo
+        (baseArchivo)="cargarArchivo($event)"
+        [downloadIcon]="false"
+        [disableUpload]="!puedeCargar()"
+        textoCargar="Cargar prueba"
+        [reset]="true"
+      ></app-carga-archivo>
+    </div>
+    <span class="text-danger">{{ avisoError }}</span>
+  </form>
+
+  <h4 class="text-blue mt-4 mb-4">Pruebas cargadas</h4>
+
+  <app-no-data
+    mensaje="Aún no se ha cargado ninguna prueba."
+    [ngClass]="{ 'd-none': dataSource.data && dataSource.data.length }"
+  ></app-no-data>
+  <div [ngClass]="{ 'd-none': !dataSource.data || !dataSource.data.length }">
+    <mat-table [dataSource]="dataSource" id="table-private">
+      <ng-container matColumnDef="nombrePrueba">
+        <mat-header-cell *matHeaderCellDef>
+          Nombre de la prueba
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          {{ row.nombrePrueba }}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="descripcionPrueba">
+        <mat-header-cell *matHeaderCellDef> Quién la expide </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          {{
+            row.nombreInvolucrado
+              ? (row.nombreInvolucrado | titlecase)
+              : "No aplica"
+          }}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="tipoPrueba">
+        <mat-header-cell *matHeaderCellDef> Tipo de prueba </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          {{
+            row.tipoPrueba
+              ? (row.tipoPrueba.replaceAll("_", " ") | titlecase)
+              : "No aplica"
+          }}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="accion">
+        <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <app-carga-archivo
+            (baseArchivo)="cargarArchivo($event, row)"
+            [archivoCargado]="{
+              idSolicitud: this.tarea.idSolicitud,
+              idArchivo: row.idAnexo
+            }"
+            apariencia="icon"
+            [uploadIcon]="false"
+            [deleteAction]="false"
+          ></app-carga-archivo>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row
+        mat-header-row
+        *matHeaderRowDef="columnas"
+      ></mat-header-row>
+      <mat-row *matRowDef="let row; columns: columnas"></mat-row>
+    </mat-table>
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20]"
+      showFirstLastButtons
+      aria-label="Select page of request"
+      #paginator
+    >
+    </mat-paginator>
+  </div>
+
+  <div
+    class="d-flex align-items-center justify-content-end mt-4 text-nowrap flex-wrap w-100"
+    style="gap: 1rem"
+  >
+    <button type="button" class="btn btn-danger" (click)="cancelar()">
+      Cancelar
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="archivarDiligencias()"
+    >
+      Archivar diligencias
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      [disabled]="this.dataSource.data.length == 0"
+      (click)="cerrarActuaciones()"
+    >
+      Cerrar actuaciones
+    </button>
+  </div>
+</section>

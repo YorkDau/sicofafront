@@ -1,0 +1,31 @@
+#cuerpo, #relatoHechos, #anexo {
+    background-color: white;
+    width: 100%;
+    td{
+      text-align: justify;
+      font-size: 14px;
+    }
+}
+
+#datosReferencia, #datosSolicitante, #datosVictima,#datosVictima2, #datosAgresor{
+    background-color: white;
+    width: 100%;
+
+    td{
+        text-align: justify;
+        font-size: 13px;
+        border: 1px solid black;
+        padding: 0 0.5em;
+
+    }
+
+    .header{
+        background-color:#0068b3;
+        color: white;
+        font-weight: bold;
+    }
+
+    .tdHeader{
+        width: 35%;
+    }
+}

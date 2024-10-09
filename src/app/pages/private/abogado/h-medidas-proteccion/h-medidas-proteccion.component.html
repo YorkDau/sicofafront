@@ -1,0 +1,42 @@
+<div class="w-100 p-5">
+  <p class="label-20">RECEPCIÓN SOLICITUD</p>
+
+  <p class="label-16">
+    Diligencie el documento de la solicitud de medidas de protección:
+  </p>
+
+  <div class="row mb-4">
+    <div class="col-lg-6 d-flex align-items-center">
+      <button class="btn button-new me-4" routerLink="../../medida-proteccion">
+        Diligenciar Documento
+      </button>
+    </div>
+    <div class="col-lg-6">
+      <app-carga-archivo
+        (baseArchivo)="enviarArchivo($event)"
+        [archivoCargado]="archivoConusltado"
+      ></app-carga-archivo>
+    </div>
+  </div>
+</div>
+
+<div class="p-3">
+  <div
+    class="d-flex align-items-center justify-content-end text-nowrap flex-wrap w-100 gap-3"
+  >
+    <button type="button" class="btn btn-danger" (click)="cancelarSolicitud()">
+      Cancelar
+    </button>
+    <button type="button" class="btn btn-primary">Archivar diligencias</button>
+    <button type="button" class="btn btn-primary" (click)="guardarArchivo()">
+      Guardar
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="modalConfirmaCerrarActuacion()"
+    >
+      Cerrar actuaciones
+    </button>
+  </div>
+</div>

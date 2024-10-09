@@ -1,0 +1,30 @@
+<table
+  class="table-bordered"
+  id="datos-denunciante"
+  aria-describedby="reporte incumplimiento"
+  hidden
+>
+  <tr class="numh">
+    <td>DATOS DEL DENUNCIANTE INSTITUCIONAL</td>
+  </tr>
+  <tr>
+    <td>
+      Nombre de funcionario(a): {{ adicional.nombreFuncionario | titlecase }}
+    </td>
+  </tr>
+  <tr>
+    <td>Cargo: {{ adicional.cargo }}</td>
+  </tr>
+  <tr>
+    <td>Nombre de la institución: {{ adicional.nombreInstitucion }}</td>
+  </tr>
+  <tr>
+    <td>Dirección de la institución: {{ adicional.direccionInstitucion }}</td>
+  </tr>
+  <tr>
+    <td>Correo electrónico: {{ adicional.correo }}</td>
+  </tr>
+  <tr>
+    <td>Teléfono: {{ adicional.telefono }}</td>
+  </tr>
+</table>

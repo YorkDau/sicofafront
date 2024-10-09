@@ -1,0 +1,29 @@
+{
+  "^https://app-back-co1030-dev.azurewebsites.net/api*": {
+    "target": "https://app-back-co1030-dev.azurewebsites.net/api",
+    "secure": true,
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^https://app-back-co1030-dev.azurewebsites.net/api*": ""
+    }
+  },
+  "^https://app-back-co1030-qa.azurewebsites.net/api*": {
+    "target": "https://app-back-co1030-qa.azurewebsites.net/api",
+    "secure": true,
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^https://app-back-co1030-qa.azurewebsites.net/api*": ""
+    }
+  },
+  "^https://app-back-co1030-prd.azurewebsites.net/api*": {
+    "target": "https://app-back-co1030-prd.azurewebsites.net/api",
+    "secure": true,
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^https://app-back-co1030-prd.azurewebsites.net/api*": ""
+    }
+  }
+}

@@ -1,0 +1,128 @@
+<section
+  class="background-gray rounded-basic p-4 mb-3 d-flex justify-content-between"
+>
+  <h1 class="text-blue" style="font-size: 30px">CONSULTA COMISARÍAS</h1>
+  <button class="btn btn-primary" routerLink="../comisaria">
+    Crear comisaría
+  </button>
+</section>
+
+<form
+  class="background-gray rounded-basic p-3 mb-3"
+  [formGroup]="comisariasForm"
+  autocomplete="off"
+  (submit)="consultarComisarias()"
+>
+  <div class="row">
+    <div class="col-lg-3">
+      <div class="mb-3">
+        <label for="departamento" class="form-label">Departamento</label>
+        <select
+          formControlName="idDepartamento"
+          class="form-select"
+          (change)="cargarCiudades($event.target.value)"
+        >
+          <option [value]="0">Seleccione departamento</option>
+          <option [value]="item.departamentoID" *ngFor="let item of listaDepto">
+            {{ item.departamentoNombre }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <div class="mb-3">
+        <label for="idCiudadMunicio" class="form-label"
+          >Ciudad o municipio</label
+        >
+        <select
+          id="idCiudadMunicio"
+          formControlName="idCiudadMunicio"
+          class="form-select"
+        >
+          <option [value]="0">Seleccione ciudad o municipio</option>
+          <option [value]="item.ciudmunID" *ngFor="let item of listaCiudad">
+            {{ item.nombCiudMun }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <div class="mb-3">
+        <label for="nombreComisaria" class="form-label">Nombre comisaría</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="nombreComisaria"
+          placeholder="Nombre comisaría"
+          maxlength="100"
+          id="nombreComisaria"
+        />
+      </div>
+    </div>
+
+    <div class="col-lg-3">
+      <br />
+      <div class="mb-3 mt-2">
+        <button type="submit" class="btn btn-primary">
+          <img
+            src="assets/images/busqueda.svg"
+            alt="serach"
+            class="img-fluid me-2"
+          />
+          Buscar
+        </button>
+      </div>
+    </div>
+  </div>
+</form>
+
+<div class="w-50" *ngIf="dataSource.data.length === 0">
+  <app-no-data [mensaje]="mensajeSinReg"> </app-no-data>
+</div>
+
+<div [ngStyle]="{ display: dataSource.data.length > 0 ? 'block' : 'none' }">
+  <mat-table [dataSource]="dataSource" id="table-private">
+    <ng-container *ngFor="let column of columnas">
+      <ng-container [matColumnDef]="column.key">
+        <mat-header-cell mat-header-cell *matHeaderCellDef>
+          {{ column.header | titlecase }}
+        </mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element">
+          {{ element[column.key] | titlecase }}
+        </mat-cell>
+      </ng-container>
+    </ng-container>
+    <ng-container matColumnDef="Acciones">
+      <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <button
+          mat-icon-button
+          matTooltip="Editar comisaria"
+          matTooltipPosition="right"
+          matTooltipHideDelay="500"
+          matTooltipClass="background-tooltip"
+          aria-label="Button that displays a tooltip when focused or hovered over"
+          (click)="editarComisaria(row)"
+        >
+          <img
+            src="assets/images/lapiz.svg"
+            alt="detail"
+            class="img-fluid"
+          />
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row
+      mat-header-row
+      *matHeaderRowDef="displayedColumns"
+    ></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+  </mat-table>
+  <mat-paginator
+    [pageSizeOptions]="[5, 10, 20]"
+    showFirstLastButtons
+    aria-label="Select page of request"
+  >
+  </mat-paginator>
+</div>

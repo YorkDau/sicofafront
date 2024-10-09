@@ -1,0 +1,162 @@
+<div class="background-filter-private d-flex flex-column w-100 mb-3">
+  <div class="d-flex align-items-center mb-3">
+    <span class="title-medium">CIUDADANOS</span>
+    <button *ngIf="this.mostrarOcultarBoton" class="btn button-new ms-4" routerLink="../registro-ciudadano">
+      Nuevo ciudadano
+    </button>
+  </div>
+
+  <p class="subtitle-medium">
+    Encuentre ciudadanos que previamente han impuesto un caso en Comisaría de
+    Familia.
+  </p>
+
+  <!-- filtros -->
+  <form
+    [formGroup]="ciudadanoForm"
+    class="row"
+    autocomplete="off"
+    (submit)="consultarCiudadano()"
+  >
+    <div class="col-lg-3 mb-3">
+      <label for="nombre" class="form-label">Nombre ciudadano</label>
+      <input
+        type="text"
+        class="form-control"
+        [ngClass]="{
+          'input-req': isRequired('obl') && mostrarValidaciones
+        }"
+        id="nombre"
+        placeholder="Nombre ciudadano"
+        formControlName="nombre_ciudadano"
+        maxlength="50"
+      />
+    </div>
+    <div class="col-lg-3 mb-3">
+      <label for="apellido" class="form-label">Apellido ciudadano</label>
+      <input
+        type="text"
+        class="form-control"
+        [ngClass]="{
+          'input-req': isRequired('obl') && mostrarValidaciones
+        }"
+        id="apellido"
+        placeholder="Apellido ciudadano"
+        formControlName="apellido_ciudadano"
+        maxlength="50"
+      />
+    </div>
+    <div class="col-lg-3 mb-3">
+      <label for="documento" class="form-label">Número de documento</label>
+      <input
+        type="text"
+        class="form-control"
+        [ngClass]="{
+          'input-req': isRequired('obl') && mostrarValidaciones
+        }"
+        id="documento"
+        placeholder="Número de documento"
+        formControlName="numero_documento"
+        maxlength="20"
+      />
+    </div>
+    <div
+      class="col-lg-3 mb-3 d-flex align-items-center margin-button justify-content-lg-center"
+    >
+      <button class="btn btn-primary" type="submit">
+        <img
+          src="assets/images/busqueda.svg"
+          alt="serach"
+          class="img-fluid me-2"
+        />
+        Buscar
+      </button>
+    </div>
+  </form>
+  <div *ngIf="isRequired('obl') && mostrarValidaciones" class="msj-req">
+    Los campos de nombre y apellido o número de documento son obligatorios
+  </div>
+</div>
+
+<div class="background-content-private p-2 mb-4" *ngIf="formSubmitted">
+  <p class="title-content">RESULTADOS DE BÚSQUEDA</p>
+
+  <div class="not-data-grid w-75" *ngIf="dataSource.data.length === 0">
+    <app-no-data
+      mensaje="No se han encontrado ciudadanos con los criterios de búsqueda ingresados. Proceda al registro del ciudadano en el sistema."
+    >
+    </app-no-data>
+  </div>
+  <mat-table
+    [dataSource]="dataSource"
+    id="table-private"
+    *ngIf="dataSource.data.length > 0"
+  >
+    <ng-container matColumnDef="nombres">
+      <mat-header-cell *matHeaderCellDef> Nombres </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        {{ row.nombres }}
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="apellidos">
+      <mat-header-cell *matHeaderCellDef> Apellidos </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        {{ row.apellidos }}
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="tipo_documento">
+      <mat-header-cell *matHeaderCellDef> T. de Doc </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <div style="width: 100px;">
+          {{ row.tipo_documento }}
+        </div>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="numero_documento">
+      <mat-header-cell *matHeaderCellDef> No. de Doc </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        {{ row.numero_documento }}
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="numero_solicitudes">
+      <mat-header-cell *matHeaderCellDef> Solicitudes </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        {{ row.numero_solicitudes }}
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="fecha_ult_solicitud">
+      <mat-header-cell *matHeaderCellDef>
+        Fecha última solicitud
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        {{ row.fecha_ult_solicitud }}
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="accion">
+      <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <button
+          mat-icon-button
+          matTooltip="Visualizar"
+          matTooltipPosition="right"
+          matTooltipHideDelay="500"
+          matTooltipClass="background-tooltip"
+          aria-label="Button that displays a tooltip when focused or hovered over"
+          (click)="verHistorialCiudadano(row)"
+        >
+          <img src="assets/images/eye.svg" alt="detail" class="img-fluid" />
+        </button>
+      </mat-cell>
+    </ng-container>
+    <mat-header-row mat-header-row *matHeaderRowDef="columnas"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: columnas"></mat-row>
+  </mat-table>
+</div>
+<div class="mt-5" [hidden]="ocultarPaginador">
+  <mat-paginator
+    [pageSizeOptions]="[5, 10, 20]"
+    showFirstLastButtons
+    aria-label="Select page of request"
+  >
+  </mat-paginator>
+</div>

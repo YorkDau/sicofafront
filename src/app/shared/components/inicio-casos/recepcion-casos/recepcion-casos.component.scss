@@ -1,0 +1,89 @@
+.box-legend {
+  border-radius: 5px 5px 0px 0px;
+  display: flex;
+  align-items: center;
+  font-size: var(--font-14);
+  opacity: 1;
+  min-height: 37px;
+  width: 570px;
+  .box-legend__alto {
+    letter-spacing: 0px;
+    color: #be0c4d;
+    opacity: 1;
+    margin-right: 1rem;
+
+    .box-legend__alto__dot {
+      height: 13px;
+      width: 13px;
+      background-color: #be0c4d;
+      border-radius: 50%;
+      display: inline-block;
+    }
+  }
+  .box-legend__medio {
+    letter-spacing: 0px;
+    color: #e0a800;
+    opacity: 1;
+    margin-right: 1rem;
+
+    .box-legend__medio__dot {
+      height: 13px;
+      width: 13px;
+      background-color: #e0a800;
+      border-radius: 50%;
+      display: inline-block;
+    }
+  }
+  .box-legend__bajo {
+    letter-spacing: 0px;
+    color: #25ae7a;
+    opacity: 1;
+    margin-right: 1rem;
+    .box-legend__bajo__dot {
+      height: 13px;
+      width: 13px;
+      background-color: #25ae7a;
+      border-radius: 50%;
+      display: inline-block;
+    }
+  }
+  .box-legend__no {
+    letter-spacing: 0px;
+    color: #7a7e83;
+    opacity: 1;
+    margin-right: 1rem;
+    .box-legend__no__dot {
+      height: 13px;
+      width: 13px;
+      background-color: #7a7e83;
+      border-radius: 50%;
+      display: inline-block;
+    }
+  }
+}
+
+.mat-column-nombresApellidos {
+  flex: 0 0 19%;
+}
+.mat-column-codsolicitud {
+  flex: 0 0 19%;
+  word-break: break-all !important;
+  display: flex;
+  padding-right: 5px;
+}
+.mat-header-cell.mat-column-tipo {
+  padding-left: 10px;
+}
+
+.mat-column-tipoProceso {
+  flex: 0 0 18%;
+}
+
+.boton-interrogacion {
+  padding-left: 10px;
+  padding-top: 5px;
+}
+
+.icono-remision {
+  color: #138496;
+}

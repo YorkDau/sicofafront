@@ -1,0 +1,41 @@
+<div class="w-50" *ngIf="dataSource.data.length === 0">
+  <app-no-data [mensaje]="mensajeSinReg"> </app-no-data>
+</div>
+
+<div [ngStyle]="{ display: dataSource.data.length > 0 ? 'block' : 'none' }">
+  <div class="mb-3">
+    <input
+      type="text"
+      class="form-control w-50"
+      maxlength="50"
+      placeholder="Datos usuario"
+      #input
+      (keyup)="applyFilter($event)"
+    />
+  </div>
+
+  <mat-table [dataSource]="dataSource" id="table-private">
+    <ng-container *ngFor="let column of columnas">
+      <ng-container [matColumnDef]="column.key">
+        <mat-header-cell mat-header-cell *matHeaderCellDef>
+          {{ column.header | titlecase }}
+        </mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element">
+          {{ element[column.key] }}
+        </mat-cell>
+      </ng-container>
+    </ng-container>
+
+    <mat-header-row
+      mat-header-row
+      *matHeaderRowDef="displayedColumns"
+    ></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+  </mat-table>
+  <mat-paginator
+    [pageSizeOptions]="[5, 10, 20]"
+    showFirstLastButtons
+    aria-label="Select page of request"
+  >
+  </mat-paginator>
+</div>

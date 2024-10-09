@@ -1,0 +1,77 @@
+<div class="mt-5 ms-2">
+  <div class="title-modal text-start">DECRETAR O DESISTIR PRUEBAS DEL CASO</div>
+
+  <form
+    [formGroup]="decretarDesistirForm"
+    class="mt-4"
+    (submit)="guardarMedida()"
+  >
+    <p class="form-label">
+      Seleccione la opción decretar o desistir y la prueba para modificar:
+    </p>
+
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-input"
+        type="radio"
+        id="decretar"
+        name="tipoDecreto"
+        value="ADD"
+        formControlName="tipoDecreto"
+        (change)="changeRadio($event.target.value)"
+      />
+      <label class="form-check-label" for="decretar">Decretar</label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-input"
+        type="radio"
+        id="registraduria"
+        name="tipoDecreto"
+        value="DES"
+        formControlName="tipoDecreto"
+        (change)="changeRadio($event.target.value)"
+      />
+      <label class="form-check-label" for="registraduria"> Desistir </label>
+    </div>
+
+    <div class="my-4 w-50">
+      <label for="formato" class="form-label">
+        Pruebas periciales a realizar
+      </label>
+      <div class="d-flex">
+        <select
+          id="formato"
+          class="form-select me-3"
+          formControlName="idMedida"
+          [ngClass]="{
+            'input-req': isMin('idMedida') && mostrarValidaciones
+          }"
+        >
+          <option [value]="0" selected>Seleccione opción</option>
+          <option [value]="item.idMedida" *ngFor="let item of listadoMedidas">
+            {{ item.nombreMedida | titlecase }}
+          </option>
+        </select>
+
+        <button type="submit" class="btn btn-primary w-50">
+          Agregar formato
+        </button>
+      </div>
+      <div *ngIf="isMin('idMedida') && mostrarValidaciones" class="msj-req">
+        {{ msgObligatorio }}
+      </div>
+    </div>
+  </form>
+
+  <ng-container *ngIf="gridInvolucradosSub">
+    <app-grid-pard
+      [columnas]="columnas"
+      [registros]="gridInvolucradosSub"
+      [tipoReporte]="1"
+      [tipoDocumento]="tipoDocumentoPARD"
+    ></app-grid-pard>
+  </ng-container>
+</div>
+
+<app-decreto-pruebas></app-decreto-pruebas>

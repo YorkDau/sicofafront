@@ -1,0 +1,661 @@
+<table hidden
+  class="table-bordered bg-white"
+  id="instrumento-seguimiento-encabezado"
+  aria-describedby="encabezado"
+>
+  <tr>
+    <td rowspan="2" class="logo">Minjusticia</td>
+    <td class="text-center">FORMATO</td>
+    <td rowspan="2" class="text-center">VERSIÓN: 0.1</td>
+  </tr>
+  <tr>
+    <td class="text-center">
+      INSTRUMENTO PARA EL SEGUIMIENTO A LAS MEDIDAS DE ATENCIÓN
+    </td>
+  </tr>
+  <tr></tr>
+</table>
+
+<table hidden class="table-bordered bg-white" id="instrumento-seguimiento-parte1">
+  <tr>
+    <th colspan="4" class="btn-primary">
+      I. INFORMACIÓN PARA DAR INICIO AL SEGUIMIENTO DE LAS MEDIDAS DE ATENCIÓN
+    </th>
+  </tr>
+  <tr>
+    <th colspan="4" class="btn-light">A. DATOS INSTITUCIONALES</th>
+  </tr>
+  <tr>
+    <th>1. Comisaría de familia:</th>
+    <td></td>
+    <th>2. Departamento:</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>3. Municipio:</th>
+    <td></td>
+    <th>4. Fecha de diligenciamiento:</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th colspan="2">5. Expediente número:</th>
+    <td colspan="2"></td>
+  </tr>
+  <tr>
+    <th colspan="4" class="btn-light">
+      B. DATOS DE IDENTIFICACIÓN DE LA VÍCTIMA
+    </th>
+  </tr>
+  <tr>
+    <th>6. Nombres:</th>
+    <td></td>
+    <th>Apellidos:</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>7. Identificación:</th>
+    <td>
+      <div class="d-flex flex-wrap" style="gap: 1rem">
+        <div
+          *ngFor="let item of listarDominios('Tipo_identificacion')"
+          class="d-flex align-items-center"
+        >
+          <span>[ &nbsp; ] {{ item }}</span>
+          <br />
+        </div>
+        <span>No. _________________</span>
+      </div>
+    </td>
+    <th>8. Relación con el agresor:</th>
+    <td>
+      <div class="d-flex flex-wrap" style="gap: 1rem">
+        <div
+          *ngFor="let item of listarDominios('Tipo_Relacion')"
+          class="d-flex align-items-center"
+        >
+          <span>[ &nbsp; ] {{ item }}</span>
+          <br />
+        </div>
+        <span> _________________</span>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <th colspan="2">8. Tiene hijos:</th>
+    <td colspan="2">
+      SI__ <br />
+      NO__
+    </td>
+  </tr>
+  <tr>
+    <th>#</th>
+    <th>Edad</th>
+    <th>Sexo</th>
+    <th>¿Bajo custodia de?</th>
+  </tr>
+  <ng-container>
+    <tr *ngFor="let hijo of hijos; let i = index">
+      <td>Hijo #{{ i + 1 }}</td>
+      <td>{{ hijo.edad ? hijo.edad : "" }}</td>
+      <td>
+        <div
+          *ngIf="!hijo || !hijo.sexo"
+          class="d-flex flex-wrap"
+          style="gap: 1rem"
+        >
+          <div
+            *ngFor="let item of listarDominios('Sexo')"
+            class="d-flex align-items-center"
+          >
+            <span>[ &nbsp; ] {{ item }}</span>
+            <br />
+          </div>
+        </div>
+        <span *ngIf="hijo && hijo.sexo">{{
+          buscarDominio("Sexo", hijo.sexo)
+        }}</span>
+      </td>
+      <td>
+        <div
+          *ngIf="!hijo || !hijo.custodia"
+          class="d-flex flex-wrap"
+          style="gap: 1rem"
+        >
+          <div
+            *ngFor="let item of listarDominios('Tipo_Relacion')"
+            class="d-flex align-items-center"
+          >
+            <span>[ &nbsp; ] {{ item }}</span>
+            <br />
+          </div>
+        </div>
+        <span *ngIf="hijo && hijo.custodia">{{
+          buscarDominio("Tipo_Relacion", hijo.custodia)
+        }}</span>
+      </td>
+    </tr>
+  </ng-container>
+
+  <tr>
+    <th>10. ¿La víctima tiene alguna discapacidad?</th>
+    <td>
+      <div class="d-flex flex-wrap" style="gap: 1rem">
+        <div
+          *ngFor="let item of listarDominios('Discapacidad')"
+          class="d-flex align-items-center"
+        >
+          <span>[ &nbsp; ] {{ item }}</span>
+          <br />
+        </div>
+        <span>Otra _________________</span>
+      </div>
+    </td>
+    <th>11. ¿La víctima tiene cuidador/a?</th>
+    <td>
+      SI__ <br />
+      NO__
+    </td>
+  </tr>
+  <tr>
+    <th>12. ¿La víctima se encuentra en estado de embarazo?</th>
+    <td>SI__ NO__ NS__ NA__</td>
+    <th>¿Cuántos meses?</th>
+    <td></td>
+  </tr>
+</table>
+
+<table hidden class="table-bordered bg-white" id="instrumento-seguimiento-parte2">
+  <tr>
+    <th class="btn-light">
+      C. REVISIÓN DE CRITERIOS QUE DIERON LUGAR A LA MEDIDA DE ATENCIÓN
+    </th>
+  </tr>
+  <tr>
+    <td>
+      Revise los siguientes en el expediente:
+      <span class="text-muted"> (consigne ideas generales)</span>
+    </td>
+  </tr>
+  <tr>
+    <th>
+      13. Resumen de la historia clínica de la mujer víctima. Este resumen de
+      historia clínica debe contener:
+    </th>
+  </tr>
+  <tr>
+    <td>
+      a. El diagnóstico inicial de la afectación de la violencia en la salud
+      física y mental de las mujeres víctimasa. El diagnóstico inicial de la
+      afectación de la violencia en la salud física y mental de las mujeres
+      víctimas:<br /><br /><br />
+    </td>
+  </tr>
+
+  <tr>
+    <td>b. El plan de tratamiento a seguir:<br /><br /><br /></td>
+  </tr>
+  <tr>
+    <th>
+      14. Situación especial de riesgo en que se encuentre la víctima:
+      <br /><br /><br />
+    </th>
+  </tr>
+</table>
+
+<table hidden class="table-bordered bg-white" id="instrumento-seguimiento-parte3">
+  <tr>
+    <th colspan="2" class="btn-primary"></th>
+  </tr>
+  <tr>
+    <th colspan="2" class="btn-light">
+      A. INFORMACIÓN DE LA MEDIDA DE ATENCIÓN
+    </th>
+  </tr>
+  <tr>
+    <td>15. Fecha de la medida de atención ordenada</td>
+    <td>16. Tiempo de la medida de atención</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td colspan="2">17. Mecanismo de seguimiento establecido en el fallo</td>
+  </tr>
+  <tr>
+    <td>
+      17.1 Si el fallo determinó algún mecanismo de seguimiento: Transcriba en
+      el instrumento el mecanismo de seguimiento.
+    </td>
+    <td>
+      17.2. En caso contrario: Asegúrese de informarle al comisario/a de familia
+      para que disponga lo pertinente.
+    </td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>Marque si le informó al comisario [ &nbsp; ]</td>
+  </tr>
+  <tr>
+    <th colspan="2">18. Cumplimiento del seguimiento.</th>
+  </tr>
+  <tr>
+    <td>
+      18.1 Se están cumpliendo los mecanismos de seguimiento establecidos para
+      la medida de atención.
+    </td>
+    <td>Marque si se están cumpliendo [ &nbsp; ]</td>
+  </tr>
+  <tr>
+    <td>
+      18.2 En caso que no, asegúrese que la Comisaria de Familia realice las
+      gestiones pertinentes para que este mecanismo se cumpla.
+    </td>
+    <td>Marque si NO se están cumpliendo [ &nbsp; ]</td>
+  </tr>
+</table>
+
+<table hidden class="table-bordered bg-white" id="instrumento-seguimiento-parte4">
+  <tr>
+    <th colspan="2" class="btn-primary"></th>
+  </tr>
+  <tr>
+    <th colspan="2" class="btn-light">
+      B. IMPLEMENTACIÓN DE LA MEDIDA DE ATENCIÓN IMPUESTA
+    </th>
+  </tr>
+  <tr>
+    <th>
+      19. Marque si la Comisaría de Familia libró oficio comunicando a la EPS o
+      al régimen especial o de excepción el otorgamiento de la medida de
+      atención:
+    </th>
+    <td>
+      SI__ <br />
+      NO__
+    </td>
+  </tr>
+  <tr>
+    <td>
+      19.1 Asegúrese que la Comisaría emita el oficio de manera inmediata.
+    </td>
+    <td>Marque si se emitió el oficio [ &nbsp; ]</td>
+  </tr>
+  <tr>
+    <th>
+      20. Solicite a la EPS o al régimen especial o de excepción, que en el
+      término de cinco días, remita la siguiente información sobre el
+      cumplimiento de la medida de atención:
+    </th>
+    <th>Marque con una X si fue solicitada</th>
+  </tr>
+  <tr>
+    <td>
+      a. Copia del oficio donde conste que la víctima fue informada en el
+      término de tres días del sitio donde se le está prestando la medida de
+      atención
+    </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>b. Información sobre cómo se garantizó el traslado de la víctima</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>
+      c. Sitio y tipo de medida de atención (casa refugio, albergue temporal,
+      servicios hoteleros)
+    </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      d. En los casos que se hayan cumplido los criterios establecidos en el
+      artículo 9 del Decreto 4796 de 2001 para la asignación de un subsidio
+      monetario mensual para la habitación y alimentación de la víctima, sus
+      hijos e hijas así como la asistencia médica y/o psicológica y/o
+      psiquiátrica, remita copia del oficio en donde la EPS le informa de esta
+      situación a la secretaría de salud departamental o distrital para el pago
+      del subsidio monetario y anexe la copia del oficio al expediente.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      Marque si se envió el oficio y se anexó la copia al expediente [ &nbsp; ]
+    </td>
+  </tr>
+</table>
+
+<table hidden class="table-bordered bg-white" id="instrumento-seguimiento-parte5">
+  <tr>
+    <th class="btn-primary">
+      B. IMPLEMENTACIÓN DE LA MEDIDA DE ATENCIÓN IMPUESTA
+    </th>
+  </tr>
+  <tr>
+    <th>
+      21. Una vez recibida la respuesta al oficio con la información solicitada,
+      valórela y marque SI o NO considera que la EPS o el régimen especial o de
+      excepción haya dado cumplimiento a este requisito inicial.
+    </th>
+  </tr>
+  <tr>
+    <td>SI__ NO__</td>
+  </tr>
+  <tr>
+    <td>
+      Marque con una X cuando se haya enviado el oficio y se haya anexado la
+      copia al expediente [ &nbsp; ]
+    </td>
+  </tr>
+  <tr>
+    <td>
+      21.1 En el caso que la medida se esté cumpliendo a través de los servicios
+      de habitación, alimentación y transporte, marque con una X el tipo de
+      medida de atención.
+    </td>
+  </tr>
+  <tr>
+    <td>
+      CASA REFUGIO [ &nbsp; ] ALBERGUE TEMPORAL [ &nbsp; ] SERVICIOS HOTELEROS [
+      &nbsp; ]
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Registre el nombre y dirección del sitio donde se está prestando la medida
+
+      <br /><br /><br />
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      21.2 En caso que NO se esté cumpliendo, asegúrese que la Comisaría de
+      Familia requiera a la EPS exigiendo el cumplimiento con copia a la Super
+      Intendencia Nacional de Salud para que esta pueda tomar las acciones
+      pertinentes, y anexe la copia del oficio al expediente.
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Marque con una X cuando se haya enviado el oficio y se anexó la copia al
+      expediente [ &nbsp; ]
+    </td>
+  </tr>
+  <tr>
+    <th>
+      22. Verifique, marcando con una SI o NO, que la comisaría de Familia envió
+      oficio a la Secretaría Departamental o Distrital de Salud para informar
+      sobre el inicio de la medida de atención con el fin que esta se realice
+      seguimiento, monitoreo y control.
+    </th>
+  </tr>
+  <tr>
+    <td>SI__ NO__</td>
+  </tr>
+  <tr>
+    <td>
+      22.1 Sí la respuesta es SI, anexe las copias del oficio al expediente.
+    </td>
+  </tr>
+  <tr>
+    <td>
+      22.2 Sí la respuesta es NO, asegúrese que la Comisaría de Familia envíe el
+      oficio correspondiente, informando el inicio de la medida, y anexe las
+      copias del oficio al expediente.
+    </td>
+  </tr>
+</table>
+
+<table hidden class="table-bordered bg-white" id="instrumento-seguimiento-parte6">
+  <tr>
+    <th colspan="2" class="btn-primary">
+      B. IMPLEMENTACIÓN DE LA MEDIDA DE ATENCIÓN IMPUESTA
+    </th>
+  </tr>
+  <tr>
+    <td>
+      23. En el caso que la medida de atención se esté cumpliendo a través del
+      subsidio monetario mensual para la habitación y alimentación de la
+      víctima, sus hijos e hijas así como l asistencia médica y/o psicológica
+      y/o psiquiátrica, asegúrese que la Comisaría de Familia oficie a la
+      Secretaría de Salud Departamental o Distrital solicitando la información
+      sobre el subsidio. Una vez recibida la respuesta verifique:
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Recuperando datos. Espere unos segundos e intente cortar o copiar de
+      nuevo.
+    </td>
+  </tr>
+  <tr>
+    <td>SI__ NO__</td>
+  </tr>
+  <tr>
+    <td>b. Mecanismo de entrega del subsidio monetario <br /><br /><br /></td>
+  </tr>
+  <tr>
+    <td>
+      c. Advirtió a la mujer sobre las causales legales que dan lugar al
+      levantamiento de la medida de atención del lugar de habitación asignado,
+      incumplimiento del reglamento interno del lugar de (insistencia
+      injustificada a las citas o incumplimiento al tratamiento en salud física,
+      psicológica y/o mental, ausencia recurrente e injustificada habitación
+      asignado).
+    </td>
+  </tr>
+  <tr>
+    <td>SI__ NO__</td>
+  </tr>
+  <tr>
+    <td>
+      24. Verifique SI o NO si en el fallo se estableció la capacidad económica
+      del agresor a fin de ordenar el reembolso de los gastos en que incurrió el
+      Sistema General de Seguridad Social en Salud o el Régimen Especial o de
+      Excepción para la medida de atención que se prestó o se presta a la mujer
+      víctima.
+    </td>
+  </tr>
+  <tr>
+    <td>SI__ NO__</td>
+  </tr>
+  <tr>
+    <td>
+      24.1 Sí la respuesta es SI, y el agresor tiene capacidad económica,
+      verifique si se ordenó el reembolso de los gastos en que incurrió Sistema
+      General de Seguridad Social en Salud o el Régimen Especial o de Excepción
+      para la medida de atención que se prestó o se presta a la mujer víctima.
+    </td>
+  </tr>
+  <tr>
+    <td>SI__ NO__</td>
+  </tr>
+</table>
+
+<table hidden class="table-bordered bg-white" id="instrumento-seguimiento-parte7">
+  <tr>
+    <th colspan="3" class="btn-primary">C. SEGUIMIENTO MENSUAL</th>
+  </tr>
+  <tr>
+    <th colspan="3">
+      25. Solicite mensualmente a la institución prestadora de servicio - IPS
+      que está atendiendo a la mujer víctima, que en el término de cinco días,
+      informe la condición de salud física y mental.
+    </th>
+  </tr>
+  <tr class="btn-light">
+    <td>Una vez recibida la respuesta verifique:</td>
+    <td>SI</td>
+    <td>NO</td>
+  </tr>
+  <tr>
+    <td>
+      a. Si la mujer víctima requiere continuar con el tratamiento médico para
+      su salud física o mental.
+    </td>
+    <td>___</td>
+    <td>___</td>
+  </tr>
+  <tr>
+    <td>
+      b. Si la mujer víctima no está cumpliendo el tratamiento en médico para su
+      salud física o mental.
+    </td>
+    <td>___</td>
+    <td>___</td>
+  </tr>
+  <tr>
+    <td>
+      c. Si la EPS certifica médicamente la recuperación de la mujer víctima.
+    </td>
+    <td>___</td>
+    <td>___</td>
+  </tr>
+  <tr>
+    <td colspan="3">
+      25.1 En el caso que la víctima no esté cumpliendo con el tratamiento
+      físico, asegúrese que la Comisaría de Familia oficie a la Secretaría de
+      Salud Departamental o Distrital para que se indague las razones por las
+      cuales la mujer víctima de violencia no está cumpliendo con el tratamiento
+      y, en caso que sea injustificado lo reporte de manera inmediata.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="3">
+      25.2 Si la IPS no dio respuesta a lo solicitado, asegúrese que la
+      Comisaría de Familia requiera a la IPS exigiendo el cumplimiento con copia
+      a la Secretaría de Salud Departamental y Distrital para que en el
+      ejercicio de las funciones de inspección, vigilancia y control ésta pueda
+      tomar las acciones pertinentes, y anexe las copias del oficio al
+      expediente.
+      <br /><br /><br />
+    </td>
+  </tr>
+</table>
+
+<table hidden class="table-bordered bg-white" id="instrumento-seguimiento-parte8">
+  <tr>
+    <th colspan="3" class="btn-primary">C. SEGUIMIENTO MENSUAL</th>
+  </tr>
+  <tr>
+    <th colspan="3">
+      26. Solicite mensualmente a la Policía Nacional la valoración de la
+      situación especial de riesgo de la mujer víctima, que en el término de
+      cinco días, se remita a la Comisaría. Una vez recibida la respuesta
+      verifique:
+    </th>
+  </tr>
+  <tr>
+    <td colspan="3">
+      26.1 Si la Policía Nacional envió la valoración de la situación especial
+      de riesgo, registre la conclusión y anexe copia al expediente:
+      <br /><br /><br />
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="3">
+      26.2 Si la Policía Nacional no envió la valoración especial de riesgo,
+      asegúrese que la Comisaría de Familia realice el requerimiento respectivo
+      para que la Policía envíe la valoración en término de tres días.
+    </td>
+  </tr>
+  <tr>
+    <th colspan="3">
+      27. Verifique SI o NO la Secretaría de Salud Departamental o Distrital ha
+      reportado la inasistencia injustificada de la víctima al tratamiento
+      médico para su salud física o mental, o la ausencia recurrente e
+      injustificada de la misma, del lugar de habitación asignado.
+    </th>
+  </tr>
+  <tr>
+    <td colspan="3">SI__ NO__</td>
+  </tr>
+  <tr class="btn-light">
+    <td>
+      27.1 En caso de encontrar reporte de la Secretaría de Salud Departamental
+      o Distrital marque con una X según corresponda
+    </td>
+    <td>SI</td>
+    <td>NO</td>
+  </tr>
+  <tr>
+    <td>
+      a. Inasistencia injustificada al tratamiento médico para su salud física o
+      mental
+    </td>
+    <td>______</td>
+    <td>______</td>
+  </tr>
+  <tr>
+    <td>
+      b. Ausencia recurrente e injustificada del lugar de habitación asignado
+    </td>
+    <td>___</td>
+    <td>___</td>
+  </tr>
+  <tr class="btn-light">
+    <td>
+      27.1 En caso de encontrar reporte de la Secretaría de Salud Departamental
+      o Distrital marque con una X según corresponda
+    </td>
+    <td>SI</td>
+    <td>NO</td>
+  </tr>
+  <tr>
+    <td>
+      a. Que la víctima esté utilizando el subsidio monetario para cubrir los
+      gastos de habitación, alimentación y transporte en un lugar diferente al
+      que habita el agresor.
+    </td>
+    <td>___</td>
+    <td>___</td>
+  </tr>
+  <tr>
+    <td>
+      b. Que la víctima esté asistiendo a las citas de salud física y mental
+      (psicológicas o psiquiátricas), que se hayan establecido para su
+      tratamiento en salud.
+    </td>
+    <td>___</td>
+    <td>___</td>
+  </tr>
+  <tr>
+    <th colspan="3">
+      29. Realice una valoración de los informes mensuales y determine, si la
+      Comisaría de Familia debe:
+    </th>
+  </tr>
+  <tr>
+    <td colspan="2">a. Prorrogar la medida de atención.</td>
+    <td>___</td>
+  </tr>
+  <tr>
+    <td colspan="2">b. Revocar la medida de atención.</td>
+    <td>___</td>
+  </tr>
+  <tr>
+    <td colspan="2">c. Continuar con el seguimiento mensual.</td>
+    <td>___</td>
+  </tr>
+  <tr class="btn-light disabled">
+    <td colspan="3">
+      Asegúrese de informar al Comisario(a) el resultado de la valoración para
+      que proceda mediante auto la respectiva orden.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="3">Observaciones: <br /><br /><br /><br /></td>
+  </tr>
+  <tr>
+    <td colspan="3">Firma de quien realizó el seguimiento</td>
+  </tr>
+  <tr>
+    <td colspan="3">Nombre:</td>
+  </tr>
+  <tr>
+    <td colspan="3">Cargo:</td>
+  </tr>
+</table>

@@ -1,0 +1,76 @@
+<table hidden id="cuerpo">
+  <ng-template #vacio>_______________________</ng-template>
+  <ng-template #vacio2>______</ng-template>
+  <tr>
+    <td>
+      De manera atenta nos permitimos remitir a la señora
+      <span *ngIf="dataReporte.nombreVictima; else vacio">{{
+        dataReporte.nombreVictima | titlecase
+      }}</span>
+      y al señor
+      <span *ngIf="dataReporte.nombreAgresor; else vacio">{{
+        dataReporte.nombreAgresor | titlecase
+      }}</span>
+      quienes están siendo atendidos en este despacho por situaciones de
+      violencia intrafamiliar asociada a consumo de alcohol, generando
+      dificultades al interior del sistema familiar, razón por la cual requieren
+      que se les brinde apoyo terapéutico. Como parte del proceso de
+      seguimiento, solicitamos un informe sucinto en relación a los siguientes
+      aspectos:
+    </td>
+  </tr>
+</table>
+
+<table hidden id="items">
+  <tr>
+    <td>1.</td>
+    <td>
+      Asistencia: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      SI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      NO
+    </td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>Personas que han asistido: _________________________________</td>
+  </tr>
+  <tr>
+    <td>2.</td>
+    <td>Porcentaje de participación por parte de la familia: _______</td>
+  </tr>
+  <tr>
+    <td>3.</td>
+    <td>Conclusión del proceso:</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>
+      a.&nbsp;&nbsp;&nbsp;
+      SI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      NO
+    </td>
+  </tr>
+  <tr>
+    <td>4.</td>
+    <td>
+      Tiempo aproximado de actividades o sesiones pendientes:
+      ___________________________
+    </td>
+  </tr>
+  <tr>
+    <td>5.</td>
+    <td>
+      Logros, avances y cambios significativos registrados en el proceso (En
+      términos generales y preservando la confidencialidad respectiva del caso.
+    </td>
+  </tr>
+  <tr>
+    <td>6.</td>
+    <td>
+      Sugerencias y recomendaciones para la comisaría referidas a requerimientos
+      de intervención y seguimiento que ustedes identifican durante el proceso
+      de atención y que desde su perspectiva requiere la familia o el
+      usuario(a).
+    </td>
+  </tr>
+</table>

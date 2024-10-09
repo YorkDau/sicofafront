@@ -1,0 +1,65 @@
+<ng-template #vacio>_______________________</ng-template>
+<table hidden id="saludo">
+
+    <tr>
+        <td>
+           Respetados Doctores:
+
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Con un cordial saludo me permito remitir a usted al (la) señor(a) <span *ngIf="dataReporte.nombreVictima;else vacio">
+            {{dataReporte.nombreVictima | titlecase}}</span> y al (la) señor(a)
+            <span *ngIf="dataReporte.nombreAgresor;else vacio">{{dataReporte.nombreAgresor | titlecase}}</span> de manera separada, esto, con el fin de que reciban atención psicoterapéutica
+            encaminada a:
+
+        </td>
+    </tr>
+   <!--  <tr>
+        <td>
+            Así mismo, solicito un informe de avances, dificultades y logros sea remitido a esta Comisaría de familia,
+            oportunamente. 
+        </td>
+    </tr> -->
+</table>
+
+<table hidden id="items">
+    <tr>
+        <td>
+            Se impone la obligación al (la) señor(a) <span *ngIf="dataReporte.nombreAgresor;else vacio">{{ dataReporte.nombreAgresor | titlecase }}</span>, 
+            de acudir a TRATAMIENTO TERAPÉUTICO PROFESIONAL con sicología para el control de impulsos agresivos, manejo de la ira,
+            patrones de comunicación asertiva, resolución de conflictos, entre otros que el profesional considere
+            pertinente que le permitan comprender la importancia de resolver los conflictos mediante acciones libres
+            de violencia, de lo cual deberá aportar certificados de asistencia al proceso.
+
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Remitir al (la) señor(a) <span *ngIf="dataReporte.nombreVictima;else vacio">{{ dataReporte.nombreVictima | titlecase}}</span>, 
+            a seguimiento psicológico a fin de que supere los  hechos violentos y se empodere en su calidad de víctima, para que haga uso 
+            efectivo de la presente medida de protección, y mantengan informado al comando de policía sobre los posibles hechos
+            violentos en los que pueda incurrir el agresor, así mismo para que en caso que se presenten inicie
+            el respectivo incidente de incumplimiento, y si es del caso en que su vida corra riesgo solicite
+            casa refugio para salvaguardar su vida.
+        </td>
+    </tr>
+</table>
+
+<table hidden id="final">
+    <tr>
+        <td>
+            Así mismo, solicito un informe de avances, dificultades y logros sea remitido a esta Comisaría de familia,
+            oportunamente. 
+
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Cordialmente,
+        </td>
+    </tr>
+</table>
+
+

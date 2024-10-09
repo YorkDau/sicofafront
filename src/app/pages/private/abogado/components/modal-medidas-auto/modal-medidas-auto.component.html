@@ -1,0 +1,89 @@
+<div class="p-3 position-relative">
+  <button
+    mat-icon-button
+    class="close-button position-absolute"
+    (click)="cerrarModal()"
+  >
+    <mat-icon class="close-icon" color="warn"> close </mat-icon>
+  </button>
+</div>
+
+<p class="title-modal">AJUSTAR MEDIDAS APELACIÓN</p>
+
+<div class="w-50 mt-50" *ngIf="dataSource.data.length === 0">
+  <app-no-data [mensaje]="mensajeSinReg"> </app-no-data>
+</div>
+
+<div [ngStyle]="{ display: dataSource.data.length > 0 ? 'block' : 'none' }">
+  <mat-table [dataSource]="dataSource" id="table-private">
+    <ng-container matColumnDef="nombreMedida">
+      <mat-header-cell *matHeaderCellDef> Medida de atención</mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        {{ row.nombreMedida | titlecase }}
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="accion">
+      <mat-header-cell *matHeaderCellDef> Acción </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <div class="d-flex align-items-center ms-2">
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              [id]="row.idMedida + 'noA'"
+              [name]="row.idMedida + 'estado'"
+              [checked]="row.estadoMedida === 'NO APLICA'"
+              [disabled]="row.excluir === 'NO APLICA'"
+              (click)="actualizarEstadoMedida(row, 'NO APLICA')"
+            />
+            <label [for]="row.idMedida + 'noA'" class="form-label">
+              No aplica
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              [id]="row.idMedida + 'firme'"
+              [name]="row.idMedida + 'estado'"
+              [checked]="row.estadoMedida === 'SEGUIMIENTO'"
+              [disabled]="row.excluir === 'SEGUIMIENTO'"
+              (click)="actualizarEstadoMedida(row, 'SEGUIMIENTO')"
+            />
+            <label [for]="row.idMedida + 'firme'" class="form-label">
+              En firme
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              [id]="row.idMedida + 'revocado'"
+              [name]="row.idMedida + 'estado'"
+              [checked]="row.estadoMedida === 'REVOCADA'"
+              [disabled]="row.excluir === 'REVOCADA'"
+              (click)="actualizarEstadoMedida(row, 'REVOCADA')"
+            />
+            <label [for]="row.idMedida + 'revocado'" class="form-label">
+              Revocada
+            </label>
+          </div>
+        </div>
+      </mat-cell>
+    </ng-container>
+    <mat-header-row mat-header-row *matHeaderRowDef="columnas"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: columnas"></mat-row>
+  </mat-table>
+  <mat-paginator
+    [pageSizeOptions]="[5, 10, 20]"
+    showFirstLastButtons
+    aria-label="Select page of request"
+  >
+  </mat-paginator>
+
+  <div class="d-flex justify-content-end mt-3">
+    <button type="button" class="btn btn-primary" (click)="cerrarModal()">
+      Guardar
+    </button>
+  </div>
+</div>

@@ -1,0 +1,363 @@
+<form
+  class="d-flex flex-column mt-4 w-50 mx-auto"
+  [formGroup]="userForm"
+  autocomplete="off"
+  (submit)="crearCita()"
+>
+  <p class="subtitle-normal">Datos Personales</p>
+  <!-- nombre, apellido1 -->
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+      <div class="mb-3">
+        <label for="nombre" class="form-label">Nombres ciudadano*</label>
+        <input
+          type="text"
+          class="form-control"
+          [ngClass]="{
+            'input-req':
+              (isRequired('nombCiudadano') && mostrarValidaciones) ||
+              (patternValid('nombCiudadano') && mostrarValidaciones)
+          }"
+          id="nombre"
+          formControlName="nombCiudadano"
+          maxlength="50"
+        />
+        <div
+          *ngIf="isRequired('nombCiudadano') && mostrarValidaciones"
+          class="msj-req"
+        >
+          {{ msgObligatorio }}
+        </div>
+        <div
+          *ngIf="patternValid('nombCiudadano') && mostrarValidaciones"
+          class="msj-req"
+        >
+          {{ msgInvalido }}
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="mb-3">
+        <label for="apellido1" class="form-label"> Primer Apellido*</label>
+        <input
+          type="text"
+          class="form-control"
+          id="apellido1"
+          formControlName="primerApellido"
+          [ngClass]="{
+            'input-req':
+              (isRequired('primerApellido') && mostrarValidaciones) ||
+              (patternValid('primerApellido') && mostrarValidaciones)
+          }"
+          maxlength="50"
+        />
+        <div
+          *ngIf="isRequired('primerApellido') && mostrarValidaciones"
+          class="msj-req"
+        >
+          {{ msgObligatorio }}
+        </div>
+        <div
+          *ngIf="patternValid('primerApellido') && mostrarValidaciones"
+          class="msj-req"
+        >
+          {{ msgInvalido }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- apellido2, tipoDoc -->
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+      <div class="mb-3">
+        <label for="apellido2" class="form-label">Segundo Apellido</label>
+        <input
+          type="text"
+          class="form-control"
+          id="apellido2"
+          formControlName="segundoApellido"
+          maxlength="50"
+        />
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="mb-3">
+        <label for="tipoDoc" class="form-label">Tipo de documento*</label>
+        <select
+          formControlName="tipoDocumento"
+          [ngClass]="{
+            'input-req': isRequired('tipoDocumento') && mostrarValidaciones
+          }"
+          class="form-select"
+          id="tipoDoc"
+        >
+          <option value="" disabled>Tipo de documento</option>
+          <option
+            [value]="item.id_Dominio"
+            *ngFor="let item of listaTiposDocumentos"
+          >
+            {{ item.nombre_Dominio }}
+          </option>
+        </select>
+        <div
+          *ngIf="isRequired('tipoDocumento') && mostrarValidaciones"
+          class="msj-req"
+        >
+          {{ msgObligatorio }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- numDoc, dirRes -->
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+      <div class="mb-3">
+        <label for="numDoc" class="form-label">Número de documento*</label>
+        <input
+          type="text"
+          class="form-control"
+          id="numDoc"
+          formControlName="numeroDocumento"
+          [ngClass]="{
+            'input-req':
+              (isRequired('numeroDocumento') && mostrarValidaciones) ||
+              (patternValid('numeroDocumento') && mostrarValidaciones)
+          }"
+          maxlength="20"
+        />
+        <div
+          *ngIf="isRequired('numeroDocumento') && mostrarValidaciones"
+          class="msj-req"
+        >
+          {{ msgObligatorio }}
+        </div>
+        <div
+          *ngIf="patternValid('numeroDocumento') && mostrarValidaciones"
+          class="msj-req"
+        >
+          {{ msgInvalido }}
+        </div>
+        <div
+          *ngIf="patternValid('numeroDocumento') && mostrarValidaciones"
+          class="msj-req"
+        >
+          {{ msgInvalido }}
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="mb-3">
+        <label for="dirRes" class="form-label"> Dirección de residencia*</label>
+        <input
+          type="text"
+          class="form-control"
+          id="dirRes"
+          formControlName="direccResidencia"
+          [ngClass]="{
+            'input-req': isRequired('direccResidencia') && mostrarValidaciones
+          }"
+          maxlength="50"
+        />
+        <div
+          *ngIf="isRequired('direccResidencia') && mostrarValidaciones"
+          class="msj-req"
+        >
+          {{ msgObligatorio }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="subtitle-normal">Datos de Contacto</p>
+  <!-- Teléfono, celular -->
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+      <div class="mb-3">
+        <label for="tel" class="form-label">Teléfono</label>
+        <input
+          type="number"
+          class="form-control"
+          id="tel"
+          formControlName="telf"
+          maxlength="15"
+          min="1"
+        />
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="mb-3">
+        <label for="cel" class="form-label"> Celular </label>
+        <input
+          type="number"
+          class="form-control"
+          id="cel"
+          formControlName="celular"
+          maxlength="10"
+          oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+        />
+      </div>
+    </div>
+  </div>
+
+  <!-- email -->
+  <div class="mb-3">
+    <label for="email" class="form-label">Correo electrónico</label>
+    <input
+      type="email"
+      class="form-control"
+      [ngClass]="{
+        'input-req': patternValid('correoElectronico') && mostrarValidaciones
+      }"
+      id="email"
+      formControlName="correoElectronico"
+      maxlength="50"
+    />
+    <div
+      *ngIf="patternValid('correoElectronico') && mostrarValidaciones"
+      class="msj-req"
+    >
+      {{ msgCorreoInv }}
+    </div>
+  </div>
+
+  <div
+    class="msj-req mb-4"
+    *ngIf="isRequired('contacto') && mostrarValidaciones"
+  >
+    Diligencie al menos un campo de datos de contacto
+  </div>
+
+  <p class="subtitle-normal">Datos del caso</p>
+  <p class="data-case">
+    ¿Qué tipos de violencia viviste en el caso a reportar?*
+  </p>
+  <div class="row justify-content-center">
+    <div class="col-lg-4">
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          id="flexCheckDefault1"
+          formControlName="violenciaFisica"
+          value="1"
+          (click)="armarArrayTipoAtencion($event)"
+        />
+        <label class="form-check-label" for="flexCheckDefault1">
+          Violencia física
+        </label>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          id="flexCheckDefault2"
+          formControlName="violenciaPsico"
+          value="2"
+          (click)="armarArrayTipoAtencion($event)"
+        />
+        <label class="form-check-label" for="flexCheckDefault2">
+          Violencia psicológica
+        </label>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          id="flexCheckDefault3"
+          formControlName="violenciaSex"
+          value="3"
+          (click)="armarArrayTipoAtencion($event)"
+        />
+        <label class="form-check-label" for="flexCheckDefault3">
+          Violencia sexual
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-lg-4">
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          id="flexCheckDefault4"
+          formControlName="violenciaPat"
+          value="4"
+          (click)="armarArrayTipoAtencion($event)"
+        />
+        <label class="form-check-label" for="flexCheckDefault4">
+          Violencia patrimonial
+        </label>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          id="flexCheckDefault5"
+          formControlName="violenciaEco"
+          value="5"
+          (click)="armarArrayTipoAtencion($event)"
+        />
+        <label class="form-check-label" for="flexCheckDefault5">
+          Violencia económica
+        </label>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          id="flexCheckDefault6"
+          formControlName="coercion"
+          value="6"
+          (click)="armarArrayTipoAtencion($event)"
+        />
+        <label class="form-check-label" for="flexCheckDefault6">
+          Coerción y amenazas
+        </label>
+      </div>
+    </div>
+  </div>
+  <div
+    *ngIf="isRequired('tipoAtencionList') && mostrarValidaciones"
+    class="msj-req"
+  >
+    {{ msgObligatorio }}
+  </div>
+
+  <!-- acepta -->
+  <div class="form-check mt-5">
+    <input
+      class="form-check-input"
+      type="checkbox"
+      id="acepta"
+      formControlName="datos"
+    />
+    <label class="form-check-label accept-check" for="acepta">
+      <a
+        href="https://www.minjusticia.gov.co/servicio-ciudadano/Paginas/politica-proteccion-datos-personales.aspx"
+        target="_blank"
+        rel="noopener"
+      >
+        Acepto el tratamiento de datos</a
+      >*
+    </label>
+  </div>
+  <div class="msj-req" *ngIf="isRequired('datos') && mostrarValidaciones">
+    Debe aceptar la política de tratamiento de datos
+  </div>
+
+  <div class="d-flex justify-content-end mt-3">
+    <button type="submit" class="btn btn-primary">Continuar</button>
+  </div>
+</form>

@@ -1,0 +1,370 @@
+<form [formGroup]="derechosSegundo" autocomplete="off">
+  <p class="form-label my-5">VINCULACIÓN AL SISTEMA EDUCATIVO</p>
+
+  <div class="row">
+    <div class="col-lg-4">
+      <label for="colegio" class="form-label">
+        Matriculado en el colegio*
+      </label>
+      <input
+        type="text"
+        class="form-control"
+        id="colegio"
+        placeholder="Nombre institución"
+        maxlength="100"
+        formControlName="matriculadoEnElColegio"
+        [ngClass]="{
+          'input-req':
+            isRequired('matriculadoEnElColegio') && mostrarValidaciones
+        }"
+      />
+      <div
+        *ngIf="isRequired('matriculadoEnElColegio') && mostrarValidaciones"
+        class="msj-req"
+      >
+        {{ msgObligatorio }}
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <label for="cursa" class="form-label"> Grado que cursa*</label>
+      <input
+        type="text"
+        class="form-control"
+        id="cursa"
+        placeholder="Grado"
+        maxlength="50"
+        formControlName="gradoCursa"
+        [ngClass]="{
+          'input-req': isRequired('gradoCursa') && mostrarValidaciones
+        }"
+      />
+      <div
+        *ngIf="isRequired('gradoCursa') && mostrarValidaciones"
+        class="msj-req"
+      >
+        {{ msgObligatorio }}
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <label for="jornada" class="form-label">
+        Jornada de lunes a viernes*
+      </label>
+      <input
+        type="text"
+        class="form-control"
+        id="jornada"
+        placeholder="Jornada"
+        maxlength="50"
+        formControlName="jornadaEstudio"
+        [ngClass]="{
+          'input-req': isRequired('jornadaEstudio') && mostrarValidaciones
+        }"
+      />
+      <div
+        *ngIf="isRequired('jornadaEstudio') && mostrarValidaciones"
+        class="msj-req"
+      >
+        {{ msgObligatorio }}
+      </div>
+    </div>
+  </div>
+
+  <p class="form-label my-5">VIVIENDA</p>
+
+  <div class="w-100">
+    <p class="form-label">Vivienda en</p>
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-input"
+        type="radio"
+        id="arriendo"
+        name="tipoVivienda"
+        value="Arriendo"
+        formControlName="tipoVivienda"
+      />
+      <label class="form-check-label" for="arriendo">Arriendo</label>
+    </div>
+
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-input"
+        type="radio"
+        id="familiar"
+        name="tipoVivienda"
+        value="Familiar"
+        formControlName="tipoVivienda"
+      />
+      <label class="form-check-label" for="familiar">Familiar</label>
+    </div>
+
+    <p class="form-label mt-4">Tipo de vivienda</p>
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-input"
+        type="radio"
+        id="apartamento"
+        name="otroTipoVivienda"
+        value="Apartamento"
+        formControlName="otroTipoVivienda"
+      />
+      <label class="form-check-label" for="apartamento">Apartamento</label>
+    </div>
+
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-input"
+        type="radio"
+        id="casa"
+        name="otroTipoVivienda"
+        value="Casa"
+        formControlName="otroTipoVivienda"
+      />
+      <label class="form-check-label" for="casa">Casa</label>
+    </div>
+
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-input"
+        type="radio"
+        id="otro"
+        name="otroTipoVivienda"
+        value="Otro"
+        formControlName="otroTipoVivienda"
+      />
+      <label class="form-check-label" for="otro">Otro</label>
+    </div>
+  </div>
+
+  <div class="row my-5" *ngIf="mostrarTipoVivienda">
+    <div class="col-lg-4">
+      <label for="cual" class="form-label"> ¿Cuál?* </label>
+      <input
+        type="text"
+        class="form-control"
+        id="cual"
+        placeholder="Texto"
+        maxlength="50"
+        formControlName="otroTipoViviendaCual"
+        [ngClass]="{
+          'input-req': isRequired('otroTipoViviendaCual') && mostrarValidaciones
+        }"
+      />
+      <div
+        *ngIf="isRequired('otroTipoViviendaCual') && mostrarValidaciones"
+        class="msj-req"
+      >
+        {{ msgObligatorio }}
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <label for="habitaciones" class="form-label">
+        Número de habitaciones
+      </label>
+      <input
+        type="text"
+        class="form-control"
+        id="habitaciones"
+        placeholder="Cantidad"
+        max="10"
+        min="1"
+        formControlName="numeroHabitacionesVivienda"
+        oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+        maxlength="3"
+      />
+    </div>
+  </div>
+
+  <div class="w-100 mt-4">
+    <label for="ocupadas" class="form-label">
+      Habitaciones ocupadas de la siguiente manera
+    </label>
+    <textarea
+      id="ocupadas"
+      class="form-control"
+      rows="6"
+      placeholder="Descripción sobre la ocupación de las habitaciones"
+      style="resize: none"
+      formControlName="distribuciuonHabitaciones"
+    ></textarea>
+  </div>
+
+  <div class="mt-5">
+    <p class="form-label">La vivienda cuenta con:</p>
+
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        id="bano"
+        formControlName="viviendaConBaños"
+      />
+      <label class="form-check-label" for="bano">Baños</label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        id="cocina"
+        formControlName="viviendaConCocina"
+      />
+      <label class="form-check-label" for="cocina">Cocina</label>
+    </div>
+
+    <p class="form-label mt-3">Servicios públicos:</p>
+
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        id="agua"
+        formControlName="viviendaConAgua"
+      />
+      <label class="form-check-label" for="agua">Agua</label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        id="luz"
+        formControlName="viviendaConLuz"
+      />
+      <label class="form-check-label" for="luz">Luz</label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        id="gas"
+        formControlName="viciendaConGas"
+      />
+      <label class="form-check-label" for="gas">Gas</label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        id="otrosS"
+        formControlName="otrosServicios"
+      />
+      <label class="form-check-label" for="otrosS">Otros</label>
+    </div>
+  </div>
+  <div class="mt-3 w-25">
+    <label for="estratificacion" class="form-label"> Estratificación </label>
+    <input
+      type="number"
+      class="form-control"
+      id="estratificacion"
+      placeholder="Entidad"
+      oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+      min="0"
+      max="6"
+      maxlength="1"
+      formControlName="estratificacion"
+    />
+  </div>
+
+  <p class="form-label my-5">RECREACIÓN</p>
+
+  <div class="w-100">
+    <p class="form-label">¿Asiste alguna actividad extracurricular?</p>
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-input"
+        type="radio"
+        id="actividadS"
+        name="asisteExtracurriculares"
+        formControlName="asisteExtracurriculares"
+        [value]="true"
+      />
+      <label class="form-check-label" for="actividadS">SI</label>
+    </div>
+
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-input"
+        type="radio"
+        id="actividadN"
+        name="asisteExtracurriculares"
+        formControlName="asisteExtracurriculares"
+        [value]="false"
+      />
+      <label class="form-check-label" for="actividadN">NO</label>
+    </div>
+  </div>
+
+  <div class="mt-3" *ngIf="mostrarRecreacion">
+    <label for="acual" class="form-label">¿A cuál?*</label>
+    <input
+      type="text"
+      class="form-control"
+      id="acual"
+      placeholder="Texto"
+      maxlength="100"
+      formControlName="actividadesExtracurriculares"
+      [ngClass]="{
+        'input-req':
+          isRequired('actividadesExtracurriculares') && mostrarValidaciones
+      }"
+    />
+    <div
+      *ngIf="isRequired('actividadesExtracurriculares') && mostrarValidaciones"
+      class="msj-req"
+    >
+      {{ msgObligatorio }}
+    </div>
+  </div>
+
+  <p class="form-label my-5">REDES DE APOYO</p>
+
+  <div class="w-100">
+    <p class="form-label">
+      Familia extensa de la progenitora, y del progenitor
+    </p>
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-input"
+        type="radio"
+        id="extensaS"
+        name="familiaExtensa"
+        formControlName="familiaExtensa"
+        [value]="true"
+      />
+      <label class="form-check-label" for="extensaS">SI</label>
+    </div>
+
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-input"
+        type="radio"
+        id="extensaN"
+        name="extensa"
+        name="familiaExtensa"
+        formControlName="familiaExtensa"
+        [value]="false"
+      />
+      <label class="form-check-label" for="extensaN">NO</label>
+    </div>
+  </div>
+  <div class="mt-3" *ngIf="mostrarRedes">
+    <label for="otrosextensa" class="form-label">Otros*</label>
+    <input
+      type="text"
+      class="form-control"
+      id="otrosextensa"
+      placeholder="Texto"
+      maxlength="100"
+      formControlName="otraInformacionFamiliaExtensa"
+      [ngClass]="{
+        'input-req':
+          isRequired('otraInformacionFamiliaExtensa') && mostrarValidaciones
+      }"
+    />
+    <div
+      *ngIf="isRequired('otraInformacionFamiliaExtensa') && mostrarValidaciones"
+      class="msj-req"
+    >
+      {{ msgObligatorio }}
+    </div>
+  </div>
+</form>

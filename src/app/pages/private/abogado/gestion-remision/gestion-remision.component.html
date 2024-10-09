@@ -1,0 +1,126 @@
+<div class="background-gray rounded-basic p-4 mb-3">
+  <div class="d-flex align-items-center gap-5 mb-4 align-items-baseline">
+    <h4 class="text-blue">REMISIONES REALIZADAS</h4>
+    <button
+      class="btn button-new"
+      [routerLink]="['../../generar-remision/', this.objSol.idSolicitud]"
+    >
+      Generar Remisión
+    </button>
+  </div>
+
+  <div>
+    <div class="">
+      <app-no-data
+        mensaje="No se han encontrado remisiones realizadas con esta solicitud."
+        *ngIf="!dataSourceList.length"
+      ></app-no-data>
+    </div>
+    <div [ngStyle]="{ display: dataSource.data.length > 0 ? 'block' : 'none' }">
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        id="table-private"
+        *ngIf="dataSource.data.length > 0"
+      >
+        <ng-container matColumnDef="nombreRemision">
+          <mat-header-cell *matHeaderCellDef>Documento</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <div style="width: 180px">
+              {{ element.nombreRemision.split("_").join(" ") }}
+            </div>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="nombreInvolucrado">
+          <mat-header-cell *matHeaderCellDef>Remitido A</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <div style="width: 180px">
+              {{ element.nombreInvolucrado }}
+            </div>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="fecha">
+          <mat-header-cell *matHeaderCellDef
+            >Fecha y Hora Emisión</mat-header-cell
+          >
+          <mat-cell *matCellDef="let element">{{ element.fecha }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="nombreUsuario">
+          <mat-header-cell *matHeaderCellDef>Remitente</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            {{ element.nombreUsuario }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <button
+              mat-icon-button
+              matTooltip="Editar adjunto"
+              (click)="inputFile.click()"
+              color="primary"
+            >
+              <input
+                type="file"
+                #inputFile
+                (change)="cargarArchivo($event, element)"
+                accept=".pdf"
+                hidden
+              />
+
+              <mat-icon
+              class="material-icons-outlined">file_upload</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              matTooltip="Descargar adjunto"
+              (click)="descargarArchivo(element)"
+              color="primary"
+            >
+              <mat-icon
+              class="material-icons-outlined"
+              >file_download</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              matTooltip="Borrar remisión"
+              (click)="seguroEliminarRemision(element)"
+            >
+              <mat-icon
+              class="material-icons-outlined"
+              >close</mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+      </table>
+      <mat-paginator
+        [pageSizeOptions]="[5, 10, 20]"
+        showFirstLastButtons
+        aria-label="Select page of request"
+      >
+      </mat-paginator>
+    </div>
+  </div>
+
+  <div class="row mx-0 mt-2 py-4">
+    <div class="col-12 d-flex justify-content-end px-0">
+      <button class="btn btn-danger px-4 ms-3" (click)="cancelar()">
+        Cancelar
+      </button>
+      <button class="btn btn-primary px-4 ms-3">Archivar Diligencias</button>
+      <button
+        class="btn btn-primary px-4 ms-3"
+        (click)="modalConfirmaCerrarActuacion()"
+      >
+        Cerrar Actuaciones
+      </button>
+    </div>
+  </div>
+</div>

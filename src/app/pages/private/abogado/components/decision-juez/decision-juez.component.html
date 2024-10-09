@@ -1,0 +1,132 @@
+<div class="p-4 mb-3">
+  <div class="d-flex justify-content-end">
+    <button class="btn btn-primary me-3" (click)="modalReporteJuez()">
+      Generar reportes
+    </button>
+    <button class="btn btn-primary" (click)="modalCargaArchivo()">
+      Agregar documento
+    </button>
+  </div>
+  <app-lista-archivos></app-lista-archivos>
+
+  <form [formGroup]="decisionForm">
+    <div class="mt-4">
+      <p class="form-label">¿Se acepta el recurso de apelación?</p>
+
+      <div class="form-check form-check-inline">
+        <input
+          class="form-check-input"
+          type="radio"
+          id="aceptaReqSi"
+          formControlName="aceptaRecurso"
+          name="aceptaRecurso"
+          [value]="true"
+        />
+        <label for="aceptaReqSi" class="form-label"> Si </label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input
+          class="form-check-input"
+          type="radio"
+          id="aceptaReqNo"
+          formControlName="aceptaRecurso"
+          name="aceptaRecurso"
+          [value]="false"
+        />
+        <label for="aceptaReqNo" class="form-label"> No </label>
+      </div>
+    </div>
+
+    <div class="mt-3" *ngIf="mostrarNulidad">
+      <p class="form-label me-4">¿Se declara nulidad?</p>
+      <div class="d-flex align-items-center">
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            id="nulidadSi"
+            formControlName="declaraNulidad"
+            name="declaraNulidad"
+            [value]="true"
+          />
+          <label for="nulidadSi" class="form-label"> Si </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            id="nulidadNo"
+            formControlName="declaraNulidad"
+            name="declaraNulidad"
+            [value]="false"
+          />
+          <label for="nulidadNo" class="form-label"> No </label>
+        </div>
+      </div>
+
+      <div class="mt-3" *ngIf="!mostrarOpcionesNulidad">
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="modalMedidasAuto()"
+        >
+          Modificar medidas
+        </button>
+      </div>
+
+      <div class="mt-3" *ngIf="mostrarOpcionesNulidad">
+        <label for="tareaRetomar" class="form-label">
+          Seleccione la tarea a retomar*
+        </label>
+        <div class="d-flex w-100 align-items-center">
+          <select
+            class="form-select me-4 w-50"
+            formControlName="idFlujoRetorno"
+            aria-label="Default select example"
+            id="tareaRetomar"
+            [ngClass]="{
+              'input-req': isRequired('idFlujoRetorno') && mostrarValidaciones
+            }"
+          >
+            <option [value]="0" disabled>Seleccione la tarea</option>
+            <option
+              [value]="item.idFlujo"
+              *ngFor="let item of listaTareaApelacion"
+            >
+              {{ item.nombreTarea }}
+            </option>
+          </select>
+        </div>
+        <div
+          *ngIf="isRequired('idFlujoRetorno') && mostrarValidaciones"
+          class="msj-req"
+        >
+          {{ msgObligatorio }}
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="mt-5 d-flex justify-content-end">
+    <button type="button" class="btn btn-danger" (click)="cancelarSolicitud()">
+      Cancelar
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary ms-3"
+      (click)="guardarApelacion()"
+    >
+      Guardar
+    </button>
+    <button type="button" class="btn btn-primary ms-3">
+      Archivar Diligencias
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary ms-3"
+      (click)="modalConfirmaCerrarActuacion()"
+    >
+      Cerrar Actuaciones
+    </button>
+  </div>
+</div>

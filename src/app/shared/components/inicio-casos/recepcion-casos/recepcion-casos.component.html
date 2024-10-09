@@ -1,0 +1,288 @@
+<form
+  class="background-gray rounded-basic p-3 mb-3"
+  [formGroup]="form"
+  autocomplete="off"
+  (submit)="consultarCasos()"
+>
+  <div class="row">
+    <div class="col-lg-3">
+      <div class="mb-3">
+        <label for="nombre" class="form-label">Nombres</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="nombres"
+          placeholder="Nombres"
+          maxlength="50"
+          id="nombre"
+        />
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <div class="mb-3">
+        <label for="primera" class="form-label">Primer Apellido</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="primerApellido"
+          placeholder="Primer Apellido"
+          maxlength="50"
+          id="primera"
+        />
+      </div>
+    </div>
+
+    <div class="col-lg-3">
+      <div class="mb-3">
+        <label for="segundo" class="form-label">Segundo Apellido</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="segundoApellido"
+          placeholder="Segundo Apellido"
+          id="segundo"
+          maxlength="50"
+        />
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <div class="mb-3">
+        <label for="numdoc" class="form-label">Número de documento</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="numeroDocumento"
+          placeholder="Número de documento"
+          id="numdoc"
+          maxlength="20"
+        />
+      </div>
+    </div>
+
+    <div class="col-lg-3">
+      <div class="mb-3">
+        <label for="codigo" class="form-label">Código solicitud</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="codSolicitud"
+          placeholder="Código solicitud"
+          maxlength="40"
+          id="codigo"
+        />
+      </div>
+    </div>
+
+    <div class="col-lg-3">
+      <label for="fecha" class="form-label">Fecha</label>
+      <div class="input-group">
+        <input
+          matInput
+          readonly
+          (click)="picker.open()"
+          placeholder="DD/MM/YYYY"
+          class="form-control form-control-date-Picker sinborde-DatePicker"
+          [matDatepicker]="picker"
+          formControlName="fechaS"
+          id="fecha"
+        />
+        <span class="input-group-text sinfondo-DatePicker">
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </span>
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <div class="mb-3">
+        <label for="estado" class="form-label">Estado</label>
+        <select formControlName="estado" class="form-select">
+          <option [value]="item.codigo" *ngFor="let item of listaTarea">
+            {{ item.nombre_Dominio }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="col-lg-3 d-flex align-items-center justify-content-center">
+      <div class="mb-3 mt-4">
+        <button type="submit" class="btn btn-primary">
+          <img
+            src="assets/images/busqueda.svg"
+            alt="serach"
+            class="img-fluid me-2"
+          />
+          Buscar
+        </button>
+      </div>
+
+      <div
+        class="d-flex pointer-event boton-interrogacion"
+        matTooltip="• Por seguridad del ciudadano se debe ingresar los nombres y apellidos completos o el número de identificación."
+        matTooltipPosition="above"
+        matTooltipHideDelay="500"
+        matTooltipClass="blued-tooltip"
+      >
+        <mat-icon
+          class="material-icons-outlined"
+          style="font-size: 1.5rem; color: #007ad5"
+          >info</mat-icon
+        >
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="getNombres !== '' && mostrarValidaciones" class="msj-req">
+    {{ getNombres }}
+  </div>
+</form>
+
+<div class="background-light rounded-basic p-4 mb-4" *ngIf="formSubmitted">
+  <h4 class="text-blue">
+    {{ mensajeG }}
+  </h4>
+
+  <div class="w-50" *ngIf="dataSource.data.length === 0">
+    <app-no-data [mensaje]="mensajeSinReg"> </app-no-data>
+  </div>
+
+  <div [ngStyle]="{ display: dataSource.data.length > 0 ? 'block' : 'none' }">
+    <div class="box-legend ms-4 mt-4">
+      <div class="box-legend__alto">
+        <div class="box-legend__alto__dot"></div>
+        Riesgo alto
+      </div>
+      <div class="box-legend__medio">
+        <div class="box-legend__medio__dot"></div>
+        Riesgo medio
+      </div>
+      <div class="box-legend__bajo">
+        <div class="box-legend__bajo__dot"></div>
+        Riesgo bajo
+      </div>
+      <div class="box-legend__no">
+        <div class="box-legend__no__dot"></div>
+        Riesgo no Identificado
+      </div>
+    </div>
+    <mat-table [dataSource]="dataSource" id="table-private">
+      <ng-container matColumnDef="codsolicitud">
+        <mat-header-cell *matHeaderCellDef> Código Solicitud </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <div class="box-legend w-auto">
+            <div [ngClass]="retornarPadreRiesgo(row.riesgo)">
+              <div [ngClass]="retornarHijoRiesgo(row.riesgo)"></div>
+            </div>
+          </div>
+          <span [title]="row.codsolicitud">
+            {{ row.codsolicitud }}
+          </span>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="tipoSolicitud">
+        <mat-header-cell *matHeaderCellDef> Tipo Solicitud </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <span
+            class="badge"
+            [ngClass]="{
+              'badge-light-success': row.tipoSolicitud === 'SOL',
+              'badge-light-primary': row.tipoSolicitud !== 'SOL'
+            }"
+          >
+            {{ row.tipoSolicitud === "SOL" ? "Solicitud" : "Presolicitud" }}
+          </span>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="nombresApellidos">
+        <mat-header-cell *matHeaderCellDef>
+          Nombres y apellidos
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          {{ row.nombresApellidos | titlecase }}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="tipoProceso">
+        <mat-header-cell *matHeaderCellDef> Proceso </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          {{ row.tipoProceso }}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="numeroDocumento">
+        <mat-header-cell *matHeaderCellDef> No. de doc </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <div style="width: 90px">
+            {{ row.numeroDocumento }}
+          </div>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="fechaSolicitud">
+        <mat-header-cell *matHeaderCellDef> Fecha solicitud </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          {{ row.fechaSolicitud }}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="estado">
+        <mat-header-cell *matHeaderCellDef> Estado </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          {{ row.estado | titlecase }}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="accion">
+        <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <button
+            mat-icon-button
+            matTooltip="Visualizar"
+            matTooltipPosition="left"
+            matTooltipHideDelay="500"
+            matTooltipClass="background-tooltip"
+            aria-label="Button that displays a tooltip when focused or hovered over"
+            (click)="verHistorialCiudadano(row)"
+          >
+            <img src="assets/images/eye.svg" alt="detail" class="img-fluid" />
+          </button>
+          <button
+            mat-icon-button
+            matTooltip="Tomar caso"
+            matTooltipPosition="right"
+            matTooltipHideDelay="500"
+            matTooltipClass="background-tooltip"
+            aria-label="Button that displays a tooltip when focused or hovered over"
+            (click)="modalTomarCaso(row)"
+          >
+            <img
+              src="assets/images/irProceso.svg"
+              alt="detail"
+              class="img-fluid"
+            />
+          </button>
+          <button
+            *ngIf="remitidoComisaria(row)"
+            mat-icon-button
+            matTooltip="Ver detalle remisión"
+            matTooltipPosition="right"
+            matTooltipHideDelay="500"
+            matTooltipClass="background-tooltip"
+            aria-label="Button that displays a tooltip when focused or hovered over"
+            (click)="modalComisariaOrigen(row)"
+          >
+            <mat-icon class="icono-remision"> published_with_changes </mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row
+        mat-header-row
+        *matHeaderRowDef="columnas"
+      ></mat-header-row>
+      <mat-row *matRowDef="let row; columns: columnas"></mat-row>
+    </mat-table>
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20]"
+      showFirstLastButtons
+      aria-label="Select page of request"
+    >
+    </mat-paginator>
+  </div>
+</div>

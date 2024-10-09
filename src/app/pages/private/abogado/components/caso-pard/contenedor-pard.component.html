@@ -1,0 +1,45 @@
+<div class="p-5">
+  <div id="tab-child" class="d-flex align-items-center">
+    <div
+      class="tab-style"
+      [ngClass]="{
+        active: tab0 && !tab1 && !tab2
+      }"
+      (click)="cambiarTab(0)"
+    >
+      Pruebas
+    </div>
+    <div
+      class="tab-style"
+      [ngClass]="{
+        active: tab1 && (!tab0 || !tab2)
+      }"
+      (click)="cambiarTab(1)"
+    >
+      Decretar o desistir
+    </div>
+    <div
+      class="tab-style"
+      [ngClass]="{
+        active: tab2 && (!tab0 || !tab1)
+      }"
+      (click)="cambiarTab(2)"
+    >
+      Notificaciones
+    </div>
+  </div>
+
+  <ng-container *ngIf="tab0">
+    <app-pruebas-pard></app-pruebas-pard>
+  </ng-container>
+
+  <ng-container *ngIf="tab1">
+    <app-decretar-desistir-pard></app-decretar-desistir-pard>
+  </ng-container>
+
+  <ng-container *ngIf="tab2">
+    <app-notificaciones-pard></app-notificaciones-pard>
+  </ng-container>
+</div>
+
+<app-acciones-formulario [mostrarGuardar]="false"></app-acciones-formulario>

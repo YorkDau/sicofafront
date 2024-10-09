@@ -1,0 +1,55 @@
+<app-cabecera-reporte
+  [tituloReporte]="'SOLICITUD DE MEDIDA DE PROTECCIÓN'"
+></app-cabecera-reporte>
+
+<table hidden id="lugar-medida" aria-describedby="lugar medida">
+  <tr>
+    <td>Ciudad: {{ ciudad }}</td>
+  </tr>
+  <tr>
+    <td>Fecha: {{ fechaActual | date: "dd MMMM yyyy" }}</td>
+  </tr>
+</table>
+
+<app-numh-medida></app-numh-medida>
+
+<table class="table" hidden id="texto1-medida" aria-describedby="texto1 medida">
+  <tr>
+    <td class="text-justify">
+      Los datos que se consignan a continuación se desprenden de la información
+      recibida del accionante - víctima y consignada respectivamente por el
+      funcionario que recibe la solicitud y que se transcriben fielmente, para
+      el conocimiento del Despacho.
+    </td>
+  </tr>
+</table>
+
+<app-datos-v [victima]="victima"></app-datos-v>
+
+<app-datos-a [agresor]="agresor"></app-datos-a>
+
+<table hidden id="relato-medida" aria-describedby="relato medida">
+  <tr>
+    <td>RELATO DE LOS HECHOS – ÚLTIMOS 30 DÍAS</td>
+  </tr>
+</table>
+
+<app-relato-ult></app-relato-ult>
+
+<app-tipo-violencia></app-tipo-violencia>
+
+<app-pruebas-aportar></app-pruebas-aportar>
+
+<app-testimonial></app-testimonial>
+
+<table hidden id="firma-medida" aria-describedby="firma medida">
+  <tr>
+    <td>NOMBRE DE QUIEN REALIZA LA SOLICITUD</td>
+  </tr>
+  <tr>
+    <td>C.C.</td>
+  </tr>
+  <tr>
+    <td>FUNCIONARIO QUIEN RECIBE LA SOLICITUD</td>
+  </tr>
+</table>

@@ -1,0 +1,65 @@
+<form [formGroup]="myForm" class="background-gray rounded-basic p-4 mb-4">
+  <div class="row">
+    <div class="col-12 d-flex align-items-center gap-3 mb-3">
+      <a
+        class="title-content d-flex align-items-center text-decoration-none"
+        style="font-size: 14px !important"
+        [routerLink]="['../../gestion-dominios']"
+      >
+        <mat-icon class="material-icons-outlined"
+          >keyboard_arrow_left
+        </mat-icon>
+        <span>Volver</span>
+      </a>
+      <h3 class="title-content text-capitalize m-0">
+        Busqueda de Tipo de Dominios
+      </h3>
+    </div>
+    <div class="col-lg-4 form-group mb-3">
+      <label for="nombre" class="form-label text-capitalize"
+        >Nombre del Tipo de Dominio</label
+      >
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Nombre del tipo dominio"
+        formControlName="nombreDominio"
+        maxlength="50"
+      />
+    </div>
+    <div class="col-lg-4 form-group">
+      <label for="nombre" class="form-label text-capitalize opacity-0"
+        >Nombre del Tipo de Dominio</label
+      >
+      <button class="btn btn-primary">
+        <img
+          src="assets/images/busqueda.svg"
+          alt="serach"
+          class="img-fluid me-2"
+        />
+        Buscar
+      </button>
+    </div>
+  </div>
+</form>
+
+<div class="background-content-private p-4 mb-4">
+  <div class="d-flex align-items-center gap-3 mb-3">
+    <h3 class="title-content text-capitalize m-0">
+      Dominios de {{ this.tipoDominio.split("_").join(" ") }}
+    </h3>
+    <button class="btn button-new" (click)="abrirModalCrearDominio()">
+      Crear Nuevo Valor
+    </button>
+  </div>
+
+  <aurora-table
+    [data]="dominios"
+    [columns]="columns"
+    [actions]="actions"
+    [valueSearch]="myForm.get('nombreDominio')?.value"
+    *ngIf="dominios && dominios.length"
+    [actionsGestionGrupos]="EnviarActionsGestionGrupos"
+  >
+  </aurora-table>
+</div>

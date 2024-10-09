@@ -1,0 +1,49 @@
+.example-container {
+  height: calc(100vh - 50px);
+  box-sizing: border-box;
+}
+
+.contenido {
+  padding: 20px;
+  padding-bottom: 0;
+}
+
+.sidenav-css {
+  background: transparent
+    linear-gradient(180deg, #2b57ad 0%, #2856aa 33%, #054a89 72%, #004884 100%)
+    0% 0% no-repeat padding-box;
+  opacity: 1;
+  color: white;
+  letter-spacing: 0px;
+  border-top-right-radius: 10px;
+  margin-top: 20px;
+  height: calc(100vh - 50px);
+  max-height: auto;
+}
+
+.fecha-tamano {
+  font-size: xx-small;
+}
+
+.sidenav-flecha-open {
+  cursor: pointer;
+  top: 15%;
+  left: 19.5%;
+  position: absolute;
+  z-index: 3;
+}
+
+.sidenav-flecha-close {
+  cursor: pointer;
+  top: 15%;
+  left: 1.2%;
+  position: absolute;
+  z-index: 3;
+  transform: rotate(180deg);
+}
+
+mat-drawer-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}

@@ -1,0 +1,1168 @@
+<app-encabezado-private></app-encabezado-private>
+
+<!-- Formulario de la victima -->
+<mat-stepper
+  labelPosition="bottom"
+  linear
+  [orientation]="orientation"
+  #stepper
+  class="mb-5"
+>
+  <mat-step>
+    <ng-template matStepLabel class="text-capitalize">
+      Identificación de la víctima</ng-template
+    >
+
+    <form [formGroup]="formVictima" class="p-5">
+      <div class="subtitle-ciudadano mb-4">
+        DATOS DE IDENTIFICACIÓN DEL ACCIONANTE
+      </div>
+
+      <!-- primera sección -->
+      <div class="agresor row">
+        <div class="form-group col-lg-4">
+          <label class="form-label text-capitalize"
+            >Primer nombre<span class="mx-1">*</span></label
+          >
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Primer nombre"
+            formControlName="primerNombre"
+            maxlength="50"
+            [ngClass]="{
+              'border-danger': isRequiredField(formVictima, 'primerNombre')
+            }"
+          />
+          <span
+            class="text-danger"
+            [ngClass]="{
+              'opacity-0': !isRequiredField(formVictima, 'primerNombre')
+            }"
+            >Campo requerido</span
+          >
+        </div>
+
+        <div class="form-group col-lg-4 mb-4">
+          <label class="form-label text-capitalize">Segundo nombre</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Segundo nombre"
+            formControlName="segundoNombre"
+            maxlength="50"
+          />
+        </div>
+
+        <div class="form-group col-lg-4">
+          <label class="form-label text-capitalize"
+            >Primer Apellido<span class="mx-1">*</span></label
+          >
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Primer Apellido"
+            formControlName="primerApellido"
+            maxlength="50"
+            [ngClass]="{
+              'border-danger': isRequiredField(formVictima, 'primerApellido')
+            }"
+          />
+          <span
+            class="text-danger"
+            [ngClass]="{
+              'opacity-0': !isRequiredField(formVictima, 'primerApellido')
+            }"
+            >Campo requerido</span
+          >
+        </div>
+
+        <div class="form-group col-lg-4 mb-4">
+          <label class="form-label text-capitalize">Segundo Apellido</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Segundo Apellido"
+            formControlName="segundoApellido"
+            maxlength="50"
+          />
+        </div>
+
+        <div class="form-group col-lg-4 mb-4">
+          <label class="form-label text-capitalize"
+            >tipo de documento<span class="mx-1">*</span></label
+          >
+          <select
+            type="text"
+            class="form-select"
+            placeholder="Tipo de documento"
+            formControlName="tipoDocumento"
+          >
+            <option value="">Seleccione una opción</option>
+            <option
+              [value]="item.id_Dominio"
+              *ngFor="let item of listaTipoDocumento"
+            >
+              {{ item.nombre_Dominio }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group col-lg-4 mb-4">
+          <label class="form-label text-capitalize"
+            >número documento<span class="mx-1">*</span></label
+          >
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Número Documento"
+            formControlName="numeroDocumento"
+            maxlength="20"
+          />
+        </div>
+
+        <div class="form-group col-lg-4">
+          <label class="form-label text-capitalize"
+            >fecha de expedición<span class="mx-1">*</span></label
+          >
+          <div class="input-group" style="max-height: 38px">
+            <input
+              readonly
+              (click)="pickerExp1.open()"
+              placeholder="DD/MM/YYYY"
+              class="form-control border-end-0 bg-white"
+              [matDatepicker]="pickerExp1"
+              formControlName="fechaExpedicion"
+              [max]="dateMax"
+              [min]="dateMin"
+            />
+            <span
+              class="input-group-text border-start-0 p-0 bg-white"
+              style="max-height: 38px"
+            >
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="pickerExp1"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #pickerExp1></mat-datepicker>
+            </span>
+          </div>
+          <span
+            class="text-danger"
+            [ngClass]="{
+              'opacity-0': !isRequiredField(formVictima, 'fechaExpedicion')
+            }"
+            >Campo requerido</span
+          >
+        </div>
+
+        <div class="form-group col-lg-4">
+          <label class="form-label text-capitalize"
+            >Lugar de expedición<span class="mx-1">*</span></label
+          >
+          <select
+            formControlName="lugarExpedicion"
+            class="form-select"
+            [ngClass]="{
+              'border-danger': isRequiredField(formVictima, 'lugarExpedicion')
+            }"
+          >
+            <option value="">Lugar de expedición</option>
+            <option
+              [value]="item.ciudmunID"
+              *ngFor="let item of listaLugarExpedicion"
+            >
+              {{ item.nombCiudMun }}
+            </option>
+          </select>
+
+          <span
+            class="text-danger"
+            [ngClass]="{
+              'opacity-0': !isRequiredField(formVictima, 'lugarExpedicion')
+            }"
+            >Campo requerido</span
+          >
+        </div>
+
+        <div class="form-group col-lg-4">
+          <label class="form-label text-capitalize"
+            >fecha nacimiento<span class="mx-1">*</span></label
+          >
+          <div class="input-group" style="max-height: 38px">
+            <input
+              readonly
+              (click)="pickerNac.open()"
+              placeholder="DD/MM/YYYY"
+              class="form-control border-end-0 bg-white"
+              [matDatepicker]="pickerNac"
+              formControlName="fechaNacimiento"
+              [max]="dateMax"
+              [min]="dateMin"
+            />
+            <span
+              class="input-group-text border-start-0 p-0 bg-white"
+              style="max-height: 38px"
+            >
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="pickerNac"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #pickerNac></mat-datepicker>
+            </span>
+          </div>
+          <span
+            class="text-danger"
+            [ngClass]="{
+              'opacity-0': !isRequiredField(formVictima, 'fechaNacimiento')
+            }"
+            >Campo requerido</span
+          >
+        </div>
+
+        <div class="form-group col-lg-4">
+          <label class="form-label text-capitalize"
+            >sexo<span class="mx-1">*</span></label
+          >
+          <select
+            type="text"
+            class="form-select"
+            formControlName="sexo"
+            [ngClass]="{
+              'border-danger': isRequiredField(formVictima, 'sexo')
+            }"
+          >
+            <option value="">Seleccione una opción</option>
+            <option [value]="item.id_Dominio" *ngFor="let item of listaSexo">
+              {{ item.nombre_Dominio }}
+            </option>
+          </select>
+          <small
+            class="form-text text-danger"
+            [ngClass]="{
+              'opacity-0': !isRequiredField(formVictima, 'sexo')
+            }"
+          >
+            Campo requerido
+          </small>
+        </div>
+
+        <div class="form-group col-lg-4">
+          <label class="form-label text-capitalize"
+            >identidad de género<span class="mx-1">*</span></label
+          >
+          <select
+            type="text"
+            class="form-select"
+            formControlName="identidadGenero"
+            [ngClass]="{
+              'border-danger': isRequiredField(formVictima, 'identidadGenero')
+            }"
+          >
+            <option value="">Seleccione una opción</option>
+            <option [value]="item.id_Dominio" *ngFor="let item of listaGenero">
+              {{ item.nombre_Dominio }}
+            </option>
+          </select>
+          <small
+            class="form-text text-danger"
+            [ngClass]="{
+              'opacity-0': !isRequiredField(formVictima, 'identidadGenero')
+            }"
+          >
+            Campo requerido
+          </small>
+        </div>
+
+        <div class="form-group col-lg-4">
+          <label class="form-label text-capitalize"
+            >ocupación<span class="mx-1">*</span></label
+          >
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Ocupación"
+            formControlName="ocupacion"
+            maxlength="50"
+            [ngClass]="{
+              'border-danger': isRequiredField(formVictima, 'ocupacion')
+            }"
+          />
+          <small
+            class="form-text text-danger"
+            [ngClass]="{
+              'opacity-0': !isRequiredField(formVictima, 'ocupacion')
+            }"
+          >
+            Campo requerido
+          </small>
+        </div>
+
+        <div class="form-group col-lg-4">
+          <label class="form-label text-capitalize"
+            >escolaridad<span class="mx-1">*</span></label
+          >
+          <select
+            class="form-select"
+            formControlName="idEscolaridad"
+            [ngClass]="{
+              'border-danger': isRequiredField(formVictima, 'idEscolaridad')
+            }"
+          >
+            <option value="">Seleccione una opción</option>
+            <option
+              [value]="item.id_Dominio"
+              *ngFor="let item of listaNivelAcademico"
+            >
+              {{ item.nombre_Dominio }}
+            </option>
+          </select>
+          <small
+            class="form-text text-danger"
+            [ngClass]="{
+              'opacity-0': !isRequiredField(formVictima, 'idEscolaridad')
+            }"
+            >Campo requerido</small
+          >
+        </div>
+
+        <div class="form-group col-lg-4">
+          <label class="form-label text-capitalize"
+            >relación de pareja<span class="mx-1">*</span></label
+          >
+          <select
+            class="form-select"
+            [ngClass]="{
+              'border-danger': isRequiredField(formVictima, 'relacionPareja')
+            }"
+            formControlName="relacionPareja"
+          >
+            <option value="">Seleccione una opción</option>
+            <option
+              [value]="item.id_Dominio"
+              *ngFor="let item of listaEstadoCivil"
+            >
+              {{ item.nombre_Dominio }}
+            </option>
+          </select>
+          <small
+            class="form-text text-danger"
+            [ngClass]="{
+              'opacity-0': !isRequiredField(formVictima, 'relacionPareja')
+            }"
+            >Campo requerido</small
+          >
+        </div>
+
+        <div class="form-group col-lg-4">
+          <label class="form-label text-capitalize"
+            >número de hijos<span class="mx-1">*</span></label
+          >
+          <input
+            type="number"
+            min="0"
+            step="1"
+            class="form-control bg-white"
+            placeholder="número de hijos"
+            formControlName="numeroHijos"
+            (input)="inputNumber($event.target, 0, 99); changeHijosVictima()"
+          />
+        </div>
+      </div>
+
+      <!-- Hijos -->
+
+      <section
+        class="background-filter-private hijos p-4 mt-4"
+        style="background-color: #e3e7ea !important"
+        *ngIf="formHijosVictima.length"
+      >
+        <div *ngFor="let hijo of formHijosVictima; let i = index">
+          <h5 class="col-12">Hijo #{{ i + 1 }}</h5>
+          <app-hijos-involucrados
+            [form]="hijo"
+            [listaSexo]="listaSexo"
+            [listaTipoRelacion]="listaTipoRelacion"
+          >
+          </app-hijos-involucrados>
+        </div>
+      </section>
+
+      <!-- segunda sección -->
+
+      <div class="row mt-4">
+        <div class="col-lg-4 mb-4 d-flex flex-column justify-content-end">
+          <label for="cultura" class="form-label">
+            De acuerdo con su cultura, pueblo o rasgo físico es o se reconoce
+            como
+          </label>
+          <select class="form-select" formControlName="cultura">
+            <option value="">Seleccione una opción</option>
+            <option [value]="item.id_Dominio" *ngFor="let item of listaCultura">
+              {{ item.nombre_Dominio }}
+            </option>
+            <option [value]="item.id_Dominio" *ngFor="let item of listaOtros">
+              Ninguna
+            </option>
+          </select>
+        </div>
+
+        <div class="col-lg-4 d-flex flex-column justify-content-end">
+          <label for="relaciona" class="form-label"
+            >Relación con el Agresor<span class="mx-1">*</span></label
+          >
+          <select
+            class="form-select"
+            formControlName="relacionAgresor"
+            [ngClass]="{
+              'border-danger': isRequiredField(formVictima, 'relacionAgresor')
+            }"
+          >
+            <option value="">Seleccione una opción</option>
+            <option
+              [value]="item.id_Dominio"
+              *ngFor="let item of listaTipoRelacion"
+            >
+              {{ item.nombre_Dominio }}
+            </option>
+            <option [value]="item.id_Dominio" *ngFor="let item of listaOtros">
+              {{ item.nombre_Dominio }}
+            </option>
+          </select>
+          <small
+            class="form-text text-danger"
+            [ngClass]="{
+              'opacity-0': !isRequiredField(formVictima, 'relacionAgresor')
+            }"
+            >Campo requerido</small
+          >
+        </div>
+
+        <div
+          class="col-lg-4 d-flex flex-column justify-content-end"
+          *ngIf="
+            listaOtros &&
+            listaOtros[0] &&
+            formVictima.get('relacionAgresor')?.value ==
+              listaOtros[0].id_Dominio
+          "
+        >
+          <label for="cual" class="form-label"
+            >Indique Cuál<span class="mx-1">*</span></label
+          >
+          <input
+            type="text"
+            class="form-control"
+            formControlName="descripcionRelacionAgresor"
+            maxlength="50"
+            [ngClass]="{
+              'border-danger': isRequiredField(
+                formVictima,
+                'descripcionRelacionAgresor',
+                true
+              )
+            }"
+            placeholder="Indique Cuál"
+          />
+          <small
+            class="form-text text-danger"
+            [ngClass]="{
+              'opacity-0': !isRequiredField(
+                formVictima,
+                'descripcionRelacionAgresor',
+                true
+              )
+            }"
+            >Campo requerido</small
+          >
+        </div>
+      </div>
+
+      <div class="row mb-4">
+        <div class="col-lg-4">
+          <label class="form-label">¿Tiene alguna discapacidad?</label>
+          <select class="form-select" formControlName="idDiscapacidad">
+            <option value="">Seleccione una opción</option>
+            <option
+              [value]="item.id_Dominio"
+              *ngFor="let item of listaDiscapacidad"
+            >
+              {{ item.nombre_Dominio }}
+            </option>
+            <option [value]="item.id_Dominio" *ngFor="let item of listaOtros">
+              {{ item.nombre_Dominio }}
+            </option>
+          </select>
+        </div>
+
+        <div
+          class="col-lg-4"
+          *ngIf="
+            listaOtros &&
+            listaOtros[0] &&
+            formVictima.get('idDiscapacidad')?.value == listaOtros[0].id_Dominio
+          "
+        >
+          <label for="cuald" class="form-label"
+            >Indique Cuál<span class="mx-1">*</span></label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="cuald"
+            formControlName="descripcionDiscapacidad"
+            maxlength="50"
+            [ngClass]="{
+              'border-danger': isRequiredField(
+                formVictima,
+                'descripcionDiscapacidad'
+              )
+            }"
+            placeholder="Indique Cuál"
+          />
+          <small
+            class="form-text text-danger"
+            [ngClass]="{
+              'opacity-0': !isRequiredField(
+                formVictima,
+                'descripcionDiscapacidad',
+                true
+              )
+            }"
+            >Campo requerido</small
+          >
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-4 mb-4">
+          <p class="form-label">¿Se encuentra en estado de embarazo?</p>
+          <div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="embarazo"
+                id="noe"
+                formControlName="embarazo"
+                value="NO"
+              />
+              <label class="form-check-label form-label" for="noe"> NO </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="embarazo"
+                id="sie"
+                formControlName="embarazo"
+                value="SI"
+              />
+              <label class="form-check-label form-label" for="sie"> SI </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="embarazo"
+                id="sie"
+                formControlName="embarazo"
+                value="NS"
+              />
+              <label class="form-check-label form-label" for="nse"> NS </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="embarazo"
+                id="nae"
+                formControlName="embarazo"
+                value="NA"
+              />
+              <label class="form-check-label form-label" for="nae"> NA </label>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="col-lg-4"
+          *ngIf="formVictima.get('embarazo')?.value == 'SI'"
+        >
+          <label for="cuantos" class="form-label"
+            >Indique cuántos meses<span class="mx-1">*</span></label
+          >
+          <input
+            type="text"
+            class="form-control"
+            formControlName="mesesEmbarazo"
+            maxlength="1"
+            (input)="inputMeses($event.target, formVictima, 'mesesEmbarazo')"
+            [ngClass]="{
+              'border-danger': isRequiredField(
+                formVictima,
+                'mesesEmbarazo',
+                true
+              )
+            }"
+            placeholder="Indique cuántos meses"
+          />
+          <small
+            class="form-text text-danger"
+            [ngClass]="{
+              'opacity-0': !isRequiredField(formVictima, 'mesesEmbarazo', true)
+            }"
+            >Campo requerido</small
+          >
+        </div>
+
+        <div class="col-lg-12 mb-4">
+          <p class="form-label">¿Es usted víctima del conflicto armado?</p>
+
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="victimaConflicto"
+              id="noc"
+              formControlName="victimaConflicto"
+              [value]="false"
+            />
+            <label class="form-check-label form-label" for="noc"> NO </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="victimaConflicto"
+              id="sic"
+              formControlName="victimaConflicto"
+              [value]="true"
+            />
+            <label class="form-check-label form-label" for="sic"> SI </label>
+          </div>
+        </div>
+
+        <div class="col-lg-4 mb-4">
+          <p class="form-label">
+            ¿Se encuentra afiliado al Sistema de Seguridad Social en Salud?
+          </p>
+
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="seguridad"
+              formControlName="seguridad"
+              [value]="false"
+              (click)="
+                formVictima.get('eps')?.setValue('');
+                formVictima.get('ips')?.setValue('')
+              "
+            />
+            <label class="form-check-label form-label" for="nos"> NO </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="seguridad"
+              formControlName="seguridad"
+              [value]="true"
+            />
+            <label class="form-check-label form-label" for="sis"> SI </label>
+          </div>
+        </div>
+
+        <div class="col-lg-4" *ngIf="formVictima.get('seguridad')?.value">
+          <label for="eps" class="form-label"
+            >EPS<span class="mx-1">*</span></label
+          >
+          <input
+            type="text"
+            class="form-control"
+            formControlName="eps"
+            [ngClass]="{
+              'border-danger': isRequiredField(formVictima, 'eps', true)
+            }"
+            maxlength="50"
+          />
+          <small
+            class="form-text text-danger"
+            [ngClass]="{
+              'opacity-0': !isRequiredField(formVictima, 'eps', true)
+            }"
+            >Campo requerido</small
+          >
+        </div>
+
+        <div class="col-lg-4" *ngIf="formVictima.get('seguridad')?.value">
+          <label for="ips" class="form-label"
+            >IPS<span class="mx-1">*</span></label
+          >
+          <input
+            type="text"
+            class="form-control"
+            formControlName="ips"
+            maxlength="50"
+            [ngClass]="{
+              'border-danger': isRequiredField(formVictima, 'ips', true)
+            }"
+          />
+          <small
+            class="form-text text-danger"
+            [ngClass]="{
+              'opacity-0': !isRequiredField(formVictima, 'ips', true)
+            }"
+            >Campo requerido</small
+          >
+        </div>
+      </div>
+
+      <div
+        class="d-flex align-items-center justify-content-end mt-5 text-nowrap"
+        style="gap: 1rem"
+      >
+        <button type="button" class="btn btn-danger" (click)="cancelar()">
+          Cancelar
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="archivarDiligencias()"
+        >
+          Archivar diligencias
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="guardar('victima')"
+        >
+          Siguiente
+        </button>
+      </div>
+    </form>
+  </mat-step>
+
+  <!-- agresor -->
+
+  <mat-step>
+    <ng-template matStepLabel class="text-capitalize">
+      Identificación del agresor</ng-template
+    >
+    <form [formGroup]="formAgresor" class="p-5">
+      <div class="subtitle-ciudadano mb-4">
+        DATOS DE IDENTIFICACIÓN DEL ACCIONADO
+      </div>
+
+      <!-- primera sección -->
+      <div class="agresor row">
+        <div class="form-group col-lg-4 mb-4">
+          <label class="form-label text-capitalize"
+            >Primer nombre<span class="mx-1">*</span></label
+          >
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Primer nombre"
+            formControlName="primerNombre"
+            maxlength="50"
+            [ngClass]="{
+              'border-danger': isRequiredField(formAgresor, 'primerNombre')
+            }"
+          />
+          <small
+            class="form-text text-danger"
+            [ngClass]="{
+              'opacity-0': !isRequiredField(formAgresor, 'primerNombre')
+            }"
+            >Campo requerido</small
+          >
+        </div>
+
+        <div class="form-group col-lg-4 mb-4">
+          <label class="form-label text-capitalize">Segundo nombre</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Segundo nombre"
+            formControlName="segundoNombre"
+            maxlength="50"
+          />
+        </div>
+
+        <div class="form-group col-lg-4 mb-4">
+          <label class="form-label text-capitalize"
+            >Primer Apellido<span class="mx-1">*</span></label
+          >
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Primer Apellido"
+            formControlName="primerApellido"
+            maxlength="50"
+            [ngClass]="{
+              'border-danger': isRequiredField(formAgresor, 'primerApellido')
+            }"
+          />
+          <small
+            class="form-text text-danger"
+            [ngClass]="{
+              'opacity-0': !isRequiredField(formAgresor, 'primerApellido')
+            }"
+            >Campo requerido</small
+          >
+        </div>
+
+        <div class="form-group col-lg-4 mb-4">
+          <label class="form-label text-capitalize">Segundo Apellido</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Segundo Apellido"
+            formControlName="segundoApellido"
+            maxlength="50"
+          />
+        </div>
+
+        <div class="form-group col-lg-4 mb-4">
+          <label class="form-label text-capitalize"
+            >tipo de documento<span class="mx-1">*</span></label
+          >
+          <select
+            type="text"
+            class="form-select"
+            placeholder="Tipo de documento"
+            formControlName="tipoDocumento"
+            [ngClass]="{
+              'border-danger': isRequiredField(formAgresor, 'tipoDocumento')
+            }"
+          >
+            <option value="">Seleccione una opción</option>
+            <option
+              [value]="item.id_Dominio"
+              *ngFor="let item of listaTipoDocumento"
+            >
+              {{ item.nombre_Dominio }}
+            </option>
+          </select>
+          <small
+            class="form-text text-danger"
+            [ngClass]="{
+              'opacity-0': !isRequiredField(formAgresor, 'tipoDocumento')
+            }"
+          >
+            Campo requerido
+          </small>
+        </div>
+
+        <div class="form-group col-lg-4 mb-4">
+          <label class="form-label text-capitalize"
+            >número documento<span class="mx-1">*</span></label
+          >
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Número Documento"
+            formControlName="numeroDocumento"
+            maxlength="20"
+            [ngClass]="{
+              'border-danger': isRequiredField(formAgresor, 'numeroDocumento')
+            }"
+          />
+          <small
+            class="form-text text-danger"
+            [ngClass]="{
+              'opacity-0': !isRequiredField(formAgresor, 'numeroDocumento')
+            }"
+          >
+            Campo requerido
+          </small>
+        </div>
+
+        <div class="form-group col-lg-4">
+          <label class="form-label text-capitalize"
+            >fecha de expedición<span class="mx-1">*</span></label
+          >
+          <div class="input-group" style="max-height: 38px">
+            <input
+              readonly
+              (click)="pickerExp2.open()"
+              placeholder="DD/MM/YYYY"
+              class="form-control border-end-0 bg-white"
+              [matDatepicker]="pickerExp2"
+              formControlName="fechaExpedicion"
+              [max]="dateMax"
+              [min]="dateMin"
+            />
+            <span
+              class="input-group-text border-start-0 p-0 bg-white"
+              style="max-height: 38px"
+            >
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="pickerExp2"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #pickerExp2></mat-datepicker>
+            </span>
+          </div>
+          <span
+            class="text-danger"
+            [ngClass]="{
+              'opacity-0': !isRequiredField(formAgresor, 'fechaExpedicion')
+            }"
+            >Campo requerido</span
+          >
+        </div>
+
+        <div class="form-group col-lg-4">
+          <label class="form-label text-capitalize"
+            >Lugar de expedición<span class="mx-1">*</span></label
+          >
+          <select
+            formControlName="lugarExpedicion"
+            class="form-select"
+            [ngClass]="{
+              'border-danger': isRequiredField(formAgresor, 'lugarExpedicion')
+            }"
+          >
+            <option value="">Lugar de expedición</option>
+            <option
+              [value]="item.ciudmunID"
+              *ngFor="let item of listaLugarExpedicion"
+            >
+              {{ item.nombCiudMun }}
+            </option>
+          </select>
+
+          <span
+            class="text-danger"
+            [ngClass]="{
+              'opacity-0': !isRequiredField(formAgresor, 'lugarExpedicion')
+            }"
+            >Campo requerido</span
+          >
+        </div>
+
+        <div class="form-group col-lg-4 mb-4">
+          <label for="cuantos" class="form-label">Edad Aproximada</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="edadAproximadaAgresor"
+            maxlength="3"
+            (input)="
+              inputMeses($event.target, formAgresor, 'edadAproximadaAgresor')
+            "
+            placeholder="Edad Aproximada"
+          />
+        </div>
+
+        <div class="form-group col-lg-4 mb-4">
+          <label class="form-label text-capitalize"
+            >sexo<span class="mx-1">*</span></label
+          >
+          <select
+            type="text"
+            class="form-select"
+            formControlName="sexo"
+            [ngClass]="{
+              'border-danger': isRequiredField(formAgresor, 'sexo')
+            }"
+          >
+            <option value="">Seleccione una opción</option>
+            <option [value]="item.id_Dominio" *ngFor="let item of listaSexo">
+              {{ item.nombre_Dominio }}
+            </option>
+          </select>
+          <small
+            class="form-text text-danger"
+            [ngClass]="{ 'opacity-0': !isRequiredField(formAgresor, 'sexo') }"
+            >Campo requerido</small
+          >
+        </div>
+
+        <div class="form-group col-lg-4 mb-4">
+          <label class="form-label text-capitalize">identidad de género</label>
+          <select
+            type="text"
+            class="form-select"
+            formControlName="identidadGenero"
+          >
+            <option value="">Seleccione una opción</option>
+            <option [value]="item.id_Dominio" *ngFor="let item of listaGenero">
+              {{ item.nombre_Dominio }}
+            </option>
+            <option [value]="item.id_Dominio" *ngFor="let item of listaOtros">
+              {{ item.nombre_Dominio }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group col-lg-4">
+          <label class="form-label text-capitalize">ocupación</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Ocupación"
+            formControlName="ocupacion"
+            maxlength="50"
+          />
+        </div>
+
+        <div class="form-group col-lg-4">
+          <label class="form-label text-capitalize">escolaridad</label>
+          <select class="form-select" formControlName="idEscolaridad">
+            <option value="">Seleccione una opción</option>
+            <option
+              [value]="item.id_Dominio"
+              *ngFor="let item of listaNivelAcademico"
+            >
+              {{ item.nombre_Dominio }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group col-lg-4">
+          <label class="form-label text-capitalize">número de hijos</label>
+          <input
+            type="number"
+            min="0"
+            step="1"
+            class="form-control bg-white"
+            placeholder="número de hijos"
+            formControlName="numeroHijos"
+            (input)="inputNumber($event.target, 0, 99); changeHijosAgresor()"
+          />
+        </div>
+      </div>
+
+      <!-- Hijos -->
+
+      <section
+        class="background-filter-private hijos p-4 mt-4"
+        style="background-color: #e3e7ea !important"
+        *ngIf="formHijosAgresor.length"
+      >
+        <div *ngFor="let hijo of formHijosAgresor; let i = index">
+          <h5 class="col-12">Hijo #{{ i + 1 }}</h5>
+          <app-hijos-involucrados
+            [form]="hijo"
+            [listaSexo]="listaSexo"
+            [listaTipoRelacion]="listaTipoRelacion"
+          >
+          </app-hijos-involucrados>
+        </div>
+      </section>
+
+      <!-- segunda sección -->
+
+      <div class="row mt-4">
+        <div class="col-lg-4 mb-4 d-flex flex-column justify-content-end">
+          <label for="cultura" class="form-label">
+            De acuerdo con su cultura, pueblo o rasgo físico es o se reconoce
+            como
+          </label>
+          <select class="form-select" formControlName="cultura">
+            <option value="">Seleccione una opción</option>
+            <option [value]="item.id_Dominio" *ngFor="let item of listaCultura">
+              {{ item.nombre_Dominio }}
+            </option>
+            <option [value]="item.id_Dominio" *ngFor="let item of listaOtros">
+              Ninguna
+            </option>
+          </select>
+        </div>
+
+        <div class="col-lg-12 mb-4">
+          <p class="form-label">
+            ¿Sabe usted si el agresor pertenece a un grupo organizado al margen
+            de la ley o grupo delictivo organizado?
+          </p>
+          <div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="agresorOrganizacionCriminal"
+                id="noe"
+                formControlName="agresorOrganizacionCriminal"
+                [value]="false"
+                (click)="
+                  formAgresor
+                    .get('descripcionOrganizacionCriminal')
+                    ?.setValue('')
+                "
+              />
+              <label class="form-check-label form-label" for="noe"> NO </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="agresorOrganizacionCriminal"
+                id="sie"
+                formControlName="agresorOrganizacionCriminal"
+                [value]="true"
+              />
+              <label class="form-check-label form-label" for="sie"> SI </label>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="col-lg-4"
+          *ngIf="formAgresor.get('agresorOrganizacionCriminal')?.value == true"
+        >
+          <label for="cuantos" class="form-label">Indique Cuál</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="descripcionOrganizacionCriminal"
+            maxlength="50"
+            placeholder="Indique Cuál"
+          />
+        </div>
+      </div>
+      <!-- botones -->
+      <div
+        class="d-flex align-items-center justify-content-end mt-5 text-nowrap flex-wrap w-100"
+        style="gap: 1rem"
+      >
+        <button type="button" class="btn btn-danger" (click)="cancelar()">
+          Cancelar
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="stepper.previous()"
+        >
+          Anterior
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="archivarDiligencias()"
+        >
+          Archivar diligencias
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="guardar('agresor')"
+        >
+          Guardar
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="cerrarActuaciones()"
+        >
+          Cerrar actuaciones
+        </button>
+      </div>
+    </form>
+  </mat-step>
+</mat-stepper>
+
+<!-- Formulario del agresor -->

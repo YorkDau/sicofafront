@@ -1,0 +1,20 @@
+<div id="modal-conf" class="d-flex justify-content-center align-items-center flex-column box-modal-info">
+  <img [src]="data.image" alt="interrogacion" class="img-fluid my-3" *ngIf="data.image" />
+
+  <div class="text-center mt-4 mb-2">
+    {{
+    data.mensaje ? data.mensaje : "No se configuró el mensaje para este modal"
+    }}
+  </div>
+
+  <div class="d-flex mt-4" style="gap: 1rem">
+    <button class="btn btn-danger px-3" style="min-width: 144px;" type="button" (click)="cerrarModal()">
+      {{data.botonCancelar?data.botonCancelar:"Cancelar"}}
+    </button>
+
+    <button class="btn btn-primary px-3" style="min-width: 144px;" type="button" (click)="confirmar()">
+      {{data.botonAceptar?data.botonAceptar:"Continuar"}}
+
+    </button>
+  </div>
+</div>

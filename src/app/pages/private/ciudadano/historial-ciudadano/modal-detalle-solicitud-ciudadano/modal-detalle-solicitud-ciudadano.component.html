@@ -1,0 +1,89 @@
+<div class="p-3 position-relative">
+  <button mat-icon-button class="close-button position-absolute top-0 end-0">
+    <mat-icon class="close-icon" color="warn" (click)="cerrarModal()">
+      close
+    </mat-icon>
+  </button>
+
+  <div class="row overflow">
+    <div class="col-12">
+      <h5 class="pr-5 subtitulo mb-3">
+        PREVISUALIZACIÓN SOLICITUD DE SERVICIO #{{detalleSolicitud &&
+        detalleSolicitud.codigo_solicitud?detalleSolicitud.codigo_solicitud:'Sin dato'}}
+      </h5>
+
+      <div class="d-flex align-items-center mb-3" style="gap: 1rem;">
+        <strong class="text-uppercase m-0">{{printNombreCiudadano()}}</strong>
+        <img src="assets/images/Usuario.svg" height="17px" width="17px" alt="person" />
+      </div>
+    </div>
+
+    <div class="form-group mb-4 col-lg-4">
+      <label class="form-label" for="fechaSolicitud">Fecha Solicitud</label>
+
+      <div class="input-group">
+        <input disabled placeholder="AAAA/MM/DD" class="form-control shadow-none border-end-0" maxlength="10"
+          [value]="detalleSolicitud && detalleSolicitud.fecha_solicitud?(detalleSolicitud.fecha_solicitud|date:'dd/MM/yyyy'):'Sin dato'" />
+
+        <label class="input-group-text border-start-0">
+          <mat-icon class="icon-date">event</mat-icon>
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group mb-4 col-lg-4">
+      <label class="form-label" for="hora">Hora Solicitud</label>
+      <input type="text" disabled class="form-control shadow-none" placeholder="11:23:34"
+        [value]="detalleSolicitud && detalleSolicitud.hora_solicitud?(detalleSolicitud.hora_solicitud|date:'HH:mm'):'Sin dato'" />
+    </div>
+
+    <div class="form-group mb-4 col-lg-4">
+      <label class="form-label" for="fViolento">Fecha Hecho Violento</label>
+
+      <div class="input-group">
+        <input disabled placeholder="AAAA/MM/DD" class="form-control shadow-none border-end-0"
+          [value]="detalleSolicitud && detalleSolicitud.fecha_hecho_violento?(detalleSolicitud.fecha_hecho_violento|date:'dd/MM/yyyy'):'Sin dato'" />
+
+        <label class="input-group-text border-start-0">
+          <mat-icon class="icon-date">event</mat-icon>
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group mb-4">
+      <label class="form-label" for="descripcion">Descripción de los hechos</label>
+      <textarea class="form-control" cols="20" rows="2" disabled
+        [value]="detalleSolicitud && detalleSolicitud.descripcion_de_hechos?detalleSolicitud.descripcion_de_hechos:'Sin dato'">
+
+      </textarea>
+    </div>
+
+    <div class="form-group mb-4">
+      <label class="form-label">¿Es la víctima quien pone los hechos en conocimiento de la Comisaría de
+        Familia?</label>
+      <div class="d-flex">
+        <div class="form-check">
+          <input class="form-check-input" checked disabled type="checkbox" value=""
+            [checked]="detalleSolicitud && detalleSolicitud.es_victima?true:false" />
+          <label class="form-label" class="form-check-label" for="flexCheckDefault">
+            Si
+          </label>
+        </div>
+        <div class="form-check ms-5">
+          <input class="form-check-input" disabled type="checkbox" value=""
+            [checked]="detalleSolicitud && detalleSolicitud.es_victima?false:true" />
+          <label class="form-label" class="form-check-label" for="flexCheckDefault2">
+            No
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group mb-4 col-lg-12">
+      <label class="form-label" for="nvictimas">Número de victimas</label>
+      <input type="text" disabled class="form-control shadow-none" placeholder="0"
+        [value]="detalleSolicitud && detalleSolicitud.numero_victimas?detalleSolicitud.numero_victimas:'Sin dato'" />
+    </div>
+  </div>
+
+</div>

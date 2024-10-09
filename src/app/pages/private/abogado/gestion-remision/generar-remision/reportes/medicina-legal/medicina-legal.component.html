@@ -1,0 +1,14 @@
+<table hidden  id="comedidamente">
+    <ng-template #vacio>_______________________</ng-template>
+    <ng-template #vacio2>______</ng-template>
+    <tr>
+        <td>
+            Comedidamente estamos remitiendo a el/a <span *ngIf="dataReporte.nombreVictima;else vacio">{{dataReporte.nombreVictima | titlecase}}</span> 
+            de <span *ngIf="dataReporte.edadVictima;else vacio">{{dataReporte.edadVictima}}</span> años, identificado/a con 
+            <span *ngIf="dataReporte.tipoDocumentoVictima;else vacio2">{{dataReporte.tipoDocumentoVictima}}</span> 
+            No <span *ngIf="dataReporte.numeroDocumentoVictima;else vacio">{{dataReporte. numeroDocumentoVictima}}</span>, 
+            expedida en <span *ngIf="dataReporte.lugarExpedicionVictima;else vacio">{{dataReporte.lugarExpedicionVictima | titlecase}}</span>; a fin de que se le practique 
+            EXAMEN MEDICO LEGAL, por: 
+        </td>
+    </tr>
+</table>

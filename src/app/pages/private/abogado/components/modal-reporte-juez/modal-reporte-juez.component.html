@@ -1,0 +1,51 @@
+<div class="position-relative">
+  <button
+    mat-icon-button
+    class="close-button position-absolute"
+    (click)="cerrarModal()"
+  >
+    <mat-icon class="close-icon" color="warn"> close </mat-icon>
+  </button>
+</div>
+
+<p class="title-modal">
+  GENERAR FORMATO AUTO - ENVÍO APELACIÓN AL JUEZ DE FAMILIA (REPARTO)
+</p>
+
+<div class="mb-3">
+  <label for="reporte" class="form-label"> Reporte a generar* </label>
+  <select
+    class="form-select"
+    id="reporte"
+    (change)="seleccionarTipoReporte($event.target.value)"
+    [ngClass]="{
+      'input-req': mostrarValidaciones
+    }"
+  >
+    <option value="" disabled selected>Seleccione reporte</option>
+    <option [value]="item.valor" *ngFor="let item of listaReporte">
+      {{ item.nombre }}
+    </option>
+  </select>
+  <div *ngIf="mostrarValidaciones" class="msj-req">
+    {{ msgObligatorio }}
+  </div>
+</div>
+
+<div class="position-relative float-end" style="top: 30px">
+  <button
+    type="button"
+    class="btn btn-danger px-4 me-3"
+    (click)="cerrarModal()"
+  >
+    Cancelar
+  </button>
+  <button type="button" class="btn btn-primary" (click)="generarReporte()">
+    Generar
+  </button>
+</div>
+
+<app-apelacion-medida></app-apelacion-medida>
+<app-desierto-recurso></app-desierto-recurso>
+<app-resolver-recurso></app-resolver-recurso>
+<app-ordenado-juez></app-ordenado-juez>

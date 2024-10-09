@@ -1,0 +1,53 @@
+<div class="background-content-private p-2 mb-4">
+  <div class="p-5">
+    <p class="title-medium" style="font-size: 30px">
+      NUEVA PRE-SOLICITUD DE SERVICIO PARD
+    </p>
+
+    <p class="form-label">DATOS PRESUNTO INVOLUCRADO</p>
+
+    <div class="alert alert-warning text-justify d-flex mt-4" role="alert">
+      <img
+        src="assets/images/exclamacion.svg"
+        alt="excla"
+        class="img-fluid me-3"
+        width="26"
+        height="26"
+      />
+      Debe contar con datos de contacto de la víctima para continuar con la
+      pre-solicitud. Si el solicitante no cuenta con ellos ingrese datos
+      adicionales que permitan contactar a la víctima.
+    </div>
+
+    <div class="mt-5">
+      <app-presunto-involucrado></app-presunto-involucrado>
+    </div>
+
+    <p class="text-justify mt-5">
+      Quien(es) manifiestan que el niño tiene garantizados sus derechos y se
+      comprometen a entregar (o allega) los soportes necesarios a este despacho
+      y suministra la siguiente información dentro de la verificación de
+      derechos contemplada en el Art 52 Ley 1098 de 2006 Código de Infancia y
+      Adolescencia.
+    </p>
+
+    <ng-container *ngIf="mostrarTodoForm">
+      <div class="mt-5">
+        <app-derechos-primero></app-derechos-primero>
+      </div>
+
+      <div class="mt-5">
+        <app-derechos-segundo></app-derechos-segundo>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<div class="d-flex justify-content-end py-4">
+  <button type="button" class="btn btn-danger me-3" (click)="cancelar()">
+    Cancelar
+  </button>
+  <button type="button" class="btn btn-primary" (click)="validarFormularios()">
+    Guardar
+  </button>
+</div>

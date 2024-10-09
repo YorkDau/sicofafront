@@ -1,0 +1,18 @@
+table, #items {
+    background-color: white;
+    width: 100%;
+    td{
+      /* padding: 0.5em; */
+      text-align: justify;
+      font-size: 14px;
+      
+    }
+  }
+  
+  #items{
+    td{
+        padding: 0;
+        line-height: 0;
+        vertical-align: top;
+    }
+  }

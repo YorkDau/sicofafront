@@ -1,0 +1,234 @@
+<form [formGroup]="form" class="mt-5">
+  <h4 class="mb-5">DATOS DE IDENTIFICACIÓN DE LA VÍCTIMA</h4>
+
+  <div class="row">
+    <div class="form-group col-lg-4 mb-1">
+      <label for="fecha" class="form-label">Fecha Entrevista*</label>
+      <div class="input-group">
+        <input
+          readonly
+          (click)="picker1.open()"
+          placeholder="DD/MM/YYYY"
+          class="form-control border-end-0 bg-white"
+          [matDatepicker]="picker1"
+          formControlName="fechaEntrevista"
+          [max]="dateMax"
+          [min]="dateMin"
+        />
+        <span class="input-group-text border-start-0 p-0 bg-white">
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker1"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+        </span>
+      </div>
+      <span
+        class="text-danger"
+        [ngClass]="{ 'opacity-0': !isRequiredField(form, 'fechaEntrevista') }"
+        >Campo requerido</span
+      >
+    </div>
+
+    <div class="form-group col-lg-4 mb-1">
+      <label for="fecha" class="form-label">Fecha Elaboración Informe</label>
+      <div class="input-group">
+        <input
+          readonly
+          (click)="picker2.open()"
+          placeholder="DD/MM/YYYY"
+          class="form-control border-end-0 bg-white"
+          [matDatepicker]="picker2"
+          formControlName="fechaInforme"
+          [max]="dateMax"
+          [min]="dateMin"
+        />
+        <span class="input-group-text border-start-0 p-0 bg-white">
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker2"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker2></mat-datepicker>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="form-group col-lg-4 mb-4">
+      <label class="form-label text-capitalize">nombres</label>
+      <input
+        type="text"
+        class="form-control text-capitalize"
+        placeholder="Nombres"
+        formControlName="nombres"
+      />
+    </div>
+
+    <div class="form-group col-lg-4 mb-4">
+      <label class="form-label text-capitalize">apellidos</label>
+      <input
+        type="text"
+        class="form-control text-capitalize"
+        placeholder="Apellidos"
+        formControlName="apellidos"
+      />
+    </div>
+
+    <div class="form-group col-lg-4 mb-4">
+      <label class="form-label text-capitalize">Tipo de Documento</label>
+      <input
+        type="text"
+        class="form-control text-capitalize"
+        placeholder="Tipo de Documento"
+        formControlName="tipoDocumento"
+      />
+    </div>
+
+    <div class="form-group col-lg-4 mb-4">
+      <label class="form-label text-capitalize">Número de Documento</label>
+      <input
+        type="text"
+        class="form-control text-capitalize"
+        placeholder="Número de Documento"
+        formControlName="numeroDocumento"
+      />
+    </div>
+
+    <div class="form-group col-lg-4 mb-4">
+      <label class="form-label text-capitalize">Fecha de Nacimiento</label>
+      <input
+        type="text"
+        class="form-control text-capitalize"
+        placeholder="Fecha de Nacimiento"
+        formControlName="fechaNacimiento"
+      />
+    </div>
+
+    <div class="form-group col-lg-4 mb-4">
+      <label class="form-label text-capitalize">Edad</label>
+      <input
+        type="text"
+        class="form-control text-capitalize"
+        placeholder="Edad"
+        formControlName="edad"
+      />
+    </div>
+
+    <div class="form-group col-lg-4 mb-4">
+      <label class="form-label text-capitalize">Servicio de Salud</label>
+      <input
+        type="text"
+        class="form-control text-capitalize"
+        placeholder="Servicio de Salud"
+        formControlName="eps"
+      />
+    </div>
+
+    <div class="form-group col-lg-4 mb-4">
+      <label class="form-label text-capitalize">Escolaridad</label>
+      <input
+        type="text"
+        class="form-control text-capitalize"
+        placeholder="Escolaridad"
+        formControlName="escolaridad"
+      />
+    </div>
+
+    <div class="form-group col-lg-4 mb-4">
+      <label class="form-label text-capitalize">Teléfono</label>
+      <input
+        type="text"
+        class="form-control text-capitalize"
+        placeholder="Teléfono"
+        formControlName="telefono"
+      />
+    </div>
+
+    <div class="form-group col-lg-4 mb-4">
+      <label class="form-label text-capitalize">Dirección</label>
+      <input
+        type="text"
+        class="form-control text-capitalize"
+        placeholder="Dirección"
+        formControlName="direccion"
+      />
+    </div>
+
+    <div class="form-group col-lg-4 mb-4">
+      <label class="form-label text-capitalize">Barrio</label>
+      <input
+        type="text"
+        class="form-control text-capitalize"
+        placeholder="Barrio"
+        formControlName="barrio"
+      />
+    </div>
+
+    <h4 class="mt-4">DATOS DE CONTACTO ADICIONALES</h4>
+    <h5 style="color: #707070; font-size: 20px" class="mb-4">
+      Datos de una persona de confianza de la víctima
+    </h5>
+
+    <div class="form-group col-lg-4 mb-1">
+      <label class="form-label text-capitalize"
+        >Nombre contacto de confianza*</label
+      >
+      <input
+        type="text"
+        class="form-control text-capitalize"
+        placeholder="Nombre contacto de confianza"
+        maxlength="50"
+        formControlName="nombreContacto"
+        [ngClass]="{ 'border-danger': isRequiredField(form, 'nombreContacto') }"
+      />
+      <span
+        class="text-danger"
+        [ngClass]="{ 'opacity-0': !isRequiredField(form, 'nombreContacto') }"
+      >
+        Campo requerido
+      </span>
+    </div>
+    <div class="form-group col-lg-4 mb-1">
+      <label class="form-label text-capitalize">Teléfono Contacto*</label>
+      <input
+        type="text"
+        class="form-control text-capitalize"
+        placeholder="Teléfono Contacto"
+        formControlName="telefonoContacto"
+        [ngClass]="{
+          'border-danger': isRequiredField(form, 'telefonoContacto')
+        }"
+        maxlength="10"
+      />
+      <span
+        class="text-danger"
+        [ngClass]="{ 'opacity-0': !isRequiredField(form, 'telefonoContacto') }"
+      >
+        Campo requerido
+      </span>
+    </div>
+    <div class="form-group col-lg-4 mb-4">
+      <label class="form-label text-capitalize">Dirección Contacto</label>
+      <input
+        type="text"
+        class="form-control text-capitalize"
+        placeholder="Dirección Contacto"
+        formControlName="direccionContacto"
+        maxlength="100"
+      />
+    </div>
+  </div>
+</form>
+
+<div
+  class="d-flex align-items-center justify-content-end mt-5"
+  style="gap: 1rem"
+>
+  <button type="button" class="btn btn-outline-danger" (click)="cancelar()">
+    Cancelar
+  </button>
+  <button type="button" class="btn btn-primary" (click)="guardar()">
+    Siguiente
+  </button>
+</div>

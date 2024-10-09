@@ -1,0 +1,313 @@
+<app-cabecera-reporte
+  [tituloReporte]="'ACTA DE VERIFICACIÓN DE DERECHOS'"
+></app-cabecera-reporte>
+
+<table
+  hidden
+  id="verificacion-derechos"
+  aria-describedby="reporte verificacion"
+>
+  <tr>
+    <td class="fw-bold text-center" colspan="2">
+      MP - VIF No. _________________
+    </td>
+  </tr>
+  <tr>
+    <td></td>
+  </tr>
+  <tr>
+    <td class="text-justify" colspan="2">
+      A los {{ fechaActual | date: "dd" }} días del mes de
+      {{ fechaActual | date: "MMMM" }} del año
+      {{ fechaActual | date: "yyyy" }} hace presencia en la comisaría de
+      familia, el(la) señor(a)
+      {{
+        datosReporte.nombreDenunciante
+          ? datosReporte.nombreDenunciante
+          : " ________________________"
+      }}
+      identificada con cédula de ciudadanía número
+      {{
+        datosReporte.numeroDocumentoDen
+          ? datosReporte.numeroDocumentoDen
+          : " ___________________"
+      }}
+      expedida en __________________, en calidad de: progenitor(a) del niño,
+      niña o adolescente
+      {{ nombreCompleto ? nombreCompleto : "________________________" }}
+      identificado con T.I.
+      {{
+        datosReporte.numeroDocumento
+          ? datosReporte.numeroDocumento
+          : "___________________"
+      }}
+      expedida en
+      {{
+        datosReporte.registroExpedidoEn
+          ? datosReporte.registroExpedidoEn
+          : "__________________"
+      }}. quien(es) manifiestan que el niño tiene garantizados sus derechos y se
+      comprometen a entregar (o allega) los soportes necesarios a este despacho
+      y suministra la siguiente información dentro de la verificación de
+      derechos contemplada en el Art 52 Ley 1098 de 2006 Código de Infancia y
+      Adolescencia.
+    </td>
+  </tr>
+</table>
+
+<table
+  hidden
+  id="listado-derechos"
+  aria-describedby="reporte listado derechos"
+  *ngIf="datosReporte.esVictima"
+>
+  <tr>
+    <td class="fw-bold text-center bg-primary text-white border border-dark">
+      DERECHOS
+    </td>
+    <td class="fw-bold text-center bg-primary text-white border border-dark">
+      OBSERVACIONES
+    </td>
+  </tr>
+  <tr>
+    <td class="border border-dark p-2">CUSTODIA CUIDADO PERSONAL</td>
+    <td class="border border-dark p-2">
+      La custodia tenencia se encuentra en cabeza de
+      {{
+        datosReporte.nombreResponsableCustodia
+          ? datosReporte.nombreResponsableCustodia
+          : "__________________"
+      }}
+      en calidad de
+      {{
+        datosReporte.parentescoResponsableCustodia
+          ? datosReporte.parentescoResponsableCustodia
+          : "__________________"
+      }}
+    </td>
+  </tr>
+  <tr>
+    <td class="border border-dark p-2">CUIDADO PERSONAL</td>
+    <td class="border border-dark p-2">
+      El cuidado personal se encuentra en cabeza de
+      {{
+        datosReporte.nombreResponsableCuidado
+          ? datosReporte.nombreResponsableCuidado
+          : "__________________"
+      }}
+      en calidad de
+      {{
+        datosReporte.parentescoResponsableCuidado
+          ? datosReporte.parentescoResponsableCuidado
+          : "__________________"
+      }}
+    </td>
+  </tr>
+  <tr>
+    <td class="border border-dark p-2">VINCULACIÓN AL SISTEMA DE SALUD</td>
+    <td class="border border-dark p-2">
+      Actualmente se encuentra vinculado al sistema de salud. Afiliado a salud a
+      la EPS {{ datosReporte.eps ? datosReporte.eps : "__________________" }} en
+      régimen
+      {{ datosReporte.regimen ? datosReporte.regimen : "__________________" }}
+      como beneficiario de
+      {{
+        datosReporte.beneficiarioDeNombre
+          ? datosReporte.beneficiarioDeNombre
+          : "__________________"
+      }}.
+    </td>
+  </tr>
+  <tr>
+    <td class="border border-dark p-2">ESTADO DE SALUD</td>
+    <td class="border border-dark p-2">
+      Física adecuada - {{ datosReporte.fisicaAdecuada ? "SI" : "NO" }} <br />
+      Nutricional adecuada -
+      {{ datosReporte.nutricionalAdecuada ? "SI" : "NO" }}
+      <br />
+      Psicológica adecuada - {{ datosReporte.psicolicaAdecuada ? "SI" : "NO" }}
+      <br />
+      Vacunación completa para la edad -
+      {{ datosReporte.vacunacionCompleta ? "SI" : "NO" }}
+    </td>
+  </tr>
+  <tr>
+    <td class="border border-dark p-2">REGISTRO CIVIL DE NACIMIENTO</td>
+    <td class="border border-dark p-2">
+      Identificado con registro civil NUIP expedido por la
+      {{
+        datosReporte.registroExpedidoEn
+          ? datosReporte.registroExpedidoEn
+          : "_______"
+      }}
+      en
+      {{
+        datosReporte.nombreEntidadExpedicion
+          ? datosReporte.nombreEntidadExpedicion
+          : " _____________"
+      }}
+    </td>
+  </tr>
+  <tr>
+    <td class="border border-dark p-2">VINCULACIÓN AL SISTEMA EDUCATIVO</td>
+    <td class="border border-dark p-2">
+      El NNA está matriculado en el colegio
+      {{
+        datosReporte.matriculadoEnElColegio
+          ? datosReporte.matriculadoEnElColegio
+          : "__________________"
+      }}
+      y cursa
+      {{
+        datosReporte.gradoCursa ? datosReporte.gradoCursa : "__________________"
+      }}
+      en jornada
+      {{
+        datosReporte.jornadaEstudio
+          ? datosReporte.jornadaEstudio
+          : "__________________"
+      }}
+      de lunes a viernes
+    </td>
+  </tr>
+  <tr>
+    <td class="border border-dark p-2">VIVIENDA</td>
+    <td class="border border-dark p-2">
+      VIVIENDA:
+      {{
+        datosReporte.tipoVivienda
+          ? datosReporte.tipoVivienda
+          : "__________________"
+      }}
+      <br />
+      TIPO:
+      {{
+        datosReporte.otroTipoVivienda
+          ? datosReporte.otroTipoVivienda
+          : "__________________"
+      }}. vivienda distribuida en
+      {{
+        datosReporte.numeroHabitacionesVivienda
+          ? datosReporte.numeroHabitacionesVivienda
+          : "_____"
+      }}
+      cuartos en los cuales están ocupados de la siguiente manera:
+      <br />
+      {{
+        datosReporte.distribuciuonHabitaciones
+          ? datosReporte.distribuciuonHabitaciones
+          : "_____"
+      }}
+      y , la vivienda cuenta con: Baños
+      {{ datosReporte.viviendaConBanos ? "SI" : "NO" }}, Cocina
+      {{ datosReporte.viviendaConCocina ? "SI" : "NO" }} y servicios públicos:
+      Agua {{ datosReporte.viviendaConAgua ? "SI" : "NO" }}, Luz
+      {{ datosReporte.viviendaConLuz ? "SI" : "NO" }}, Gas
+      {{ datosReporte.viciendaConGas ? "SI" : "NO" }} y otros
+      {{ datosReporte.otrosServicios ? "SI" : "NO" }}. Estratificación
+      {{
+        datosReporte.estratificacion ? datosReporte.estratificacion : "_____"
+      }},
+    </td>
+  </tr>
+  <tr>
+    <td class="border border-dark p-2">RECREACIÓN</td>
+    <td class="border border-dark p-2">
+      ¿Asiste alguna actividad extracurricular? <br />
+      {{ datosReporte.asisteExtracurriculares ? "SI" : "NO" }}
+      <span *ngIf="datosReporte.asisteExtracurriculares">
+        ¿A cuál? {{ datosReporte.actividadesExtracurriculares }}
+      </span>
+    </td>
+  </tr>
+  <tr>
+    <td class="border border-dark p-2">REDES DE APOYO</td>
+    <td class="border border-dark p-2">
+      Familia extensa de la progenitora, y del progenitor <br />
+      {{ datosReporte.familiaExtensa ? "SI" : "NO" }}
+      <span *ngIf="datosReporte.familiaExtensa">
+        Otros:
+        {{
+          datosReporte.otraInformacionFamiliaExtensa
+            ? datosReporte.otraInformacionFamiliaExtensa
+            : "________________"
+        }}
+      </span>
+    </td>
+  </tr>
+  <tr>
+    <td class="border border-dark p-2">FACTORES DE RIESGO</td>
+    <td class="border border-dark p-2">
+      Trámite de MP por presunta violencia intrafamiliar por parte de
+      {{ datosReporte.agresor ? datosReporte.agresor : "______________" }} Hacia
+      {{ nombreCompleto ? nombreCompleto : "______________" }}
+    </td>
+  </tr>
+  <tr>
+    <td></td>
+  </tr>
+</table>
+
+<table
+  hidden
+  id="listado-derechos2"
+  aria-describedby="reporte listado derechos dos"
+>
+  <tr>
+    <td class="text-justify" colspan="2">
+      Según la situación reportada por el (la) señor(a)
+      {{
+        datosReporte.nombreDenunciante
+          ? datosReporte.nombreDenunciante
+          : "_________________________________"
+      }}
+      se evidencia que los derechos del niño, niña o adolescente
+      {{ nombreCompleto ? nombreCompleto : "________________________" }} de
+      {{ datosReporte.edad ? datosReporte.edad : "___" }} años, NO/SI se
+      encuentran vulnerados, no obstante, se identifica como factor de riesgo
+      Trámite de Medida de Protección por presunto maltrato o por ser afectado
+      por la Violencia en el Contexto Familiar,
+      {{
+        datosReporte.tiposViolencia
+          ? datosReporte.tiposViolencia
+          : "_________________________"
+      }}.
+    </td>
+  </tr>
+  <tr>
+    <td></td>
+  </tr>
+  <tr>
+    <td></td>
+  </tr>
+  <tr>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td class="fw-bold" colspan="2">
+      ______________________________ <br />
+      FIRMA DEL (LA) PROGENITOR(A) <br />
+      C.C. No <br />
+      PROGENITOR(A)
+    </td>
+  </tr>
+  <tr>
+    <td></td>
+  </tr>
+  <tr>
+    <td></td>
+  </tr>
+  <tr>
+    <td class="fw-bold">
+      ________________________________ <br />
+      NOMBRE <br />
+      PSICÓLOGO(A) COMISARÍA DE FAMILIA
+    </td>
+    <td class="fw-bold">
+      ________________________________ <br />
+      NOMBRE <br />
+      COMISARIO(A) DE FAMILIA
+    </td>
+  </tr>
+</table>

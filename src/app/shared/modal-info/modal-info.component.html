@@ -1,0 +1,11 @@
+<div class="d-flex justify-content-center align-items-center flex-column box-modal-info">
+  <img [src]="data.image" alt="exclamacion" class="img-fluid mb-3" *ngIf="data.image" />
+  <div class="message-info">
+    {{ data.mensaje ?
+    data.mensaje :
+    "No se configuró el mensaje para este modal" }}
+  </div>
+  <button class="btn btn-outline-warning mt-4" type="button" (click)="cerrarModal()">
+    Continuar
+  </button>
+</div>
