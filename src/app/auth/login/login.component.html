@@ -1,9 +1,12 @@
 <form class="box-user" [formGroup]="formLogin" (submit)="iniciarSesion()">
   <div class="w-50">
+    
+    <!--
     <div class="mb-3">
       <div class="alert alert alert-light" role="alert" *ngIf="!mostrarAlerta">        
       </div>      
     </div>
+    -->
     <div class="mb-3">
       <div class="alert alert-danger" role="alert" *ngIf="mostrarAlerta">
         Usuario y/o contraseña invalidos o usuario inactivo
