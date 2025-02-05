@@ -7,7 +7,7 @@ import { DatePipe } from '@angular/common';
 
 import { switchMap } from 'rxjs';
 import { CiudadanoService } from '../../ciudadano/services/ciudadano.service';
-import { CodigosRespuesta, Mensajes, Regex } from 'src/app/constants';
+import { CodigosRespuesta, ImagenesModal, Mensajes, Regex } from 'src/app/constants';
 import * as validaciones from '../../ciudadano/registrar-ciudadano/validators';
 import { ModalInfoComponent } from 'src/app/shared/modal-info/modal-info.component';
 import { Modales } from '../../../../shared/modals';
@@ -20,6 +20,7 @@ import { SharedFunctions } from 'src/app/shared/functions';
 import { UsuarioService } from '../services/usuario.service';
 import { IUsuario } from '../../interfaces/usuario.interface';
 import { PerfilService } from '../../perfil/services/perfil.service';
+import { GestionUsuariosService } from '../../comisario/administracion/services/gestion-usuarios.service';
 
 
 @Component({
@@ -90,12 +91,15 @@ export class RegistrarUsuarioComponent implements OnInit {
   ];
 
   usuario!: IUsuario;
+  user: any; 
+  ui :any ;
 
   /**
    * @description valida si viene en modo editar
    */
   private get isUpdate(): boolean {
     return this.activedRoute.snapshot.params['id_ciudadano'] !== undefined;
+
   }
 
   constructor(
@@ -106,8 +110,29 @@ export class RegistrarUsuarioComponent implements OnInit {
     private _usuarioService: UsuarioService,
     private activedRoute: ActivatedRoute,
     private _perfilService: PerfilService,
-    private datePipe: DatePipe
-  ) {}
+    private datePipe: DatePipe,
+    private _usuarioS: GestionUsuariosService,
+  private _dialog: MatDialog
+
+    
+
+    
+  ) {
+
+    this.activedRoute.paramMap.subscribe(params => {
+      this.ui = params.get('id_usuario') ?? '';
+      console.log('ID:', this.ui);
+     
+    });
+  
+  }
+  private msgError() {
+    Modales.modalExito(
+      Mensajes.MENSAJE_ERROR_G,
+      ImagenesModal.EXCLAMACION,
+      this._dialog
+    );
+  }
 
   ngOnInit(): void {
 
@@ -115,6 +140,22 @@ export class RegistrarUsuarioComponent implements OnInit {
     this.resetValueChange();
     this.cargarSelects();
     //this.cargarFormEdit();
+    this._usuarioS.UsuarioEspecifico(this.ui).subscribe({
+      next: (data: ResponseInterface) => {
+        if (data.statusCode === CodigosRespuesta.OK) {
+          this.user= data.data;
+          console.log(this.user.nombres);
+
+        } else {
+          this.msgError()
+        }
+      },
+      error: () => {
+        this.msgError()
+      }
+
+    });
+    this.myForm.controls['pnombre'].setValue(this.user.nombres);
   }
 
   /**

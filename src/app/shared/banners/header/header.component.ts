@@ -23,6 +23,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public nombreComisaria: string = 'Comisaría de Familia';
   public mostrarMenu: boolean = false;
   public rolSeleccionado: string = '';
+  totalNotificaciones: number = 0;
 
   currentUser!: UserInterface | undefined;
   loadMenu: boolean = false;
@@ -51,6 +52,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.subModActual = this.bsModuloActual.subscribe(
       (v) => (this.mostrarMenu = v)
     );
+    this.calcularTotalNotificaciones();
   }
 
   ngOnDestroy(): void {
@@ -64,6 +66,30 @@ export class HeaderComponent implements OnInit, OnDestroy {
    */
   public cerrarSesion() {
     this.authService.cerrarSesion();
+  }
+
+  public preSolicitudes = [
+    { titulo: 'Solicitud 001', fecha: '2024-09-17' },
+    { titulo: 'Solicitud 002', fecha: '2024-09-16' },
+    { titulo: 'Solicitud 002', fecha: '2024-09-16' }
+    //{ titulo: 'Solicitud 002', fecha: '2024-09-16' }
+    //{ titulo: 'Solicitud 002', fecha: '2024-09-16' }
+  ];
+
+  public citasPublicas = [
+    { titulo: 'Cita con el Comisario', fecha: '2024-09-20' },
+    { titulo: 'Audiencia Pública', fecha: '2024-09-21' }  ,
+    { titulo: 'Cita con el Comisario', fecha: '2024-09-20' },
+    //{ titulo: 'Audiencia Pública', fecha: '2024-09-21' }
+  ];
+
+  verDetalle(item: any) {
+    console.log('Ver detalle de:', item);
+    // Aquí puedes abrir un modal o redirigir a otra página con más detalles
+  }
+  calcularTotalNotificaciones() {
+    // Sumar la cantidad de pre-solicitudes y citas
+    this.totalNotificaciones = this.preSolicitudes.length + this.citasPublicas.length;
   }
 
   private obtenerPerfil(perfil: string) {

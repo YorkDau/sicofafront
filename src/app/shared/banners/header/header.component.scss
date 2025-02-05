@@ -26,3 +26,109 @@
     padding-left: 30px !important;
   }
 }
+.menu-notificaciones {
+  width: 300px;
+  max-height: 400px;
+  margin-top: 35px !important;
+}
+
+
+.notificaciones-container {
+  padding: 1rem;
+  background-color: #f7f7f7; /* Fondo claro para mayor contraste */
+  border-radius: 10px; /* Bordes redondeados */
+}
+
+.titulo {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.notificacion-seccion {
+  padding: 10px 0;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.notificacion-seccion h6 {
+  font-size: 16px;
+  color: #333;
+  margin: 0;
+}
+
+.sin-datos {
+  font-size: 14px;
+  color: #888;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.seccion-header {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Espaciado entre el icono y el texto */
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.seccion-header mat-icon {
+  font-size: 20px; /* Tamaño del ícono */
+  color: #0092BE; /* Color del ícono */
+}
+
+button.mat-menu-item {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+.notifications {
+  position: relative;
+}
+
+.mat-icon {
+  font-size: 28px; /* Ajusta el tamaño del ícono */
+  color: #ffffff; /* Color blanco para el ícono */
+}
+
+.notification-count {
+  position: absolute;
+  top: 1px;  /* Ajuste para posicionar el contador mejor */
+  right: -2px; /* Ajuste para posicionar el contador mejor */
+  background-color: #ed8c37;
+  color: white;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 50%; /* Forma redondeada */
+  width: 18px;
+  height: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 6px rgba(255, 255, 255, 0.2); /* Sombra para destacar */
+  z-index: 10; /* Asegura que el contador esté sobre el ícono */
+}
+
+.mat-icon.notifications {
+  font-size: 30px;
+  position: relative;
+}
+
+/* Mejorar la separación entre las secciones */
+hr {
+  border: 0;
+  border-top: 1px solid #e0e0e0;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+/* Estilo para cuando se pasa el mouse por encima de una sección */
+.notificacion-seccion:hover {
+  background-color: #e0f7fa;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.notificacion-seccion:hover .seccion-header mat-icon {
+  color: #006064; /* Cambia el color del ícono al pasar el mouse */
+}

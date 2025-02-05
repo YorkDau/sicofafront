@@ -2,7 +2,7 @@
   <form [formGroup]="myForm" (ngSubmit)="registrar()">
     <div class="row pb-3 align-items-start">
       <div class="col-8 offset">
-        <h3 class="pb-3 title-normal">{{ titulo }}</h3>
+        <h3 class="pb-3 title-normal">ACTUALIZAR USUARIO COMISARIO</h3>
 
         <h5>INFORMACIÓN PERSONAL</h5>
         <h6>Los campos con asterisco (*) son obligatorios</h6>
@@ -194,32 +194,13 @@
           {{ msgObligatorioContacto }}
         </div>
       </div>
-      <div class="row col-4">
-        <label>Perfiles*</label>
-        <mat-form-field>
-          <mat-label>Perfil</mat-label>
-          <mat-select formControlName="perfiles" multiple>
-            <div *ngFor="let perfil of perfiles">
-              <mat-option [value]="perfil.idPerfil">{{ perfil.nombrePerfil }}</mat-option>
-            </div>
-          </mat-select>
-        </mat-form-field>
-
-        <div
-          class="msj-req"
-          *ngIf="isRequired('perfiles') && mostrarValidaciones"
-        >
-          {{ msgObligatorio }}
-        </div>
-      </div>
-
 
     </div>
 
     <div class="row p-3 mt-3">
       <div class="col-12">
         <button class="btn btn-primary float-end mx-4 px-5" type="submit">
-          Registrar usuario
+          Actualizar
         </button>
 
         <input

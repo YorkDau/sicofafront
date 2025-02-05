@@ -1,7 +1,6 @@
 <div class="w-50" *ngIf="dataSource.data.length === 0">
   <app-no-data [mensaje]="mensajeSinReg"> </app-no-data>
 </div>
-
 <div [ngStyle]="{ display: dataSource.data.length > 0 ? 'block' : 'none' }">
   <div class="mb-3">
     <input
@@ -20,18 +19,29 @@
         <mat-header-cell mat-header-cell *matHeaderCellDef>
           {{ column.header | titlecase }}
         </mat-header-cell>
+        
         <mat-cell mat-cell *matCellDef="let element">
-          {{ element[column.key] }}
+          <ng-container *ngIf="column.key !== 'acciones'">
+            {{ element[column.key] }}
+          </ng-container>
+          <ng-container *ngIf="column.key === 'acciones'">
+            <button mat-icon-button matTooltip="Modificar Usuario" matTooltipPosition="right" matTooltipHideDelay="500"
+                        matTooltipClass="background-tooltip"
+                        aria-label="Button that displays a tooltip when focused or hovered over" 
+                        [routerLink]="['/registro-usuario',element.idUsuarioSistema]">
+                        
+                        <img src="assets/images/irProceso.svg" alt="detail" class="img-fluid" />
+                      </button>
+          </ng-container>
         </mat-cell>
       </ng-container>
     </ng-container>
-
-    <mat-header-row
-      mat-header-row
-      *matHeaderRowDef="displayedColumns"
-    ></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+  
+    <mat-header-row mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
   </mat-table>
+
+
   <mat-paginator
     [pageSizeOptions]="[5, 10, 20]"
     showFirstLastButtons

@@ -44,6 +44,7 @@ export class ListadoComisariosComponent implements OnInit {
         if (data.statusCode === CodigosRespuesta.OK) {
           this.dataSource = new MatTableDataSource(data.data);
           this.dataSource.paginator = this.paginator;
+          console.log(this.dataSource);
           this.armarColumnas();
         }
       });
@@ -73,6 +74,10 @@ export class ListadoComisariosComponent implements OnInit {
       {
         header: 'Correo',
         key: 'correoElectronico',
+      },
+      {
+        header: 'Acciones',
+        key: 'acciones',
       },
     ];
 

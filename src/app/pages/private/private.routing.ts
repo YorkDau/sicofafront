@@ -76,7 +76,7 @@ export const mainRoutes: Routes = [
     component: RegistrarPerfilComponent,
   },
   {
-    path: 'registro-usuario',
+    path: 'registro-usuario/:id_usuario',
     component: RegistrarUsuarioComponent,
   },
   {
