@@ -387,12 +387,9 @@ export class RegistrarPerfilComponent implements OnInit {
       this.mostrarValidaciones = true;
     } else {
       if (this.isUpdate) {
-        console.log("Modificar")
         this.modificarPerfil()
       } else {
         this.registrarPerfil();
-        console.log("NO modificar")
-
       }
     }
   }

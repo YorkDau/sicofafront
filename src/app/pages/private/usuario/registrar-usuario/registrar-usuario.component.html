@@ -84,18 +84,6 @@
       </div>
 
       <div class="col-4 p-3">
-        <label>Segundo Nombre</label>
-
-        <input
-          type="text"
-          class="form-control"
-          formControlName="snombre"
-          maxlength="50"
-          placeholder="Texto"
-        />
-      </div>
-
-      <div class="col-4 p-3">
         <label>Primer Apellido*</label>
 
         <input
@@ -114,18 +102,6 @@
         >
           {{ msgObligatorio }}
         </div>
-      </div>
-
-      <div class="col-4 p-3">
-        <label>Segundo Apellido</label>
-
-        <input
-          type="text"
-          class="form-control"
-          formControlName="sapellidos"
-          maxlength="50"
-          placeholder="Texto"
-        />
       </div>
 
       <div class="col-4 p-3">
@@ -153,6 +129,7 @@
         </div>
       </div>
 
+      <!--
       <div class="col-4 p-3">
         <label>Teléfono</label>
         <input
@@ -173,6 +150,7 @@
           {{ msgObligatorioContacto }}
         </div>
       </div>
+      -->
 
       <div class="col-4 p-3">
         <label>Celular</label>
@@ -199,7 +177,7 @@
 
     <div class="row p-3 mt-3">
       <div class="col-12">
-        <button class="btn btn-primary float-end mx-4 px-5" type="submit">
+        <button class="btn btn-primary float-end mx-4 px-5" type="submit"  (click)="registrar()">
           Actualizar
         </button>
 

@@ -44,7 +44,6 @@ export class ListadoComisariosComponent implements OnInit {
         if (data.statusCode === CodigosRespuesta.OK) {
           this.dataSource = new MatTableDataSource(data.data);
           this.dataSource.paginator = this.paginator;
-          console.log(this.dataSource);
           this.armarColumnas();
         }
       });

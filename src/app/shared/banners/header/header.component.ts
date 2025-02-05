@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/services/auth.service';
-import { CodigosPerfil } from 'src/app/constants';
+import { CodigosPerfil, CodigosRespuesta } from 'src/app/constants';
 import { UserInterface } from 'src/app/interfaces/usuario.interface';
 import { SharedService } from 'src/app/services/shared.service';
 
@@ -27,6 +27,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   currentUser!: UserInterface | undefined;
   loadMenu: boolean = false;
+  id_comisaria: any;
+  solicitudes: any;
+  private intervalo: any;
 
   public usuario: us = {
     nombre: 'Comisaría User',
@@ -42,17 +45,44 @@ export class HeaderComponent implements OnInit, OnDestroy {
       if (data) {
         this.loadMenu = true;
         this.currentUser = this.authService.currentUserValue;
+        this.id_comisaria = this.currentUser?.idComisaria;
         this.rolSeleccionado = this.currentUser?.perfil!;
         this.obtenerPerfil(this.currentUser?.perfil!);
+        this.cargaNotificaciones();
       }
     });
+  }
+
+  cargaNotificaciones() {
+    this.sharedService
+    .getSolicitudesComisaria(this.id_comisaria)
+    .subscribe((data) => {
+      if (data.statusCode === CodigosRespuesta.OK) {
+        this.solicitudes = data.data;
+        this.preSolicitudes = data.data.datosPaginados;
+      }
+    });
+
+    this.sharedService
+  
+      .getCitasComisaria(this.id_comisaria)
+      .subscribe((data) => {
+        if (data.statusCode === CodigosRespuesta.OK) {
+          this.solicitudes = data.data;
+          this.citasPublicas = data.data.datosPaginados;
+          this.calcularTotalNotificaciones();
+        }
+      });
+
   }
 
   ngOnInit(): void {
     this.subModActual = this.bsModuloActual.subscribe(
       (v) => (this.mostrarMenu = v)
     );
-    this.calcularTotalNotificaciones();
+
+   
+    
   }
 
   ngOnDestroy(): void {
@@ -69,17 +99,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   public preSolicitudes = [
-    { titulo: 'Solicitud 001', fecha: '2024-09-17' },
-    { titulo: 'Solicitud 002', fecha: '2024-09-16' },
-    { titulo: 'Solicitud 002', fecha: '2024-09-16' }
+
     //{ titulo: 'Solicitud 002', fecha: '2024-09-16' }
     //{ titulo: 'Solicitud 002', fecha: '2024-09-16' }
   ];
 
   public citasPublicas = [
-    { titulo: 'Cita con el Comisario', fecha: '2024-09-20' },
-    { titulo: 'Audiencia Pública', fecha: '2024-09-21' }  ,
-    { titulo: 'Cita con el Comisario', fecha: '2024-09-20' },
+
     //{ titulo: 'Audiencia Pública', fecha: '2024-09-21' }
   ];
 

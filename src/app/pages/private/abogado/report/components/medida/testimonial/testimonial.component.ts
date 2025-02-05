@@ -21,8 +21,6 @@ export class TestimonialComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.testimonialSub = this.tesimonialObs.subscribe((t) => {
-      console.log(t);
-
       this.testimonial = t;
     });
   }

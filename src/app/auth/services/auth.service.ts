@@ -17,6 +17,7 @@ export class AuthService {
   public loadPage$ = this.loadPage.asObservable();
   public perfilesList: PerfilAuth[] = [];
   public comisariasList: ComisariaAuth[] = [];
+  public id_comisaria: any;
 
   constructor(private http: HttpClient, private router: Router) {
     this.setComisariasPerfiles();
@@ -46,6 +47,14 @@ export class AuthService {
 
   set currentUserValue(user: UserInterface | undefined) {
     sessionStorage.setItem(environment.USER_INFO, JSON.stringify(user));
+  }
+
+  public selectComisariaValue(_id_comisaria: any) {
+    this.id_comisaria = _id_comisaria;
+  }
+
+  public getselectComisariaValue(): any {
+    return this.id_comisaria;
   }
 
   public emitirLoadPage(value: boolean) {
