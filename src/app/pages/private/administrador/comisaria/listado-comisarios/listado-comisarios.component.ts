@@ -74,6 +74,10 @@ export class ListadoComisariosComponent implements OnInit {
         header: 'Correo',
         key: 'correoElectronico',
       },
+      {
+        header: 'Acciones',
+        key: 'acciones',
+      },
     ];
 
     this.displayedColumns = this.columnas.map((c) => c.key);

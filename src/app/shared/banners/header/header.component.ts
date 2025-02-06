@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/services/auth.service';
-import { CodigosPerfil } from 'src/app/constants';
+import { CodigosPerfil, CodigosRespuesta } from 'src/app/constants';
 import { UserInterface } from 'src/app/interfaces/usuario.interface';
 import { SharedService } from 'src/app/services/shared.service';
 
@@ -23,9 +23,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public nombreComisaria: string = 'Comisaría de Familia';
   public mostrarMenu: boolean = false;
   public rolSeleccionado: string = '';
+  totalNotificaciones: number = 0;
 
   currentUser!: UserInterface | undefined;
   loadMenu: boolean = false;
+  id_comisaria: any;
+  solicitudes: any;
+  private intervalo: any;
+  preSolicitudes: any;
+  citasPublicas: any
+
 
   public usuario: us = {
     nombre: 'Comisaría User',
@@ -41,22 +48,66 @@ export class HeaderComponent implements OnInit, OnDestroy {
       if (data) {
         this.loadMenu = true;
         this.currentUser = this.authService.currentUserValue;
+        this.id_comisaria = this.currentUser?.idComisaria;
         this.rolSeleccionado = this.currentUser?.perfil!;
         this.obtenerPerfil(this.currentUser?.perfil!);
+        this.cargaNotificaciones();
       }
     });
+  }
+
+  cargaNotificaciones() {
+    this.sharedService
+    .getSolicitudesComisaria(this.id_comisaria)
+    .subscribe((data) => {
+      if (data.statusCode === CodigosRespuesta.OK) {
+        this.solicitudes = data.data;
+       if(!data.data.datosPaginados){
+        this.preSolicitudes = 0;
+       }else{
+        this.preSolicitudes = data.data.datosPaginados.length;
+       }
+      }
+    });
+
+    this.sharedService
+  
+      .getCitasComisaria(this.id_comisaria)
+      .subscribe((data) => {
+        if (data.statusCode === CodigosRespuesta.OK) {
+          this.solicitudes = data.data;
+          if(!data.data.datosPaginados){
+            this.citasPublicas = 0;
+          }else{
+            this.citasPublicas = data.data.datosPaginados.length
+          }
+         
+          this.calcularTotalNotificaciones();
+        }
+      });
+
   }
 
   ngOnInit(): void {
     this.subModActual = this.bsModuloActual.subscribe(
       (v) => (this.mostrarMenu = v)
     );
+    this.intervalo = setInterval(() => {
+      this.actualizarNotificaciones();
+      console.log("noticaciones atualizadas")
+    }, 300000); // 300,000 ms = 5 minutos
+    
+  }
+
+  actualizarNotificaciones(){
+    this.cargaNotificaciones()
   }
 
   ngOnDestroy(): void {
     if (this.subModActual) {
       this.subModActual.unsubscribe();
     }
+   
   }
 
   /**
@@ -64,6 +115,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
    */
   public cerrarSesion() {
     this.authService.cerrarSesion();
+  }
+
+
+  verDetalle(item: any) {
+    // Aquí puedes abrir un modal o redirigir a otra página con más detalles
+  }
+  calcularTotalNotificaciones() {
+    // Sumar la cantidad de pre-solicitudes y citas
+    this.totalNotificaciones = this.preSolicitudes + this.citasPublicas;
   }
 
   private obtenerPerfil(perfil: string) {

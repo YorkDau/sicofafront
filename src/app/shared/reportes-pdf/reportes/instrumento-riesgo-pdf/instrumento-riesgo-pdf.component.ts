@@ -122,7 +122,6 @@ export class InstrumentoRiesgoPdfComponent implements AfterViewInit, OnChanges {
       this.reporte = result.data;
       this.agresor = this.reporte ? this.reporte.agresor : null;
       this.victima = this.reporte ? this.reporte.victima : null;
-      console.log(this.victima);
 
       this.tiposViolencia = this.reporte ? this.reporte.tiposViolencia : [];
       this.datosInstitucionales = this.reporte
@@ -222,8 +221,6 @@ export class InstrumentoRiesgoPdfComponent implements AfterViewInit, OnChanges {
     newOtros.tipo_Dominio = 'Tipo_Cultura';
     newOtros.nombre_Dominio = 'Ninguna';
     this.listaCultura.push(newOtros);
-    console.log(this.listaCultura);
-
     return Promise.resolve(result ? true : false);
   }
 

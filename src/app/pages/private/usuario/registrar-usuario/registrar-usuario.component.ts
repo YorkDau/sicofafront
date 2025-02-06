@@ -7,7 +7,7 @@ import { DatePipe } from '@angular/common';
 
 import { switchMap } from 'rxjs';
 import { CiudadanoService } from '../../ciudadano/services/ciudadano.service';
-import { CodigosRespuesta, Mensajes, Regex } from 'src/app/constants';
+import { CodigosRespuesta, ImagenesModal, Mensajes, Regex } from 'src/app/constants';
 import * as validaciones from '../../ciudadano/registrar-ciudadano/validators';
 import { ModalInfoComponent } from 'src/app/shared/modal-info/modal-info.component';
 import { Modales } from '../../../../shared/modals';
@@ -20,6 +20,7 @@ import { SharedFunctions } from 'src/app/shared/functions';
 import { UsuarioService } from '../services/usuario.service';
 import { IUsuario } from '../../interfaces/usuario.interface';
 import { PerfilService } from '../../perfil/services/perfil.service';
+import { GestionUsuariosService } from '../../comisario/administracion/services/gestion-usuarios.service';
 
 
 @Component({
@@ -57,24 +58,24 @@ export class RegistrarUsuarioComponent implements OnInit {
   public ciudadano!: interfaces.CiudadanoInterface;
   public idCiudadano!: number;
   public titulo: string = 'REGISTRO DE NUEVO USUARIO';
-  public perfiles:[]=[];
+  public perfiles: [] = [];
 
-  cargos : any = [
-   {
-     id_Dominio: '1',
-     nombre_Dominio: 'Administrador'
-   },
-   {
-     id_Dominio: '2',
-     nombre_Dominio: 'Abogado'
-   },
-   {
-     id_Dominio: '3',
-     nombre_Dominio: 'Psicologo'
-   },
+  cargos: any = [
+    {
+      id_Dominio: '1',
+      nombre_Dominio: 'Administrador'
+    },
+    {
+      id_Dominio: '2',
+      nombre_Dominio: 'Abogado'
+    },
+    {
+      id_Dominio: '3',
+      nombre_Dominio: 'Psicologo'
+    },
   ];
 
-  identificaciones : any = [
+  identificaciones: any = [
     {
       id_Dominio: '1',
       nombre_Dominio: 'CC'
@@ -90,12 +91,15 @@ export class RegistrarUsuarioComponent implements OnInit {
   ];
 
   usuario!: IUsuario;
+  user: any;
+  ui: any;
 
   /**
    * @description valida si viene en modo editar
    */
   private get isUpdate(): boolean {
     return this.activedRoute.snapshot.params['id_ciudadano'] !== undefined;
+
   }
 
   constructor(
@@ -106,8 +110,27 @@ export class RegistrarUsuarioComponent implements OnInit {
     private _usuarioService: UsuarioService,
     private activedRoute: ActivatedRoute,
     private _perfilService: PerfilService,
-    private datePipe: DatePipe
-  ) {}
+    private datePipe: DatePipe,
+    private _usuarioS: GestionUsuariosService,
+    private _dialog: MatDialog
+
+
+
+
+  ) {
+
+    this.activedRoute.paramMap.subscribe(params => {
+      this.ui = params.get('id_usuario') ?? '';
+    });
+
+  }
+  private msgError() {
+    Modales.modalExito(
+      Mensajes.MENSAJE_ERROR_G,
+      ImagenesModal.EXCLAMACION,
+      this._dialog
+    );
+  }
 
   ngOnInit(): void {
 
@@ -115,6 +138,23 @@ export class RegistrarUsuarioComponent implements OnInit {
     this.resetValueChange();
     this.cargarSelects();
     //this.cargarFormEdit();
+    this._usuarioS.UsuarioEspecifico(this.ui).subscribe({
+      next: (data: ResponseInterface) => {
+        if (data.statusCode === CodigosRespuesta.OK) {
+          this.user = data.data;
+          this.setDataPost(this.user);
+        } else {
+          this.msgError()
+        }
+      },
+      error: () => {
+        this.msgError()
+      }
+
+    });
+  }
+  update() {
+    this.myForm.get('pnombre')?.setValue(this.user.nombres);
   }
 
   /**
@@ -124,15 +164,15 @@ export class RegistrarUsuarioComponent implements OnInit {
     this.myForm = this.fb.group(
       {
         pnombre: ['', [Validators.required, Validators.pattern(Regex.ALFA)]],
-        snombre: ['', [Validators.pattern(Regex.ALFA)]],
+    
         papellidos: ['', [Validators.required, Validators.pattern(Regex.ALFA)]],
-        sapellidos: ['', [Validators.pattern(Regex.ALFA)]],
+       
         tipDoc: ['', [Validators.required]],
         nroDoc: ['', [Validators.required, Validators.pattern(Regex.ALFA)]],
-        telefono: ['', [Validators.pattern(Regex.ALFA)]],
+      
         celular: ['', [Validators.pattern(Regex.ALFA)]],
         correoElectronico: '',
-        perfiles: ['',[Validators.required]],
+        //perfiles: ['', [Validators.required]],
 
       },
       {
@@ -346,7 +386,6 @@ export class RegistrarUsuarioComponent implements OnInit {
    */
   public registrar(): void {
     this.mostrarValidaciones = false;
-
     if (this.myForm.invalid) {
       this.mostrarValidaciones = true;
     } else {
@@ -393,13 +432,13 @@ export class RegistrarUsuarioComponent implements OnInit {
 
   private returnUsuario(): IUsuario {
     return this.usuario = {
-      nombres: this.myForm.get('pnombre')?.value + " "+this.myForm.get('snombre')?.value,
-      apellidos: this.myForm.get('papellidos')?.value + " "+this.myForm.get('sapellidos')?.value,
+      nombres: this.myForm.get('pnombre')?.value + " " + this.myForm.get('snombre')?.value,
+      apellidos: this.myForm.get('papellidos')?.value + " " + this.myForm.get('sapellidos')?.value,
       correoElectronico: this.myForm.get('correoElectronico')?.value,
       telefonoFijo: this.myForm.get('telefono')?.value,
       celular: this.myForm.get('celular')?.value,
       numeroDocumento: this.myForm.get('nroDoc')?.value,
-      tipoDocumento: (Number) (this.myForm.get('tipDoc')?.value),
+      tipoDocumento: (Number)(this.myForm.get('tipDoc')?.value),
       perfiles: this.myForm.get('perfiles')?.value || [],
       idcomisaria: 10
     }
@@ -408,40 +447,40 @@ export class RegistrarUsuarioComponent implements OnInit {
   /**
    * @description actualiza el ciudadano
    */
-/*
-  private actualizarCiudadano() {
-    this.idCiudadano = this.activedRoute.snapshot.params['id_ciudadano'];
-    this.ciudadanoService.editCiudadano(this.getDataPost).subscribe({
-      next: (resp: ResponseInterface) => {
-        if (resp.statusCode === CodigosRespuesta.OK) {
+  /*
+    private actualizarCiudadano() {
+      this.idCiudadano = this.activedRoute.snapshot.params['id_ciudadano'];
+      this.ciudadanoService.editCiudadano(this.getDataPost).subscribe({
+        next: (resp: ResponseInterface) => {
+          if (resp.statusCode === CodigosRespuesta.OK) {
+            Modales.modalExito(
+              Mensajes.MENSAJE_EXITO_CIUDADANO,
+              'assets/images/check.svg',
+              this.dialog
+            );
+            this.historialCiudadano(resp.data.datosPaginados);
+          }
+        },
+        error: () => {
           Modales.modalExito(
-            Mensajes.MENSAJE_EXITO_CIUDADANO,
-            'assets/images/check.svg',
+            Mensajes.MENSAJE_ERROR,
+            'assets/images/exclamacion.svg',
             this.dialog
           );
-          this.historialCiudadano(resp.data.datosPaginados);
-        }
-      },
-      error: () => {
-        Modales.modalExito(
-          Mensajes.MENSAJE_ERROR,
-          'assets/images/exclamacion.svg',
-          this.dialog
-        );
-      },
-    });
-  }
-*/
+        },
+      });
+    }
+  */
 
   /**
    * @description setea los valores del formulario
    */
-  private setDataPost(resp: any) {
-    this.myForm.get('pnombre')?.setValue(resp.primerNombre);
-    this.myForm.get('snombre')?.setValue(resp.segundoNombre);
-    this.myForm.get('papellidos')?.setValue(resp.primerApellido);
-    this.myForm.get('sapellidos')?.setValue(resp.segundoApellido);
-    this.myForm.get('tipDoc')?.setValue(resp.idTipoDocumento);
-    this.myForm.get('nroDoc')?.setValue(resp.numeroDocumento);
+  private setDataPost(user: any) {
+    this.myForm.get('pnombre')?.setValue(user.nombres);
+    this.myForm.get('papellidos')?.setValue(user.apellidos);
+    this.myForm.get('tipDoc')?.setValue(user.tipoDocumento);
+    this.myForm.get('nroDoc')?.setValue(user.numeroDocumento);
+    this.myForm.get('celular')?.setValue(user.celular);
+    this.myForm.get('correoElectronico')?.setValue(user.correoElectronico);
   }
 }

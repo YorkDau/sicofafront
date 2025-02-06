@@ -73,7 +73,6 @@ export class SidenavComponent implements OnChanges {
    * @returns arreglo con menú
    */
   static getRutaPerfil(perfil: string) {
-    console.log(perfil);
     switch (perfil) {
       case CodigosPerfil.AUXILIAR:
         return perfilAuxiliar;

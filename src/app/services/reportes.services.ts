@@ -20,6 +20,7 @@ export class ReportesService {
       `${PATH_SERVER}/EvaluacionPsicologica/ObtenerReporte12/${idSolicitud}`
     );
   }
+  
 
   /**
    * consulta los datos de seguridad redes de apoyo

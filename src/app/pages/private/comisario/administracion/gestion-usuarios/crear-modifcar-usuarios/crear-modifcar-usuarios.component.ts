@@ -44,10 +44,19 @@ export class CrearModifcarUsuariosComponent implements OnInit {
     private _activedRouter: ActivatedRoute,
   ) { }
 
+  comusariacurrent: any;
+
   ngOnInit(): void {
     this.cargarPerfiles();
     this.user = this.authService.currentUserValue;
-    this.idComisaria = this.user?.idComisaria;
+    this.comusariacurrent = sessionStorage.getItem("comisaria");
+    const coCurrent = JSON.parse(this.comusariacurrent);
+    if(this.user?.perfil=="ADM"){
+      this.idComisaria = coCurrent?.idComisaria;
+    }else{
+      this.idComisaria = this.user?.idComisaria;
+    }
+   
     this.store.select('tipo_documento').subscribe(({ tipo_documento }) => {
       this.listaTipoDocumento = tipo_documento;
     });
@@ -236,7 +245,13 @@ export class CrearModifcarUsuariosComponent implements OnInit {
    * @description redirecciona a la pantalla de lista de usuarios
    */
   public redireccionar() {
-    this.router.navigate(['../comisario/gestion-usuarios']);
+    const coCurrent = JSON.parse(this.comusariacurrent);
+    if(this.user?.perfil=="ADM"){
+      this.router.navigate(['../administrador/comisaria']);
+    }else{
+      this.router.navigate(['../comisario/gestion-usuarios']);
+    }
+   
   }
 
   /**

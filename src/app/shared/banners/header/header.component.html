@@ -18,9 +18,52 @@
       {{ nombreComisaria }}
     </div>
 
-    <button mat-icon-button class="notifications">
-      <mat-icon class="material-icons-outlined">notifications</mat-icon>
-    </button>
+<!-- Botón de Notificaciones -->
+<button
+  mat-icon-button
+  class="notifications"
+  [matMenuTriggerFor]="menuNotificaciones"
+>
+  <mat-icon class="material-icons-outlined">notifications</mat-icon>
+  <!-- Contador de notificaciones -->
+  <span *ngIf="totalNotificaciones > 0" class="notification-count">{{ totalNotificaciones }}</span>
+</button>
+
+<!-- Bandeja de Notificaciones -->
+<mat-menu #menuNotificaciones="matMenu" class="menu-notificaciones">
+  <div class="notificaciones-container">
+    
+    <!-- Sección de Pre-Solicitudes -->
+    <div class="notificacion-seccion">
+      <div class="seccion-header">
+        <mat-icon class="icon">assignment</mat-icon>
+        <h6>Pre-Solicitudes ({{ preSolicitudes }})</h6>
+      </div>
+      <ng-container *ngIf="preSolicitudes > 0; else sinPreSolicitudes">
+        <!-- Aquí puedes agregar contenido adicional si es necesario -->
+      </ng-container>
+      <ng-template #sinPreSolicitudes>
+        <p class="sin-datos">No hay pre-solicitudes.</p>
+      </ng-template>
+    </div>
+
+    <hr />
+
+    <!-- Sección de Citas Públicas -->
+    <div class="notificacion-seccion">
+      <div class="seccion-header">
+        <mat-icon class="icon">event_note</mat-icon>
+        <h6>Citas Públicas ({{ citasPublicas }})</h6>
+      </div>
+      <ng-container *ngIf="citasPublicas > 0; else sinCitas">
+        <!-- Aquí puedes agregar contenido adicional si es necesario -->
+      </ng-container>
+      <ng-template #sinCitas>
+        <p class="sin-datos">No hay citas públicas.</p>
+      </ng-template>
+    </div>
+  </div>
+</mat-menu>
 
     <span style="font-size: 26px">|</span>
 

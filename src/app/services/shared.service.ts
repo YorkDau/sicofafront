@@ -421,4 +421,16 @@ export class SharedService {
             `${PATH_SERVER}/Solicitud/ObtenerDatosSolicitud/${idSolicitud}`
           );
         }
+
+        public getSolicitudesComisaria(id_comisaria: number): Observable<ResponseInterface> {
+          return this.http.get<ResponseInterface>(
+            `${PATH_SERVER}/Solicitud/ObtenerSolicitudes/${id_comisaria}`
+          );
+        }
+
+        public getCitasComisaria(id_comisaria: number): Observable<ResponseInterface> {
+          return this.http.get<ResponseInterface>(
+            `${PATH_SERVER}/Cita/ObtenerCitas/${id_comisaria}`
+          );
+        }
 }

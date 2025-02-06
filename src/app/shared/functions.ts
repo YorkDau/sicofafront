@@ -133,8 +133,6 @@ export class SharedFunctions {
     const pageWidth =
       pdf.internal.pageSize.width || pdf.internal.pageSize.getWidth();
     pdf.setFontSize(10);
-    console.log('imprimirPDFCompleto');
-
     autoTable(pdf, {
       html: '#instrumento-riesgo',
       useCss: true,
