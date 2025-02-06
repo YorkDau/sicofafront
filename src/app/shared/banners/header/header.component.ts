@@ -30,6 +30,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   id_comisaria: any;
   solicitudes: any;
   private intervalo: any;
+  preSolicitudes: any;
+  citasPublicas: any
+
 
   public usuario: us = {
     nombre: 'Comisaría User',
@@ -59,7 +62,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     .subscribe((data) => {
       if (data.statusCode === CodigosRespuesta.OK) {
         this.solicitudes = data.data;
-        this.preSolicitudes = data.data.datosPaginados;
+       if(!data.data.datosPaginados){
+        this.preSolicitudes = 0;
+       }else{
+        this.preSolicitudes = data.data.datosPaginados.length;
+       }
       }
     });
 
@@ -69,7 +76,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .subscribe((data) => {
         if (data.statusCode === CodigosRespuesta.OK) {
           this.solicitudes = data.data;
-          this.citasPublicas = data.data.datosPaginados;
+          if(!data.data.datosPaginados){
+            this.citasPublicas = 0;
+          }else{
+            this.citasPublicas = data.data.datosPaginados.length
+          }
+         
           this.calcularTotalNotificaciones();
         }
       });
@@ -80,15 +92,22 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.subModActual = this.bsModuloActual.subscribe(
       (v) => (this.mostrarMenu = v)
     );
-
-   
+    this.intervalo = setInterval(() => {
+      this.actualizarNotificaciones();
+      console.log("noticaciones atualizadas")
+    }, 300000); // 300,000 ms = 5 minutos
     
+  }
+
+  actualizarNotificaciones(){
+    this.cargaNotificaciones()
   }
 
   ngOnDestroy(): void {
     if (this.subModActual) {
       this.subModActual.unsubscribe();
     }
+   
   }
 
   /**
@@ -98,24 +117,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.authService.cerrarSesion();
   }
 
-  public preSolicitudes = [
-
-    //{ titulo: 'Solicitud 002', fecha: '2024-09-16' }
-    //{ titulo: 'Solicitud 002', fecha: '2024-09-16' }
-  ];
-
-  public citasPublicas = [
-
-    //{ titulo: 'Audiencia Pública', fecha: '2024-09-21' }
-  ];
 
   verDetalle(item: any) {
-    console.log('Ver detalle de:', item);
     // Aquí puedes abrir un modal o redirigir a otra página con más detalles
   }
   calcularTotalNotificaciones() {
     // Sumar la cantidad de pre-solicitudes y citas
-    this.totalNotificaciones = this.preSolicitudes.length + this.citasPublicas.length;
+    this.totalNotificaciones = this.preSolicitudes + this.citasPublicas;
   }
 
   private obtenerPerfil(perfil: string) {

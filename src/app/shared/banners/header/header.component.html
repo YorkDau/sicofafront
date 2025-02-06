@@ -37,9 +37,9 @@
     <div class="notificacion-seccion">
       <div class="seccion-header">
         <mat-icon class="icon">assignment</mat-icon>
-        <h6>Pre-Solicitudes ({{ preSolicitudes.length }})</h6>
+        <h6>Pre-Solicitudes ({{ preSolicitudes }})</h6>
       </div>
-      <ng-container *ngIf="preSolicitudes.length > 0; else sinPreSolicitudes">
+      <ng-container *ngIf="preSolicitudes > 0; else sinPreSolicitudes">
         <!-- Aquí puedes agregar contenido adicional si es necesario -->
       </ng-container>
       <ng-template #sinPreSolicitudes>
@@ -53,9 +53,9 @@
     <div class="notificacion-seccion">
       <div class="seccion-header">
         <mat-icon class="icon">event_note</mat-icon>
-        <h6>Citas Públicas ({{ citasPublicas.length }})</h6>
+        <h6>Citas Públicas ({{ citasPublicas }})</h6>
       </div>
-      <ng-container *ngIf="citasPublicas.length > 0; else sinCitas">
+      <ng-container *ngIf="citasPublicas > 0; else sinCitas">
         <!-- Aquí puedes agregar contenido adicional si es necesario -->
       </ng-container>
       <ng-template #sinCitas>
