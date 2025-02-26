@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as FileSaver from 'file-saver';
 import * as xls from 'xlsx';
 import { MatTableDataSource } from '@angular/material/table';
-import { CodigosRespuesta, DescargasExcel, ImagenesModal, Mensajes } from 'src/app/constants';
+import { CodigosRespuesta, DescargasExcel, ImagenesModal, Mensajes, Regex } from 'src/app/constants';
 import { SharedService } from 'src/app/services/shared.service';
 import { DatePipe } from '@angular/common';
 import { ResponseInterface } from 'src/app/interfaces/response.interface';
@@ -18,6 +18,10 @@ import { ReporteSolicitudInterface } from './solicitud.interface';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { InformesDinamicosInterface } from './interfaces/informes-dinamicos.interface';
+import * as interfaces from 'src/app/pages/private/interfaces/ciudadano.interface';
+
+
+
 
 @Component({
   selector: 'app-informes-dinamicos',
@@ -81,6 +85,8 @@ export class InformesDinamicosComponent implements OnInit {
   public minDate!: Date;
   public maxDate!: Date;
   private objUser!: any;
+  public selectSexo: interfaces.DominioInterface[] = [];
+  public selectGenero: interfaces.DominioInterface[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -98,21 +104,56 @@ export class InformesDinamicosComponent implements OnInit {
     this.store.select('tipo_documento').subscribe(({tipo_documento}) => {
       this.listaTipoDocumento = tipo_documento;
     });
-    this.sharedService.getDominio('PRESOL_DENUNS')
+    this.sharedService.getDominio('PRESOL_DENUNS');
+    this.cargarSelects();
   }
 
   construirFormulario() {
     this.formulario = this.fb.group({
+      nombreVictima: ['', ],
+      nombreCompletoAgresor: ['', ],
       tipoDocumento: ['', ],
       numeroDocumento: ['',],
       codigoSolicitud: [,],
+      fechaHechoViolento: [],
       fechaInicial: [],
-      fechaFinal: []
+      fechaFinal: [],
+      sexo: '',
+      idGenero: '',
     },
     {
       validators: [
         validarDocumento()
       ]
+    });
+  }
+
+  private cargarSelects() {
+    this.cargaSelectSexo();
+
+    this.cargaSelectIdentidadGenero();
+  
+  }
+
+    /**
+   * @description carga el select de sexo
+   */
+  private cargaSelectSexo() {
+    this.sharedService.getDominio('Sexo').subscribe((sexo) => {
+      if (sexo.statusCode === CodigosRespuesta.OK) {
+        this.selectSexo = sexo.data;
+      }
+    });
+  }
+
+  /**
+   * @description carga el select de Identidad Genero
+   */
+  private cargaSelectIdentidadGenero() {
+    this.sharedService.getDominio('Genero').subscribe((genero) => {
+      if (genero.statusCode === CodigosRespuesta.OK) {
+        this.selectGenero = genero.data;
+      }
     });
   }
 
@@ -184,10 +225,16 @@ export class InformesDinamicosComponent implements OnInit {
   }
 
   private get getDatafilter(): ReporteSolicitudInterface{
+
     let fechaInicial = this.formulario.value.fechaInicial;  
     let fechaFinal = this.formulario.value.fechaFinal;
     let tipoDocumento = this.formulario.value.tipoDocumento;
     let numeroDcumento: string | null;
+    let nombreCompletoVictima = this.formulario.value.nombreVictima;
+    let nombreCompletoVictimario = this.formulario.value.nombreCompletoAgresor;
+    let sexoVictima = this.formulario.value.sexo;
+    let fechaHechoViolento = this.formulario.value.fechaHechoViolento;
+    let identidadGeneroVictima = this.formulario.value.idGenero;
     (this.formulario.value.numeroDocumento === '') ? numeroDcumento = null : numeroDcumento = this.formulario.value.numeroDocumento;
     (this.formulario.value.tipoDocumento === '') ? tipoDocumento = null : tipoDocumento = this.formulario.value.tipoDocumento;
     return {
@@ -196,6 +243,12 @@ export class InformesDinamicosComponent implements OnInit {
       fechaSolicitudHasta: fechaFinal,
       numeroDocumento: numeroDcumento,
       codigoTipoDocumento: tipoDocumento,
+      nombreCompletoVictima: nombreCompletoVictima,
+      nombreCompletoVictimario : nombreCompletoVictimario,
+      sexoVictima: sexoVictima,
+      fechaHechoViolento: fechaHechoViolento,
+      horaHechoViolento: new Date,
+      identidadGeneroVictima:  identidadGeneroVictima
     }
   }
 
