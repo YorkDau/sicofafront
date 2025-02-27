@@ -55,6 +55,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
   public listaDiscapacidad!: DominioInterface[];
   public listaCultura!: DominioInterface[];
   public listaTipoRelacion!: DominioInterface[];
+  public listaRelacionParental!: DominioInterface[];
 
   public listaEstadoCivil!: DominioInterface[];
   public listaOtros!: DominioInterface[];
@@ -100,6 +101,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
             custodia: 0,
             edad: 0,
             sexo: 0,
+            relacionParental: 0,
           } as HijoInvolucrado,
         ],
       ],
@@ -140,6 +142,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
             custodia: 0,
             edad: 0,
             sexo: 0,
+            relacionParental: 0,
           } as HijoInvolucrado,
         ],
       ],
@@ -158,6 +161,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
     this.getListaNivelAcademico();
     this.getListaCultura();
     this.getListaTipoRelacion();
+    this.getListaRelacionParental();
     this.getListaEstadoCivil();
     this.getListaOtros();
     this.getListaLugarExpedicion();  
@@ -350,6 +354,16 @@ export class DatosInvolucradosComponent implements AfterViewInit {
       'Tipo_Relacion'
     );
     this.listaTipoRelacion = result;
+  }
+    /**
+   * @description obtiene la lista relacion parental
+   */
+  private async getListaRelacionParental() {
+    const result = await this.sharedService.getDominioFromLocal(
+      'Relacion_parental'
+    );
+    this.listaRelacionParental= result;
+    console.log(this.listaRelacionParental);
   }
 
   /**
@@ -565,6 +579,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
         let hijo = this.formBuilder.group({
           custodia: ['', [Validators.required]],
           sexo: ['', [Validators.required]],
+          relacionParental: ['', [Validators.required]],
           edad: [
             0,
             [Validators.required, Validators.maxLength(2), Validators.max(99)],
@@ -591,6 +606,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
           custodia: ['', [Validators.required]],
           sexo: ['', [Validators.required]],
           edad: [0, [Validators.required]],
+          relacionParental: ['', [Validators.required]],
         });
 
         this.formHijosAgresor.push(hijo);
@@ -616,6 +632,11 @@ export class DatosInvolucradosComponent implements AfterViewInit {
           ],
           sexo: [element.sexo ? element.sexo : '', [Validators.required]],
           edad: [element.edad ? element.edad : 0, [Validators.required]],
+          relacionParental: [
+            element.relacionParental ? element.relacionParental : '',
+            [Validators.required],
+          ],
+          
         });
 
         this.formHijosVictima.push(hijo);
@@ -641,6 +662,10 @@ export class DatosInvolucradosComponent implements AfterViewInit {
           ],
           sexo: [element.sexo ? element.sexo : '', [Validators.required]],
           edad: [element.edad ? element.edad : 0, [Validators.required]],
+          relacionParental: [
+            element.relacionParental ? element.relacionParental : '',
+            [Validators.required],
+          ],
         });
 
         this.formHijosAgresor.push(hijo);
@@ -724,6 +749,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
               ? Number(`${formValueHijo.edad}`.substring(0, 2))
               : formValueHijo.edad,
           sexo: formValueHijo.sexo,
+          relacionParental: formValueHijo.relacionParental,
         };
         lst.push(h);
       });

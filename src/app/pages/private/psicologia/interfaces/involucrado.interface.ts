@@ -44,6 +44,7 @@ export interface HijoInvolucrado {
   edad?: number;
   sexo?: number;
   custodia?: number;
+  relacionParental?: number;
 }
 
 export interface FormTipoViolenciaInterface {

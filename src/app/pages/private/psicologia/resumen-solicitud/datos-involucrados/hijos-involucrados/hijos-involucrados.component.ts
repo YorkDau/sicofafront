@@ -13,6 +13,7 @@ export class HijosInvolucradosComponent {
   @Input() form!: FormGroup;
   @Input() listaSexo!: DominioInterface;
   @Input() listaTipoRelacion!: DominioInterface;
+  @Input() listaRelacionParental!: DominioInterface;
 
   /**
    * @description valida los campos segun el nombre y las condiciones del formulario
