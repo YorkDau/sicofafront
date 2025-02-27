@@ -161,6 +161,29 @@ export const perfilComisario: MenuInterface[] = [
       },
     ],
   },
+  {
+    titulo: 'Tableros de Control',
+    icon: './assets/images/grafico-histograma.svg',
+    ruta: null,
+    subRutas: [
+      {
+        titulo: 'Tablero 1',
+        ruta: './reportes/generar-reportes',
+      },
+      {
+        titulo: 'Tablero 2',
+        ruta: './reportes/formatos-vacios',
+      },
+      {
+        titulo: 'Tablero 3',
+        ruta: './reportes/formatos-vacios',
+      },
+      {
+        titulo: 'Tablero 4',
+        ruta: './reportes/formatos-vacios',
+      },
+    ],
+  },
 ];
 
 export const perfilTrabajadorSocial: MenuInterface[] = [
@@ -212,6 +235,29 @@ export const perfilAdministrador: MenuInterface[] = [
       },
       {
         titulo: 'Formatos Vacios',
+        ruta: './reportes/formatos-vacios',
+      },
+    ],
+  },
+  {
+    titulo: 'Tableros de Control',
+    icon: './assets/images/grafico-histograma.svg',
+    ruta: null,
+    subRutas: [
+      {
+        titulo: 'Tablero 1',
+        ruta: './reportes/generar-reportes',
+      },
+      {
+        titulo: 'Tablero 2',
+        ruta: './reportes/formatos-vacios',
+      },
+      {
+        titulo: 'Tablero 3',
+        ruta: './reportes/formatos-vacios',
+      },
+      {
+        titulo: 'Tablero 4',
         ruta: './reportes/formatos-vacios',
       },
     ],
