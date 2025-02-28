@@ -1049,11 +1049,12 @@
         <div *ngFor="let hijo of formHijosAgresor; let i = index">
           <h5 class="col-12">Hijo #{{ i + 1 }}</h5>
           <app-hijos-involucrados
-            [form]="hijo"
-            [listaSexo]="listaSexo"
-            [listaTipoRelacion]="listaTipoRelacion"
-          >
-          </app-hijos-involucrados>
+          [form]="hijo"
+          [listaSexo]="listaSexo"
+          [listaTipoRelacion]="listaTipoRelacion"
+          [listaRelacionParental]="listaRelacionParental"
+        >
+        </app-hijos-involucrados>
         </div>
       </section>
 
