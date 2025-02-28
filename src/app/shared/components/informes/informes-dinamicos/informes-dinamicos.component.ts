@@ -247,7 +247,7 @@ export class InformesDinamicosComponent implements OnInit {
       nombreCompletoVictimario : nombreCompletoVictimario,
       sexoVictima: sexoVictima,
       fechaHechoViolento: fechaHechoViolento,
-      horaHechoViolento: new Date,
+      horaHechoViolento: null,
       identidadGeneroVictima:  identidadGeneroVictima
     }
   }
