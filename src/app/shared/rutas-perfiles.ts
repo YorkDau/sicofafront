@@ -168,7 +168,7 @@ export const perfilComisario: MenuInterface[] = [
     subRutas: [
       {
         titulo: 'Tablero 1',
-        ruta: './reportes/generar-reportes',
+        ruta: './reportes/tablero1',
       },
       {
         titulo: 'Tablero 2',
@@ -246,7 +246,7 @@ export const perfilAdministrador: MenuInterface[] = [
     subRutas: [
       {
         titulo: 'Tablero 1',
-        ruta: './reportes/generar-reportes',
+        ruta: './reportes/tablero1',
       },
       {
         titulo: 'Tablero 2',

@@ -66,6 +66,7 @@ import { ConsultaGeneralComponent } from './consulta-general/consulta-general.co
 import { TareasComponent } from './consulta-general/tareas/tareas.component';
 import { TablaAnexosComponent } from './consulta-general/tabla-anexos/tabla-anexos.component';
 import { SeguimientoPardComponent } from './seguimiento-pard/seguimiento-pard.component';
+import { Tablero1Component } from './components/informes/informes-dinamicos/tablero1/tablero1.component';
 
 @NgModule({
   imports: [
@@ -168,7 +169,8 @@ import { SeguimientoPardComponent } from './seguimiento-pard/seguimiento-pard.co
     ConsultaGeneralComponent,
     TareasComponent,
     TablaAnexosComponent,
-    SeguimientoPardComponent
+    SeguimientoPardComponent,
+    Tablero1Component
   ],
   providers: [],
 })

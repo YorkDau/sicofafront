@@ -73,6 +73,8 @@ export const CodigosPerfil = {
 export const MensajeSolicitudXPerfil = {
   ABOGADO:
     'No se presentan solicitudes de servicio por Revisión Legal por ahora.',
+  ADMINISTRADOR:
+    'No se presentan solicitudes de servicio por Revisión Legal por ahora.',
   PSICOLOGO:
     'No se presentan solicitudes de servicio a cargo del área de psicología por ahora.',
   OTRO: 'Sin registros.',
@@ -84,6 +86,7 @@ export const ImagenesModal = {
 };
 
 export const InfoRecepcionMensaje = {
+  ADMINISTRADORT1: 'Seguimiento Casos en Apelación',
   ABOGADOT: 'CASOS PENDIENTES REVISIÓN LEGAL',
   ABOGADOP1: 'Casos para revisión legal',
   TITULOA:

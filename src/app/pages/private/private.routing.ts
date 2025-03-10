@@ -18,6 +18,7 @@ import { UsuarioComponent } from './usuario/usuario.component';
 import { RegistrarUsuarioComponent } from './usuario/registrar-usuario/registrar-usuario.component';
 import { PerfilComponent } from './perfil/perfil.component';
 import { RegistrarPerfilComponent } from './perfil/registrar-perfil/registrar-perfil.component';
+import { Tablero1Component } from 'src/app/shared/components/informes/informes-dinamicos/tablero1/tablero1.component';
 
 export const mainRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -141,6 +142,10 @@ export const mainRoutes: Routes = [
   {
     path: 'reportes/generar-reportes',
     component: InformesDinamicosComponent,
+  },
+  {
+    path: 'reportes/tablero1',
+    component: Tablero1Component,
   },
   {
     path: 'cargar-pruebas/:id',
