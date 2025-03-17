@@ -10,6 +10,14 @@
     [ngStyle]="{ width: openDrawer ? '20%' : '4%' }">
 
     <app-sidenav [openDrawer]="openDrawer" (eventOpenDrawer)="openDrawer = $event"></app-sidenav>
+  
+    <!-- PDF load button fixed at the bottom -->
+    <div class="pdf-button-container">
+      <button class="btn btn-primary" (click)="loadPdfFile()">
+        Conversor PDF
+      </button>
+      <input type="file" accept="application/pdf" #pdfInput hidden (change)="handlePdfInput($event)" />
+    </div>
 
     <div class="text-center">
       <span class="position-absolute bottom-0 translate-middle-x mb-4 fecha-tamano">

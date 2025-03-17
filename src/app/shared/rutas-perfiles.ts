@@ -261,5 +261,11 @@ export const perfilAdministrador: MenuInterface[] = [
         ruta: './reportes/formatos-vacios',
       },
     ],
-  },
+  },  
+  // {
+  //   titulo: 'Conversor de Archivos',
+  //   icon: './assets/images/document-white.svg',
+  //   ruta: '/conversor',
+  //   subRutas: []
+  // },
 ];
