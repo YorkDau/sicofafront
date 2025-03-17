@@ -13,7 +13,7 @@
   
     <!-- PDF load button fixed at the bottom -->
     <div class="pdf-button-container">
-      <button class="btn btn-primary" (click)="loadPdfFile()">
+      <button *ngIf="openDrawer" class="btn btn-primary" (click)="loadPdfFile()">
         Conversor PDF
       </button>
       <input type="file" accept="application/pdf" #pdfInput hidden (change)="handlePdfInput($event)" />
