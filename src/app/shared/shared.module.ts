@@ -67,6 +67,8 @@ import { TareasComponent } from './consulta-general/tareas/tareas.component';
 import { TablaAnexosComponent } from './consulta-general/tabla-anexos/tabla-anexos.component';
 import { SeguimientoPardComponent } from './seguimiento-pard/seguimiento-pard.component';
 import { Tablero1Component } from './components/informes/informes-dinamicos/tablero1/tablero1.component';
+import { ConsultaApelacionesComponent } from './components/informes/consulta-apelaciones/consulta-apelaciones.component';
+import { ObservacionApelacionComponent } from './components/informes/observacion-apelacion/observacion-apelacion.component';
 
 @NgModule({
   imports: [
@@ -170,7 +172,9 @@ import { Tablero1Component } from './components/informes/informes-dinamicos/tabl
     TareasComponent,
     TablaAnexosComponent,
     SeguimientoPardComponent,
-    Tablero1Component
+    Tablero1Component,
+    ConsultaApelacionesComponent,
+    ObservacionApelacionComponent
   ],
   providers: [],
 })

@@ -19,6 +19,8 @@ import { RegistrarUsuarioComponent } from './usuario/registrar-usuario/registrar
 import { PerfilComponent } from './perfil/perfil.component';
 import { RegistrarPerfilComponent } from './perfil/registrar-perfil/registrar-perfil.component';
 import { Tablero1Component } from 'src/app/shared/components/informes/informes-dinamicos/tablero1/tablero1.component';
+import { ConsultaApelacionesComponent } from 'src/app/shared/components/informes/consulta-apelaciones/consulta-apelaciones.component';
+import { ObservacionApelacionComponent } from 'src/app/shared/components/informes/observacion-apelacion/observacion-apelacion.component';
 
 export const mainRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -146,6 +148,14 @@ export const mainRoutes: Routes = [
   {
     path: 'reportes/tablero1',
     component: Tablero1Component,
+  },
+  {
+    path: 'consulta/apelaciones',
+    component: ConsultaApelacionesComponent,
+  },
+  {
+    path: 'abogado/observacion/apelaciones/:id_solicitud_servicio',
+    component: ObservacionApelacionComponent,
   },
   {
     path: 'cargar-pruebas/:id',

@@ -1,0 +1,64 @@
+<section class="background-gray rounded-basic p-4 mb-3">
+  <div *ngIf="true" class="p-3">
+    <div class="d-flex align-items-center mb-2">
+      <h4 class="text-muted me-3 mb-0">
+        Ciudadano: {{ objSol.nombre_ciudadano!.trim() + " "+ objSol.primer_apellido!.trim()  | titlecase }}
+      </h4>
+      <img src="assets/images/user_gray.svg" alt="user" class="img-fluid" />
+    </div>
+
+    <h3 class="text-blue mb-2">#{{ objSol.codigo_solicitud }}</h3>
+
+    <div class="text-blue mb-2" style="opacity: 0.6">
+      <strong class="me-1">Estado Apelacion:</strong>
+      <span *ngIf="objSol.subestado_solicitud != 'APELADO'"> TERMINADO </span>
+      <span *ngIf="objSol.subestado_solicitud == 'APELADO'"> APELADO </span>
+    </div>
+  </div>
+</section>
+
+<form [formGroup]="myForm"  (submit)="guardarObservacion()">
+  <div class="d-flex justify-content-end">
+    <button type="submit" class="btn btn-primary mt-2">Guardar</button>
+  </div>
+  <div class="row">
+    <div class="col p-2">
+      <div class="mb-3">
+        <label for="observacion" class="form-label">Observación</label>
+        <textarea
+          type="text"
+          class="form-control input-box"
+          id="observacion"
+          formControlName="observacion"
+        ></textarea>
+      </div>
+    </div>
+  </div>
+</form>
+
+<mat-table [dataSource]="dataSource" id="table-private">
+  <ng-container matColumnDef="observacion">
+    <mat-header-cell *matHeaderCellDef> Observación </mat-header-cell>
+    <mat-cell *matCellDef="let row">
+      <span [title]="row.observacion">
+        {{ row.observacion }}
+      </span>
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="fecha_observacion">
+    <mat-header-cell *matHeaderCellDef> Fecha Observación </mat-header-cell>
+    <mat-cell *matCellDef="let row">
+      {{ row.fecha_observacion | date }}
+    </mat-cell>
+  </ng-container>
+  <mat-header-row
+  mat-header-row
+  *matHeaderRowDef="columnas"
+></mat-header-row>
+<mat-row *matRowDef="let row; columns: columnas"></mat-row>
+</mat-table>
+<mat-paginator
+  [pageSizeOptions]="[5, 10, 20]"
+  showFirstLastButtons
+  aria-label="Select page of request"
+></mat-paginator>

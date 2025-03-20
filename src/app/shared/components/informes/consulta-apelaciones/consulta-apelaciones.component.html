@@ -1,0 +1,216 @@
+<section class="background-gray rounded-basic p-4 mb-3">
+    <h1 class="text-blue mb-4" style="font-size: 30px">
+     Consulta de Apelaciones
+    </h1>
+  
+    <div id="tabs" class="d-flex align-items-baseline" style="gap: 1rem">
+      <div class="me-3" class="elements-tab-active">
+         Apelaciones
+      </div>    
+    </div>
+  </section>
+<form
+  class="background-gray rounded-basic p-3 mb-3"
+  [formGroup]="form"
+  autocomplete="off"
+  (submit)="consultarCasos()"
+>
+  <div class="row">
+    <div class="col-lg-3">
+      <div class="mb-3">
+        <label for="numdoc" class="form-label">Número de documento</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="numeroDocumento"
+          placeholder="Número de documento"
+          id="numdoc"
+          maxlength="20"
+        />
+      </div>
+    </div>
+
+    <div class="col-lg-3">
+      <div class="mb-3">
+        <label for="codigo" class="form-label">Código solicitud</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="codSolicitud"
+          placeholder="Código solicitud"
+          maxlength="40"
+          id="codigo"
+        />
+      </div>
+    </div>
+    <!-- 
+    <div class="col-lg-3">
+      <div class="mb-3">
+        <label for="estado" class="form-label">Estado</label>
+        <select formControlName="estado" class="form-select">
+          <option [value]="item.codigo" *ngFor="let item of listaTarea">
+            {{ item.nombre_Dominio }}
+          </option>
+        </select>
+      </div>
+    </div>
+    -->
+
+    <div class="col-lg-3 d-flex align-items-center justify-content-end">
+      <div class="mt-3">
+        <button type="submit" class="btn btn-primary">
+          <img
+            src="assets/images/busqueda.svg"
+            alt="serach"
+            class="img-fluid me-2"
+          />
+          Buscar
+        </button>
+      </div>
+      <!-- 
+      <div
+        class="d-flex pointer-event boton-interrogacion"
+        matTooltip="• Por seguridad del ciudadano se debe ingresar los nombres y apellidos completos o el número de identificación."
+        matTooltipPosition="above"
+        matTooltipHideDelay="500"
+        matTooltipClass="blued-tooltip"
+      >
+     
+        <mat-icon
+          class="material-icons-outlined"
+          style="font-size: 1.5rem; color: #007ad5"
+          >info</mat-icon
+        >
+       
+      </div>
+       -->
+    </div>
+  </div>
+
+  <div *ngIf="getNombres !== '' && mostrarValidaciones" class="msj-req">
+    {{ getNombres }}
+  </div>
+</form>
+
+<div class="background-light rounded-basic p-4 mb-4" *ngIf="formSubmitted">
+  <h4 class="text-blue">
+    {{ mensajeG }}
+  </h4>
+
+  <div class="w-50" *ngIf="dataSource.data.length === 0">
+    <app-no-data [mensaje]="mensajeSinReg"> </app-no-data>
+  </div>
+
+ 
+  <div [ngStyle]="{ display: dataSource.data.length > 0 ? 'block' : 'none' }">
+    <!-- <div class="box-legend ms-4 mt-4">
+      <div class="box-legend__alto">
+        <div class="box-legend__alto__dot"></div>
+        Riesgo alto
+      </div>
+      <div class="box-legend__medio">
+        <div class="box-legend__medio__dot"></div>
+        Riesgo medio
+      </div>
+      <div class="box-legend__bajo">
+        <div class="box-legend__bajo__dot"></div>
+        Riesgo bajo
+      </div>
+      <div class="box-legend__no">
+        <div class="box-legend__no__dot"></div>
+        Riesgo no Identificado
+      </div>
+    </div>
+    -->
+    <mat-table [dataSource]="dataSource" id="table-private">
+      <ng-container matColumnDef="codigo_solicitud">
+        <mat-header-cell *matHeaderCellDef> Código Solicitud </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <div class="box-legend w-auto">
+            <div [ngClass]="retornarPadreRiesgo(row.riesgo)">
+              <div [ngClass]="retornarHijoRiesgo(row.riesgo)"></div>
+            </div>
+          </div>
+          <span [title]="row.codigo_solicitud">
+            {{ row.codigo_solicitud }}
+          </span>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="nombres">
+        <mat-header-cell *matHeaderCellDef>
+          Ciudadano
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          {{ row.nombre_ciudadano | titlecase }}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="numero_documento">
+        <mat-header-cell *matHeaderCellDef> No. de doc </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <div style="width: 90px">
+            {{ row.numero_documento }}
+          </div>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="fecha_solicitud">
+        <mat-header-cell *matHeaderCellDef> Fecha solicitud </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          {{ row.fecha_solicitud | date }}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="estado_apelacion">
+        <mat-header-cell *matHeaderCellDef> Estado </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          {{ row.estado_apelacion ? "Terminado": "Apelado" | titlecase }}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="subestado_solicitud">
+        <mat-header-cell *matHeaderCellDef> Sub-Estado </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          {{ row.subestado_solicitud == "Seguimiento" ? "Terminado": "Terminado" | titlecase }}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="accion">
+        <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <button
+            mat-icon-button
+            matTooltip="Visualizar"
+            matTooltipPosition="left"
+            matTooltipHideDelay="500"
+            matTooltipClass="background-tooltip"
+            aria-label="Button that displays a tooltip when focused or hovered over"
+            
+            (click)="verHistorialCiudadano(row)"
+          >
+            <img src="assets/images/eye.svg" alt="detail" class="img-fluid" />
+          </button>
+          <button
+            *ngIf="remitidoComisaria(row)"
+            mat-icon-button
+            matTooltip="Ver detalle remisión"
+            matTooltipPosition="right"
+            matTooltipHideDelay="500"
+            matTooltipClass="background-tooltip"
+            aria-label="Button that displays a tooltip when focused or hovered over"
+            (click)="modalComisariaOrigen(row)"
+          >
+            <mat-icon class="icono-remision"> published_with_changes </mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row
+        mat-header-row
+        *matHeaderRowDef="columnas"
+      ></mat-header-row>
+      <mat-row *matRowDef="let row; columns: columnas"></mat-row>
+    </mat-table>
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20]"
+      showFirstLastButtons
+      aria-label="Select page of request"
+    >
+    </mat-paginator>
+  </div>
+</div>
+

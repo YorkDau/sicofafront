@@ -121,6 +121,17 @@ export const perfilAbogado: MenuInterface[] = [
       },
     ],
   },
+  {
+    titulo: 'Consultas',
+    icon: './assets/images/grafico-histograma.svg',
+    ruta: null,
+    subRutas: [
+      {
+        titulo: 'Apelaciones',
+        ruta: './consulta/apelaciones',
+      },
+    ],
+  },
 ];
 
 export const perfilComisario: MenuInterface[] = [

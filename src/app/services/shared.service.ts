@@ -158,6 +158,31 @@ export class SharedService {
     );
   }
 
+  public consultarApelaciones(
+    filtros: any
+  ): Observable<any> {
+    return this.http.post<any>(
+      `${PATH_SERVER}/Apelaciones/ConsultarApelaciones`,
+      filtros
+    );
+  }
+
+  public ConsultarObservacionesApelaciones(
+    id_solicitud_servicio: number
+  ): Observable<any> {
+    return this.http.get<any>( 
+      `${PATH_SERVER}/Apelaciones/ConsultarObservacionesApelaciones/${id_solicitud_servicio}`,
+    );
+  }
+
+  public guardarObservacionesApelaciones(observacionApelacion: any): Observable<any> {
+    console.log(observacionApelacion);
+    return this.http.post<any>(
+      `${PATH_SERVER}/Apelaciones/GuardarObservacionesApelaciones`,
+      observacionApelacion
+    );
+  }
+
   /**
    * @description consulta servicio recepción casos
    * @param filtros objeto formulario
