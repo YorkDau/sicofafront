@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as validaciones from 'src/app/pages/private/solicitud/preguntas/validators';
-import { CodigosRespuesta, Mensajes, Regex } from 'src/app/constants';
+import { CodigosRespuesta, ImagenesModal, Mensajes, Regex } from 'src/app/constants';
 import { ModalRemisionComponent } from '../modal-remision/modal-remision.component';
 import { MatDialog } from '@angular/material/dialog';
 import * as interfaces from 'src/app/pages/private/interfaces/ciudadano.interface';
@@ -41,6 +41,7 @@ export class PreguntasComponent implements OnInit, OnChanges {
   public maxDate!: Date;
   public mostrarValidaciones: boolean = false;
   public cComisariaFamilia: boolean = false;
+  public mostrarBotonDescargar: boolean = false;
   public msgObligatorio: string = Mensajes.CAMPO_OBLIGATORIO;
   public selectRelacion: interfaces.DominioInterface[] = [];
   public selectTipo_Tramite: interfaces.DominioInterface[] = [];
@@ -53,6 +54,7 @@ export class PreguntasComponent implements OnInit, OnChanges {
   public mostrarMensajeDias: boolean = false;
   public validaGuardarOactualizar: boolean = true;
   private user!: UserInterface;
+showDownloadButton: any;
 
   constructor(
     private fb: FormBuilder,
@@ -62,7 +64,12 @@ export class PreguntasComponent implements OnInit, OnChanges {
     private authService: AuthService,
     private router: Router,
     private datePipe: DatePipe
-  ) {}
+    
+  ) {
+    this.myForm = this.fb.group({
+      esNecesarioRemitir: ['']
+    });
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['idSolicitud'] && this.idSolicitud > 0) {
@@ -85,6 +92,9 @@ export class PreguntasComponent implements OnInit, OnChanges {
     this.cargaSelectRelacion();
     this.cargaSelectTramite();
     this.cargaSelectContexto();
+    this.myForm.get('esNecesarioRemitir')?.valueChanges.subscribe(value => {
+      this.mostrarBotonDescargar = value === 'si';
+    });
 
     this.myForm
       .get('esCompetenciaComisaria')
@@ -154,6 +164,7 @@ export class PreguntasComponent implements OnInit, OnChanges {
     this.passTap2.emit(1);
   }
 
+  
   /**
    * @description carga el select de Tipo Relacion
    */
@@ -270,6 +281,17 @@ export class PreguntasComponent implements OnInit, OnChanges {
         }
       });
   }
+  public habilitarBoton() {
+    this.myForm
+      .get('mostrarBotonDescargar')
+      ?.valueChanges.subscribe((resp) => {
+        if (resp === 'si') {
+          this.mostrarBotonDescargar = true;
+        } else {
+          this.mostrarBotonDescargar = false;
+        }
+      });
+  }
 
   /**
    * @description para registrar datos generales y pasar a la pestaña de datos
@@ -342,6 +364,34 @@ export class PreguntasComponent implements OnInit, OnChanges {
       }
     }
   }
+  public descargarDocumento(): void {
+    const nombre: string = "COMPETENCIA TERRITORIAL.pdf";
+
+    this.sharedService.descargarFormatos(nombre, 'ss').subscribe({
+      next: (data: ResponseInterface) => {
+        if (data.statusCode === CodigosRespuesta.OK) {
+          const source = `data:application/pdf;base64,${data.data}`;
+          const link = document.createElement('a');
+          const fileName = nombre;
+          link.href = source;
+          link.download = `${fileName}.pdf`;
+          link.click();
+        } else {
+          this.msgError();
+        }
+      },
+      error: () => {
+        this.msgError();
+      }
+    });
+  }
+     private msgError() {
+      Modales.modalExito(
+        Mensajes.MENSAJE_ERROR_G,
+        ImagenesModal.EXCLAMACION,
+        this._dialog
+      );
+    }
 
   /**
    * @description guarda
