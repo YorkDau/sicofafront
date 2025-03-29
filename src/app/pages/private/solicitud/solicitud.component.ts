@@ -2,6 +2,7 @@ import { Component, OnChanges, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { InformacionCiudadanoInterface } from '../interfaces/ciudadano.interface';
+import { EncabezadoPrivateStepEnum } from 'src/app/shared/components/general/encabezado-private/encabezado-private.component';
 
 export enum UseModalRemision {
   Familia = 1,
@@ -47,5 +48,9 @@ export class SolicitudComponent implements OnChanges, OnInit {
       this.tab1 = false;
       this.tab2 = true;
     }
+  }
+
+  get step() {
+    return EncabezadoPrivateStepEnum.AUXILIAR;
   }
 }

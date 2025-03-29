@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, type Routes } from '@angular/router';
 import { MainRecepcionComponent } from 'src/app/shared/components/inicio-casos/main-recepcion/main-recepcion.component';
 import { RecepcionCasosComponent } from 'src/app/shared/components/inicio-casos/recepcion-casos/recepcion-casos.component';
 import { AbogadoComponent } from './abogado.component';
