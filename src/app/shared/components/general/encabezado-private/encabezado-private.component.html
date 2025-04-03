@@ -1,4 +1,4 @@
-<section class="background-gray rounded-basic px-4 pt-4 mb-3">
+<section class="background-gray rounded-basic p-4 mb-3">
   <div *ngIf="accionante" class="p-3">
     <div class="d-flex align-items-center mb-2">
       <h4 class="text-muted me-3 mb-0">
@@ -26,13 +26,5 @@
       <span> {{ accionante.estadoCaso | titlecase }} </span>
     </div>
   </div>
-
-  <div *ngIf="step !== -1">
-    <mat-stepper linear="true" #stepper [selectedIndex]="step" [disableRipple]="true">
-      <mat-step label="Auxiliar" [editable]="false" matStepperIcon="phone"></mat-step>
-      <mat-step label="Psicologo/Trabajador social" [editable]="false"></mat-step>
-      <mat-step label="Abogado" [editable]="false"></mat-step>
-      <mat-step label="Comisario" [editable]="false"></mat-step>
-    </mat-stepper>
-  </div>
 </section>
+<app-en-revision-por></app-en-revision-por>

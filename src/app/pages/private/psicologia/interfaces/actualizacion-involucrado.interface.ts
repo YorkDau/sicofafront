@@ -1,4 +1,4 @@
-﻿import { HijoInvolucrado } from './involucrado.interface';
+﻿import type { HijoInvolucrado } from './involucrado.interface';
 
 export interface ActualizacionInvolucrado {
   idInvolucrado?: number;
@@ -15,6 +15,7 @@ export interface ActualizacionInvolucrado {
   embarazo?: string;
   mesesEmbarazo?: number;
   victimaConflicto?: boolean;
+  victimaDesplazamiento?: boolean;
   eps?: string;
   ips?: string;
   descripcionOrganizacionCriminal?: string;

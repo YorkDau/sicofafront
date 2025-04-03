@@ -132,6 +132,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
       embarazo: ['NO', Validators.required],
       mesesEmbarazo: [0, [Validators.max(9), Validators.min(0)]],
       victimaConflicto: [false, Validators.required],
+      victimaDesplazamiento: [false, Validators.required],
       eps: [''],
       ips: [''],
       cultura: [''],
@@ -229,6 +230,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
       descripcionDiscapacidad,
       mesesEmbarazo,
       victimaConflicto,
+      victimaDesplazamiento,
       eps,
       ips,
       relacionPareja,
@@ -419,6 +421,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
       embarazo: 'NO',
       mesesEmbarazo: 0,
       victimaConflicto: false,
+      victimaDesplazamiento: false,
       eps: '',
       ips: '',
       agresorOrganizacionCriminal: formValueAgresor.agresorOrganizacionCriminal,
@@ -476,7 +479,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
    * @description actualiza el involucrado guardando sus datos en la base de datos
    */
   public postActualizarInvolucradoVictima(): Observable<boolean> {
-    let subject = new Subject<boolean>();
+    const subject = new Subject<boolean>();
     const formValueVictima: InvolucradoDTO = this.formVictima.value;
     const bodyVictima: ActualizacionInvolucrado = {
       idInvolucrado: this.victima.id,
@@ -497,6 +500,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
       embarazo: formValueVictima.embarazo,
       mesesEmbarazo: formValueVictima.mesesEmbarazo,
       victimaConflicto: formValueVictima.victimaConflicto,
+      victimaDesplazamiento: formValueVictima.victimaDesplazamiento,
       eps: formValueVictima.eps,
       ips: formValueVictima.ips,
       descripcionOrganizacionCriminal: '',
@@ -518,7 +522,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
       fechaExpedicion: formValueVictima.fechaExpedicion,
       fechaNacimiento: formValueVictima.fechaNacimiento,
     };
-    if (bodyVictima.informacionHijos?.length != bodyVictima.numeroHijos) {
+    if (bodyVictima.informacionHijos?.length !== bodyVictima.numeroHijos) {
       this.modales.modalInformacion(
         'El numero de hijos no coincide con la información de los hijos registrados.'
       );

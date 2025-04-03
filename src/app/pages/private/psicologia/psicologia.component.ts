@@ -5,4 +5,8 @@ import { Component } from '@angular/core';
   templateUrl: './psicologia.component.html',
   styleUrls: ['./psicologia.component.scss'],
 })
-export class PsicologiaComponent {}
+export class PsicologiaComponent {
+  get showState() {
+    return window.location.href.includes('consulta-general');
+  }
+}
