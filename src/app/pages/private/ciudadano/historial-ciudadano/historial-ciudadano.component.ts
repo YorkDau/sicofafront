@@ -121,7 +121,7 @@ export class HistorialCiudadanoComponent {
       panelClass: ['roundedModal', 'modalFondoGris'],
       disableClose: false,
       width: '900px',  // Aumenté de 776px a 900px
-      maxWidth: '92vw', // Aumenté ligeramente de 90vw a 92vw
+      maxWidth: '90vw', // Aumenté ligeramente de 90vw a 92vw
       maxHeight: '90vh',
       data: { id_solicitud, ciudadano: this.ciudadano },
     });
