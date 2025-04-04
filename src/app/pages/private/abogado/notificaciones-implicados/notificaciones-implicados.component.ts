@@ -97,6 +97,7 @@ export class NotificacionesImplicadosComponent implements OnInit {
             idSolicitudServicio: this.tarea.idSolicitud,
             idUsuario: this.user.userID,
             idInvolucrado: row.idInvolucrado,
+            idPruebaPericial: null,
             entrada: base64,
             nombrearchivo: null,
             idTarea: this.tarea.idTarea,

@@ -273,6 +273,17 @@
             Campo requerido
           </small>
         </div>
+        <div class="form-group col-lg-4 mb-4">
+          <label class="form-label text-capitalize"> ¿Cómo te gustaría que te llamemos desde la Comisaría?</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Escribe aquí"
+            formControlName="llamameComo"
+            maxlength="50"
+          />
+        </div>
+
 
         <div class="form-group col-lg-4">
           <label class="form-label text-capitalize"
@@ -394,8 +405,7 @@
       <div class="row mt-4">
         <div class="col-lg-4 mb-4 d-flex flex-column justify-content-end">
           <label for="cultura" class="form-label">
-            De acuerdo con su cultura, pueblo o rasgo físico es o se reconoce
-            como
+            ¿Se reconoce como perteneciente a alguno de estos grupos étnicos?
           </label>
           <select class="form-select" formControlName="cultura">
             <option value="">Seleccione una opción</option>
@@ -638,6 +648,34 @@
               name="victimaConflicto"
               id="sic"
               formControlName="victimaConflicto"
+              [value]="true"
+            />
+            <label class="form-check-label form-label" for="sic"> SI </label>
+          </div>
+        </div>
+
+        
+        <div class="col-lg-12 mb-4">
+          <p class="form-label">¿Es usted una persona en situación de desplazamiento?</p>
+
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="victimaDesplazamiento"
+              id="nocd"
+              formControlName="victimaDesplazamiento"
+              [value]="false"
+            />
+            <label class="form-check-label form-label" for="noc"> NO </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="victimaDesplazamiento"
+              id="sicd"
+              formControlName="victimaDesplazamiento"
               [value]="true"
             />
             <label class="form-check-label form-label" for="sic"> SI </label>
@@ -999,6 +1037,17 @@
             </option>
           </select>
         </div>
+        <div class="form-group col-lg-4 mb-4">
+          <label class="form-label text-capitalize"> ¿Cómo te gustaría que te llamemos desde la Comisaría?</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Escribe aquí"
+            formControlName="llamameComo"
+            maxlength="50"
+          />
+        </div>
+        
 
         <div class="form-group col-lg-4">
           <label class="form-label text-capitalize">ocupación</label>
@@ -1062,8 +1111,7 @@
       <div class="row mt-4">
         <div class="col-lg-4 mb-4 d-flex flex-column justify-content-end">
           <label for="cultura" class="form-label">
-            De acuerdo con su cultura, pueblo o rasgo físico es o se reconoce
-            como
+            ¿Se reconoce como perteneciente a alguno de estos grupos étnicos?
           </label>
           <select class="form-select" formControlName="cultura">
             <option value="">Seleccione una opción</option>

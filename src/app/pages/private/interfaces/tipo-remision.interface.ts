@@ -16,6 +16,7 @@ export interface CargaArchivoRemision {
   idSolicitudServicio: number;
   idUsuario: number;
   idInvolucrado: number | null;
+  idPruebaPericial:number | null;
   idTarea?: number;
 }
 

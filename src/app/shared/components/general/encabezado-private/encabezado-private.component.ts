@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AccionanteDTO } from 'src/app/pages/private/psicologia/interfaces/accionante.interface';
 import {
@@ -16,6 +16,7 @@ import { Modales } from '../../../modals';
   styleUrls: ['./encabezado-private.component.scss'],
 })
 export class EncabezadoPrivateComponent implements OnInit {
+
   public accionante!: AccionanteDTO;
   public objSol!: any;
 

@@ -598,3 +598,9 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
+
+.app-en-revision-por {
+  .mat-horizontal-content-container {
+    display: none !important;
+  }
+}

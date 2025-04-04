@@ -13,6 +13,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { RecepcionCasosInterface } from '../../../../interfaces/recepcion-casos.interface';
 import { UserInterface } from 'src/app/interfaces/usuario.interface';
 import { AuthService } from 'src/app/auth/services/auth.service';
+import { SharedService } from 'src/app/services/shared.service';
+import { DominioInterface } from 'src/app/interfaces/dominio.interface';
 
 @Component({
   selector: 'app-cargar-pruebas',
@@ -37,15 +39,18 @@ export class CargarPruebasComponent implements OnInit {
     tipoPrueba: new FormControl('pericial', [Validators.required]),
     nombrePrueba: new FormControl('', [Validators.required]),
     idInvolucrado: new FormControl(''),
+    idPruebaPericial: new FormControl(''),
   });
   public avisoError: string = '';
 
   private user!: UserInterface;
+  public listaPruebasPericiales!: DominioInterface[];
 
   constructor(
     private cargarPruebasService: CargarPruebasService,
     private authService: AuthService,
     private modales: Modales,
+    private sharedService: SharedService,
     private notificacionesImplicadoService: NotificacionesImplicadoService
   ) {}
 
@@ -53,6 +58,7 @@ export class CargarPruebasComponent implements OnInit {
     this.user = this.authService.currentUserValue!;
     this.cargarListaInvolucrados();
     this.consultarPruebasCargadas();
+    this.getListaPruebasPericiales();
   }
 
   /**
@@ -80,6 +86,13 @@ export class CargarPruebasComponent implements OnInit {
           this.listaInvolucrados = result.data;
         }
       });
+  }
+  private async getListaPruebasPericiales() {
+    const result = await this.sharedService.getDominioFromLocal(
+      'Pruebas_Periciales'
+    );
+    this.listaPruebasPericiales = result;
+    console.log("PRUEBAS PERICIALES", this.listaPruebasPericiales);
   }
 
   /**
@@ -131,10 +144,14 @@ export class CargarPruebasComponent implements OnInit {
       this.modales.modalInformacion('Debe seleccionar un tipo de prueba');
     } else if (base64) {
       const idInvolucrado = this.form.get('idInvolucrado')?.value;
+      const idPruebaPericial = this.form.get('idPruebaPericial')?.value ;
+
+      console.log("ID PRUEBA PERICIAL", idPruebaPericial);
       this.cargarPruebasService
         .anadirPrueba({
           entrada: base64,
           idInvolucrado: idInvolucrado ? idInvolucrado : null,
+          idPruebaPericial: idPruebaPericial ? idPruebaPericial : null,
           idSolicitudServicio: this.tarea.idSolicitud,
           idUsuario: this.user.userID,
           nombrearchivo: this.form.get('nombrePrueba')?.value + '',
@@ -208,5 +225,6 @@ export class CargarPruebasComponent implements OnInit {
   resetForm() {
     this.form.get('nombrePrueba')?.setValue('');
     this.form.get('idInvolucrado')?.setValue('');
+    this.form.get('idPruebaPericial')?.setValue('');
   }
 }

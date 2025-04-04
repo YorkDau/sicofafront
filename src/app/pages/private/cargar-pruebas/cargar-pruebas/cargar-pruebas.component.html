@@ -7,7 +7,7 @@
     <div class="form-group col-lg-12 mb-4">
       <div
         class="form-check form-check-inline"
-        (click)="this.form.get('idInvolucrado')?.setValue('')"
+        (click)="this.form.get('idPruebaPericial')?.setValue('')"
       >
         <input
           class="form-check-input"
@@ -33,6 +33,7 @@
         <label class="form-check-label"> Involucrados </label>
       </div>
     </div>
+
     <div class="form-group col-lg-4">
       <label class="form-label text-capitalize">Nombre de la prueba *</label>
       <input
@@ -43,34 +44,30 @@
         formControlName="nombrePrueba"
       />
     </div>
+
     <div class="form-group col-lg-4">
       <label class="form-label text-capitalize">Quién la expide *</label>
+
       <select
-        type="text"
         class="form-control"
-        placeholder="Quien la expide"
-        maxlength="50"
-        formControlName="idInvolucrado"
-        disabled
+        formControlName="idPruebaPericial"
         *ngIf="this.form.get('tipoPrueba')?.value == 'pericial'"
       >
-        <option value="">Seleccione una opcion</option>
-        <option
-          [value]="item.idInvolucrado"
-          *ngFor="let item of listaInvolucrados"
-        >
-          {{ item.nombres | titlecase }}
-        </option>
+      <option value="">Seleccione una opción</option>
+      <option
+        [value]="item.id_Dominio"
+        *ngFor="let item of listaPruebasPericiales"
+      >
+        {{ item.nombre_Dominio | titlecase }}
+      </option> 
       </select>
+
       <select
-        type="text"
         class="form-control"
-        placeholder="Quien la expide"
-        maxlength="50"
         formControlName="idInvolucrado"
         *ngIf="this.form.get('tipoPrueba')?.value == 'involucrado'"
       >
-        <option value="">Seleccione una opcion</option>
+        <option value="">Seleccione una opción</option>
         <option
           [value]="item.idInvolucrado"
           *ngFor="let item of listaInvolucrados"
@@ -81,10 +78,7 @@
     </div>
 
     <div class="form-group col-lg-4">
-      <label class="form-label text-capitalize opacity-0"
-        >Cargar prueba *</label
-      >
-
+      <label class="form-label text-capitalize opacity-0">Cargar prueba *</label>
       <app-carga-archivo
         (baseArchivo)="cargarArchivo($event)"
         [downloadIcon]="false"
@@ -102,16 +96,14 @@
     mensaje="Aún no se ha cargado ninguna prueba."
     [ngClass]="{ 'd-none': dataSource.data && dataSource.data.length }"
   ></app-no-data>
+
   <div [ngClass]="{ 'd-none': !dataSource.data || !dataSource.data.length }">
     <mat-table [dataSource]="dataSource" id="table-private">
       <ng-container matColumnDef="nombrePrueba">
-        <mat-header-cell *matHeaderCellDef>
-          Nombre de la prueba
-        </mat-header-cell>
-        <mat-cell *matCellDef="let row">
-          {{ row.nombrePrueba }}
-        </mat-cell>
+        <mat-header-cell *matHeaderCellDef> Nombre de la prueba </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{ row.nombrePrueba }} </mat-cell>
       </ng-container>
+
       <ng-container matColumnDef="descripcionPrueba">
         <mat-header-cell *matHeaderCellDef> Quién la expide </mat-header-cell>
         <mat-cell *matCellDef="let row">
@@ -122,6 +114,7 @@
           }}
         </mat-cell>
       </ng-container>
+
       <ng-container matColumnDef="tipoPrueba">
         <mat-header-cell *matHeaderCellDef> Tipo de prueba </mat-header-cell>
         <mat-cell *matCellDef="let row">
@@ -132,6 +125,7 @@
           }}
         </mat-cell>
       </ng-container>
+
       <ng-container matColumnDef="accion">
         <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
         <mat-cell *matCellDef="let row">
@@ -147,12 +141,11 @@
           ></app-carga-archivo>
         </mat-cell>
       </ng-container>
-      <mat-header-row
-        mat-header-row
-        *matHeaderRowDef="columnas"
-      ></mat-header-row>
+
+      <mat-header-row mat-header-row *matHeaderRowDef="columnas"></mat-header-row>
       <mat-row *matRowDef="let row; columns: columnas"></mat-row>
     </mat-table>
+
     <mat-paginator
       [pageSizeOptions]="[5, 10, 20]"
       showFirstLastButtons
@@ -166,14 +159,8 @@
     class="d-flex align-items-center justify-content-end mt-4 text-nowrap flex-wrap w-100"
     style="gap: 1rem"
   >
-    <button type="button" class="btn btn-danger" (click)="cancelar()">
-      Cancelar
-    </button>
-    <button
-      type="button"
-      class="btn btn-primary"
-      (click)="archivarDiligencias()"
-    >
+    <button type="button" class="btn btn-danger" (click)="cancelar()">Cancelar</button>
+    <button type="button" class="btn btn-primary" (click)="archivarDiligencias()">
       Archivar diligencias
     </button>
     <button

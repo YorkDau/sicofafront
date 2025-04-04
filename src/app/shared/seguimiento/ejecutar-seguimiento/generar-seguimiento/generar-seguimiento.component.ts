@@ -248,6 +248,7 @@ export class GenerarSeguimientoComponent implements OnInit {
       idSolicitudServicio: this.objSol.idSolicitud,
       idUsuario: this.user?.userID!, 
       idInvolucrado: this.myForm.get('involucrado')?.value,
+      idPruebaPericial: this.myForm.get('pericial')?.value,
     };
   }
 
