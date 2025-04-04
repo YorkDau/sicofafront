@@ -654,6 +654,34 @@
           </div>
         </div>
 
+        
+        <div class="col-lg-12 mb-4">
+          <p class="form-label">¿Es usted una persona en situación de desplazamiento?</p>
+
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="victimaDesplazamiento"
+              id="nocd"
+              formControlName="victimaDesplazamiento"
+              [value]="false"
+            />
+            <label class="form-check-label form-label" for="noc"> NO </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="victimaDesplazamiento"
+              id="sicd"
+              formControlName="victimaDesplazamiento"
+              [value]="true"
+            />
+            <label class="form-check-label form-label" for="sic"> SI </label>
+          </div>
+        </div>
+
         <div class="col-lg-4 mb-4">
           <p class="form-label">
             ¿Se encuentra afiliado al Sistema de Seguridad Social en Salud?

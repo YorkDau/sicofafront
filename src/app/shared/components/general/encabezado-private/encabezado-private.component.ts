@@ -10,21 +10,12 @@ import { ResponseInterface } from '../../../../interfaces/response.interface';
 import { ResumentCasoPsicologiaService } from '../../../../pages/private/psicologia/services/resumen-solicitud.service';
 import { Modales } from '../../../modals';
 
-export enum EncabezadoPrivateStepEnum {
-  NA = -1,
-  AUXILIAR = 0,
-  PSICOLOGO = 1,
-  ABOGADO = 2,
-  COMISARIO = 3,
-}
-
 @Component({
   selector: 'app-encabezado-private',
   templateUrl: './encabezado-private.component.html',
   styleUrls: ['./encabezado-private.component.scss'],
 })
-export class EncabezadoPrivateComponent implements OnInit {  
-  @Input() public step: EncabezadoPrivateStepEnum = -1;
+export class EncabezadoPrivateComponent implements OnInit {
 
   public accionante!: AccionanteDTO;
   public objSol!: any;

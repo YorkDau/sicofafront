@@ -24,6 +24,7 @@
   mesesEmbarazo?: number;
   edadAproximadaAgresor?: number;
   victimaConflicto?: boolean;
+  victimaDesplazamiento?: boolean;
   eps?: string;
   ips?: string;
   hijos?: HijoInvolucrado[];

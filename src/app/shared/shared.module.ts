@@ -69,6 +69,7 @@ import { SeguimientoPardComponent } from './seguimiento-pard/seguimiento-pard.co
 import { Tablero1Component } from './components/informes/informes-dinamicos/tablero1/tablero1.component';
 import { ConsultaApelacionesComponent } from './components/informes/consulta-apelaciones/consulta-apelaciones.component';
 import { ObservacionApelacionComponent } from './components/informes/observacion-apelacion/observacion-apelacion.component';
+import { EnRevisionPorComponent } from './components/general/en-revision-por/en-revision-por.component';
 
 @NgModule({
   imports: [
@@ -103,6 +104,7 @@ import { ObservacionApelacionComponent } from './components/informes/observacion
     ObservacionesAutoComponent,
     AudienciaComponent,
     EncabezadoPrivateComponent,
+    EnRevisionPorComponent,
     InicioCasosComponent,
     InformesDinamicosComponent,
     FormatosVaciosComponent,
@@ -140,6 +142,7 @@ import { ObservacionApelacionComponent } from './components/informes/observacion
     ObservacionesAutoComponent,
     AudienciaComponent,
     EncabezadoPrivateComponent,
+    EnRevisionPorComponent,
     AutoTramiteComponent,
     SeguimientoComponent,
     ModalCrearSeguimientoComponent,
