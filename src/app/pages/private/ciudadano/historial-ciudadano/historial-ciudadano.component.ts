@@ -48,6 +48,7 @@ export class HistorialCiudadanoComponent {
   ];
 
   public actions: AuroraActionColumn[] = [
+  
     {
       imagen: 'assets/images/eye.svg',
       tooltip: 'Visualizar',
@@ -64,6 +65,7 @@ export class HistorialCiudadanoComponent {
         this.router.navigate(['/solicitud', row.id_solicitud_servicio]);
       },
     },
+
   ];
 
   private id_ciudadano: number | undefined = undefined;
@@ -118,8 +120,8 @@ export class HistorialCiudadanoComponent {
     this.dialog.open(ModalDetalleSolicitudCiudadanoComponent, {
       panelClass: ['roundedModal', 'modalFondoGris'],
       disableClose: false,
-      width: '776px',
-      maxWidth: '90vw',
+      width: '900px',  // Aumenté de 776px a 900px
+      maxWidth: '92vw', // Aumenté ligeramente de 90vw a 92vw
       maxHeight: '90vh',
       data: { id_solicitud, ciudadano: this.ciudadano },
     });

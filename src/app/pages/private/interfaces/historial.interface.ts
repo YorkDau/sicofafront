@@ -5,6 +5,7 @@ export interface SolicitudServicioInterface {
   hora_solicitud?: Date;
   descripcion_de_hechos?: string;
   estado_de_la_solicitud?: string;
+
 }
 export interface SolicitudServicioDetalleInterface {
   codigo_solicitud: number;
@@ -15,4 +16,13 @@ export interface SolicitudServicioDetalleInterface {
   descripcion_de_hechos: string;
   es_victima: boolean;
   numero_victimas: number;
+  anexos?: AnexosInterface[];
+  
+  
+}
+export interface AnexosInterface {
+  fechaCreacion: string;
+  idAnexo: number;
+  nombreArchivo: string;
+  nombreDocumento: string;
 }

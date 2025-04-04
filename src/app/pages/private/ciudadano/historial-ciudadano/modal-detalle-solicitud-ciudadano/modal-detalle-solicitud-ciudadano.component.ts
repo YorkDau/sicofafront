@@ -5,85 +5,161 @@ import { Mensajes } from '../../../../../constants';
 import { SharedFunctions } from '../../../../../shared/functions';
 import { Modales } from '../../../../../shared/modals';
 import { CiudadanoDetalleInterface } from '../../../interfaces/ciudadano.interface';
-import { SolicitudServicioDetalleInterface } from '../../../interfaces/historial.interface';
+import { SolicitudServicioDetalleInterface, AnexosInterface } from '../../../interfaces/historial.interface';
 import { CiudadanoService } from '../../services/ciudadano.service';
+import { SharedService } from 'src/app/services/shared.service';
+import { CodigosRespuesta } from 'src/app/constants';
 
 @Component({
   selector: 'app-modal-detalle-solicitud-ciudadano',
   templateUrl: './modal-detalle-solicitud-ciudadano.component.html',
   styleUrls: ['./modal-detalle-solicitud-ciudadano.component.scss']
 })
-export class ModalDetalleSolicitudCiudadanoComponent {
+export class ModalDetalleSolicitudCiudadanoComponent implements OnInit {
+  public detalleSolicitud!: SolicitudServicioDetalleInterface;
+  public anexos: AnexosInterface[] = [];
+  public paginatedAnexos: AnexosInterface[] = [];
+  public cargando = true;
+  public pageSize = 5;
+  public pageSizeOptions = [5, 10, 25];
+  public currentPage = 0;
 
-
-  public detalleSolicitud!: SolicitudServicioDetalleInterface
-
-  constructor(private matDialogRef: MatDialogRef<ModalDetalleSolicitudCiudadanoComponent>,
+  constructor(
+    private matDialogRef: MatDialogRef<ModalDetalleSolicitudCiudadanoComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { id_solicitud: number, ciudadano: CiudadanoDetalleInterface },
     private ciudadanoService: CiudadanoService,
+    private sharedService: SharedService,
     private modales: Modales,
-  ) {
-
-    if (!this.data.id_solicitud) { //Error hipotético
-      ("Error de enrutamiento: No se obtuvo la identificacion del ciudadano")
-      this.cerrarModal()
-      return
+  ) { 
+    if (!this.data.id_solicitud) {
+      console.error("Error de enrutamiento: No se obtuvo la identificación de la solicitud");
+      this.cerrarModal();
+      return;
     }
-    if (!this.data.ciudadano) { //Error hipotético
-      ("Error de enrutamiento: No se obtuvo la información del ciudadano")
-      this.cerrarModal()
-      return
+    if (!this.data.ciudadano) {
+      console.error("Error de enrutamiento: No se obtuvo la información del ciudadano");
+      this.cerrarModal();
+      return;
     }
-    this.getSolicitudDetalle()
   }
 
-  /**
-  * @description cierra modal
-  */
+  async ngOnInit() {
+    await this.getSolicitudDetalle();
+    await this.cargarAnexos();
+  }
+
+  public async getSolicitudDetalle() {
+    try {
+      this.cargando = true;
+      const result = await lastValueFrom(
+        this.ciudadanoService.getSolicitudDetalle(this.data.id_solicitud)
+      );
+      
+      if (!result || result.statusCode !== CodigosRespuesta.OK || !result.data) {
+        this.modales.modalInformacion(result?.message || "No se encontró la información de la solicitud.");
+        this.cerrarModal();
+        return;
+      }
+
+      this.detalleSolicitud = result.data;
+      console.log('Datos de solicitud cargados:', this.detalleSolicitud);
+    } catch (error: any) {
+      console.error('Error al obtener detalle de solicitud:', error);
+      SharedFunctions.getErrorMessage(error);
+      this.modales.modalInformacion(Mensajes.MENSAJE_ERROR_G);
+      this.cerrarModal();
+    } finally {
+      this.cargando = false;
+    }
+  }
+
+  private async cargarAnexos() {
+    try {
+      if (this.detalleSolicitud?.anexos) {
+        console.log('Anexos encontrados en detalleSolicitud:', this.detalleSolicitud.anexos);
+        this.mapearAnexos(this.detalleSolicitud.anexos);
+        return;
+      }
+  
+      console.log('Obteniendo anexos mediante ConsultaGeneral...');
+      const result = await lastValueFrom(
+        this.sharedService.ConsultaGeneral(this.data.id_solicitud)
+      );
+  
+      if (!result || result.statusCode !== CodigosRespuesta.OK || !result.data) {
+        console.warn('No se pudieron obtener los anexos:', result?.message);
+        return;
+      }
+  
+      if (result.data.anexos) {
+        console.log('Anexos obtenidos del servicio:', result.data.anexos);
+        this.mapearAnexos(result.data.anexos);
+      } else {
+        console.warn('El servicio no devolvió anexos en la respuesta');
+      }
+    } catch (error) {
+      console.error('Error al cargar anexos:', error);
+      this.modales.modalInformacion('Error al cargar documentos adjuntos');
+    }
+  }
+  
+  private mapearAnexos(anexos: any[]): void {
+    this.anexos = anexos.map(anexo => ({
+      idAnexo: anexo.idAnexo || anexo.id_anexo,
+      nombreDocumento: anexo.nombreArchivo || anexo.nombre_archivo,
+      nombreArchivo: anexo.nombreDocumento || anexo.nombre_archivo,
+      fechaCreacion: anexo.fechaCreacion || anexo.fecha_creacion
+    }));
+    
+    this.updatePaginatedAnexos();
+    console.log('Anexos mapeados:', this.anexos);
+  }
+
+  private updatePaginatedAnexos(): void {
+    const startIndex = this.currentPage * this.pageSize;
+    this.paginatedAnexos = this.anexos.slice(startIndex, startIndex + this.pageSize);
+  }
+
+  public onPageChange(event: any): void {
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.updatePaginatedAnexos();
+  }
+
+  public async descargarArchivo(anexo: AnexosInterface) {
+    try {
+      const result = await lastValueFrom(
+        this.sharedService.ObtenerArchivoPorId(this.data.id_solicitud, anexo.idAnexo)
+      );
+
+      if (result.statusCode === CodigosRespuesta.OK) {
+        const source = `data:application/pdf;base64,${result.data}`;
+        const link = document.createElement('a');
+        const fileName = anexo.nombreDocumento;
+        link.href = source;
+        link.download = `${fileName}.pdf`;
+        link.click();
+      } else {
+        this.modales.modalInformacion('Error al descargar el archivo');
+      }
+    } catch (error) {
+      console.error('Error descargando anexo:', error);
+      this.modales.modalInformacion(Mensajes.MENSAJE_ERROR_G);
+    }
+  }
+
   cerrarModal() {
     this.matDialogRef.close();
   }
 
-  /**
-   * @description obtiene el detalle de la solicitud a partir de su id.
-   * @param id_solicitud id de la solicitud
-   */
-  public async getSolicitudDetalle() {
-    try {
-      const result = await lastValueFrom(this.ciudadanoService.getSolicitudDetalle(this.data.id_solicitud));
-      if (!result) {
-        this.modales.modalInformacion("No se encontró la información de la solicitud.")
-        this.cerrarModal()
-        return
-      }
-      if (result.statusCode != 200) {
-        this.modales.modalInformacion(result.message)
-        this.cerrarModal()
-        return
-      }
-      if (!result.data) {
-        this.modales.modalInformacion("Ocurrió un error al consultar los datos de la solicitud.")
-        this.cerrarModal()
-        return
-      }
-      this.detalleSolicitud = result.data
-    } catch (error: any) {
-      SharedFunctions.getErrorMessage(error)
-      this.modales.modalInformacion(Mensajes.MENSAJE_ERROR_G)
-      this.cerrarModal()
-    }
-  }
-
-
   printNombreCiudadano() {
     if (this.data.ciudadano) {
-      let nombre_completo = ""
-      nombre_completo += this.data.ciudadano.nombre_ciudadano ? this.data.ciudadano.nombre_ciudadano + " " : ""
-      nombre_completo += this.data.ciudadano.primer_apellido ? this.data.ciudadano.primer_apellido + " " : ""
-      nombre_completo += this.data.ciudadano.segundo_apellido ? this.data.ciudadano.segundo_apellido : ""
-      return nombre_completo
+      let nombre_completo = "";
+      nombre_completo += this.data.ciudadano.nombre_ciudadano ? this.data.ciudadano.nombre_ciudadano + " " : "";
+      nombre_completo += this.data.ciudadano.primer_apellido ? this.data.ciudadano.primer_apellido + " " : "";
+      nombre_completo += this.data.ciudadano.segundo_apellido ? this.data.ciudadano.segundo_apellido : "";
+      return nombre_completo;
     }
-
-    return "N/A"
+    return "N/A";
   }
 }

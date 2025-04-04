@@ -33,7 +33,7 @@ export class AppComponent implements OnInit {
       this.sharedService.getDominio('Tipo_identificacion'),
       this.sharedService.getDominio('Estado_Tarea'),
       this.sharedService.getDominio('PRESOL_DENUNS'),
-      this.sharedService.getDominio('Pruebas_Periciales'),
+      //this.sharedService.getDominio('Pruebas_Periciales'),
       this.sharedService.getDepartamentos(1),
     ]).subscribe(({ 0: gen, 1: tipoD, 2: tarea, 3: tipoE, 4: depto }) => {
       this.store.dispatch(privateActions.setListaGenero({ genero: gen.data }));
@@ -49,6 +49,7 @@ export class AppComponent implements OnInit {
       this.store.dispatch(
         privateActions.setDepartamento({ departamento: depto.data })
       );
+      
     });
   }
 }
