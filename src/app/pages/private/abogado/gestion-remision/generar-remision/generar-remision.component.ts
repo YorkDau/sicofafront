@@ -78,7 +78,7 @@ export class GenerarRemisionComponent implements OnInit {
         requiereRemision: false,
         remision: '',
         nombreRemision: '',
-        involucrado: ['', [Validators.required]],
+        involucrado: ['', [Validators.required]]
       },
       {
         validators: [
@@ -342,6 +342,7 @@ export class GenerarRemisionComponent implements OnInit {
       idSolicitudServicio: this.objSol.idSolicitud,
       idUsuario: this.user.userID,
       idInvolucrado: this.myForm.get('involucrado')?.value,
+      idPruebaPericial: this.myForm.get('pericial')?.value,
     };
   }
 

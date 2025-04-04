@@ -33,6 +33,7 @@ export class CargarPruebasService {
   public anadirPrueba(
     archivo: CargaArchivoRemision
   ): Observable<ResponseInterface> {
+    console.log('Payload enviado a la petición:', archivo);
     return this.http
       .post<ResponseInterface>(
         `${PATH_SERVER}/File/CargaPruebaSolicitud`,
