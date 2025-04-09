@@ -193,7 +193,7 @@ export class NotificacionesImplicadosComponent implements OnInit {
   habilitarCerrarActuaciones() {
     const sinRecibir: any[] = this.dataSource.data.filter((value) => {
       return (
-        value.estado && value.estado !== EstadosNotificacionImplicado.RECIBIDO
+        value.estado && value.estado.toLowerCase() !== EstadosNotificacionImplicado.RECIBIDO
       );
     });
     return sinRecibir && sinRecibir.length ? false : true;
