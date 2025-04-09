@@ -322,6 +322,7 @@ export class RegistrarCiudadanoComponent implements OnInit {
    */
   public isColombiano(event: any) {
     this.cColombiano = false;
+    console.log("ES COLOMBIANO: ", event.target.value);
     this.myForm.get('pais')?.setValue('');
     if (event.target.value != 0) {
       this.cargaSelectPaises(event.target.value);
