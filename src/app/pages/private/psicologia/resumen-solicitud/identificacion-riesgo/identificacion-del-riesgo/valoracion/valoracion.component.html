@@ -8,7 +8,7 @@
       class="p-2 pe-3 ps-3 bg-white shadow rounded-3 h3"
       style="color: #004884"
     >
-      {{ valoracion && valoracion.puntuacion ? valoracion.puntuacion : 0 }}
+      {{ valoracion && valoracion.puntuacion ? calcularValoracion(valoracion.puntuacion) * 100 : 0 }}
     </span>
   </div>
 
