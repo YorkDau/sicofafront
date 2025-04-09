@@ -365,7 +365,7 @@ showDownloadButton: any;
     }
   }
   public descargarDocumento(): void {
-    const nombre: string = "COMPETENCIA TERRITORIAL.pdf";
+    const nombre: string = "FORMATO TRASLADO CASO.pdf";
 
     this.sharedService.descargarFormatos(nombre, 'ss').subscribe({
       next: (data: ResponseInterface) => {
