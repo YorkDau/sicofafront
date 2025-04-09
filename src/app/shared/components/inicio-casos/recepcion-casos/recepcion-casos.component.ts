@@ -112,6 +112,7 @@ export class RecepcionCasosComponent implements OnInit {
       userID: this.authService.currentUserValue?.userID,
       codPerfil: this.perfil,
       nomO: [true, Validators.requiredTrue],
+      llamameComo: [''],
     });
   }
 

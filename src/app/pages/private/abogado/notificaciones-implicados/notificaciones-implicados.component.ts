@@ -35,6 +35,7 @@ export class NotificacionesImplicadosComponent implements OnInit {
     new MatTableDataSource<NotificacionImplicado>([]);
 
   public date = new Date();
+  habilitar: boolean = false;
 
   public implicadoSeleccionado!: NotificacionMedidaProteccion | null;
   private user!: UserInterface;
@@ -50,12 +51,16 @@ export class NotificacionesImplicadosComponent implements OnInit {
   ngOnInit(): void {
     this.user = this.authService.currentUserValue!;
     this.consultar();
+    this.dataSource.connect().subscribe((data) => {
+      this.habilitar = this.habilitarCerrarActuaciones();
+    });
   }
 
   /**
    * @descripcion consulta las notificaciones
    */
   consultar() {
+
     this.notificacionesImplicadoService
       .consultar(this.tarea.idSolicitud, this.tarea.idTarea)
       .subscribe((result) => {
@@ -185,7 +190,7 @@ export class NotificacionesImplicadosComponent implements OnInit {
   /**
    * La audiencia es reprogramable siempre que uno de los involucrados haya presentado una excusa válida.
    */
-  get habilitarCerrarActuaciones() {
+  habilitarCerrarActuaciones() {
     const sinRecibir: any[] = this.dataSource.data.filter((value) => {
       return (
         value.estado && value.estado !== EstadosNotificacionImplicado.RECIBIDO
