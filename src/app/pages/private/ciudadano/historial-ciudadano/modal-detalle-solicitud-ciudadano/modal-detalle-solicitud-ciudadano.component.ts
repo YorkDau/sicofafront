@@ -102,10 +102,6 @@ export class ModalDetalleSolicitudCiudadanoComponent implements OnInit {
       this.modales.modalInformacion('Error al cargar documentos adjuntos');
     }
   }
-  acortarNombre(nombre: string, maxLength: number = 20): string {
-    if (!nombre) return 'Sin nombre';
-    return nombre.length > maxLength ? nombre.substring(0, maxLength) + '...' : nombre;
-  }
   
   private mapearAnexos(anexos: any[]): void {
     this.anexos = anexos.map(anexo => ({

@@ -136,8 +136,9 @@ export class DescripcionHechosComponent implements AfterViewInit {
 
   async guardar() {
     //Insertar aquí las acciones a realizar.
-
+    console.log("Guardando datos...");
     if (this.isValidForm()) {
+      console.log("Formulario válido, guardando...");
       this.showOnSubmitIsRequired = false;
       await this.actualizarDescripcionHechos()
         .then((success) => {
@@ -147,6 +148,9 @@ export class DescripcionHechosComponent implements AfterViewInit {
           this.modales.modalInformacion(Mensajes.MENSAJE_ERROR_G);
         });
     } else {
+      console.log(this.formDescripcionHechos);
+      console.log(this.camposObligatorios);
+
       this.showOnSubmitIsRequired = true;
     }
   }

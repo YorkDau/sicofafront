@@ -93,6 +93,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
       identidadGenero: [{ value: '', disabled: false }],
       idEscolaridad: [''],
       ocupacion: [''],
+      llamameComo: [''],
       numeroHijos: [0],
       cultura: [''],
       hijos: [
@@ -134,6 +135,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
       victimaConflicto: [false, Validators.required],
       victimaDesplazamiento: [false, Validators.required],
       eps: [''],
+      
       ips: [''],
       cultura: [''],
       numeroHijos: [0],
@@ -236,7 +238,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
       relacionPareja,
       ...values
     } = this.nullToEmptyString(this.agresor);
-    this.formAgresor.setValue({
+    this.formAgresor.patchValue({
       ...values,
       agresorOrganizacionCriminal: agresorConflicto ? true : false,
       descripcionOrganizacionCriminal: agresorconflictoDescripcion,
@@ -264,9 +266,10 @@ export class DatosInvolucradosComponent implements AfterViewInit {
       direccionRecidencia,
       telefono,
       embarazo,
+      victimaDesplazamiento,
       ...values
     } = this.nullToEmptyString(this.victima);
-    this.formVictima.setValue({
+    this.formVictima.patchValue({
       ...values,
       seguridad: values.eps || values.ips ? true : false,
       embarazo: embarazo ? embarazo.toUpperCase() : 'NO',
