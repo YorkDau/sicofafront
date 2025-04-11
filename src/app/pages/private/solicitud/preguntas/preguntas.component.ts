@@ -134,7 +134,7 @@ showDownloadButton: any;
         descripcionHechos: ['', [Validators.required]],
         esVictima: ['no', [Validators.required]],
         relacionParentescoAgresor: ['', [Validators.required]],
-        conviveConAgresor: ['no', [Validators.required]],
+        conviveConAgresor: ['no', []],
         esCompetenciaComisaria: ['no', [Validators.required]],
         idtipoTramite: '',
         idContextofamiliar: '',
