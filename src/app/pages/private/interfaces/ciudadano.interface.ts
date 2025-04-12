@@ -40,9 +40,11 @@ export interface CiudadanoCompletoInterface {
   idTipoDocumento: number;
   numeroDocumento: string;
   fechaExpedicion: string;
-  idlugarExpedicion: number;
   fechaNacimiento: string;
   edad: number;
+  idPaisExpedicion: number;
+  idDepartamentoExpedicion?: number;
+  idMunicipioExpedicion?: number;
   idPaisNacimiento: number;
   idDepartamentoNacimiento?: number;
   idMunicipioNacimiento?: number;

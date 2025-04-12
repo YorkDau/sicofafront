@@ -713,15 +713,23 @@ export class RegistrarCiudadanoComponent implements OnInit {
         this.myForm.get('fechaExp')?.value,
         'dd/MM/yyyy HH:mm:ss'
       )!,
-      idlugarExpedicion:
-        this.myForm.get('lugarExp')?.value == ''
-          ? 0
-          : this.myForm.get('lugarExp')?.value,
       fechaNacimiento: this.datePipe.transform(
         this.myForm.get('fechaNac')?.value,
         'dd/MM/yyyy HH:mm:ss'
       )!,
       edad: this.myForm.get('edad')?.value,
+      idPaisExpedicion:
+        this.myForm.get('paisExp')?.value == ''
+          ? 0
+          : this.myForm.get('paisExp')?.value,
+      idDepartamentoExpedicion:
+        this.myForm.get('departamentoExp')?.value == ''
+          ? 0
+          : this.myForm.get('departamentoExp')?.value,
+      idMunicipioExpedicion:
+        this.myForm.get('municipioExp')?.value == ''
+          ? 0
+          : this.myForm.get('municipioExp')?.value,
       idPaisNacimiento:
         this.myForm.get('pais')?.value == ''
           ? 0
@@ -798,15 +806,21 @@ export class RegistrarCiudadanoComponent implements OnInit {
     resp.fechaExpedicion == '01/01/0001'
       ? this.myForm.get('fechaExp')?.setValue('')
       : this.myForm.get('fechaExp')?.setValue(new Date(resp.fechaExpedicion));
-    resp.idlugarExpedicion == 0
-      ? this.myForm.get('lugarExp')?.setValue('')
-      : this.myForm.get('lugarExp')?.setValue(resp.idlugarExpedicion);
     resp.fechaNacimiento == '01/01/0001'
       ? this.myForm.get('fechaNac')?.setValue('')
       : this.myForm.get('fechaNac')?.setValue(new Date(resp.fechaNacimiento));
     resp.edad != 0
       ? this.myForm.get('edad')?.setValue(resp.edad)
       : this.myForm.get('edad')?.setValue('');
+    resp.idPaisExpedicion == 0
+      ? this.myForm.get('paisExp')?.setValue('')
+      : this.myForm.get('paisExp')?.setValue(resp.idPaisExpedicion);
+    resp.idDepartamentoExpedicion == 0
+      ? this.myForm.get('departamentoExp')?.setValue('')
+      : this.myForm.get('departamentoExp')?.setValue(resp.idDepartamentoExpedicion);
+    resp.idMunicipioExpedicion == 0
+      ? this.myForm.get('municipioExp')?.setValue('')
+      : this.myForm.get('municipioExp')?.setValue(resp.idMunicipioExpedicion);
     resp.idPaisNacimiento == 0
       ? this.myForm.get('pais')?.setValue('')
       : this.myForm.get('pais')?.setValue(resp.idPaisNacimiento);
