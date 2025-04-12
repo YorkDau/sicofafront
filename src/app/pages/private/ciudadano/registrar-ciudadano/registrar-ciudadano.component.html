@@ -415,6 +415,33 @@
           {{ msgObligatorio }}
         </div>
       </div>
+      <div class="col-4 p-3" >
+        <label>Estado Académico</label>
+
+        <select
+          class="form-select"
+          [ngClass]="{
+            'input-req': isRequired('estadoAcademico') && mostrarValidaciones
+          }"
+          formControlName="estadoAcademico"
+        >
+          <option disabled value="">Estado Académico</option>
+          <option
+            *ngFor="let estadoAcademico of selectEstado_Academico"
+            [value]="estadoAcademico.id_Dominio"
+          >
+            {{ estadoAcademico.nombre_Dominio }}
+          </option>
+        </select>
+        <div
+        class="msj-req"
+        *ngIf="isRequired('estadoAcademico') && mostrarValidaciones"
+      >
+        {{ msgObligatorio }}
+      </div>
+      </div>
+
+      
 
       <div class="col-4 p-3">
         <label>Teléfono</label>

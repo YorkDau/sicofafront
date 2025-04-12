@@ -57,6 +57,8 @@ export interface FormTipoViolenciaInterface {
   puntuacionPrevio?: number;
   mesPrevio?: boolean;
   tipoViolencia?: string;
+  fuerzaArmadaSeleccionada?: string;
+  antecedenteSeleccionado?: string;
   nullable?: string;
 }
 
@@ -65,10 +67,13 @@ export interface RespuestaTipoViolencia {
   idTipoViolencia: number;
   listadoRespuestas: ListadoRespuesta[];
   idTarea: number;
+  
 }
 
 export interface ListadoRespuesta {
   idCuestionario: number;
   mes?: boolean;
   puntuacion?: boolean;
+  fuerzaArmada?: string;
+  antecedentes?: string;
 }

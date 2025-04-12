@@ -18,16 +18,63 @@ export class CircunstanciasAgravantesComponent implements AfterViewInit {
 
   public tipos = [{ id: 7, nombre: 'CIRCUNSTANCIAS AGRAVANTES' }];
   public currentIndex: number = 0;
+  public institucionSeleccionada: { [id: number]: string } = {};
 
   public listFormTipoViolencia: FormTipoViolenciaInterface[] = [];
   public dataPost!: RespuestaTipoViolencia;
 
   private tarea = JSON.parse(sessionStorage.getItem('info')!);
 
+  // Opciones para el select de fuerzas armadas
+  public fuerzasArmadasOptions = [
+    { value: 'Policía', label: 'Policía' },
+    { value: 'Ejército Nacional', label: 'Ejército Nacional' },
+    { value: 'ESMAD', label: 'ESMAD' },
+    { value: 'Otra', label: 'Otra' }
+  ];
+
+  // Opciones para el select de antecedentes
+  public antecedentesOptions = [
+    { label: 'Judiciales', value: 'Judiciales' },
+    { label: 'Interdiciplinarios', value: 'Interdiciplinarios' },
+    { label: 'Tribunales', value: 'Tribunales' },
+    { label: 'Otros', value: 'Otros' }
+  ];
+
   constructor(private identificacionService: IdentificacionDelRiesgoService) {}
 
   ngAfterViewInit(): void {
     this.getListFormTipoViolencia(7);
+  }
+
+  // Método para verificar si es la pregunta de fuerzas armadas
+  public isFuerzasArmadas(descripcion: string): boolean {
+    return descripcion.includes('fuerzas armadas');
+  }
+
+  // Método para verificar si es la pregunta de antecedentes judiciales
+  public isAntecedentesJudiciales(descripcion: string): boolean {
+    return descripcion.includes('antecedentes judiciales');
+  }
+
+  // Método para manejar el cambio en el select de fuerzas armadas
+  public onFuerzaArmadaChange(idQuestionario: string, value: string) {
+    this.listFormTipoViolencia = this.listFormTipoViolencia.map(item => {
+      if (item.idQuestionario === Number(idQuestionario)) {
+        return { ...item, fuerzaArmadaSeleccionada: value };
+      }
+      return item;
+    });
+  }
+
+  // Método para manejar el cambio en el select de antecedentes
+  public onAntecedenteChange(idQuestionario: string, value: string) {
+    this.listFormTipoViolencia = this.listFormTipoViolencia.map(item => {
+      if (item.idQuestionario === Number(idQuestionario)) {
+        return { ...item, antecedenteSeleccionado: value };
+      }
+      return item;
+    });
   }
 
   /**
@@ -47,10 +94,21 @@ export class CircunstanciasAgravantesComponent implements AfterViewInit {
           item.idTipoViolencia === tipoViolencia &&
           item.idQuestionario === idCuestionario
         ) {
+          // Si es "NO", limpiamos las selecciones
+          const fuerzaArmadaSeleccionada = pregunta && this.isFuerzasArmadas(item.descripcion) 
+            ? item.fuerzaArmadaSeleccionada 
+            : undefined;
+          
+          const antecedenteSeleccionado = pregunta && this.isAntecedentesJudiciales(item.descripcion)
+            ? item.antecedenteSeleccionado
+            : undefined;
+          
           return {
             ...item,
             puntuacionPrevio: puntuacion,
             mesPrevio: pregunta,
+            fuerzaArmadaSeleccionada,
+            antecedenteSeleccionado
           };
         }
         return item;
@@ -59,7 +117,6 @@ export class CircunstanciasAgravantesComponent implements AfterViewInit {
     console.log(idCuestionario, pregunta, puntuacion);
     this.setListadoRespuestas(+idCuestionario, pregunta);
   }
-
   /**
    * @description funcion para modificar el listado de respuesta
    * @param idCuestionario

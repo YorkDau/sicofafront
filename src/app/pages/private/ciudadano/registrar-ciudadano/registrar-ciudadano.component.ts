@@ -45,6 +45,7 @@ export class RegistrarCiudadanoComponent implements OnInit {
   public selectGenero: interfaces.DominioInterface[] = [];
   public selectOrientacion: interfaces.DominioInterface[] = [];
   public selectNivel_Academico: interfaces.DominioInterface[] = [];
+  public selectEstado_Academico: interfaces.DominioInterface[] = [];
   public selectDiscapacidad: interfaces.DominioInterface[] = [];
   public cColombiano: boolean = false;
   public cDiscapacidad: boolean = false;
@@ -107,6 +108,7 @@ export class RegistrarCiudadanoComponent implements OnInit {
         idGenero: '',
         orientacionSexual: '',
         nivAcademico: ['', [Validators.required]],
+        estadoAcademico: ['', [Validators.required]],
         telefono: ['', [Validators.pattern(Regex.ALFA)]],
         celular: ['', [Validators.pattern(Regex.ALFA)]],
         correoElectronico: '',
@@ -235,6 +237,7 @@ export class RegistrarCiudadanoComponent implements OnInit {
     this.cargaSelectIdentidadGenero();
     this.cargaSelectOrientacionSexual();
     this.cargaSelectNivel_Academico();
+    this.cargaSelectEstado_Academico();
     this.cargaSelectDiscapacidad();
   }
 
@@ -304,6 +307,15 @@ export class RegistrarCiudadanoComponent implements OnInit {
       .subscribe((nivel_Academico) => {
         if (nivel_Academico.statusCode === CodigosRespuesta.OK) {
           this.selectNivel_Academico = nivel_Academico.data;
+        }
+      });
+  }
+  private cargaSelectEstado_Academico() {
+    this.sharedService
+      .getDominio('Estado_Academico')
+      .subscribe((estado_Academico) => {
+        if (estado_Academico.statusCode === CodigosRespuesta.OK) {
+          this.selectEstado_Academico = estado_Academico.data;
         }
       });
   }
@@ -758,6 +770,10 @@ export class RegistrarCiudadanoComponent implements OnInit {
         this.myForm.get('nivAcademico')?.value == ''
           ? 0
           : this.myForm.get('nivAcademico')?.value,
+          idEstadoAcademico:
+          this.myForm.get('estadoAcademico')?.value == ''
+            ? 0
+            : this.myForm.get('estadoAcademico')?.value,
       direccionResidencia: this.myForm.get('dirResidencia')?.value,
       idLocalidad:
         this.myForm.get('localidad')?.value == ''
@@ -849,6 +865,9 @@ export class RegistrarCiudadanoComponent implements OnInit {
     resp.idNivelAcademico == 0
       ? this.myForm.get('nivAcademico')?.setValue('')
       : this.myForm.get('nivAcademico')?.setValue(resp.idNivelAcademico);
+      resp.idEstadoAcademico == 0
+      ? this.myForm.get('estadoAcademico')?.setValue('')
+      : this.myForm.get('estadoAcademico')?.setValue(resp.idEstadoAcademico);
     this.myForm.get('dirResidencia')?.setValue(resp.direccionResidencia);
     this.myForm.get('barrio')?.setValue(resp.barrio);
     this.myForm.get('telefono')?.setValue(resp.telefono);
