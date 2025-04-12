@@ -36,14 +36,16 @@ export class CircunstanciasAgravantesComponent implements AfterViewInit {
    * @param tipoViolencia obtiene el tipo de violencia
    */
   public habilitarRadioMes(event: any, tipoViolencia: number) {
+    const { name, value } = event.target;
+    console.log(name, value, tipoViolencia);
     const idCuestionario = event.target.name;
-    const pregunta = Boolean(JSON.parse(event.target.value));
-    const puntuacion = pregunta ? 1 : 0;
+    const pregunta = event.target.value === 'undefined' ? undefined : Boolean(JSON.parse(event.target.value));
+    const puntuacion = pregunta === undefined ? undefined : (pregunta ? 1 : 0);
     this.listFormTipoViolencia = this.listFormTipoViolencia.map(
       (item: FormTipoViolenciaInterface) => {
         if (
-          item.idTipoViolencia == tipoViolencia &&
-          item.idQuestionario == idCuestionario
+          item.idTipoViolencia === tipoViolencia &&
+          item.idQuestionario === idCuestionario
         ) {
           return {
             ...item,
@@ -54,6 +56,7 @@ export class CircunstanciasAgravantesComponent implements AfterViewInit {
         return item;
       }
     );
+    console.log(idCuestionario, pregunta, puntuacion);
     this.setListadoRespuestas(+idCuestionario, pregunta);
   }
 
@@ -62,14 +65,14 @@ export class CircunstanciasAgravantesComponent implements AfterViewInit {
    * @param idCuestionario
    * @param puntuacion
    */
-  private setListadoRespuestas(idCuestionario: number, puntuacion: boolean) {
+  private setListadoRespuestas(idCuestionario: number, puntuacion?: boolean) {
     const index = this.dataPost.listadoRespuestas.findIndex(
       (item) => item.idCuestionario == idCuestionario
     );
     this.dataPost.listadoRespuestas[index] = {
       idCuestionario,
       mes: puntuacion,
-      puntuacion,
+      puntuacion: puntuacion,
     };
   }
 
@@ -111,6 +114,16 @@ export class CircunstanciasAgravantesComponent implements AfterViewInit {
       .subscribe((data: ResponseInterface) => {
         if (data.statusCode === CodigosRespuesta.OK) {
           this.listFormTipoViolencia = data.data;
+          this.listFormTipoViolencia = this.listFormTipoViolencia.map(
+            (item: FormTipoViolenciaInterface) => {
+              return {
+                ...item,
+                puntuacionPrevio: item.puntuacionPrevio ?? undefined,
+                mesPrevio: item.mesPrevio ?? undefined,
+              };
+            }
+          );
+          console.log(this.listFormTipoViolencia)
         }
         this.setInitialDataPost();
       });

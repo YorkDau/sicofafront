@@ -54,9 +54,10 @@ export interface FormTipoViolenciaInterface {
   descripcion: string;
   esCerrada: boolean;
   puntuacion: number;
-  puntuacionPrevio: number;
-  mesPrevio: boolean;
+  puntuacionPrevio?: number;
+  mesPrevio?: boolean;
   tipoViolencia?: string;
+  nullable?: string;
 }
 
 export interface RespuestaTipoViolencia {
@@ -68,6 +69,6 @@ export interface RespuestaTipoViolencia {
 
 export interface ListadoRespuesta {
   idCuestionario: number;
-  mes: boolean;
-  puntuacion: boolean;
+  mes?: boolean;
+  puntuacion?: boolean;
 }
