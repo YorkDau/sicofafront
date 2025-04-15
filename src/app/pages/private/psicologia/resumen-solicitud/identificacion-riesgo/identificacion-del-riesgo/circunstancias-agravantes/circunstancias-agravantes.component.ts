@@ -16,11 +16,22 @@ export class CircunstanciasAgravantesComponent implements AfterViewInit {
   @Output() siguientePaso: EventEmitter<'Cancelar' | 'Anterior' | 'Siguiente'> =
     new EventEmitter<'Cancelar' | 'Anterior' | 'Siguiente'>();
 
-  public tipos = [{ id: 7, nombre: 'CIRCUNSTANCIAS AGRAVANTES' }];
-  public currentIndex: number = 0;
-
   public listFormTipoViolencia: FormTipoViolenciaInterface[] = [];
   public dataPost!: RespuestaTipoViolencia;
+
+  public fuerzasArmadasOptions = [
+    { value: 'Policía', label: 'Policía' },
+    { value: 'Ejército Nacional', label: 'Ejército Nacional' },
+    { value: 'ESMAD', label: 'ESMAD' },
+    { value: 'Otra', label: 'Otra' }
+  ];
+
+  public antecedentesOptions = [
+    { label: 'Judiciales', value: 'Judiciales' },
+    { label: 'Tribunales', value: 'Tribunales' },
+    { label: 'Disciplinarios', value: 'Disciplinarios' },
+    { label: 'Otros', value: 'Otros' }  
+  ];
 
   private tarea = JSON.parse(sessionStorage.getItem('info')!);
 
@@ -30,71 +41,72 @@ export class CircunstanciasAgravantesComponent implements AfterViewInit {
     this.getListFormTipoViolencia(7);
   }
 
-  /**
-   * @description evento se ejecuta cuando se marca en si cualquier campo
-   * @param event para obtener la informacion
-   * @param tipoViolencia obtiene el tipo de violencia
-   */
+  public isFuerzasArmadas(descripcion: string): boolean {
+    return descripcion.toLowerCase().includes('fuerzas armadas');
+  }
+
+  public isAntecedentesJudiciales(descripcion: string): boolean {
+    return descripcion.toLowerCase().includes('antecedentes judiciales');
+  }
+
+
+  public onFuerzaArmadaChange(idQuestionario: number, selectedOptions: HTMLOptionsCollection) {
+    const values = Array.from(selectedOptions).map(option => (option as HTMLOptionElement).value);
+    this.listFormTipoViolencia = this.listFormTipoViolencia.map(item => {
+      if (item.idQuestionario === idQuestionario) {
+        return { ...item, antecedentesSeleccionados: values };
+      }
+      return item;
+    });
+  }
+
+  public onAntecedentesChange(idQuestionario: number, selectedOptions: HTMLOptionsCollection) {
+    const values = Array.from(selectedOptions).map(option => (option as HTMLOptionElement).value);
+    this.listFormTipoViolencia = this.listFormTipoViolencia.map(item => {
+      if (item.idQuestionario === idQuestionario) {
+        return { ...item, antecedentesSeleccionados: values };
+      }
+      return item;
+    });
+  }
+
   public habilitarRadioMes(event: any, tipoViolencia: number) {
-    const idCuestionario = event.target.name;
-    const pregunta = Boolean(JSON.parse(event.target.value));
-    const puntuacion = pregunta ? 1 : 0;
-    this.listFormTipoViolencia = this.listFormTipoViolencia.map(
-      (item: FormTipoViolenciaInterface) => {
-        if (
-          item.idTipoViolencia == tipoViolencia &&
-          item.idQuestionario == idCuestionario
-        ) {
-          return {
-            ...item,
-            puntuacionPrevio: puntuacion,
-            mesPrevio: pregunta,
-          };
-        }
-        return item;
+    const idCuestionario = +event.target.name;
+    const puntuacion = event.target.value === 'true';
+
+    this.listFormTipoViolencia = this.listFormTipoViolencia.map((item) => {
+      if (item.idTipoViolencia === tipoViolencia && item.idQuestionario === idCuestionario) {
+        return {
+          ...item,
+          puntuacionPrevio: puntuacion ? 1 : 0,
+          mesPrevio: puntuacion,
+          fuerzaArmadaSeleccionada: puntuacion ? item.fuerzaArmadaSeleccionada : undefined,
+          antecedentesSeleccionados: puntuacion ? item.antecedenteSeleccionado : []
+        };
       }
-    );
-    this.setListadoRespuestas(+idCuestionario, pregunta);
+      return item;
+    });
+
+    this.setListadoRespuestas(idCuestionario, puntuacion);
   }
 
-  /**
-   * @description funcion para modificar el listado de respuesta
-   * @param idCuestionario
-   * @param puntuacion
-   */
   private setListadoRespuestas(idCuestionario: number, puntuacion: boolean) {
-    const index = this.dataPost.listadoRespuestas.findIndex(
-      (item) => item.idCuestionario == idCuestionario
-    );
-    this.dataPost.listadoRespuestas[index] = {
-      idCuestionario,
-      mes: puntuacion,
-      puntuacion,
-    };
+    const index = this.dataPost.listadoRespuestas.findIndex(item => item.idCuestionario === idCuestionario);
+    if (index !== -1) {
+      this.dataPost.listadoRespuestas[index] = {
+        idCuestionario,
+        mes: puntuacion,
+        puntuacion
+      };
+    } else {
+      this.dataPost.listadoRespuestas.push({
+        idCuestionario,
+        mes: puntuacion,
+        puntuacion
+      });
+    }
   }
 
-  /**
-   * @description funcion para modificar los valores del formulario
-   * @param event
-   * @param idCuestionario
-   */
-  public setMesListadoRespuestas(event: any, idCuestionario: number) {
-    const mes = Boolean(JSON.parse(event.target.value));
-
-    this.dataPost.listadoRespuestas = this.dataPost.listadoRespuestas.map(
-      (item) => {
-        if (item.idCuestionario == idCuestionario) {
-          return { ...item, mes };
-        }
-        return item;
-      }
-    );
-  }
-
-  /**
-   * @description funcion para obtener el formulario por tipo de violencia
-   * @param tipoViolencia
-   */
   public getListFormTipoViolencia(tipoViolencia: number) {
     this.dataPost = {
       idTarea: this.tarea.idTarea,
@@ -102,89 +114,40 @@ export class CircunstanciasAgravantesComponent implements AfterViewInit {
       idTipoViolencia: tipoViolencia,
       listadoRespuestas: [],
     };
+
     this.identificacionService
-      .getTipoViolencia(
-        this.tarea.idSolicitud,
-        tipoViolencia,
-        this.tarea.idTarea
-      )
+      .getTipoViolencia(this.tarea.idSolicitud, tipoViolencia, this.tarea.idTarea)
       .subscribe((data: ResponseInterface) => {
         if (data.statusCode === CodigosRespuesta.OK) {
           this.listFormTipoViolencia = data.data;
+          this.setInitialDataPost();
         }
-        this.setInitialDataPost();
       });
   }
 
-  /**
-   * @description funcion que modifica los valores de entrada de la listaFormulario
-   */
   private setInitialDataPost() {
     this.listFormTipoViolencia.forEach((item) => {
       this.dataPost.listadoRespuestas.push({
         idCuestionario: item.idQuestionario,
-        mes: item.mesPrevio == null ? false : item.mesPrevio,
-        puntuacion:
-          item.puntuacionPrevio == null || item.puntuacionPrevio == 0
-            ? false
-            : true,
+        mes: item.mesPrevio ?? false,
+        puntuacion: item.puntuacionPrevio ? true : false
       });
     });
   }
 
-  /**
-   * @description funcion para cambiar de pagina de tipo de violencia
-   * @param tipo
-   * @param id
-   * @param index
-   */
-  public tipoViolencia(tipo: string, id: number, index: number) {
-    this.getListFormTipoViolencia(id);
-    this.currentIndex = index;
-  }
-
-  /**
-   * @description guarda la informacion del formulario
-   */
-  public siguiente() {
-    this.identificacionService
-      .postFormTipoViolencia(this.dataPost)
-      .subscribe((data: ResponseInterface) => {
-        if (data.statusCode === CodigosRespuesta.OK) {
-          //Ultimo (Violencia sexual)
-          if (this.currentIndex == this.tipos.length - 1) {
-            this.siguientePaso.emit('Siguiente');
-            return;
-          }
-          this.tipoViolencia(
-            this.tipos[this.currentIndex + 1].nombre,
-            this.tipos[this.currentIndex + 1].id,
-            this.currentIndex + 1
-          );
-        }
-      });
-  }
-
-  /**
-   * @description funcion para volver al listado de tareas
-   */
   public cancelar() {
     this.siguientePaso.emit('Cancelar');
   }
 
-  /**
-   * @description funcion para volver a la pagina anterior
-   */
   public anterior() {
-    this.identificacionService
-      .postFormTipoViolencia(this.dataPost)
+    this.siguientePaso.emit('Anterior');
+  }
+
+  public siguiente() {
+    this.identificacionService.postFormTipoViolencia(this.dataPost)
       .subscribe((data: ResponseInterface) => {
         if (data.statusCode === CodigosRespuesta.OK) {
-          //Ultimo (Violencia sexual)
-          if (this.currentIndex == 0) {
-            this.siguientePaso.emit('Anterior');
-            return;
-          }
+          this.siguientePaso.emit('Siguiente');
         }
       });
   }

@@ -54,7 +54,8 @@ export class QuorumComponent {
     private authService: AuthService,
     private dialog: MatDialog,
     private modales: Modales,
-    private router: Router
+    private router: Router,
+    private _dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -256,6 +257,34 @@ export class QuorumComponent {
     });
   }
 
+  public descargarDocumento(): void {
+    const nombre: string = "FORMATO NO ASISTENCIA.pdf";
+
+    this.sharedService.descargarFormatos(nombre, 'ss').subscribe({
+      next: (data: ResponseInterface) => {
+        if (data.statusCode === CodigosRespuesta.OK) {
+          const source = `data:application/pdf;base64,${data.data}`;
+          const link = document.createElement('a');
+          const fileName = nombre;
+          link.href = source;
+          link.download = `${fileName}.pdf`;
+          link.click();
+        } else {
+          this.msgError();
+        }
+      },
+      error: () => {
+        this.msgError();
+      }
+    });
+  }
+  private msgError() {
+    Modales.modalExito(
+      Mensajes.MENSAJE_ERROR_G,
+      ImagenesModal.EXCLAMACION,
+      this._dialog
+    );
+  }
 
   guardar(cerrar: boolean = false) {
     this.quorumService.actualizarProgramacionQuorum(this.getObjGuardar()).subscribe({

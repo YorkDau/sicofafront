@@ -45,6 +45,7 @@ export class RegistrarCiudadanoComponent implements OnInit {
   public selectGenero: interfaces.DominioInterface[] = [];
   public selectOrientacion: interfaces.DominioInterface[] = [];
   public selectNivel_Academico: interfaces.DominioInterface[] = [];
+  public selectEstado_Academico: interfaces.DominioInterface[] = [];
   public selectDiscapacidad: interfaces.DominioInterface[] = [];
   public cColombiano: boolean = false;
   public cDiscapacidad: boolean = false;
@@ -93,9 +94,11 @@ export class RegistrarCiudadanoComponent implements OnInit {
         tipDoc: ['', [Validators.required]],
         nroDoc: ['', [Validators.required, Validators.pattern(Regex.ALFA)]],
         fechaExp: '',
-        lugarExp: '',
         fechaNac: '',
         edad: ['', [Validators.required]],
+        paisExp: '',
+        departamentoExp: '',
+        municipioExp: '',
         pais: '',
         departamento: '',
         municipio: '',
@@ -105,6 +108,7 @@ export class RegistrarCiudadanoComponent implements OnInit {
         idGenero: '',
         orientacionSexual: '',
         nivAcademico: ['', [Validators.required]],
+        estadoAcademico: ['', [Validators.required]],
         telefono: ['', [Validators.pattern(Regex.ALFA)]],
         celular: ['', [Validators.pattern(Regex.ALFA)]],
         correoElectronico: '',
@@ -233,6 +237,7 @@ export class RegistrarCiudadanoComponent implements OnInit {
     this.cargaSelectIdentidadGenero();
     this.cargaSelectOrientacionSexual();
     this.cargaSelectNivel_Academico();
+    this.cargaSelectEstado_Academico();
     this.cargaSelectDiscapacidad();
   }
 
@@ -302,6 +307,15 @@ export class RegistrarCiudadanoComponent implements OnInit {
       .subscribe((nivel_Academico) => {
         if (nivel_Academico.statusCode === CodigosRespuesta.OK) {
           this.selectNivel_Academico = nivel_Academico.data;
+        }
+      });
+  }
+  private cargaSelectEstado_Academico() {
+    this.sharedService
+      .getDominio('Estado_Academico')
+      .subscribe((estado_Academico) => {
+        if (estado_Academico.statusCode === CodigosRespuesta.OK) {
+          this.selectEstado_Academico = estado_Academico.data;
         }
       });
   }
@@ -712,15 +726,23 @@ export class RegistrarCiudadanoComponent implements OnInit {
         this.myForm.get('fechaExp')?.value,
         'dd/MM/yyyy HH:mm:ss'
       )!,
-      idlugarExpedicion:
-        this.myForm.get('lugarExp')?.value == ''
-          ? 0
-          : this.myForm.get('lugarExp')?.value,
       fechaNacimiento: this.datePipe.transform(
         this.myForm.get('fechaNac')?.value,
         'dd/MM/yyyy HH:mm:ss'
       )!,
       edad: this.myForm.get('edad')?.value,
+      idPaisExpedicion:
+        this.myForm.get('paisExp')?.value == ''
+          ? 0
+          : this.myForm.get('paisExp')?.value,
+      idDepartamentoExpedicion:
+        this.myForm.get('departamentoExp')?.value == ''
+          ? 0
+          : this.myForm.get('departamentoExp')?.value,
+      idMunicipioExpedicion:
+        this.myForm.get('municipioExp')?.value == ''
+          ? 0
+          : this.myForm.get('municipioExp')?.value,
       idPaisNacimiento:
         this.myForm.get('pais')?.value == ''
           ? 0
@@ -749,6 +771,10 @@ export class RegistrarCiudadanoComponent implements OnInit {
         this.myForm.get('nivAcademico')?.value == ''
           ? 0
           : this.myForm.get('nivAcademico')?.value,
+          idEstadoAcademico:
+          this.myForm.get('estadoAcademico')?.value == ''
+            ? 0
+            : this.myForm.get('estadoAcademico')?.value,
       direccionResidencia: this.myForm.get('dirResidencia')?.value,
       idLocalidad:
         this.myForm.get('localidad')?.value == ''
@@ -797,15 +823,21 @@ export class RegistrarCiudadanoComponent implements OnInit {
     resp.fechaExpedicion == '01/01/0001'
       ? this.myForm.get('fechaExp')?.setValue('')
       : this.myForm.get('fechaExp')?.setValue(new Date(resp.fechaExpedicion));
-    resp.idlugarExpedicion == 0
-      ? this.myForm.get('lugarExp')?.setValue('')
-      : this.myForm.get('lugarExp')?.setValue(resp.idlugarExpedicion);
     resp.fechaNacimiento == '01/01/0001'
       ? this.myForm.get('fechaNac')?.setValue('')
       : this.myForm.get('fechaNac')?.setValue(new Date(resp.fechaNacimiento));
     resp.edad != 0
       ? this.myForm.get('edad')?.setValue(resp.edad)
       : this.myForm.get('edad')?.setValue('');
+    resp.idPaisExpedicion == 0
+      ? this.myForm.get('paisExp')?.setValue('')
+      : this.myForm.get('paisExp')?.setValue(resp.idPaisExpedicion);
+    resp.idDepartamentoExpedicion == 0
+      ? this.myForm.get('departamentoExp')?.setValue('')
+      : this.myForm.get('departamentoExp')?.setValue(resp.idDepartamentoExpedicion);
+    resp.idMunicipioExpedicion == 0
+      ? this.myForm.get('municipioExp')?.setValue('')
+      : this.myForm.get('municipioExp')?.setValue(resp.idMunicipioExpedicion);
     resp.idPaisNacimiento == 0
       ? this.myForm.get('pais')?.setValue('')
       : this.myForm.get('pais')?.setValue(resp.idPaisNacimiento);
@@ -834,6 +866,9 @@ export class RegistrarCiudadanoComponent implements OnInit {
     resp.idNivelAcademico == 0
       ? this.myForm.get('nivAcademico')?.setValue('')
       : this.myForm.get('nivAcademico')?.setValue(resp.idNivelAcademico);
+      resp.idEstadoAcademico == 0
+      ? this.myForm.get('estadoAcademico')?.setValue('')
+      : this.myForm.get('estadoAcademico')?.setValue(resp.idEstadoAcademico);
     this.myForm.get('dirResidencia')?.setValue(resp.direccionResidencia);
     this.myForm.get('barrio')?.setValue(resp.barrio);
     this.myForm.get('telefono')?.setValue(resp.telefono);

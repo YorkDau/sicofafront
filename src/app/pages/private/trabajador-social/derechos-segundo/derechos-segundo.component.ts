@@ -17,6 +17,15 @@ export class DerechosSegundoComponent implements OnInit {
   public mostrarTipoVivienda: boolean = false;
   public mostrarRecreacion: boolean = false;
   public mostrarRedes: boolean = false;
+  public estratos: Record<number, string> = {
+    1: "Uno",
+    2: "Dos",
+    3: "Tres",
+    4: "Cuatro",
+    5: "Cinco",
+    6: "Seis",
+    0: "Invasión"
+  };
 
   private derechosP2Sub!: Subscription;
 
@@ -57,7 +66,7 @@ export class DerechosSegundoComponent implements OnInit {
       viviendaConAgua: true,
       viciendaConGas: true,
       otrosServicios: true,
-      estratificacion: '',
+      estratificacion: '1',
       asisteExtracurriculares: false,
       actividadesExtracurriculares: '',
       familiaExtensa: false,

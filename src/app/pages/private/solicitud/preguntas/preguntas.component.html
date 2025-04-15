@@ -111,7 +111,7 @@
 
     <div class="row mt-3">
       <div class="form-label">¿ Convive con el agresor ?*</div>
-      <div class="col-lg-4 mb-3">
+      <div class="col-lg-6 mb-3">
         <div class="form-check form-check-inline">
           <input class="form-check-input" type="radio" name="conviveConAgresor" id="non"
             formControlName="conviveConAgresor" value="no" />
@@ -121,6 +121,11 @@
           <input class="form-check-input" type="radio" name="conviveConAgresor" id="sin"
             formControlName="conviveConAgresor" value="si" />
           <label class="form-check-label form-label" for="sin"> SI </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="conviveConAgresor" id="noInfo"
+            formControlName="conviveConAgresor" [value]="null" />
+          <label class="form-check-label form-label" for="noInfo"> No se aporta información en el momento </label>
         </div>
       </div>
     </div>

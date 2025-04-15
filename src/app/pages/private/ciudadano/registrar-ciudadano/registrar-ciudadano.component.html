@@ -155,21 +155,7 @@
             <mat-datepicker #picker></mat-datepicker>
           </label>
         </div>
-      </div>
-
-      <div class="col-4 p-3">
-        <label>Lugar de Expedición</label>
-
-        <select class="form-select" formControlName="lugarExp">
-          <option disabled value="">Lugar de Expedición</option>
-          <option
-            *ngFor="let lugar_expedicion of selectLugarExpedicion"
-            [value]="lugar_expedicion.ciudmunID"
-          >
-            {{ lugar_expedicion.nombCiudMun }}
-          </option>
-        </select>
-      </div>
+      </div>      
 
       <div class="col-4 p-3">
         <label>Fecha de Nacimiento</label>
@@ -217,6 +203,67 @@
         </div>
       </div>
 
+      <!-- <div class="col-4 p-3">
+        <label>Lugar de Expedición</label>
+
+        <select class="form-select" formControlName="lugarExp">
+          <option disabled value="">Lugar de Expedición</option>
+          <option
+            *ngFor="let lugar_expedicion of selectLugarExpedicion"
+            [value]="lugar_expedicion.ciudmunID"
+          >
+            {{ lugar_expedicion.nombCiudMun }}
+          </option>
+        </select>
+      </div> -->
+
+      <div class="col-4 p-3">
+        <label>País de Expedición</label>
+
+        <select
+          class="form-select"
+          formControlName="paisExp"
+          (change)="cargaSelectDepartamento($event)"
+        >
+          <option disabled value="">País de Expedición</option>
+          <option *ngFor="let pais of selectPaises" [value]="pais.paisID">
+            {{ pais.nombrePais }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-4 p-3">
+        <label>Departamento de Expedición</label>
+
+        <select
+          class="form-select"
+          formControlName="departamentoExp"
+          (change)="cargaSelectMunicipio($event)"
+        >
+          <option disabled value="">Departamento de Expedición</option>
+          <option
+            *ngFor="let departamento of selectDepartamento"
+            [value]="departamento.departamentoID"
+          >
+            {{ departamento.departamentoNombre }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-4 p-3">
+        <label>Municipio de Expedición</label>
+
+        <select class="form-select" formControlName="municipioExp">
+          <option disabled value="">Municipio de Expedición</option>
+          <option
+            *ngFor="let municipio of selectMunicipio"
+            [value]="municipio.ciudmunID"
+          >
+            {{ municipio.nombCiudMun }}
+          </option>
+        </select>
+      </div>
+
       <div class="col-4 p-3">
         <label>País de Nacimiento</label>
 
@@ -232,7 +279,8 @@
         </select>
       </div>
 
-      <div class="col-4 p-3" *ngIf="cColombiano">
+      <!-- <div class="col-4 p-3" *ngIf="cColombiano"> -->
+      <div class="col-4 p-3">
         <label>Departamento de Nacimiento</label>
 
         <select
@@ -250,7 +298,7 @@
         </select>
       </div>
 
-      <div class="col-4 p-3" *ngIf="cColombiano">
+      <div class="col-4 p-3">
         <label>Municipio de Nacimiento</label>
 
         <select
@@ -367,6 +415,33 @@
           {{ msgObligatorio }}
         </div>
       </div>
+      <div class="col-4 p-3" >
+        <label>Estado Académico</label>
+
+        <select
+          class="form-select"
+          [ngClass]="{
+            'input-req': isRequired('estadoAcademico') && mostrarValidaciones
+          }"
+          formControlName="estadoAcademico"
+        >
+          <option disabled value="">Estado Académico</option>
+          <option
+            *ngFor="let estadoAcademico of selectEstado_Academico"
+            [value]="estadoAcademico.id_Dominio"
+          >
+            {{ estadoAcademico.nombre_Dominio }}
+          </option>
+        </select>
+        <div
+        class="msj-req"
+        *ngIf="isRequired('estadoAcademico') && mostrarValidaciones"
+      >
+        {{ msgObligatorio }}
+      </div>
+      </div>
+
+      
 
       <div class="col-4 p-3">
         <label>Teléfono</label>
