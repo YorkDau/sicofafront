@@ -11,6 +11,22 @@ import { Regex } from '../../../../../../constants';
 })
 export class HijosInvolucradosComponent {
   @Input() form!: FormGroup;
+  @Input() listaEdad: DominioInterface[] = [
+    {
+      id_Dominio: 0,
+      nombre_Dominio: 'Años',
+      tipo_Dominio: '',
+      codigo: '',
+      tipo_Lista: ''
+    },
+    {
+      id_Dominio: 1,
+      nombre_Dominio: 'Meses',
+      tipo_Dominio: '',
+      codigo: '',
+      tipo_Lista: ''
+    }
+  ];
   @Input() listaSexo!: DominioInterface;
   @Input() listaTipoRelacion!: DominioInterface;
   @Input() listaRelacionParental!: DominioInterface;
