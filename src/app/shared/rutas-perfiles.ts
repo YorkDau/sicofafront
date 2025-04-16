@@ -229,10 +229,17 @@ export const perfilTrabajadorSocial: MenuInterface[] = [
       {
         titulo: 'Consulta Ciudadanos',
         ruta: './ciudadano',
-      },
+      }
+    ],
+  },
+  {
+    titulo: 'Consultas',
+    icon: './assets/images/documento-firmado.svg',
+    ruta: null,
+    subRutas: [
       {
-        titulo: 'Consulta General',
-        ruta: './consulta/comisaria-general'
+        titulo: 'Seguimientos',
+        ruta: './consulta/comisaria-general',
       }
     ],
   },
