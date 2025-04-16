@@ -2,6 +2,7 @@ export interface usuariosInterface {
     apellidos: string;
     cargo: string;
     celular: number;
+    numeroTarjetaProfesional: number;
     correoElectronico: string;
     idComisaria: number;
     idUsuarioSistema: number;
@@ -25,6 +26,7 @@ export interface crearUsuarioInterfce{
     correoElectronico: string;
     telefonoFijo: string; 
     celular: string; 
+    numeroTarjetaProfesional: string; 
     numeroDocumento: string;
     tipoDocumento: number;
     perfiles: number[];
@@ -37,6 +39,7 @@ export interface modificarUsuarioInterfce{
     correoElectronico: string;
     telefonoFijo: string; 
     celular: string; 
+    numeroTarjetaProfesional: string;
     numeroDocumento: string;
     tipoDocumento: number;
     perfiles: number[];

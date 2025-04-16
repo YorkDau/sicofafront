@@ -228,6 +228,17 @@
           {{ msgObligatorio }}
         </div>
       </div>
+      <div class="col-4 mb-3">
+        <label for="segundoApellido" class="form-label">Numero tarjeta profesional</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Numero tarjeta profesional"
+          maxlength="50"
+          formControlName="numeroTarjetaProfesional"
+          id="numeroTarjetaProfesional"
+        />
+      </div>
       <div
         class="col-4 mb-3 margin-top"
         *ngIf="validacionEstado()"

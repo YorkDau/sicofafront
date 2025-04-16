@@ -165,6 +165,7 @@ export class CrearModifcarUsuariosComponent implements OnInit {
           this.myForm.controls['primerApellido'].setValue(arrApellido[0]);
           this.myForm.controls['segundoApellido'].setValue(arrApellido[1]);
           this.myForm.controls['celular'].setValue(this.informacionUsuario.celular);
+          this.myForm.controls['numeroTarjetaProfesional'].setValue(this.informacionUsuario.numeroTarjetaProfesional);
           this.myForm.controls['telefonoFijo'].setValue(this.informacionUsuario.telefonoFijo);
           this.myForm.controls['correoElectronico'].setValue(this.informacionUsuario.correoElectronico);
           this.myForm.controls['perfil'].setValue(this.informacionUsuario.perfiles);
@@ -189,6 +190,7 @@ export class CrearModifcarUsuariosComponent implements OnInit {
       telefonoFijo: ['', [Validators.pattern(Regex.ALFA)]],
       correoElectronico: ['', [Validators.pattern(Regex.EMAIL), Validators.required]],
       perfil: [, Validators.required],
+      numeroTarjetaProfesional: [''],
       estado: []
     });
   }
@@ -230,6 +232,8 @@ export class CrearModifcarUsuariosComponent implements OnInit {
       if (this.myForm.invalid) {
         this.mostrarValidaciones = true;
       } else {
+        console.log ("Guardando usuario nuevo")
+        console.log(this.getDataPostCrearUsuario);
         this.crearNuevoUsuario(this.getDataPostCrearUsuario);
       }
     } else {
@@ -262,12 +266,15 @@ export class CrearModifcarUsuariosComponent implements OnInit {
 
     const perfiles = this.myForm.get('perfil')?.value;
     const tipoDeDocumento = parseInt(this.myForm.get('tipoDocumento')?.value);
+    const numeroTarjet = this.myForm.get('numeroTarjetaProfesional')?.value;
+    console.log("numeroTarjet", numeroTarjet);
     return {
       nombres: this.myForm.get('primerNombre')?.value + ' ' + this.myForm.get('segundoNombre')?.value,
       apellidos: this.myForm.get('primerApellido')?.value + ' ' + this.myForm.get('segundoApellido')?.value,
       celular: this.myForm.get('celular')?.value,
       correoElectronico: this.myForm.get('correoElectronico')?.value,
       numeroDocumento: this.myForm.get('numeroDocumento')?.value,
+      numeroTarjetaProfesional: this.myForm.get('numeroTarjetaProfesional')?.value,
       telefonoFijo: this.myForm.get('telefonoFijo')?.value,
       tipoDocumento: tipoDeDocumento,
       perfiles: perfiles,
@@ -288,6 +295,7 @@ export class CrearModifcarUsuariosComponent implements OnInit {
       correoElectronico: this.myForm.get('correoElectronico')?.value,
       numeroDocumento: this.myForm.get('numeroDocumento')?.value,
       telefonoFijo: this.myForm.get('telefonoFijo')?.value,
+      numeroTarjetaProfesional: this.myForm.get('numeroTarjetaProfesional')?.value,
       tipoDocumento: tipoDeDocumento,
       perfiles: perfiles,
       activo: this.myForm.get('estado')?.value,
