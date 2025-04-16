@@ -87,8 +87,8 @@ export class DatosInvolucradosComponent implements AfterViewInit {
       primerApellido: [{ value: '', disabled: false }, Validators.required],
       segundoApellido: [{ value: '', disabled: false }],
       fechaNacimiento: [{ value: '', disabled: false }],
-      tipoDocumento: [{ value: '', disabled: false }],
-      numeroDocumento: [{ value: '', disabled: false }],
+      tipoDocumento: [{ value: '', disabled: true }],
+      numeroDocumento: [{ value: '', disabled: true }],
       sexo: [{ value: '', disabled: false }, Validators.required],
       identidadGenero: [{ value: '', disabled: false }],
       idEscolaridad: [''],
@@ -119,8 +119,8 @@ export class DatosInvolucradosComponent implements AfterViewInit {
       primerApellido: [{ value: '', disabled: false }, [Validators.required]],
       segundoApellido: [{ value: '', disabled: false }],
       fechaNacimiento: [{ value: '', disabled: false }, [Validators.required]],
-      tipoDocumento: [{ value: '', disabled: true }, [Validators.required]],
-      numeroDocumento: [{ value: '', disabled: true }, [Validators.required]],
+      tipoDocumento: [{ value: '', disabled: false }, [Validators.required]],
+      numeroDocumento: [{ value: '', disabled: false }, [Validators.required]],
       sexo: [{ value: '', disabled: false }, [Validators.required]],
       identidadGenero: [{ value: '', disabled: false }, [Validators.required]],
       ocupacion: ['', Validators.required],
@@ -142,8 +142,10 @@ export class DatosInvolucradosComponent implements AfterViewInit {
       hijos: [
         [
           {
+            nombres: '',
             custodia: 0,
             edad: 0,
+            edadEn: 0,
             sexo: 0,
             relacionParental: 0,
           } as HijoInvolucrado,
@@ -584,6 +586,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
 
       for (let index = 1; index <= numHijos; index++) {
         let hijo = this.formBuilder.group({
+          nombres: ['', [Validators.required]],
           custodia: ['', [Validators.required]],
           sexo: ['', [Validators.required]],
           relacionParental: ['', [Validators.required]],
@@ -591,6 +594,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
             0,
             [Validators.required, Validators.maxLength(2), Validators.max(99)],
           ],
+          edadEn: [0, [Validators.required]],
         });
 
         this.formHijosVictima.push(hijo);
@@ -610,9 +614,11 @@ export class DatosInvolucradosComponent implements AfterViewInit {
 
       for (let index = 1; index <= numHijos; index++) {
         let hijo = this.formBuilder.group({
+          nombres: ['', [Validators.required]],
           custodia: ['', [Validators.required]],
           sexo: ['', [Validators.required]],
           edad: [0, [Validators.required]],
+          edadEn: [0, [Validators.required]],
           relacionParental: ['', [Validators.required]],
         });
 
@@ -633,12 +639,14 @@ export class DatosInvolucradosComponent implements AfterViewInit {
 
       hijos.forEach((element) => {
         let hijo = this.formBuilder.group({
+          nombres: [element.nombres, [Validators.required]],
           custodia: [
             element.custodia ? element.custodia : '',
             [Validators.required],
           ],
           sexo: [element.sexo ? element.sexo : '', [Validators.required]],
           edad: [element.edad ? element.edad : 0, [Validators.required]],
+          edadEn: [element.edadEn ? element.edadEn : 0, [Validators.required]],
           relacionParental: [
             element.relacionParental ? element.relacionParental : '',
             [Validators.required],
@@ -663,12 +671,14 @@ export class DatosInvolucradosComponent implements AfterViewInit {
 
       hijos.forEach((element) => {
         let hijo = this.formBuilder.group({
+          nombres: [element.nombres, [Validators.required]],
           custodia: [
             element.custodia ? element.custodia : '',
             [Validators.required],
           ],
           sexo: [element.sexo ? element.sexo : '', [Validators.required]],
           edad: [element.edad ? element.edad : 0, [Validators.required]],
+          edadEn: [element.edadEn ? element.edadEn : 0, [Validators.required]],
           relacionParental: [
             element.relacionParental ? element.relacionParental : '',
             [Validators.required],
@@ -750,7 +760,9 @@ export class DatosInvolucradosComponent implements AfterViewInit {
       form.forEach((hijo) => {
         const formValueHijo: HijoInvolucrado = hijo.value;
         let h = {
+          nombres: formValueHijo.nombres,
           custodia: formValueHijo.custodia,
+          edadEn: formValueHijo.edadEn,
           edad:
             formValueHijo.edad && formValueHijo.edad > 99
               ? Number(`${formValueHijo.edad}`.substring(0, 2))

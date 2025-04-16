@@ -42,7 +42,9 @@
 }
 
 export interface HijoInvolucrado {
+  nombres?: string;
   edad?: number;
+  edadEn?: number;
   sexo?: number;
   custodia?: number;
   relacionParental?: number;
