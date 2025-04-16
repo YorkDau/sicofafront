@@ -21,6 +21,10 @@ export const perfilAuxiliar: MenuInterface[] = [
         titulo: 'Seguimientos',
         ruta: './agenda',
       },
+      {
+        titulo: 'Consulta General',
+        ruta: './consulta/comisaria-general'
+      }
     ],
   },
   {
@@ -76,6 +80,10 @@ export const perfilPsicologo: MenuInterface[] = [
         titulo: 'Seguimientos',
         ruta: './psicologia/seguimientos',
       },
+      {
+        titulo: 'Consulta General',
+        ruta: './consulta/comisaria-general'
+      }
     ],
   },
   {
@@ -108,6 +116,10 @@ export const perfilAbogado: MenuInterface[] = [
         titulo: 'Seguimientos',
         ruta: './abogado/seguimientos',
       },
+      {
+        titulo: 'Consulta General',
+        ruta: './consulta/comisaria-general'
+      }
     ],
   },
   {
@@ -155,6 +167,10 @@ export const perfilComisario: MenuInterface[] = [
         titulo: 'Seguimientos',
         ruta: './comisario/seguimientos',
       },
+      {
+        titulo: 'Consulta General',
+        ruta: './consulta/comisaria-general'
+      }
     ],
   },
   {
@@ -214,6 +230,10 @@ export const perfilTrabajadorSocial: MenuInterface[] = [
         titulo: 'Consulta Ciudadanos',
         ruta: './ciudadano',
       },
+      {
+        titulo: 'Consulta General',
+        ruta: './consulta/comisaria-general'
+      }
     ],
   },
 ];

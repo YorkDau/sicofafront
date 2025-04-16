@@ -1,0 +1,81 @@
+#table-private {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  
+    mat-table {
+      width: 100%;
+      table-layout: auto; // Permite que las columnas se ajusten al contenido
+    }
+  
+    .mat-header-cell,
+    .mat-cell {
+      padding: 8px;
+      text-align: left;
+      white-space: normal; // Permite que el texto haga salto de línea
+      word-wrap: break-word;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .mat-column-codigo_solicitud {
+      flex: 0 0 19%;
+      word-break: break-all !important;
+      display: flex;
+      padding-right: 5px;
+    }
+  
+    // Estilos específicos para cada columna
+    .mat-column-codigo_solicitud,
+    .mat-column-tipo_tramite,
+    .mat-column-nombres,
+    .mat-column-tipoProceso,
+    .mat-column-numero_documento,
+    .mat-column-fecha_solicitud,
+    .mat-column-estado_apelacion,
+    .mat-column-subestado_solicitud,
+    .mat-column-accion {
+      min-width: 100px;
+      max-width: 300px;
+    }
+  
+    // Hacer que las filas sean flexibles en pantallas pequeñas
+    @media (max-width: 768px) {
+      mat-table {
+        display: block;
+        overflow-x: auto;
+      }
+  
+      .mat-header-row,
+      .mat-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+  
+      .mat-header-cell,
+      .mat-cell {
+        flex: 1 1 auto; // Ajusta el tamaño de cada celda según el contenido
+        min-width: 120px; // Evita que se hagan demasiado pequeñas
+        max-width: 100%;
+      }
+  
+      .mat-cell {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+  
+      .mat-column-accion {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+  
+      button {
+        margin: 5px;
+      }
+    }
+  }
+  

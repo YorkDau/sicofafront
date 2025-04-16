@@ -70,6 +70,7 @@ import { Tablero1Component } from './components/informes/informes-dinamicos/tabl
 import { ConsultaApelacionesComponent } from './components/informes/consulta-apelaciones/consulta-apelaciones.component';
 import { ObservacionApelacionComponent } from './components/informes/observacion-apelacion/observacion-apelacion.component';
 import { EnRevisionPorComponent } from './components/general/en-revision-por/en-revision-por.component';
+import { ConsultaComisariaGeneralComponent } from './components/informes/consulta-general/consulta-general.component';
 
 @NgModule({
   imports: [
@@ -177,6 +178,7 @@ import { EnRevisionPorComponent } from './components/general/en-revision-por/en-
     SeguimientoPardComponent,
     Tablero1Component,
     ConsultaApelacionesComponent,
+    ConsultaComisariaGeneralComponent,
     ObservacionApelacionComponent
   ],
   providers: [],

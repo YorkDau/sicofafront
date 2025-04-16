@@ -21,6 +21,8 @@ import { RegistrarPerfilComponent } from './perfil/registrar-perfil/registrar-pe
 import { Tablero1Component } from 'src/app/shared/components/informes/informes-dinamicos/tablero1/tablero1.component';
 import { ConsultaApelacionesComponent } from 'src/app/shared/components/informes/consulta-apelaciones/consulta-apelaciones.component';
 import { ObservacionApelacionComponent } from 'src/app/shared/components/informes/observacion-apelacion/observacion-apelacion.component';
+import { ConsultaGeneralComponent } from 'src/app/shared/consulta-general/consulta-general.component';
+import { ConsultaComisariaGeneralComponent } from 'src/app/shared/components/informes/consulta-general/consulta-general.component';
 
 export const mainRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -152,6 +154,10 @@ export const mainRoutes: Routes = [
   {
     path: 'consulta/apelaciones',
     component: ConsultaApelacionesComponent,
+  },
+  {
+    path: 'consulta/comisaria-general',
+    component: ConsultaComisariaGeneralComponent,
   },
   {
     path: 'abogado/observacion/apelaciones/:id_solicitud_servicio',
