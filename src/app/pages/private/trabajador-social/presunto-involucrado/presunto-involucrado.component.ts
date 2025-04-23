@@ -13,6 +13,7 @@ import { SharedService } from 'src/app/services/shared.service';
 import { AppState } from 'src/app/store/app.reducer';
 import { TrabajadorSocialService } from '../services/trabajador-social.service';
 import { ValidarCampos } from '../validar-campos';
+import { DepartamentoInterface, MunicipioInterface, PaisInterface } from '../../interfaces/ciudadano.interface';
 
 @Component({
   selector: 'app-presunto-involucrado',
@@ -23,6 +24,9 @@ export class PresuntoInvolucradoComponent implements OnInit, OnDestroy {
   public involucradoForm!: FormGroup;
   public mostrarValidaciones: boolean = false;
   public listaTipoDocumento: DominioInterface[] = [];
+  public selectPaises: PaisInterface[] = [];
+  public selectDepartamento: DepartamentoInterface[] = [];
+  public selectMunicipio: MunicipioInterface[] = [];
   public listaLugarExp: Array<any> = [];
   public msgObligatorio: string = Mensajes.CAMPO_OBLIGATORIO;
   public msgCorreoInv: string = Mensajes.MENSAJE_CORREO_INV;
@@ -262,6 +266,51 @@ export class PresuntoInvolucradoComponent implements OnInit, OnDestroy {
       return this.involucradoForm.controls[campo].hasError('pattern');
     } else {
       return false;
+    }
+  }
+  
+  /**
+   * @description carga el select de paises
+   */
+  private cargaSelectPaises(idTipDoc: number) {
+    this.sharedService.getPaisPorId(idTipDoc).subscribe((paises) => {
+      if (paises.statusCode === CodigosRespuesta.OK) {
+        this.selectPaises = paises.data;
+      }
+    });
+  }
+
+  /**
+   * @description carga el select departamento dependiendo del pais
+   */
+  public cargaSelectDepartamento(event: any) {
+    // this.myForm.get('departamento')?.setValue('');
+    // this.myForm.get('municipio')?.setValue('');
+
+    this.sharedService
+      .getDepartamentos(event.target.value)
+      .subscribe((departamentos) => {
+        if (departamentos.statusCode === CodigosRespuesta.OK) {
+          this.selectDepartamento = departamentos.data;
+        }
+      });
+  }
+  
+  /**
+   * @description carga el select municipio dependiendo del departamento y del pais
+   */
+  public cargaSelectMunicipio(event: any) {
+    // this.myForm.get('municipio')?.setValue('');
+    // this.myForm.get('localidad')?.setValue('');
+
+    if (event.target.value != 0) {
+      this.sharedService
+        .getCiudades(event.target.value)
+        .subscribe((municipio) => {
+          if (municipio.statusCode === CodigosRespuesta.OK) {
+            this.selectMunicipio = municipio.data;
+          }
+        });
     }
   }
 }
