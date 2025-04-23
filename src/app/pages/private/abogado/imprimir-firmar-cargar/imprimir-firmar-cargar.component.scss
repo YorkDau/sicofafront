@@ -1,0 +1,17 @@
+.boton-container {
+    min-height: 50px; /* Altura que ocupará el botón (invisible o visible) */
+    display: flex;
+    align-items: center;
+  }
+  
+  .fade {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    pointer-events: none; /* evita clics si está oculto */
+  }
+  
+  .fade.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  

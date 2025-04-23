@@ -10,15 +10,18 @@ export class ContenedorPardComponent implements OnInit {
   public tab1: boolean = false;
   public tab2: boolean = false;
 
+  // 🔒 Control de visibilidad del tab2
+  public mostrarTab2: boolean = false;
+
   constructor() {}
 
   ngOnInit(): void {}
 
   /**
-   * @description cambia valores opcion1 y opcion2
-   * @param tab 0 tab 1 - 1 tab 2
+   * @description cambia valores tab0, tab1 y tab2
+   * @param tab número del tab a activar
    */
-  public cambiarTab(tab: number) {
+  public cambiarTab(tab: number): void {
     if (tab === 0) {
       this.tab0 = true;
       this.tab1 = false;
@@ -27,7 +30,8 @@ export class ContenedorPardComponent implements OnInit {
       this.tab0 = false;
       this.tab1 = true;
       this.tab2 = false;
-    } else {
+    } else if (tab === 2 && this.mostrarTab2) {
+      // Solo permite activar tab2 si está visible
       this.tab0 = false;
       this.tab1 = false;
       this.tab2 = true;
