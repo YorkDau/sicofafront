@@ -505,14 +505,15 @@ export class RecepcionPreSolicitudComponent implements OnInit {
    * @description valida que el form sea correcto para llamar servicio de consulta
    */
   validarCampoObligatorio() {
-    const { direccion_victima, telefono_victima, correo_electronico_victima } =
-      this.form.value;
+    //const { direccion_victima, telefono_victima, correo_electronico_victima } =
+     // this.form.value;
 
-    if (direccion_victima || telefono_victima || correo_electronico_victima) {
+    //if (direccion_victima || telefono_victima || correo_electronico_victima) {
       this.f.obl.setValue('ok');
-    } else {
-      this.f.obl.setValue(null);
-    }
+    //} else {
+      
+     // this.f.obl.setValue(null);
+   // }
   }
 
   /**
