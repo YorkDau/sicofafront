@@ -86,6 +86,7 @@ export class DerechosPrimeroComponent implements OnInit, OnDestroy {
       psicologaAdecuada: true,
       vacunacionCompleta: true,
       noInformacion: false,
+      observacionesSalud: '',
     });
   }
 
@@ -144,6 +145,9 @@ export class DerechosPrimeroComponent implements OnInit, OnDestroy {
           ),
           noInformacion: ValidarCampos.validarBooleanos(
             objInvolucrado.noInformacion
+          ),
+          observacionesSalud: ValidarCampos.validarString(
+            objInvolucrado.observacionesSalud
           ),
         });
       }

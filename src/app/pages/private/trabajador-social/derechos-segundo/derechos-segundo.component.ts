@@ -71,6 +71,8 @@ export class DerechosSegundoComponent implements OnInit {
       actividadesExtracurriculares: '',
       familiaExtensa: false,
       otraInformacionFamiliaExtensa: '',
+      observacionesTrabajoSocial: '',
+      observacionesPsicologia: '',
     });
   }
 
@@ -209,6 +211,12 @@ export class DerechosSegundoComponent implements OnInit {
           ),
           otraInformacionFamiliaExtensa: ValidarCampos.validarString(
             objInvolucrado.otraInformacionFamiliaExtensa
+          ),
+          observacionesTrabajoSocial: ValidarCampos.validarString(
+            objInvolucrado.observacionesTrabajoSocial
+          ),
+          observacionesPsicologia: ValidarCampos.validarString(
+            objInvolucrado.observacionesPsicologia
           ),
         });
       }

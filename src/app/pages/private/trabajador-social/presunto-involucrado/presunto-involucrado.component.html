@@ -69,14 +69,12 @@
   <div class="row mt-4">
     <div class="col-lg-3">
       <div class="mb-3">
-        <label for="tipoD" class="form-label">Tipo de documento*</label>
+        <label for="tipoD" class="form-label">Tipo de documento</label>
         <select
           id="tipoD"
           class="form-select"
           formControlName="tipoDocumento"
-          [ngClass]="{
-            'input-req': isMin('tipoDocumento') && mostrarValidaciones
-          }"
+          (change)="isColombiano($event)"
         >
           <option [value]="0" disabled>Seleccione una opción</option>
           <option
@@ -86,16 +84,10 @@
             {{ item.nombre_Dominio }}
           </option>
         </select>
-        <div
-          *ngIf="isMin('tipoDocumento') && mostrarValidaciones"
-          class="msj-req"
-        >
-          {{ msgObligatorio }}
-        </div>
       </div>
     </div>
     <div class="col-lg-3">
-      <label for="numDoc" class="form-label">Número de documento*</label>
+      <label for="numDoc" class="form-label">Número de documento</label>
       <input
         type="text"
         class="form-control"
@@ -103,19 +95,16 @@
         placeholder="Número de documento"
         maxlength="20"
         formControlName="numeroDocumento"
-        formControlName="numeroDocumento"
-        [ngClass]="{
-          'input-req': isRequired('numeroDocumento') && mostrarValidaciones
-        }"
       />
-      <div
-        *ngIf="isRequired('numeroDocumento') && mostrarValidaciones"
-        class="msj-req"
-      >
-        {{ msgObligatorio }}
-      </div>
     </div>
-    <div class="col-lg-3">
+
+    <div class="col-lg-3"></div>
+    <div class="col-lg-3"></div>
+  </div>
+
+  <div class="row mt-5">
+
+    <!-- <div class="col-lg-3">
       <label for="lugarE" class="form-label">Lugar expedición*</label>
       <select
         class="form-select"
@@ -136,7 +125,55 @@
       >
         {{ msgObligatorio }}
       </div>
+    </div> -->
+
+    <div class="col-lg-3">
+      <label class="form-label">País de Expedición</label>
+
+      <select
+        class="form-select"
+        formControlName="paisExp"
+        (change)="cargaSelectDepartamento($event)"
+      >
+        <option disabled value="">País de Expedición</option>
+        <option *ngFor="let pais of selectPaises" [value]="pais.paisID">
+          {{ pais.nombrePais }}
+        </option>
+      </select>
     </div>
+
+    <div class="col-lg-3">
+      <label class="form-label">Departamento de Expedición</label>
+
+      <select
+        class="form-select"
+        formControlName="departamentoExp"
+        (change)="cargaSelectMunicipio($event)"
+      >
+        <option disabled value="">Departamento de Expedición</option>
+        <option
+          *ngFor="let departamento of selectDepartamento"
+          [value]="departamento.departamentoID"
+        >
+          {{ departamento.departamentoNombre }}
+        </option>
+      </select>
+    </div>
+
+    <div class="col-lg-3">
+      <label class="form-label">Municipio de Expedición</label>
+
+      <select class="form-select" formControlName="municipioExp">
+        <option disabled value="">Municipio de Expedición</option>
+        <option
+          *ngFor="let municipio of selectMunicipio"
+          [value]="municipio.ciudmunID"
+        >
+          {{ municipio.nombCiudMun }}
+        </option>
+      </select>
+    </div>
+
     <div class="col-lg-3">
       <label for="vicAgr" class="form-label">Tipo involucrado</label>
       <select

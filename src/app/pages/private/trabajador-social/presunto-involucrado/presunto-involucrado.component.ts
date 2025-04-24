@@ -13,6 +13,7 @@ import { SharedService } from 'src/app/services/shared.service';
 import { AppState } from 'src/app/store/app.reducer';
 import { TrabajadorSocialService } from '../services/trabajador-social.service';
 import { ValidarCampos } from '../validar-campos';
+import { DepartamentoInterface, MunicipioInterface, PaisInterface } from '../../interfaces/ciudadano.interface';
 
 @Component({
   selector: 'app-presunto-involucrado',
@@ -23,6 +24,9 @@ export class PresuntoInvolucradoComponent implements OnInit, OnDestroy {
   public involucradoForm!: FormGroup;
   public mostrarValidaciones: boolean = false;
   public listaTipoDocumento: DominioInterface[] = [];
+  public selectPaises: PaisInterface[] = [];
+  public selectDepartamento: DepartamentoInterface[] = [];
+  public selectMunicipio: MunicipioInterface[] = [];
   public listaLugarExp: Array<any> = [];
   public msgObligatorio: string = Mensajes.CAMPO_OBLIGATORIO;
   public msgCorreoInv: string = Mensajes.MENSAJE_CORREO_INV;
@@ -61,7 +65,6 @@ export class PresuntoInvolucradoComponent implements OnInit, OnDestroy {
     } else this.ajustarTiposDocumento(true);
 
     this.cargarForm();
-    this.cargaSelectLugarExpedicion();
     this.cargarFormEdicion();
   }
 
@@ -96,7 +99,10 @@ export class PresuntoInvolucradoComponent implements OnInit, OnDestroy {
       segundoApellido: '',
       esVictima: true,
       esPrincipal: true,
-      idLugarExpedicion: [0, Validators.min(1)],
+      // idLugarExpedicion: [0, Validators.min(1)],
+      paisExp: 0,
+      departamentoExp: 0,
+      municipioExp: 0,
       telefono: '',
       correoElectronico: ['', Validators.pattern(Regex.EMAIL)],
       datosAdicionales: '',
@@ -110,17 +116,6 @@ export class PresuntoInvolucradoComponent implements OnInit, OnDestroy {
           Validators.max(this.edadMaxima),
         ],
       ],
-    });
-  }
-
-  /**
-   * @description carga el select de sexo
-   */
-  private cargaSelectLugarExpedicion(): void {
-    this.sharedService.getLugarExpedicion().subscribe((data) => {
-      if (data.statusCode === CodigosRespuesta.OK) {
-        this.listaLugarExp = data.data;
-      }
     });
   }
 
@@ -212,9 +207,12 @@ export class PresuntoInvolucradoComponent implements OnInit, OnDestroy {
         ),
         esVictima: ValidarCampos.validarBooleanos(objInvolucrado.esVictima),
         esPrincipal: ValidarCampos.validarBooleanos(objInvolucrado.esPrincipal),
-        idLugarExpedicion: ValidarCampos.validarNumber(
-          objInvolucrado.idLugarExpedicion
-        ),
+        // idLugarExpedicion: ValidarCampos.validarNumber(
+        //   objInvolucrado.idLugarExpedicion
+        // ),
+        paisExp: ValidarCampos.validarNumber(objInvolucrado.paisExp),
+        departamentoExp: ValidarCampos.validarNumber(objInvolucrado.departamentoExp),
+        municipioExp: ValidarCampos.validarNumber(objInvolucrado.municipioExp),
         telefono: ValidarCampos.validarString(objInvolucrado.telefono),
         correoElectronico: ValidarCampos.validarString(
           objInvolucrado.correoElectronico
@@ -232,6 +230,9 @@ export class PresuntoInvolucradoComponent implements OnInit, OnDestroy {
       });
 
       this.ajustarEdicionValidacionesEdad(objInvolucrado.esVictima);
+      this.cargaSelectPaises(objInvolucrado.idTipoDocumento);
+      this.cargaSelectDepartamento({ target: { value: objInvolucrado.paisExp } });
+      this.cargaSelectMunicipio({ target: { value: objInvolucrado.departamentoExp } });
     }
   }
 
@@ -262,6 +263,62 @@ export class PresuntoInvolucradoComponent implements OnInit, OnDestroy {
       return this.involucradoForm.controls[campo].hasError('pattern');
     } else {
       return false;
+    }
+  }
+
+  /**
+   * @description carga el select pais dependiendo si es colombiano y habilita el departamento y municipio
+   */
+  public isColombiano(event: any) {
+    // this.cColombiano = false;
+    // this.myForm.get('pais')?.setValue('');
+    if (event.target.value != 0) {
+      this.cargaSelectPaises(event.target.value);
+    }
+  }
+  
+  /**
+   * @description carga el select de paises
+   */
+  private cargaSelectPaises(idTipDoc: number) {
+    this.sharedService.getPaisPorId(idTipDoc).subscribe((paises) => {
+      if (paises.statusCode === CodigosRespuesta.OK) {
+        this.selectPaises = paises.data;
+      }
+    });
+  }
+
+  /**
+   * @description carga el select departamento dependiendo del pais
+   */
+  public cargaSelectDepartamento(event: any) {
+    // this.myForm.get('departamento')?.setValue('');
+    // this.myForm.get('municipio')?.setValue('');
+
+    this.sharedService
+      .getDepartamentos(event.target.value)
+      .subscribe((departamentos) => {
+        if (departamentos.statusCode === CodigosRespuesta.OK) {
+          this.selectDepartamento = departamentos.data;
+        }
+      });
+  }
+  
+  /**
+   * @description carga el select municipio dependiendo del departamento y del pais
+   */
+  public cargaSelectMunicipio(event: any) {
+    // this.myForm.get('municipio')?.setValue('');
+    // this.myForm.get('localidad')?.setValue('');
+
+    if (event.target.value != 0) {
+      this.sharedService
+        .getCiudades(event.target.value)
+        .subscribe((municipio) => {
+          if (municipio.statusCode === CodigosRespuesta.OK) {
+            this.selectMunicipio = municipio.data;
+          }
+        });
     }
   }
 }
