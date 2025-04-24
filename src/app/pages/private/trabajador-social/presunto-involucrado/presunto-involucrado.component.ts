@@ -65,7 +65,6 @@ export class PresuntoInvolucradoComponent implements OnInit, OnDestroy {
     } else this.ajustarTiposDocumento(true);
 
     this.cargarForm();
-    this.cargaSelectLugarExpedicion();
     this.cargarFormEdicion();
   }
 
@@ -100,7 +99,10 @@ export class PresuntoInvolucradoComponent implements OnInit, OnDestroy {
       segundoApellido: '',
       esVictima: true,
       esPrincipal: true,
-      idLugarExpedicion: [0, Validators.min(1)],
+      // idLugarExpedicion: [0, Validators.min(1)],
+      paisExp: 0,
+      departamentoExp: 0,
+      municipioExp: 0,
       telefono: '',
       correoElectronico: ['', Validators.pattern(Regex.EMAIL)],
       datosAdicionales: '',
@@ -114,17 +116,6 @@ export class PresuntoInvolucradoComponent implements OnInit, OnDestroy {
           Validators.max(this.edadMaxima),
         ],
       ],
-    });
-  }
-
-  /**
-   * @description carga el select de sexo
-   */
-  private cargaSelectLugarExpedicion(): void {
-    this.sharedService.getLugarExpedicion().subscribe((data) => {
-      if (data.statusCode === CodigosRespuesta.OK) {
-        this.listaLugarExp = data.data;
-      }
     });
   }
 
@@ -216,9 +207,12 @@ export class PresuntoInvolucradoComponent implements OnInit, OnDestroy {
         ),
         esVictima: ValidarCampos.validarBooleanos(objInvolucrado.esVictima),
         esPrincipal: ValidarCampos.validarBooleanos(objInvolucrado.esPrincipal),
-        idLugarExpedicion: ValidarCampos.validarNumber(
-          objInvolucrado.idLugarExpedicion
-        ),
+        // idLugarExpedicion: ValidarCampos.validarNumber(
+        //   objInvolucrado.idLugarExpedicion
+        // ),
+        paisExp: ValidarCampos.validarNumber(objInvolucrado.paisExp),
+        departamentoExp: ValidarCampos.validarNumber(objInvolucrado.departamentoExp),
+        municipioExp: ValidarCampos.validarNumber(objInvolucrado.municipioExp),
         telefono: ValidarCampos.validarString(objInvolucrado.telefono),
         correoElectronico: ValidarCampos.validarString(
           objInvolucrado.correoElectronico
@@ -236,6 +230,9 @@ export class PresuntoInvolucradoComponent implements OnInit, OnDestroy {
       });
 
       this.ajustarEdicionValidacionesEdad(objInvolucrado.esVictima);
+      this.cargaSelectPaises(objInvolucrado.idTipoDocumento);
+      this.cargaSelectDepartamento({ target: { value: objInvolucrado.paisExp } });
+      this.cargaSelectMunicipio({ target: { value: objInvolucrado.departamentoExp } });
     }
   }
 
@@ -266,6 +263,17 @@ export class PresuntoInvolucradoComponent implements OnInit, OnDestroy {
       return this.involucradoForm.controls[campo].hasError('pattern');
     } else {
       return false;
+    }
+  }
+
+  /**
+   * @description carga el select pais dependiendo si es colombiano y habilita el departamento y municipio
+   */
+  public isColombiano(event: any) {
+    // this.cColombiano = false;
+    // this.myForm.get('pais')?.setValue('');
+    if (event.target.value != 0) {
+      this.cargaSelectPaises(event.target.value);
     }
   }
   

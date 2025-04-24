@@ -74,9 +74,7 @@
           id="tipoD"
           class="form-select"
           formControlName="tipoDocumento"
-          [ngClass]="{
-            'input-req': isMin('tipoDocumento') && mostrarValidaciones
-          }"
+          (change)="isColombiano($event)"
         >
           <option [value]="0" disabled>Seleccione una opción</option>
           <option
@@ -86,12 +84,6 @@
             {{ item.nombre_Dominio }}
           </option>
         </select>
-        <div
-          *ngIf="isMin('tipoDocumento') && mostrarValidaciones"
-          class="msj-req"
-        >
-          {{ msgObligatorio }}
-        </div>
       </div>
     </div>
     <div class="col-lg-3">
@@ -103,17 +95,7 @@
         placeholder="Número de documento"
         maxlength="20"
         formControlName="numeroDocumento"
-        formControlName="numeroDocumento"
-        [ngClass]="{
-          'input-req': isRequired('numeroDocumento') && mostrarValidaciones
-        }"
       />
-      <div
-        *ngIf="isRequired('numeroDocumento') && mostrarValidaciones"
-        class="msj-req"
-      >
-        {{ msgObligatorio }}
-      </div>
     </div>
 
     <div class="col-lg-3"></div>

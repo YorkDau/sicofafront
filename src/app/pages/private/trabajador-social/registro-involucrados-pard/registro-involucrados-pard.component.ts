@@ -236,7 +236,10 @@ export class RegistroInvolucradosPardComponent implements OnInit, OnDestroy {
     obj.idInvolucrado = Number(obj.idInvolucrado);
     obj.idSolicitudServicio = Number(obj.idSolicitudServicio);
     obj.tipoDocumento = Number(obj.tipoDocumento);
-    obj.idLugarExpedicion = Number(obj.idLugarExpedicion);
+    // obj.idLugarExpedicion = Number(obj.idLugarExpedicion);
+    obj.paisExp = Number(obj.paisExp);
+    obj.departamentoExp = Number(obj.departamentoExp);
+    obj.municipioExp = Number(obj.municipioExp);
     obj.esVictima = Boolean(JSON.parse(obj.esVictima));
     obj.telefono = String(obj.telefono);
 
