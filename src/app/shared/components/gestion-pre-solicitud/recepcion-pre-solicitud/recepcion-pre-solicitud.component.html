@@ -423,9 +423,7 @@
           <input
             type="text"
             class="form-control"
-            [ngClass]="{
-              'input-req': isRequired('obl') && mostrarValidaciones
-            }"
+           
             formControlName="direccion_victima"
             placeholder="Dirección de residencia"
             maxlength="50"
@@ -440,9 +438,6 @@
           <input
             type="text"
             class="form-control"
-            [ngClass]="{
-              'input-req': isRequired('obl') && mostrarValidaciones
-            }"
             formControlName="telefono_victima"
             placeholder="Teléfono"
             maxlength="50"
@@ -459,9 +454,6 @@
           <input
             type="text"
             class="form-control"
-            [ngClass]="{
-              'input-req': isRequired('obl') && mostrarValidaciones
-            }"
             formControlName="correo_electronico_victima"
             placeholder="Correo electrónico"
             maxlength="50"
@@ -546,7 +538,7 @@
         </p> -->
       </div>
     </div>
-
+ <!--
     <div
       *ngIf="isRequired('obl') && mostrarValidaciones"
       class="row msj-req"
@@ -555,6 +547,7 @@
       ** Debe ingresar al menos una direccion, teléfono o correo
       obligatoriamente, en los datos de la victima**
     </div>
+     -->
     <div class="row p-3 mt-3" *ngIf="crear">
       <div class="col-12">
         <div class="float-end">

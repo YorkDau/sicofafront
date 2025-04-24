@@ -1,4 +1,4 @@
-<div class="background-gray2 rounded-basic px-4 py-2">
+<div class="background-gray2 rounded-basic px-4 py-2 d-flex flex-column justify-content-between" style="min-height: 350px;">
   <div class="row">
     <div class="col-6">
       <fieldset class="border border-primary p-2">
@@ -45,7 +45,7 @@
       <label class="form-label">
         ¿Alguna de las partes interpuso recurso y fue procedente?
       </label>
-      <div class="pt-2">
+      <div class="pt-2 d-flex align-items-center gap-3">
         <div class="form-check form-check-inline">
           <input
             class="form-check-input"
@@ -71,11 +71,20 @@
             (change)="cambioRadio($event.target.value)"
           />
           <label class="form-check-label form-label" for="si"> Si </label>
+  
+        </div>
+        <div class="row mb-2" *ngIf="radioPregunta === true">
+          <div class="col-lg-12">
+            <button class="btn btn-secondary" (click)="descargarDocumento()">Descargar Formato Traslado</button>
+          </div>
         </div>
       </div>
+      
     </div>
+    
   </div>
-  <div class="d-flex align-items-center justify-content-end mt-5 gap-3">
+
+  <div class="d-flex align-items-center justify-content-end mt-5 gap-3 ">
     <button type="button" class="btn btn-danger" (click)="cancelar()">
       Cancelar
     </button>

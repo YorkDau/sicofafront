@@ -391,13 +391,10 @@
       </div>
 
       <div class="col-4 p-3">
-        <label>Nivel Académico*</label>
+        <label>Nivel Académico</label>
 
         <select
           class="form-select"
-          [ngClass]="{
-            'input-req': isRequired('nivAcademico') && mostrarValidaciones
-          }"
           formControlName="nivAcademico"
         >
           <option disabled value="">Nivel Académico</option>
@@ -408,21 +405,20 @@
             {{ nivelAcademico.nombre_Dominio }}
           </option>
         </select>
+        <!--
         <div
           class="msj-req"
           *ngIf="isRequired('nivAcademico') && mostrarValidaciones"
         >
           {{ msgObligatorio }}
         </div>
+        -->
       </div>
       <div class="col-4 p-3" >
         <label>Estado Académico</label>
 
         <select
           class="form-select"
-          [ngClass]="{
-            'input-req': isRequired('estadoAcademico') && mostrarValidaciones
-          }"
           formControlName="estadoAcademico"
         >
           <option disabled value="">Estado Académico</option>
@@ -433,12 +429,16 @@
             {{ estadoAcademico.nombre_Dominio }}
           </option>
         </select>
+
+        <!--
         <div
         class="msj-req"
         *ngIf="isRequired('estadoAcademico') && mostrarValidaciones"
-      >
+            >
         {{ msgObligatorio }}
-      </div>
+            </div>
+        -->
+    
       </div>
 
       
@@ -716,6 +716,25 @@
           >Niño/a - Adolescente</label
         >
       </div>
+      <div class="form-check py-2">
+        <input
+          class="form-check-input"
+          type="checkbox"
+        />
+        <label class="form-check-label" 
+          >Adulto Mayor</label
+        >
+      </div>
+      <div class="form-check py-2">
+        <input
+          class="form-check-input"
+          type="checkbox"   
+        />
+
+        <label class="form-check-label" 
+          >Mujer embarazada</label
+        >
+      </div>
 
       <div class="form-check py-2">
         <input
@@ -750,7 +769,7 @@
         />
 
         <label class="form-check-label" for="chkPerLideresa">
-          Personas lideresas o defensoras de derechos humano
+          Personas lideresas o defensoras de derechos humanos
         </label>
       </div>
 
@@ -782,7 +801,7 @@
       </div>
 
       <div *ngIf="isChecked('chkIndigena')" class="col-4 px-0">
-        <label>Pueblo Indígena*</label>
+        <label>¿Cuál? *</label>
 
         <input
           type="text"

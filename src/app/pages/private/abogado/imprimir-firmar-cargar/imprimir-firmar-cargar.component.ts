@@ -15,6 +15,7 @@ import { Modales } from 'src/app/shared/modals';
 import { ReporteAbogadoPDF } from '../report/report-pdf';
 import { AbogadoService } from '../services/abogado.service';
 import { AutoService } from '../services/auto.service';
+import { SharedService } from 'src/app/services/shared.service';
 
 interface DatosFirma {
   tituloReporte: string;
@@ -44,7 +45,8 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private modales: Modales,
     private abogadoService: AbogadoService,
-    private authService: AuthService
+    private authService: AuthService,
+    private sharedService: SharedService,
   ) {}
 
   ngOnDestroy(): void {
@@ -120,6 +122,28 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
     ).subscribe((res) => {
       if (res) {
         this.redireccionar();
+      }
+    });
+  }
+
+  public descargarDocumento(): void {
+    const nombre: string = "FORMATO TRASLADO CASO.pdf";
+
+    this.sharedService.descargarFormatos(nombre, 'ss').subscribe({
+      next: (data: ResponseInterface) => {
+        if (data.statusCode === CodigosRespuesta.OK) {
+          const source = `data:application/pdf;base64,${data.data}`;
+          const link = document.createElement('a');
+          const fileName = nombre;
+          link.href = source;
+          link.download = `${fileName}.pdf`;
+          link.click();
+        } else {
+          this.msgError();
+        }
+      },
+      error: () => {
+        this.msgError();
       }
     });
   }

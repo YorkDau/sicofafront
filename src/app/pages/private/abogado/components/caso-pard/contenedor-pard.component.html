@@ -21,7 +21,8 @@
     <div
       class="tab-style"
       [ngClass]="{
-        active: tab2 && (!tab0 || !tab1)
+        active: tab2 && (!tab0 || !tab1),
+        'd-none': !mostrarTab2
       }"
       (click)="cambiarTab(2)"
     >
@@ -37,7 +38,7 @@
     <app-decretar-desistir-pard></app-decretar-desistir-pard>
   </ng-container>
 
-  <ng-container *ngIf="tab2">
+  <ng-container *ngIf="tab2 && mostrarTab2">
     <app-notificaciones-pard></app-notificaciones-pard>
   </ng-container>
 </div>

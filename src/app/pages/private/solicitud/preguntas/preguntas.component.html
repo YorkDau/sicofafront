@@ -192,8 +192,11 @@
             'input-req': isRequiredContextoFamiliar() && mostrarValidaciones
           }">
           <option disabled value="">Seleccione</option>
-          <option *ngFor="let contexto of selectContextoFamiliar" [value]="contexto.id_Dominio">
+            <!-- <option *ngFor="let contexto of selectContextoFamiliar" [value]="contexto.id_Dominio">
             {{ contexto.nombre_Dominio }}
+            </option> -->
+          <option *ngFor="let relacion of selectRelacion" [value]="relacion.id_Dominio">
+            {{ relacion.nombre_Dominio }}
           </option>
         </select>
         <div class="msj-req" *ngIf="isRequiredContextoFamiliar() && mostrarValidaciones">
