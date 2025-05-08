@@ -112,34 +112,46 @@
                 class="text-capitalize me-4"
                 *ngIf="ciudadano.poblacion_lgtbi"
               >
-                poblacion LGBTI
+                Población LGBTI
               </li>
+              <li
+              class="text-capitalize me-4"
+              *ngIf="ciudadano.adulto_mayor"
+            >
+              Adulto Mayor
+            </li>
+            <li
+            class="text-capitalize me-4"
+            *ngIf="ciudadano.mujer_embarazada"
+          >
+          Mujer Embarazada
+          </li>
               <li
                 class="text-capitalize me-4"
                 *ngIf="ciudadano.nino_nina_adolecente"
               >
-                niño o niña adolescente
+                Niño o niña adolescente
               </li>
               <li
                 class="text-capitalize me-4"
                 *ngIf="ciudadano.victima_conflicto_armado"
               >
-                victima conflicto armado
+                Victima conflicto armado
               </li>
               <li
                 class="text-capitalize me-4"
                 *ngIf="ciudadano.persona_lider_defensor_DH"
               >
-                lider defensor DH
+                Lider defensor DH
               </li>
               <li
                 class="text-capitalize me-4"
                 *ngIf="ciudadano.persona_habitalidad_calle"
               >
-                habitabilidad calle
+                Habitabilidad calle
               </li>
               <li class="text-capitalize me-4" *ngIf="ciudadano.migrante">
-                migrante
+                Migrante
               </li>
             </ul>
             <ng-container *ngIf="!validarPoblacionEspecial()">

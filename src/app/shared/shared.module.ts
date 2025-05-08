@@ -71,6 +71,7 @@ import { ConsultaApelacionesComponent } from './components/informes/consulta-ape
 import { ObservacionApelacionComponent } from './components/informes/observacion-apelacion/observacion-apelacion.component';
 import { EnRevisionPorComponent } from './components/general/en-revision-por/en-revision-por.component';
 import { ConsultaComisariaGeneralComponent } from './components/informes/consulta-general/consulta-general.component';
+import { ModalPresolicitudesComponent } from './components/informes/modal-presolicitudes/modal-presolicitudes.component';
 
 @NgModule({
   imports: [
@@ -179,7 +180,8 @@ import { ConsultaComisariaGeneralComponent } from './components/informes/consult
     Tablero1Component,
     ConsultaApelacionesComponent,
     ConsultaComisariaGeneralComponent,
-    ObservacionApelacionComponent
+    ObservacionApelacionComponent,
+    ModalPresolicitudesComponent
   ],
   providers: [],
 })

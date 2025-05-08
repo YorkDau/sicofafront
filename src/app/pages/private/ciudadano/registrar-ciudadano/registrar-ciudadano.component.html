@@ -51,7 +51,7 @@
           placeholder="No. de Documento"
           (keyup)="existe = false"
           (focusout)="yaExisteCiudadano()"
-          (input)="soloNumero('nroDoc')"
+          (input)="filtraDocumentoSegunTipo('nroDoc','tipDoc')"
         />
         <div
           class="msj-req"
@@ -720,18 +720,22 @@
         <input
           class="form-check-input"
           type="checkbox"
+          formControlName="chkAdultoMayor"
+          id="chkAdultoMayor"
         />
-        <label class="form-check-label" 
+        <label class="form-check-label" for="chkAdultoMayor"
           >Adulto Mayor</label
         >
       </div>
       <div class="form-check py-2">
         <input
           class="form-check-input"
-          type="checkbox"   
+          type="checkbox"
+          formControlName="chkMujerEmbarazada"
+          id="chkMujerEmbarazada"
         />
 
-        <label class="form-check-label" 
+        <label class="form-check-label"  for="chkMujerEmbarazada"
           >Mujer embarazada</label
         >
       </div>
