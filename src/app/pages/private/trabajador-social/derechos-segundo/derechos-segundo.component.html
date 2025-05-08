@@ -1,6 +1,33 @@
 <form [formGroup]="derechosSegundo" autocomplete="off">
   <p class="form-label my-5">VINCULACIÓN AL SISTEMA EDUCATIVO</p>
 
+  <div class="w-100 mb-4">
+    <p class="form-label">¿Es escolarizado?</p>
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-input"
+        type="radio"
+        id="escolarizadoSi"
+        name="escolarizado"
+        [value]="true"
+        formControlName="escolarizado"
+      />
+      <label class="form-check-label" for="escolarizadoSi">Sí</label>
+    </div>
+
+    <div class="form-check form-check-inline">
+      <input
+        class="form-check-input"
+        type="radio"
+        id="escolarizadoNo"
+        name="escolarizado"
+        [value]="false"
+        formControlName="escolarizado"
+      />
+      <label class="form-check-label" for="escolarizadoNo">No</label>
+    </div>
+  </div>
+
   <div class="row">
     <div class="col-lg-4">
       <label for="colegio" class="form-label">
@@ -385,7 +412,7 @@
   
   <div class="w-100 mt-4">
     <label for="observaciones" class="form-label">
-      Observaciones de psicología
+      Concepto técnico de psicología
     </label>
     <textarea
       id="observaciones"
@@ -399,7 +426,7 @@
   
   <div class="w-100 mt-4">
     <label for="observaciones" class="form-label">
-      Observaciones de trabajo social
+      Concepto técnico de trabajo social
     </label>
     <textarea
       id="observaciones"
