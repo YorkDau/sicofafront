@@ -3,15 +3,15 @@
 export interface ActualizacionInvolucrado {
   idInvolucrado?: number;
   ocupacion?: string;
-  Escolidad?: number; //idEscolaridad ?: number
+  Escolidad?: number;
   RelacionPareja?: number;
   numeroHijos?: number;
-  Cultura?: number; //cultura ?: string
-  RelacionAgresor?: number; //relacionAgresor ?: number
-  descripcionRelacionAgresor?: string; ////--> Faltante
-  TipoDiscapcidad?: number; //idDiscapacidad ?: number
-  informacionHijos?: HijoInvolucrado[]; //hijos ?: HijoInvolucrado[];
-  descripcionDiscapacidad?: string; //descripcionDiscapacidad ?: string
+  Cultura?: number;
+  RelacionAgresor?: number;
+  descripcionRelacionAgresor?: string;
+  TipoDiscapcidad?: number;
+  informacionHijos?: HijoInvolucrado[];
+  descripcionDiscapacidad?: string;
   embarazo?: string;
   mesesEmbarazo?: number;
   victimaConflicto?: boolean;
@@ -34,7 +34,10 @@ export interface ActualizacionInvolucrado {
   numeroDocumento?: string;
   idIdentidadGenero?: number;
   edadAproximadaAgresor?: number;
-  lugarExpedicion?: number;
+  // lugarExpedicion?: number;
+  paisExp?: number;
+  departamentoExp?: number;
+  municipioExp?: number;
   fechaExpedicion?: Date;
   fechaNacimiento?: Date;
 }

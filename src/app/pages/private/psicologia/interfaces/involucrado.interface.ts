@@ -32,7 +32,10 @@
   agresorOrganizacionCriminal?: boolean;
   telefono?: string;
   direccionRecidencia?: string;
-  lugarExpedicion?: number;
+  // lugarExpedicion?: number; 
+  paisExp?: number;
+  departamentoExp?: number;
+  municipioExp?: number;
   fechaExpedicion?: Date;
   nombres?: string;
   apellidos?: string;

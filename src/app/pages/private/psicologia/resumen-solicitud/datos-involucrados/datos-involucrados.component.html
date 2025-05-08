@@ -97,6 +97,7 @@
             class="form-select"
             placeholder="Tipo de documento"
             formControlName="tipoDocumento"
+            (change)="isColombiano($event)"
           >
             <option value="">Seleccione una opción</option>
             <option
@@ -121,7 +122,55 @@
           />
         </div>
 
-        <div class="form-group col-lg-4">
+        
+        <div class="form-group col-lg-4 mb-4">
+          <label class="form-label text-capitalize">País de Expedición</label>
+  
+          <select
+            class="form-select"
+            formControlName="paisExp"
+            (change)="cargaSelectDepartamento($event)"
+          >
+            <option disabled value="">País de Expedición</option>
+            <option *ngFor="let pais of selectPaises" [value]="pais.paisID">
+              {{ pais.nombrePais }}
+            </option>
+          </select>
+        </div>
+  
+        <div class="form-group col-lg-4 mb-4">
+          <label class="form-label text-capitalize">Departamento de Expedición</label>
+  
+          <select
+            class="form-select"
+            formControlName="departamentoExp"
+            (change)="cargaSelectMunicipio($event)"
+          >
+            <option disabled value="">Departamento de Expedición</option>
+            <option
+              *ngFor="let departamento of selectDepartamento"
+              [value]="departamento.departamentoID"
+            >
+              {{ departamento.departamentoNombre }}
+            </option>
+          </select>
+        </div>
+  
+        <div class="form-group col-lg-4 mb-4">
+          <label class="form-label text-capitalize">Municipio de Expedición</label>
+  
+          <select class="form-select" formControlName="municipioExp">
+            <option disabled value="">Municipio de Expedición</option>
+            <option
+              *ngFor="let municipio of selectMunicipio"
+              [value]="municipio.ciudmunID"
+            >
+              {{ municipio.nombCiudMun }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group col-lg-4 mb-4">
           <label class="form-label text-capitalize"
             >fecha de expedición<span class="mx-1">*</span></label
           >
@@ -156,7 +205,7 @@
           >
         </div>
 
-        <div class="form-group col-lg-4">
+        <!-- <div class="form-group col-lg-4">
           <label class="form-label text-capitalize"
             >Lugar de expedición<span class="mx-1">*</span></label
           >
@@ -183,9 +232,9 @@
             }"
             >Campo requerido</span
           >
-        </div>
+        </div> -->
 
-        <div class="form-group col-lg-4">
+        <div class="form-group col-lg-4 mb-4">
           <label class="form-label text-capitalize"
             >fecha nacimiento<span class="mx-1">*</span></label
           >
@@ -796,7 +845,7 @@
 
       <!-- primera sección -->
       <div class="agresor row">
-        <div class="form-group col-lg-4 mb-4">
+        <div class="form-group col-lg-4">
           <label class="form-label text-capitalize"
             >Primer nombre<span class="mx-1">*</span></label
           >
@@ -819,7 +868,7 @@
           >
         </div>
 
-        <div class="form-group col-lg-4 mb-4">
+        <div class="form-group col-lg-4">
           <label class="form-label text-capitalize">Segundo nombre</label>
           <input
             type="text"
@@ -830,7 +879,7 @@
           />
         </div>
 
-        <div class="form-group col-lg-4 mb-4">
+        <div class="form-group col-lg-4">
           <label class="form-label text-capitalize"
             >Primer Apellido<span class="mx-1">*</span></label
           >
@@ -853,7 +902,7 @@
           >
         </div>
 
-        <div class="form-group col-lg-4 mb-4">
+        <div class="form-group col-lg-4">
           <label class="form-label text-capitalize">Segundo Apellido</label>
           <input
             type="text"
@@ -864,7 +913,7 @@
           />
         </div>
 
-        <div class="form-group col-lg-4 mb-4">
+        <div class="form-group col-lg-4">
           <label class="form-label text-capitalize"
             >tipo de documento<span class="mx-1">*</span></label
           >
@@ -876,6 +925,7 @@
             [ngClass]="{
               'border-danger': isRequiredField(formAgresor, 'tipoDocumento')
             }"
+            (change)="isColombiano($event)"
           >
             <option value="">Seleccione una opción</option>
             <option
@@ -895,7 +945,7 @@
           </small>
         </div>
 
-        <div class="form-group col-lg-4 mb-4">
+        <div class="form-group col-lg-4">
           <label class="form-label text-capitalize"
             >número documento<span class="mx-1">*</span></label
           >
@@ -917,6 +967,53 @@
           >
             Campo requerido
           </small>
+        </div>
+
+        <div class="form-group col-lg-4 mb-4">
+          <label class="form-label text-capitalize">País de Expedición</label>
+  
+          <select
+            class="form-select"
+            formControlName="paisExp"
+            (change)="cargaSelectDepartamento($event)"
+          >
+            <option disabled value="">País de Expedición</option>
+            <option *ngFor="let pais of selectPaises" [value]="pais.paisID">
+              {{ pais.nombrePais }}
+            </option>
+          </select>
+        </div>
+  
+        <div class="form-group col-lg-4 mb-4">
+          <label class="form-label text-capitalize">Departamento de Expedición</label>
+  
+          <select
+            class="form-select"
+            formControlName="departamentoExp"
+            (change)="cargaSelectMunicipio($event)"
+          >
+            <option disabled value="">Departamento de Expedición</option>
+            <option
+              *ngFor="let departamento of selectDepartamento"
+              [value]="departamento.departamentoID"
+            >
+              {{ departamento.departamentoNombre }}
+            </option>
+          </select>
+        </div>
+  
+        <div class="form-group col-lg-4 mb-4">
+          <label class="form-label text-capitalize">Municipio de Expedición</label>
+  
+          <select class="form-select" formControlName="municipioExp">
+            <option disabled value="">Municipio de Expedición</option>
+            <option
+              *ngFor="let municipio of selectMunicipio"
+              [value]="municipio.ciudmunID"
+            >
+              {{ municipio.nombCiudMun }}
+            </option>
+          </select>
         </div>
 
         <div class="form-group col-lg-4">
@@ -954,7 +1051,7 @@
           >
         </div>
 
-        <div class="form-group col-lg-4">
+        <!-- <div class="form-group col-lg-4">
           <label class="form-label text-capitalize"
             >Lugar de expedición<span class="mx-1">*</span></label
           >
@@ -981,9 +1078,9 @@
             }"
             >Campo requerido</span
           >
-        </div>
+        </div> -->
 
-        <div class="form-group col-lg-4 mb-4">
+        <div class="form-group col-lg-4">
           <label for="cuantos" class="form-label">Edad Aproximada</label>
           <input
             type="text"
@@ -997,7 +1094,7 @@
           />
         </div>
 
-        <div class="form-group col-lg-4 mb-4">
+        <div class="form-group col-lg-4">
           <label class="form-label text-capitalize"
             >sexo<span class="mx-1">*</span></label
           >
@@ -1021,7 +1118,7 @@
           >
         </div>
 
-        <div class="form-group col-lg-4 mb-4">
+        <div class="form-group col-lg-4">
           <label class="form-label text-capitalize">identidad de género</label>
           <select
             type="text"
@@ -1072,6 +1169,21 @@
           </select>
         </div>
 
+        <div class="col-lg-4 mb-4 d-flex flex-column justify-content-end">
+          <label for="cultura" class="form-label">
+            ¿Se reconoce como perteneciente a alguno de estos grupos étnicos?
+          </label>
+          <select class="form-select" formControlName="cultura">
+            <option value="">Seleccione una opción</option>
+            <option [value]="item.id_Dominio" *ngFor="let item of listaCultura">
+              {{ item.nombre_Dominio }}
+            </option>
+            <option [value]="item.id_Dominio" *ngFor="let item of listaOtros">
+              Ninguna
+            </option>
+          </select>
+        </div>
+
         <div class="form-group col-lg-4">
           <label class="form-label text-capitalize">número de hijos</label>
           <input
@@ -1108,21 +1220,6 @@
       <!-- segunda sección -->
 
       <div class="row mt-4">
-        <div class="col-lg-4 mb-4 d-flex flex-column justify-content-end">
-          <label for="cultura" class="form-label">
-            ¿Se reconoce como perteneciente a alguno de estos grupos étnicos?
-          </label>
-          <select class="form-select" formControlName="cultura">
-            <option value="">Seleccione una opción</option>
-            <option [value]="item.id_Dominio" *ngFor="let item of listaCultura">
-              {{ item.nombre_Dominio }}
-            </option>
-            <option [value]="item.id_Dominio" *ngFor="let item of listaOtros">
-              Ninguna
-            </option>
-          </select>
-        </div>
-
         <div class="col-lg-12 mb-4">
           <p class="form-label">
             ¿Sabe usted si el agresor pertenece a un grupo organizado al margen
