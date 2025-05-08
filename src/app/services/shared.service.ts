@@ -166,7 +166,24 @@ export class SharedService {
       filtros
     );
   }
+  public consultaSolicitudesGenerales(
+    filtros: any
+  ): Observable<any> {
+    return this.http.post<any>(
+      `${PATH_SERVER}/Solicitud/ConsultarSolicitudesFiltro`,
+      filtros
+    );
+  }
+  public consultaPreSolicitudesGenerales(
+    filtros: any
+  ): Observable<any> {
+    return this.http.post<any>(
+      `${PATH_SERVER}/Solicitud/ConsultarPreSolicitudesFiltro`,
+      filtros
+    );
+  }
 
+  
   public ConsultarObservacionesApelaciones(
     id_solicitud_servicio: number
   ): Observable<any> {
