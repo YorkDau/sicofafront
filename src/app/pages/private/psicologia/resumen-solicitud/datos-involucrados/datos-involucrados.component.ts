@@ -436,7 +436,9 @@ export class DatosInvolucradosComponent implements AfterViewInit {
    */
   public postActualizarInvolucradoAgresor(): Observable<boolean> {
     let subject = new Subject<boolean>();
-    const formValueAgresor: InvolucradoDTO = this.formAgresor.value;
+    console.log("ANTES DE ",this.formAgresor);
+    const formValueAgresor: InvolucradoDTO = this.formAgresor.getRawValue();
+  console.log("FORMULARIO AGRESOR VALUE",formValueAgresor);
     const bodyAgresor: ActualizacionInvolucrado = {
       idInvolucrado: this.agresor.id,
       ocupacion: formValueAgresor.ocupacion,
