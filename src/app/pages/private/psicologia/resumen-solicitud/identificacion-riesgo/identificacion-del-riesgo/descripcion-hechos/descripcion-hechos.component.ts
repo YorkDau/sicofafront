@@ -18,13 +18,12 @@ export class DescripcionHechosComponent implements AfterViewInit {
 
   public formDescripcionHechos: FormGroup;
   public dateMax: Date = new Date();
-  public dateMin: Date = new Date(
-    new Date().setDate(new Date().getDate() - 3650)
-  );
-  public camposObligatorios: string[] = [];
-  public showOnSubmitIsRequired: boolean = false;
+  public dateMin: Date = new Date(new Date().setDate(new Date().getDate() - 3650));
 
   private tarea = JSON.parse(sessionStorage.getItem('info')!);
+
+  public camposObligatorios: string[] = [];
+  public showOnSubmitIsRequired: boolean = false;
 
   constructor(
     private modales: Modales,
@@ -33,8 +32,8 @@ export class DescripcionHechosComponent implements AfterViewInit {
     private datePipe: DatePipe
   ) {
     this.formDescripcionHechos = this.formBuilder.group({
-      fecha: [new Date(), [Validators.required]],
-      hora: [this.datePipe.transform(new Date(), 'HH:mm'), [Validators.required]],
+      fecha: [null, [Validators.required]],
+      hora: [null, [Validators.required]],
       descripcionHechos: ['', [Validators.required]],
       lugarHechos: ['', [Validators.required]],
     });
@@ -44,11 +43,7 @@ export class DescripcionHechosComponent implements AfterViewInit {
     this.getDescripcionHechos();
   }
 
-  public isRequiredField(
-    form: FormGroup,
-    name: string,
-    obligatory: boolean = false
-  ) {
+  public isRequiredField(form: FormGroup, name: string, obligatory: boolean = false) {
     if (obligatory && !this.camposObligatorios.includes(name))
       this.camposObligatorios.push(name);
     const dirty = form.get(name)?.dirty;
@@ -64,109 +59,80 @@ export class DescripcionHechosComponent implements AfterViewInit {
     return dirty && required ? !form.get(name)?.valid || empty : false;
   }
 
-  public async getDescripcionHechos() {
-    try {
-      const result = await lastValueFrom(
-        this.identificacionDelRiesgoService.getDescripcionHechosPorSolicitud(
-          this.tarea.idSolicitud
-        )
-      );
-      
-      if (!result) {
-        this.modales.modalInformacion('No se encontraron los datos.');
-        return;
-      }
-      
-      if (result.statusCode != 200) {
-        this.modales.modalInformacion(result.message);
-        return;
-      }
-      
-      if (!result.data) {
-        this.modales.modalInformacion(Mensajes.MENSAJE_ERROR_G);
-        return;
-      }
+private parseFechaString(fechaStr: string): Date | null {
+  const fechaRegex = /^(\d{1,2})\/(\d{1,2})\/(\d{4})(?:\s+(\d{2}):(\d{2}):(\d{2}))?$/;
+  const match = fechaStr.match(fechaRegex);
+  if (!match) return null;
 
-      // Parsear la fecha y hora correctamente
-      const fechaData = this.parseFechaFromAPI(result.data.fecha);
-      const horaData = this.parseHoraFromAPI(result.data.hora);
+  const dia = Number(match[1]);
+  const mes = Number(match[2]);
+  const anio = Number(match[3]);
+  const hora = match[4] ? Number(match[4]) : 0;
+  const minutos = match[5] ? Number(match[5]) : 0;
+  const segundos = match[6] ? Number(match[6]) : 0;
 
-      // Asignar valores al formulario
-      this.formDescripcionHechos.patchValue({
-        fecha: fechaData || new Date(),
-        hora: horaData || this.datePipe.transform(new Date(), 'HH:mm'),
-        descripcionHechos: result.data.descripcionHechos || '',
-        lugarHechos: result.data.lugarHechos || ''
-      });
-      
-    } catch (error: any) {
-      this.modales.modalInformacion(Mensajes.MENSAJE_ERROR_G);
-    }
+  if (
+    dia < 1 || dia > 31 ||
+    mes < 1 || mes > 12 ||
+    anio < 1900 || anio > 3000 ||
+    hora < 0 || hora > 23 ||
+    minutos < 0 || minutos > 59 ||
+    segundos < 0 || segundos > 59
+  ) {
+    return null;
   }
 
-  private parseFechaFromAPI(fechaString: string): Date | null {
-    if (!fechaString) return null;
-    
-    try {
-      // Eliminar la parte de tiempo si existe
-      const datePart = fechaString.split(' ')[0];
-      const parts = datePart.split('/');
-      
-      // Asegurarse que el formato es día/mes/año
-      if (parts.length !== 3) return null;
-      
-      const day = parseInt(parts[0], 10);
-      const month = parseInt(parts[1], 10) - 1; // Los meses en Date son 0-based
-      const year = parseInt(parts[2], 10);
-      
-      // Validar que los valores sean números válidos
-      if (isNaN(day) || isNaN(month) || isNaN(year)) return null;
-      
-      // Crear y validar la fecha
-      const date = new Date(year, month, day);
-      return isNaN(date.getTime()) ? null : date;
-    } catch {
-      return null;
-    }
-  }
+  return new Date(anio, mes - 1, dia, hora, minutos, segundos);
+}
 
-  private parseHoraFromAPI(horaString: string): string | null {
-    if (!horaString) return null;
-    
-    try {
-      // Extraer solo la parte HH:MM:SS
-      const timePart = horaString.split(' ')[0];
-      const parts = timePart.split(':');
-      
-      if (parts.length < 2) return null;
-      
-      // Formatear a HH:MM
-      return `${parts[0].padStart(2, '0')}:${parts[1].padStart(2, '0')}`;
-    } catch {
-      return null;
+public async getDescripcionHechos() {
+  try {
+    const result = await lastValueFrom(
+      this.identificacionDelRiesgoService.getDescripcionHechosPorSolicitud(
+        this.tarea.idSolicitud
+      )
+    );
+
+    if (!result?.data || result.statusCode !== 200) {
+      this.modales.modalInformacion(result?.message || Mensajes.MENSAJE_ERROR_G);
+      return;
     }
+
+    const fechaOriginal = result.data.fecha;
+    const fechaParseada = this.parseFechaString(fechaOriginal);
+
+    if (!fechaParseada) {
+      this.modales.modalInformacion('La fecha recibida es inválida.');
+      return;
+    }
+
+    this.formDescripcionHechos.patchValue({
+      fecha: fechaParseada,
+      hora: this.datePipe.transform(fechaParseada, 'HH:mm'),
+      descripcionHechos: result.data.descripcionHechos || '',
+      lugarHechos: result.data.lugarHechos || '',
+    });
+  } catch (error) {
+    this.modales.modalInformacion(Mensajes.MENSAJE_ERROR_G);
   }
+}
+
 
   public actualizarDescripcionHechos() {
     const formValue = this.formDescripcionHechos.value;
-    
-    // Formatear fecha para el API (ajusta el formato según lo que espere tu backend)
-    const fechaFormateada = formValue.fecha 
-      ? this.datePipe.transform(formValue.fecha, 'dd/MM/yyyy') 
-      : null;
-    
+
+    const fechaFormateada = this.datePipe.transform(formValue.fecha, 'yyyy-MM-dd');
+
     const body = {
-      descripcionHechos: formValue.descripcionHechos || '',
+      descripcionHechos: formValue.descripcionHechos,
       fecha: fechaFormateada,
-      hora: formValue.hora || '',
+      hora: formValue.hora,
       idSolicitudServicio: this.tarea.idSolicitud,
-      lugarHechos: formValue.lugarHechos || ''
+      lugarHechos: formValue.lugarHechos,
     };
-    
+
     return lastValueFrom(
-      this.identificacionDelRiesgoService.actualizarDescripcionHechosPorSolicitud(
-        body
-      )
+      this.identificacionDelRiesgoService.actualizarDescripcionHechosPorSolicitud(body)
     );
   }
 
@@ -176,10 +142,13 @@ export class DescripcionHechosComponent implements AfterViewInit {
 
   archivarDiligencias() {
     this.modales.modalArchivarDiligencias(this.tarea, '/psicologia');
+    this.modales.modalInformacion('Por favor diligencie los campos requeridos');
   }
 
   async guardar() {
+    console.log("Guardando datos...");
     if (this.isValidForm()) {
+      console.log("Formulario válido, guardando...");
       this.showOnSubmitIsRequired = false;
       await this.actualizarDescripcionHechos()
         .then((success) => {
@@ -189,8 +158,9 @@ export class DescripcionHechosComponent implements AfterViewInit {
           this.modales.modalInformacion(Mensajes.MENSAJE_ERROR_G);
         });
     } else {
+      console.log(this.formDescripcionHechos);
+      console.log(this.camposObligatorios);
       this.showOnSubmitIsRequired = true;
-      this.modales.modalInformacion('Por favor diligencie los campos requeridos');
     }
   }
 
@@ -205,9 +175,8 @@ export class DescripcionHechosComponent implements AfterViewInit {
       });
       return temp;
     };
-    camposRequeridos = SharedFunctions.findInvalidControls(
-      this.formDescripcionHechos
-    ).concat(validarCamposObligatorios(this.formDescripcionHechos));
+    camposRequeridos = SharedFunctions.findInvalidControls(this.formDescripcionHechos)
+      .concat(validarCamposObligatorios(this.formDescripcionHechos));
     return this.formDescripcionHechos.valid && !camposRequeridos.length;
   }
 }

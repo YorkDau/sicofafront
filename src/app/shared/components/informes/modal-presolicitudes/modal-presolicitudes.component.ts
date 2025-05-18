@@ -1,6 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  ValidationErrors,
+  Validators
+} from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 
@@ -20,18 +26,16 @@ export class ModalPresolicitudesComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   form!: FormGroup;
-  formSubmitted: boolean = false;
-  mostrarValidaciones: boolean = false;
-  mensajeSinReg: string = 'No se encontraron solicitudes.';
-  columnas: string[] = [
+  formSubmitted = false;
+  mostrarValidaciones = false;
+  mensajeSinReg = 'No se encontraron solicitudes.';
+  columnas = [
     'codigoSolicitud',
     'fechaSolicitud',
     'estadoSolicitud',
-    'esVictima',
     'esCompetenciaComisaria',
     'descripcionHechos'
   ];
-
   dataSource = new MatTableDataSource<RecepcionCasosInterface>([]);
   private listaCasos: RecepcionCasosInterface[] = [];
 
@@ -40,21 +44,39 @@ export class ModalPresolicitudesComponent implements OnInit {
     private sharedService: SharedService,
     private authService: AuthService,
     private matDialogRef: MatDialogRef<ModalPresolicitudesComponent>,
-        private dialog: MatDialog,
+    private dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
     this.cargarFormulario();
   }
 
-  cargarFormulario() {
-    this.form = this.fb.group({
-      numeroDocumento: '',
-      fechaSolicitud:[],
-      codigoSolicitud: '',
-      idComisaria: this.authService.currentUserValue?.idComisaria,
-      nomO: [true, Validators.requiredTrue],
-    });
+  private cargarFormulario() {
+    this.form = this.fb.group(
+      {
+        numeroDocumento: [''],
+        fechaSolicitud: [null],
+        fechaSolicitudFinal: [null],
+        codigoSolicitud: [''],
+        idComisaria: [ this.authService.currentUserValue?.idComisaria ],
+        nomO: [true, Validators.requiredTrue],
+      },
+      {
+        validators: this.validarRangoFechas.bind(this)
+      }
+    );
+  }
+
+  validarRangoFechas(group: AbstractControl): ValidationErrors | null {
+    const inicio = group.get('fechaSolicitud')?.value;
+    const fin = group.get('fechaSolicitudFinal')?.value;
+
+    if (inicio && fin) {
+      if (new Date(inicio) > new Date(fin)) {
+        return { rangoFechasInvalido: true };
+      }
+    }
+    return null;
   }
 
   cerrarModal() {
@@ -62,15 +84,24 @@ export class ModalPresolicitudesComponent implements OnInit {
   }
 
   consultarPresolicitudes() {
-    if (this.form.valid) {
-      this.formSubmitted = true;
-      this.mostrarValidaciones = false;
+    this.mostrarValidaciones = true;
 
-      this.sharedService.consultaPreSolicitudesGenerales(this.form.value).subscribe({
+    if (this.form.invalid) {
+      // Marca todos los controles para mostrar errores
+      this.form.markAllAsTouched();
+      this.formSubmitted = false;
+      this.limpiarTabla();
+      return;
+    }
+
+    this.formSubmitted = true;
+    this.sharedService
+      .consultaPreSolicitudesGenerales(this.form.value)
+      .subscribe({
         next: (data: ResponseInterface) => {
           if (data.statusCode === CodigosRespuesta.OK) {
             const datos = data.data.datosPaginados || [];
-            if (datos.length > 0) {
+            if (datos.length) {
               this.listaCasos = datos;
               this.dataSource = new MatTableDataSource(this.listaCasos);
               this.dataSource.paginator = this.paginator;
@@ -87,11 +118,6 @@ export class ModalPresolicitudesComponent implements OnInit {
           );
         }
       });
-    } else {
-      this.mostrarValidaciones = true;
-      this.formSubmitted = false;
-      this.limpiarTabla();
-    }
   }
 
   limpiarTabla() {
@@ -100,6 +126,6 @@ export class ModalPresolicitudesComponent implements OnInit {
   }
 
   seleccionarSolicitud(solicitud: RecepcionCasosInterface) {
-    this.matDialogRef.close(solicitud); // Devuelve la solicitud seleccionada
+    this.matDialogRef.close(solicitud);
   }
 }

@@ -41,7 +41,8 @@ public columnas: string[] = [
   'numeroDocumento', 
   'fechaSolicitud',         
   'estadoSolicitud', 
-  'proceso'
+  'proceso',
+  'perfil'
 ];
 
   
@@ -93,9 +94,9 @@ public columnas: string[] = [
     const dialogRef = this.dialog.open(ModalPresolicitudesComponent, {
       panelClass: ['roundedModal', 'custom-presolicitudes-modal'],
       disableClose: true,
-      width: '1400px',
-      height: '95vh', // Cambiado a viewport height
-      maxHeight: '95vh',
+      width: '1200px',
+      height: '90vh', // Cambiado a viewport height
+      maxHeight: '90vh',
       autoFocus: false
     });
     

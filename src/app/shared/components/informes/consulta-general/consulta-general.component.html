@@ -110,7 +110,7 @@
       <ng-container matColumnDef="fechaSolicitud">
         <mat-header-cell *matHeaderCellDef> Fecha Solicitud </mat-header-cell>
         <mat-cell *matCellDef="let row">
-          {{ row.fechaSolicitud | date: 'short' }}
+          {{ row.fechaSolicitud | date: 'dd/MM/yyyy' }}
         </mat-cell>
       </ng-container>
   
@@ -118,7 +118,7 @@
       <ng-container matColumnDef="estadoSolicitud">
         <mat-header-cell *matHeaderCellDef> Estado </mat-header-cell>
         <mat-cell *matCellDef="let row">
-          {{ row.estadoSolicitud | titlecase }}
+          {{ row.estadoSolicitud | uppercase }}
         </mat-cell>
       </ng-container>
   
@@ -129,6 +129,13 @@
           {{ row.proceso | titlecase }}
         </mat-cell>
       </ng-container>  
+            <!-- Perfil -->
+      <ng-container matColumnDef="perfil">
+        <mat-header-cell *matHeaderCellDef> Perfil </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          {{ row.perfil | uppercase }}
+        </mat-cell>
+      </ng-container> 
       <!-- Filas -->
       <mat-header-row *matHeaderRowDef="columnas"></mat-header-row>
       <mat-row *matRowDef="let row; columns: columnas"></mat-row>

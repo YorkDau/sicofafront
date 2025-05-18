@@ -1,139 +1,170 @@
 <div class="p-3 position-relative d-flex flex-column" style="height: 90vh;">
-    <button mat-icon-button class="close-button position-absolute top-0 end-0" (click)="cerrarModal()">
-      <mat-icon class="close-icon" color="warn">close</mat-icon>
-    </button>
-  
-    <section class="background-gray rounded-basic p-4 mb-3">
-      <div class="d-flex align-items-center mb-3">
-        <span class="title-medium" style="font-size: 30px">
-          CONSULTA GENERAL DE PRE-SOLICITUDES
+  <button mat-icon-button class="close-button position-absolute top-0 end-0" (click)="cerrarModal()">
+    <mat-icon class="close-icon" color="warn">close</mat-icon>
+  </button>
+
+  <section class="background-gray rounded-basic p-2 mb-2">
+    <div class="d-flex align-items-center mb-2">
+      <span class="title-medium" style="font-size: 30px">
+        CONSULTA GENERAL DE PRE-SOLICITUDES
+      </span>
+    </div>
+    <p class="subtitle-medium">
+      <strong>Encuentre las pre-solicitudes que previamente han impuesto un caso en Comisaría de Familia.</strong>
+    </p>
+  </section>
+
+  <form
+    class="background-gray rounded-basic p-3 mb-3"
+    [formGroup]="form"
+    autocomplete="off"
+    (submit)="consultarPresolicitudes()"
+  >
+<div class="row">
+  <!-- Fecha Solicitud Inicial -->
+  <div class="col-lg-3">
+    <div class="mb-2">
+      <label for="fechaSolicitud" class="form-label">Fecha Solicitud Inicial</label>
+      <div class="input-group">
+        <input
+          matInput
+          readonly
+          (click)="pickerInicio.open()"
+          [matDatepicker]="pickerInicio"
+          class="form-control form-control-date-Picker sinborde-DatePicker"
+          id="fechaSolicitud"
+          placeholder="Fecha Solicitud Inicial"
+          formControlName="fechaSolicitud"
+        />
+        <span class="input-group-text sinfondo-DatePicker">
+          <mat-datepicker-toggle matSuffix [for]="pickerInicio"></mat-datepicker-toggle>
+          <mat-datepicker #pickerInicio></mat-datepicker>
         </span>
-      </div>
-      <p class="subtitle-medium">
-        Encuentre las pre-solicitudes que previamente han impuesto un caso en Comisaría de Familia.
-      </p>
-    </section>
-  
-    <form
-      class="background-gray rounded-basic p-3 mb-3"
-      [formGroup]="form"
-      autocomplete="off"
-      (submit)="consultarPresolicitudes()"
-    >
-      <div class="row">
-        <div class="col-lg-3">
-          <div class="mb-3">
-            <label for="fechaSolicitud" class="form-label">Fecha Solicitud</label>
-            <div class="input-group">
-              <input
-                mat-input
-                readonly
-                (click)="picker.open()"
-                [matDatepicker]="picker"
-                class="form-control form-control-date-Picker sinborde-DatePicker"
-                id="fechaSolicitud"
-                placeholder="Fecha Solicitud"
-                formControlName="fechaSolicitud"
-                maxlength="50"
-              />
-              <span class="input-group-text sinfondo-DatePicker">
-                <mat-datepicker-toggle
-                  matSuffix
-                  [for]="picker"
-                ></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-              </span>
-            </div>
-          </div>
-        </div>
-  
-        <div class="col-lg-3">
-          <div class="mb-3">
-            <label for="codigo" class="form-label">Código solicitud</label>
-            <input
-              type="text"
-              class="form-control"
-              formControlName="codigoSolicitud"
-              placeholder="Código solicitud"
-              maxlength="40"
-              id="codigo"
-            />
-          </div>
-        </div>
-  
-        <div class="col-lg-3 d-flex align-items-center justify-content-end">
-          <div class="mt-3">
-            <button type="submit" class="btn btn-primary">
-              <img src="assets/images/busqueda.svg" alt="search" class="img-fluid me-2" />
-              Buscar
-            </button>
-          </div>
-        </div>
-      </div>
-    </form>
-  
-    <div class="background-light rounded-basic p-4 mb-4 flex-grow-1 d-flex flex-column" *ngIf="formSubmitted">
-      <div class="w-50" *ngIf="dataSource.data.length === 0">
-        <app-no-data [mensaje]="mensajeSinReg"> </app-no-data>
-      </div>
-  
-      <div class="flex-grow-1 d-flex flex-column" [ngStyle]="{ display: dataSource.data.length > 0 ? 'flex' : 'none' }">
-        <div class="table-container flex-grow-1" style="overflow: auto; max-height: 500px;">
-          <mat-table [dataSource]="dataSource" id="table-private" class="w-100">
-            <ng-container matColumnDef="codigoSolicitud">
-              <mat-header-cell *matHeaderCellDef> Código Solicitud </mat-header-cell>
-              <mat-cell *matCellDef="let row">
-                <span [title]="row.codigoSolicitud">
-                  {{ row.codigoSolicitud }}
-                </span>
-              </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="fechaSolicitud">
-              <mat-header-cell *matHeaderCellDef> Fecha Solicitud </mat-header-cell>
-              <mat-cell *matCellDef="let row">
-                {{ row.fechaSolicitud | date: 'short' }}
-              </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="descripcionHechos">
-              <mat-header-cell *matHeaderCellDef> Descripcion Hechos </mat-header-cell>
-              <mat-cell *matCellDef="let row">
-                <span [title]="row.codigoSolicitud">
-                  {{ row.descripcionHechos }}
-                </span>
-              </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="esCompetenciaComisaria">
-              <mat-header-cell *matHeaderCellDef> Es Competencia Comisaria </mat-header-cell>
-              <mat-cell *matCellDef="let row">
-                {{ row.esCompetenciaComisaria === 1 ? 'SI' : 'NO' }}
-              </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="esVictima">
-              <mat-header-cell *matHeaderCellDef> Es Victima</mat-header-cell>
-              <mat-cell *matCellDef="let row">
-                {{ row.esVictima === 1 ? 'SI' : 'NO' }}
-              </mat-cell>
-            </ng-container>
-  
-            <ng-container matColumnDef="estadoSolicitud">
-              <mat-header-cell *matHeaderCellDef> Estado </mat-header-cell>
-              <mat-cell *matCellDef="let row">
-                {{ row.estadoSolicitud | titlecase }}
-              </mat-cell>
-            </ng-container>
-            <mat-header-row *matHeaderRowDef="columnas"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: columnas"></mat-row>
-          </mat-table>
-        </div>
-  
-        <mat-paginator
-          [pageSizeOptions]="[5, 10, 20, 50]"
-          showFirstLastButtons
-          aria-label="Select page of request"
-          class="mt-2"
-        >
-        </mat-paginator>
       </div>
     </div>
   </div>
-  
+
+  <!-- Fecha Solicitud Final -->
+  <div class="col-lg-3">
+    <div class="mb-2">
+      <label for="fechaSolicitudFinal" class="form-label">Fecha Solicitud Final</label>
+      <div class="input-group">
+        <input
+          matInput
+          readonly
+          (click)="pickerFinal.open()"
+          [matDatepicker]="pickerFinal"
+          class="form-control form-control-date-Picker sinborde-DatePicker"
+          id="fechaSolicitudFinal"
+          placeholder="Fecha Solicitud Final"
+          formControlName="fechaSolicitudFinal"
+        />
+        <span class="input-group-text sinfondo-DatePicker">
+          <mat-datepicker-toggle matSuffix [for]="pickerFinal"></mat-datepicker-toggle>
+          <mat-datepicker #pickerFinal></mat-datepicker>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Código solicitud -->
+  <div class="col-lg-3">
+    <div class="mb-2">
+      <label for="codigo" class="form-label">Código solicitud</label>
+      <input
+        type="text"
+        class="form-control"
+        formControlName="codigoSolicitud"
+        placeholder="Código solicitud"
+        maxlength="40"
+        id="codigo"
+      />
+    </div>
+  </div>
+
+  <!-- Botón Buscar -->
+  <div class="col-lg-3 d-flex align-items-center justify-content-end">
+    <div class="mt-2">
+      <button type="submit" class="btn btn-primary">
+        <img src="assets/images/busqueda.svg" alt="search" class="img-fluid me-2" />
+        Buscar
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Mensaje de error -->
+<div *ngIf="form.errors?.rangoFechasInvalido" class="text-danger mt-2">
+  La fecha inicial debe ser menor o igual que la fecha final.
+</div>
+
+  </form>
+
+  <div class="background-light rounded-basic p-2 mb-2 flex-grow-1 d-flex flex-column" *ngIf="formSubmitted">
+    <div class="w-50" *ngIf="dataSource.data.length === 0">
+      <app-no-data [mensaje]="mensajeSinReg"> </app-no-data>
+    </div>
+
+    <div class="flex-grow-1 d-flex flex-column" [ngStyle]="{ display: dataSource.data.length > 0 ? 'flex' : 'none' }">
+      <div
+        class="table-container flex-grow-1"
+        [ngStyle]="{
+          'overflow': 'auto',
+          'max-height': dataSource.data.length > 3 ? '300px' : 'unset'
+        }"
+      >
+        <mat-table [dataSource]="dataSource" id="table-private" class="w-100">
+          <ng-container matColumnDef="codigoSolicitud">
+            <mat-header-cell *matHeaderCellDef> Código Solicitud </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+              <span [title]="row.codigoSolicitud">
+                {{ row.codigoSolicitud }}
+              </span>
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="fechaSolicitud">
+            <mat-header-cell *matHeaderCellDef> Fecha Solicitud </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+              {{ row.fechaSolicitud | date: 'dd/MM/yyyy' }}
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="descripcionHechos">
+            <mat-header-cell *matHeaderCellDef> Descripcion Hechos </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+              <span [title]="row.codigoSolicitud">
+                {{ row.descripcionHechos }}
+              </span>
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="esCompetenciaComisaria">
+            <mat-header-cell *matHeaderCellDef> Es Competencia Comisaria </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+              {{ row.esCompetenciaComisaria === 1 ? 'SI' : 'NO' }}
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="estadoSolicitud">
+            <mat-header-cell *matHeaderCellDef> Estado </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+              {{ row.estadoSolicitud | titlecase }}
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="columnas"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: columnas"></mat-row>
+        </mat-table>
+      </div>
+
+      <mat-paginator
+        [pageSizeOptions]="[5, 10, 20, 50]"
+        showFirstLastButtons
+        aria-label="Select page of request"
+        class="mt-2"
+      >
+      </mat-paginator>
+    </div>
+  </div>
+</div>

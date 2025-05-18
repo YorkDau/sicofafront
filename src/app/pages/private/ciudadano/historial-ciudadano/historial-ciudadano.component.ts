@@ -48,7 +48,7 @@ export class HistorialCiudadanoComponent {
       name: 'perfil',
       title: 'Perfil',
       render: (value) => value?.toUpperCase(),
-    },
+    }, 
     { name: 'actions', title: 'acciones' },
   ];
 
