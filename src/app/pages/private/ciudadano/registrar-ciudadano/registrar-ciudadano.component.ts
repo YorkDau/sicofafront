@@ -121,6 +121,8 @@ export class RegistrarCiudadanoComponent implements OnInit {
         eps: '',
         ips: '',
         chkLGBTI: false,
+        chkAdultoMayor: false,
+        chkMujerEmbarazada: false,
         chkNinoAdolecente: false,
         chkMigrante: false,
         chkVictimaComArm: false,
@@ -656,8 +658,18 @@ export class RegistrarCiudadanoComponent implements OnInit {
    * @description Solo permite ingresar numeros
    */
   public soloNumero(campo: string) {
+    console.log(campo);
     SharedFunctions.soloNumero(campo, this.myForm);
   }
+  public filtraDocumentoSegunTipo(campo: string, campoSelect: string) {
+    const tipoDocumento = this.myForm.get(campoSelect)?.value;
+  
+    if (tipoDocumento =='11') {
+        SharedFunctions.soloAlfanumerico(campo, this.myForm);
+    } else {
+        SharedFunctions.soloNumero(campo, this.myForm);
+    }
+}
 
   /**
    * @description inserta el ciudadano
@@ -801,6 +813,8 @@ export class RegistrarCiudadanoComponent implements OnInit {
         ips: this.myForm.get('ips')?.value,
       },
       poblacionLgtbi: this.myForm.get('chkLGBTI')?.value,
+      adultoMayor: this.myForm.get('chkAdultoMayor')?.value,
+      mujerEmbarazada: this.myForm.get('chkMujerEmbarazada')?.value,
       ninoNinaAdolocente: this.myForm.get('chkNinoAdolecente')?.value,
       migrante: this.myForm.get('chkMigrante')?.value,
       victimaConflictoArmado: this.myForm.get('chkVictimaComArm')?.value,
@@ -892,6 +906,8 @@ export class RegistrarCiudadanoComponent implements OnInit {
     this.myForm.get('eps')?.setValue(resp.afiliadoSeguridadSocial.eps);
     this.myForm.get('ips')?.setValue(resp.afiliadoSeguridadSocial.ips);
     this.myForm.get('chkLGBTI')?.setValue(resp.poblacionLgtbi);
+    this.myForm.get('chkAdultoMayor')?.setValue(resp.adultoMayor);
+    this.myForm.get('chkMujerEmbarazada')?.setValue(resp.mujerEmbarazada);
     this.myForm.get('chkNinoAdolecente')?.setValue(resp.ninoNinaAdolocente);
     this.myForm.get('chkMigrante')?.setValue(resp.migrante);
     this.myForm.get('chkVictimaComArm')?.setValue(resp.victimaConflictoArmado);

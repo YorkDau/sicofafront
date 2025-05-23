@@ -99,7 +99,7 @@
       <div class="mt-4" *ngIf="myForm.value.rConclusion === 'Si'">
         <h6>
           Formato de diligenciación de documento de cierre de seguimiento de
-          medidas: <button class="btn button-new mt-2">Generar</button>
+          medidas: <button class="btn button-new mt-2" (click)="imprimir()">Generar Acta</button>
         </h6>
       </div>
       <div class="mt-4" *ngIf="myForm.value.rConclusion === 'No'">

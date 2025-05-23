@@ -72,7 +72,15 @@ export class SharedFunctions {
       formulario.controls[campo]?.value.replace(/[^0-9]/g, '')
     );
   }
+  /**
+   * @description Solo permite ingresar letras y numeros
+   * */
 
+  static soloAlfanumerico(campo: string, formulario: FormGroup) {
+    return formulario.controls[campo]?.setValue(
+      formulario.controls[campo]?.value.replace(/[^a-zA-Z0-9]/g, '')
+    );
+}
   /**
    * @description Solo permite ingresar expresion regular
    */

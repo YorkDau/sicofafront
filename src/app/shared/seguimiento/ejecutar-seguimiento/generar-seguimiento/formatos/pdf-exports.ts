@@ -12,7 +12,9 @@ export class PdfExport {
    * @description Genera PDF del formato Constacia de Seguimiento Contacto Telefonico
    */
 
-  static generarPdfConstanciaSeguimientoContactoTelefonico(dataReporte?: DataSeguimiento) {
+  static generarPdfConstanciaSeguimientoContactoTelefonico(
+    dataReporte?: DataSeguimiento
+  ) {
     this.pdf = new jsPDF('p', 'pt', 'letter');
     const pageWidth =
       this.pdf.internal.pageSize.width || this.pdf.internal.pageSize.getWidth();
@@ -21,8 +23,12 @@ export class PdfExport {
     const mes = formatDate(new Date(), 'MMMM', 'es');
     const anio = formatDate(new Date(), 'yyyy', 'es');
     const nombreFormato = 'CONSTANCIA DE SEGUIMIENTO CONTACTO TELEFONICO';
-    const telefono = dataReporte!.numeroTelVictima ? dataReporte!.numeroTelVictima : '____________________________';
-    const correo    = dataReporte!.correoVictima ? dataReporte!.correoVictima : '____________________________';
+    const telefono = dataReporte!.numeroTelVictima
+      ? dataReporte!.numeroTelVictima
+      : '____________________________';
+    const correo = dataReporte!.correoVictima
+      ? dataReporte!.correoVictima
+      : '____________________________';
     this.crearEncabezado(nombreFormato, 42);
     this.pdf.setLineWidth(1);
     this.pdf.setDrawColor(0, 0, 0);
@@ -34,16 +40,8 @@ export class PdfExport {
       85,
       150
     );
-    this.pdf.text(
-      'NÚMERO DE TELÉFONO: '+ telefono,
-      85,
-      170
-    );
-    this.pdf.text(
-      'CORREO ELECTRÓNICO: ' + correo,
-      85,
-      190
-    );
+    this.pdf.text('NÚMERO DE TELÉFONO: ' + telefono, 85, 170);
+    this.pdf.text('CORREO ELECTRÓNICO: ' + correo, 85, 190);
     this.pdf.text(
       'PERSONA QUE ATIENDE LA LLAMADA: ____________________________________',
       85,
@@ -97,14 +95,17 @@ export class PdfExport {
    * @description Genera PDF del formato AUTO ORDENANDO VISITA DOMICILIARIA
    */
 
-  static generarPdfAutoOrdenandoVisitaDomiciliaria(dataReporte?: DataSeguimiento) {
-    
+  static generarPdfAutoOrdenandoVisitaDomiciliaria(
+    dataReporte?: DataSeguimiento
+  ) {
     this.pdf = new jsPDF('p', 'pt', 'letter');
     this.pdf.setFontSize(10);
     const dia = formatDate(new Date(), 'dd', 'es');
     const mes = formatDate(new Date(), 'MMMM', 'es');
     const anio = formatDate(new Date(), 'yyyy', 'es');
-    const ciudad = dataReporte!.ciudadRemision ? dataReporte!.ciudadRemision : '________________';
+    const ciudad = dataReporte!.ciudadRemision
+      ? dataReporte!.ciudadRemision
+      : '________________';
     const nombreFormato = 'AUTO ORDENANDO VISITA DOMICILIARIA';
     this.crearEncabezado(nombreFormato, 42);
 
@@ -160,13 +161,17 @@ export class PdfExport {
    * @description Genera PDF del formato Informe de Seguimiento Entrevista interventiva
    */
 
-  static generarPdfInformeSeguimientoEntrevistaInterventiva(dataReporte?: DataSeguimiento) {
+  static generarPdfInformeSeguimientoEntrevistaInterventiva(
+    dataReporte?: DataSeguimiento
+  ) {
     this.pdf = new jsPDF('p', 'pt', 'letter');
     this.pdf.setFontSize(10);
     const dia = formatDate(new Date(), 'dd', 'es');
     const mes = formatDate(new Date(), 'MMMM', 'es');
     const anio = formatDate(new Date(), 'yyyy', 'es');
-    const ciudad = dataReporte!.ciudadRemision ? dataReporte!.ciudadRemision : '________________';
+    const ciudad = dataReporte!.ciudadRemision
+      ? dataReporte!.ciudadRemision
+      : '________________';
     const nombreFormato = 'INFORME DE SEGUIMIENTO ENTREVISTA INTERVENTIVA';
     this.pdf.setLineWidth(1);
     this.crearEncabezado(nombreFormato, 42);
@@ -302,28 +307,30 @@ export class PdfExport {
    * @description Genera PDF del formato de Seguimiento Medidas de Proteccion
    */
 
-  static generarPdfFormatoSeguimientoMedidasProteccion(dataReporte?: DataSeguimiento) {
+  static generarPdfFormatoSeguimientoMedidasProteccion(
+    dataReporte?: DataSeguimiento
+  ) {
     this.pdf = new jsPDF('p', 'pt', 'letter');
     this.pdf.setFontSize(10);
     const dia = formatDate(new Date(), 'dd', 'es');
     const mes = formatDate(new Date(), 'MMMM', 'es');
     const anio = formatDate(new Date(), 'yyyy', 'es');
-    const ciudad = dataReporte!.ciudadRemision ? dataReporte!.ciudadRemision : '________________';
-    const nombreVictima = dataReporte!.nombreVictima ? dataReporte!.nombreVictima : '__________________________________________________';
+    const ciudad = dataReporte!.ciudadRemision
+      ? dataReporte!.ciudadRemision
+      : '________________';
+    const nombreVictima = dataReporte!.nombreVictima
+      ? dataReporte!.nombreVictima
+      : '__________________________________________________';
     const nombreFormato = 'FORMATO SEGUIMIENTO MEDIDAS PROTECCION';
     this.crearEncabezado(nombreFormato, 42);
 
     /** Ciudad, fecha y medida de protección */
-    this.pdf.text('Ciudad: '+ ciudad, 85, 130);
+    this.pdf.text('Ciudad: ' + ciudad, 85, 130);
     this.pdf.text('Fecha: ' + dia + ' / ' + mes + ' / ' + anio, 85, 145);
     this.pdf.text('MP-VIF: _____________________', 85, 160);
 
     /** Nombre y aplicacion de formato */
-    this.pdf.text(
-      'Nombre Completo: ' + nombreVictima,
-      85,
-      200
-    );
+    this.pdf.text('Nombre Completo: ' + nombreVictima, 85, 200);
     this.pdf.text('Aplicado a través de:', 85, 215);
 
     this.pdf.setLineJoin(1);
@@ -1198,13 +1205,340 @@ export class PdfExport {
     this.crearPiePagina(4);
     window.open(URL.createObjectURL(this.pdf.output('blob')));
   }
+  static generarPdfActa() {
+    this.pdf = new jsPDF('p', 'pt', 'letter');
 
-  static generarPdfInstrumentoSeguimientoEfectividadMedidasAtencion(){
+    const nombreFormato =
+      'ACTA DE CIERRE DE SEGUIMIENTO';
+    this.crearEncabezado(nombreFormato, 42);
+    this.pdf.setLineWidth(0.5);
+    this.pdf.setDrawColor(0, 0, 0);
+
+    /** cuadricula */
+    this.crearCuadricula(true);
+
+    /** Titulo */
+    autoTable(this.pdf, {
+      html: '#titulo',
+      useCss: true,
+      startY: 102.5,
+      margin: {
+        left: 73,
+        right: 75,
+      },
+    });
+    this.verificar(195);
+
+    autoTable(this.pdf, {
+      html: '#titulo-1',
+      useCss: true,
+      startY: 215,
+      margin: {
+        left: 75,
+        right: 84,
+      },
+    });
+ 
+
+    //texto
+    autoTable(this.pdf, {
+      html: '#titulo-2',
+      useCss: true,
+      startY: 450,
+      margin: {
+        left: 75,
+        right: 300,
+      },
+    });
+
+
+    this.pdf.addPage();
+
+    this.crearEncabezado(nombreFormato, 42);
+    this.crearCuadricula(true);
+
+    autoTable(this.pdf, {
+      html: '#titulo-medida-1',
+      useCss: true,
+      startY: 102.5,
+      margin: {
+        left: 73,
+        right: 75,
+      },
+    });
+    this.verificar(180);
+
+   
+    autoTable(this.pdf, {
+      html: ' #explicacion-respuesta',
+      useCss: true,
+      startY: 430,
+      margin: {
+        left: 75,
+        right: 90,
+      },
+    });
+
+    //pregunta 2.3
+    autoTable(this.pdf, {
+      html: '#titulo-6',
+      useCss: true,
+      startY: 515,
+      margin: {
+        left: 75,
+        right: 300,
+      },
+    });
+  
+
+    this.pdf.addPage();
+
+    this.crearEncabezado(nombreFormato, 42);
+    this.crearCuadricula(true);
+
+    //tercera medida
+    autoTable(this.pdf, {
+      html: '#titulo-medida-2',
+      useCss: true,
+      startY: 102.5,
+      margin: {
+        left: 73,
+        right: 75,
+      },
+    });
+    this.verificar(165);
+
+    //pregunta 3.1
+    autoTable(this.pdf, {
+      html: '#titulo-8',
+      useCss: true,
+      startY: 240,
+      margin: {
+        left: 75,
+        right: 300,
+      },
+    });
+ 
+
+    this.verificar(470);
+
+    //pregunta 4.1
+    autoTable(this.pdf, {
+      html: '#titulo-10',
+      useCss: true,
+      startY: 550,
+      margin: {
+        left: 75,
+        right: 300,
+      },
+    });
+
+    //cuadro SI NO N/A
+    this.cuadroSiYNo(330, 640, 50);
+
+    this.pdf.addPage();
+    this.crearEncabezado(nombreFormato, 42);
+    this.crearCuadricula(true);
+
+    //pregunta 4.3
+    autoTable(this.pdf, {
+      html: '#titulo-12',
+      useCss: true,
+      startY: 110,
+      margin: {
+        left: 75,
+        right: 300,
+      },
+    });
+ 
+ 
+    this.verificar(230);
+    //pregunta 7.1
+    autoTable(this.pdf, {
+      html: '#titulo-17',
+      useCss: true,
+      startY: 320,
+      margin: {
+        left: 75,
+        right: 300,
+      },
+    });
+    //cuadro lista de chequeo
+    this.cuadroListasCequeo(430, 260, 100, '4.1.1', '4.1.2');
+    //lineas lado izquierdo
+    this.pdf.line(430, 330, 460, 330);
+    this.pdf.line(460, 330, 460, 360);
+    //lineas lado derecho
+    this.pdf.line(480, 330, 510, 330);
+    this.pdf.line(480, 330, 480, 360);
+    //cuadro SI NO N/A
+    this.cuadroSiYNo(330, 310, 50);
+    //pregunta 7.2
+    autoTable(this.pdf, {
+      html: '#titulo-18',
+      useCss: true,
+      startY: 390,
+      margin: {
+        left: 75,
+        right: 300,
+      },
+    });
+    //cuadros SI NO
+    this.pdf.setDrawColor(0, 0, 0);
+    this.pdf.text('SÍ', 435, 400);
+    this.pdf.rect(430, 410, 30, 30);
+    this.pdf.text('NO', 485, 400);
+    this.pdf.rect(480, 410, 30, 30);
+
+    autoTable(this.pdf, {
+      html: ' #explicacion-respuesta',
+      useCss: true,
+      startY: 470,
+      margin: {
+        left: 75,
+        right: 90,
+      },
+    });
+
+    //Octava medida
+    autoTable(this.pdf, {
+      html: '#titulo-medida-7',
+      useCss: true,
+      startY: 500,
+      margin: {
+        left: 73,
+        right: 75,
+      },
+    });
+    this.verificar(570);
+    //pregunta8.1
+    autoTable(this.pdf, {
+      html: '#titulo-19',
+      useCss: true,
+      startY: 610,
+      margin: {
+        left: 75,
+        right: 300,
+      },
+    });
+    //cuadro SI NO N/A
+    this.cuadroSiYNo(330, 620, 50);
+
+    this.pdf.setFontSize(8);
+    this.pdf.text('Si existe la solicitud, continúe a 8.2', 85, 690);
+
+    this.pdf.addPage();
+    this.crearEncabezado(nombreFormato, 42);
+    this.crearCuadricula(true);
+
+    //pregunta 8.2
+    autoTable(this.pdf, {
+      html: '#titulo-20',
+      useCss: true,
+      startY: 160,
+      margin: {
+        left: 75,
+        right: 300,
+      },
+    });
+    //cuadro lista de chequeo
+    this.cuadroListasCequeo(430, 110, 100, '4.1.1', '4.1.2');
+    //lineas lado izquierdo
+    this.pdf.line(430, 180, 460, 180);
+    this.pdf.line(460, 180, 460, 210);
+    //lineas lado derecho
+    this.pdf.line(480, 180, 510, 180);
+    this.pdf.line(480, 180, 480, 210);
+    //cuadro SI NO N/A
+    this.cuadroSiYNo(330, 160, 50);
+
+    //pregunta 8.3
+    autoTable(this.pdf, {
+      html: '#titulo-21',
+      useCss: true,
+      startY: 240,
+      margin: {
+        left: 75,
+        right: 300,
+      },
+    });
+    //cuadros SI NO
+    this.pdf.setDrawColor(0, 0, 0);
+    this.pdf.text('SÍ', 435, 250);
+    this.pdf.rect(430, 260, 30, 30);
+    this.pdf.text('NO', 485, 250);
+    this.pdf.rect(480, 260, 30, 30);
+
+    // novena medida
+    autoTable(this.pdf, {
+      html: '#titulo-medida-8',
+      useCss: true,
+      startY: 310,
+      margin: {
+        left: 73,
+        right: 75,
+      },
+    });
+    this.verificar(360);
+
+  
+ 
+    autoTable(this.pdf, {
+      html: ' #explicacion-respuesta',
+      useCss: true,
+      startY: 670,
+      margin: {
+        left: 75,
+        right: 90,
+      },
+    });
+
+    this.pdf.addPage();
+    this.crearEncabezado(nombreFormato, 42);
+    this.crearCuadricula(true);
+
+  
+
+   
+
+    this.pdf.addPage();
+    this.crearEncabezado(nombreFormato, 42);
+    this.crearCuadricula(true);
+
+    autoTable(this.pdf, {
+      html: '#titulo-28',
+      useCss: true,
+      startY: 120,
+      margin: {
+        left: 75,
+        right: 260,
+      },
+    });
+    
+
+
+    //firmas
+    this.pdf.setDrawColor(0, 0, 0);
+    this.pdf.setFontSize(10);
+    this.pdf.line(90, 440, 390, 440);
+    this.pdf.text(
+      '12. Firma de quien realizó el seguimiento  a las medidas de protección',
+      75,
+      455
+    );
+    this.pdf.text('Nombre:', 90, 475);
+    this.pdf.text('Cargo:', 90, 495);
+
+    this.crearPiePagina(4);
+    window.open(URL.createObjectURL(this.pdf.output('blob')));
+  }
+
+  static generarPdfInstrumentoSeguimientoEfectividadMedidasAtencion() {
     this.pdf = new jsPDF('p', 'pt', 'letter');
 
     const nombreFormato =
       'INSTRUMENTO PARA EL SEGUIMIENTO A LAS MEDIDAS DE ATENCION';
-    this.crearEncabezado(nombreFormato, 42,true);
+    this.crearEncabezado(nombreFormato, 42, true);
     this.pdf.setLineWidth(0.5);
     this.pdf.setDrawColor(0, 0, 0);
 
@@ -1221,45 +1555,45 @@ export class PdfExport {
       },
     });
 
-    //campos de datos 
+    //campos de datos
     this.pdf.setFontSize(9);
-    this.pdf.text('1. Comisaría de familia de _____________________',62, 160);
+    this.pdf.text('1. Comisaría de familia de _____________________', 62, 160);
     this.pdf.text('2. Departamento: ___________________', 62, 180);
-    this.pdf.text('3. Municipio: _______________________',62,200);
+    this.pdf.text('3. Municipio: _______________________', 62, 200);
     this.pdf.setLineWidth(0.5);
     this.pdf.setDrawColor(0, 0, 0);
-    this.pdf.line(310,137,310,220);
+    this.pdf.line(310, 137, 310, 220);
     this.pdf.text('4. Fecha de diligenciamiento', 312, 160);
-    this.pdf.text('5. Expediente número',312, 200);
+    this.pdf.text('5. Expediente número', 312, 200);
     //cuadros para el numero de expediente y la fecha
     this.pdf.setLineWidth(1);
     this.pdf.setDrawColor(0, 0, 0);
     //cuadro numero expedidente
     //cuadro fecha
-    this.pdf.rect(440,150,80,15);
+    this.pdf.rect(440, 150, 80, 15);
     //lineas dentro de lo cuadro fecha
-    this.pdf.line(450,150,450,165);
-    this.pdf.line(460,150,460,165);
-    this.pdf.line(470,150,470,165);
-    this.pdf.line(480,150,480,165);
-    this.pdf.line(490,150,490,165);
-    this.pdf.line(500,150,500,165);
-    this.pdf.line(510,150,510,165);
+    this.pdf.line(450, 150, 450, 165);
+    this.pdf.line(460, 150, 460, 165);
+    this.pdf.line(470, 150, 470, 165);
+    this.pdf.line(480, 150, 480, 165);
+    this.pdf.line(490, 150, 490, 165);
+    this.pdf.line(500, 150, 500, 165);
+    this.pdf.line(510, 150, 510, 165);
     this.pdf.setFontSize(7);
-    this.pdf.text('DÍA',442,175);
-    this.pdf.text('MES',462,175);
-    this.pdf.text('AÑO',492,175);
-    this.pdf.rect(440,190,80,15);
+    this.pdf.text('DÍA', 442, 175);
+    this.pdf.text('MES', 462, 175);
+    this.pdf.text('AÑO', 492, 175);
+    this.pdf.rect(440, 190, 80, 15);
     //lineas dentro del cuadro numero expediente
-    this.pdf.line(450,190,450,205);
-    this.pdf.line(460,190,460,205);
-    this.pdf.line(470,190,470,205);
-    this.pdf.line(480,190,480,205);
-    this.pdf.line(490,190,490,205);
-    this.pdf.line(500,190,500,205);
-    this.pdf.line(510,190,510,205);
+    this.pdf.line(450, 190, 450, 205);
+    this.pdf.line(460, 190, 460, 205);
+    this.pdf.line(470, 190, 470, 205);
+    this.pdf.line(480, 190, 480, 205);
+    this.pdf.line(490, 190, 490, 205);
+    this.pdf.line(500, 190, 500, 205);
+    this.pdf.line(510, 190, 510, 205);
 
-    //segundo titulo 
+    //segundo titulo
     autoTable(this.pdf, {
       html: '#titulo-blanco-1',
       useCss: true,
@@ -1270,146 +1604,145 @@ export class PdfExport {
       },
     });
     this.pdf.setFontSize(9);
-    this.pdf.text('6. Nombre:',62,260);
+    this.pdf.text('6. Nombre:', 62, 260);
     // epsacios para nombres y apellidos;
     this.pdf.setLineWidth(1);
     this.pdf.setDrawColor(0, 0, 0);
-    this.pdf.rect(130,250,150,15);
+    this.pdf.rect(130, 250, 150, 15);
     //apellidos
     this.pdf.setFontSize(7);
     this.pdf.text('1er Apellido', 285, 260);
-    this.pdf.rect(325,250,90,15);
-    this.pdf.text('2do Apellido', 420,260);
-    this.pdf.rect(460,250,92,15);
+    this.pdf.rect(325, 250, 90, 15);
+    this.pdf.text('2do Apellido', 420, 260);
+    this.pdf.rect(460, 250, 92, 15);
     //7 identificación
     this.pdf.setFontSize(9);
-    this.pdf.text('7. Identificación:',62, 300);
+    this.pdf.text('7. Identificación:', 62, 300);
     //Cuadro RC
-    this.pdf.rect(140,290,30,15);
+    this.pdf.rect(140, 290, 30, 15);
     this.pdf.setFontSize(7);
-    this.pdf.text('RC',142,300);
-    this.pdf.line(155,290,155,305);
+    this.pdf.text('RC', 142, 300);
+    this.pdf.line(155, 290, 155, 305);
     //cuadro CC
-    this.pdf.rect(180,290,30,15);
-    this.pdf.text('CC',182,300);
-    this.pdf.line(195,290,195,305);
+    this.pdf.rect(180, 290, 30, 15);
+    this.pdf.text('CC', 182, 300);
+    this.pdf.line(195, 290, 195, 305);
     //Cuadro TI
-    this.pdf.rect(220,290,30,15);
-    this.pdf.text('TI',222,300);
-    this.pdf.line(235,290,235,305);
+    this.pdf.rect(220, 290, 30, 15);
+    this.pdf.text('TI', 222, 300);
+    this.pdf.line(235, 290, 235, 305);
     //Cuadro CE
-    this.pdf.rect(260,290,30,15);
-    this.pdf.text('CE',262,300);
-    this.pdf.line(275,290,275,305);
+    this.pdf.rect(260, 290, 30, 15);
+    this.pdf.text('CE', 262, 300);
+    this.pdf.line(275, 290, 275, 305);
     //Cuadro PA
-    this.pdf.rect(300,290,30,15);
-    this.pdf.text('PA',302,300);
-    this.pdf.line(315,290,315,305);
+    this.pdf.rect(300, 290, 30, 15);
+    this.pdf.text('PA', 302, 300);
+    this.pdf.line(315, 290, 315, 305);
     //Cuadro SD
-    this.pdf.rect(340,290,30,15);
-    this.pdf.text('SD',342,300);
-    this.pdf.line(355,290,355,305);
+    this.pdf.rect(340, 290, 30, 15);
+    this.pdf.text('SD', 342, 300);
+    this.pdf.line(355, 290, 355, 305);
     //cuadro otro
-    this.pdf.text('Otro:',400,300);
-    this.pdf.rect(420,290,100,15);
+    this.pdf.text('Otro:', 400, 300);
+    this.pdf.rect(420, 290, 100, 15);
     //cuadro N
-    this.pdf.text('No.',400,330);
-    this.pdf.rect(420,320,100,15);
+    this.pdf.text('No.', 400, 330);
+    this.pdf.rect(420, 320, 100, 15);
 
     //8. Relación con el agresor/a:
     this.pdf.setFontSize(9);
-    this.pdf.text('8. Relación con el agresor/a:',62,360);
+    this.pdf.text('8. Relación con el agresor/a:', 62, 360);
     //cuadro para conyuge
     this.pdf.setLineWidth(1);
     this.pdf.setDrawColor(0, 0, 0);
     this.pdf.setFontSize(7);
-    this.pdf.rect(190,350,100,15);
-    this.pdf.text('Cónyuge/compañero/a',192,360);
-    this.pdf.line(275,350,275,365);
+    this.pdf.rect(190, 350, 100, 15);
+    this.pdf.text('Cónyuge/compañero/a', 192, 360);
+    this.pdf.line(275, 350, 275, 365);
     //cuadro para exconyuge
-    this.pdf.rect(300,350,110,15);
-    this.pdf.text('Excónyuge/Excompañero/a',302,360);
-    this.pdf.line(395,350,395,365);
+    this.pdf.rect(300, 350, 110, 15);
+    this.pdf.text('Excónyuge/Excompañero/a', 302, 360);
+    this.pdf.line(395, 350, 395, 365);
     //cuadro para padre o madre
-    this.pdf.rect(420,350,100,15);
-    this.pdf.text('Padre/Madre',422,360);
-    this.pdf.line(505,350,505,365);
+    this.pdf.rect(420, 350, 100, 15);
+    this.pdf.text('Padre/Madre', 422, 360);
+    this.pdf.line(505, 350, 505, 365);
 
     //cuadro hijo
-    this.pdf.rect(65,380,60,15);
-    this.pdf.text('Hijo/a',67,390);
-    this.pdf.line(110,380,110,395);
+    this.pdf.rect(65, 380, 60, 15);
+    this.pdf.text('Hijo/a', 67, 390);
+    this.pdf.line(110, 380, 110, 395);
     //cuadro hijastro
-    this.pdf.rect(135,380,60,15);
-    this.pdf.text('Hijastro/a',137,390);
-    this.pdf.line(180,380,180,395);
+    this.pdf.rect(135, 380, 60, 15);
+    this.pdf.text('Hijastro/a', 137, 390);
+    this.pdf.line(180, 380, 180, 395);
     //cuadro Hermano
-    this.pdf.rect(205,380,60,15);
-    this.pdf.text('Hermano/a',207,390);
-    this.pdf.line(250,380,250,395);
+    this.pdf.rect(205, 380, 60, 15);
+    this.pdf.text('Hermano/a', 207, 390);
+    this.pdf.line(250, 380, 250, 395);
     //cuadro Hermanastro
-    this.pdf.rect(275,380,70,15);
-    this.pdf.text('Hermanastro/a',277,390);
-    this.pdf.line(330,380,330,395);
-    //cuadro tio 
-    this.pdf.rect(355,380,50,15);
-    this.pdf.text('Tio/a',357,390);
-    this.pdf.line(390,380,390,395);
+    this.pdf.rect(275, 380, 70, 15);
+    this.pdf.text('Hermanastro/a', 277, 390);
+    this.pdf.line(330, 380, 330, 395);
+    //cuadro tio
+    this.pdf.rect(355, 380, 50, 15);
+    this.pdf.text('Tio/a', 357, 390);
+    this.pdf.line(390, 380, 390, 395);
     //cuadro primo
-    this.pdf.rect(415,380,50,15);
-    this.pdf.text('Primo/a',417,390);
-    this.pdf.line(450,380,450,395);
+    this.pdf.rect(415, 380, 50, 15);
+    this.pdf.text('Primo/a', 417, 390);
+    this.pdf.line(450, 380, 450, 395);
     //cuadro abuelo
-    this.pdf.rect(475,380,60,15);
-    this.pdf.text('Abuelo/a',477,390);
-    this.pdf.line(510,380,510,395);
-    
+    this.pdf.rect(475, 380, 60, 15);
+    this.pdf.text('Abuelo/a', 477, 390);
+    this.pdf.line(510, 380, 510, 395);
+
     //cuadro nieto
-    this.pdf.rect(65,410,60,15);
-    this.pdf.text('Nieto/a',67,420);
-    this.pdf.line(110,410,110,425);
+    this.pdf.rect(65, 410, 60, 15);
+    this.pdf.text('Nieto/a', 67, 420);
+    this.pdf.line(110, 410, 110, 425);
     //cuadro suegro
-    this.pdf.rect(135,410,60,15);
-    this.pdf.text('Suegro/a',137,420);
-    this.pdf.line(180,410,180,425);
+    this.pdf.rect(135, 410, 60, 15);
+    this.pdf.text('Suegro/a', 137, 420);
+    this.pdf.line(180, 410, 180, 425);
     //cuadro sobrino
-    this.pdf.rect(205,410,60,15);
-    this.pdf.text('Sobrino/a',207,420);
-    this.pdf.line(250,380,250,395);
+    this.pdf.rect(205, 410, 60, 15);
+    this.pdf.text('Sobrino/a', 207, 420);
+    this.pdf.line(250, 380, 250, 395);
     //cuadro otro pariente
-    this.pdf.rect(275,410,70,15);
-    this.pdf.text('Otro pariente',277,420);
-    this.pdf.line(330,410,330,425);
+    this.pdf.rect(275, 410, 70, 15);
+    this.pdf.text('Otro pariente', 277, 420);
+    this.pdf.line(330, 410, 330, 425);
     //cuadro SD
-    this.pdf.rect(355,410,50,15);
-    this.pdf.text('SD',357,420);
-    this.pdf.line(390,410,390,425);
+    this.pdf.rect(355, 410, 50, 15);
+    this.pdf.text('SD', 357, 420);
+    this.pdf.line(390, 410, 390, 425);
 
-
-    //9. Tiene hijos: 
-    this.pdf.setFontSize(9)
+    //9. Tiene hijos:
+    this.pdf.setFontSize(9);
     this.pdf.text('9. Tiene hijos: ', 65, 460);
     //cuadros si y no
     this.pdf.setFontSize(7);
-    this.pdf.rect(135,450,40,15);
-    this.pdf.text('NO',137,460);
-    this.pdf.line(155,450,155,465);
-    this.pdf.rect(185,450,40,15);
-    this.pdf.text('SI',187,460);
-    this.pdf.line(205,450,205,465);
+    this.pdf.rect(135, 450, 40, 15);
+    this.pdf.text('NO', 137, 460);
+    this.pdf.line(155, 450, 155, 465);
+    this.pdf.rect(185, 450, 40, 15);
+    this.pdf.text('SI', 187, 460);
+    this.pdf.line(205, 450, 205, 465);
 
-    //cuadro Cuantos 
+    //cuadro Cuantos
     this.pdf.text('¿Cuántos?', 240, 460);
-    this.pdf.rect(280,450,20,15);
-    
-    autoTable(this.pdf,{
+    this.pdf.rect(280, 450, 20, 15);
+
+    autoTable(this.pdf, {
       html: '#tabla-hijos',
       useCss: true,
       startY: 480,
-      margin:{
+      margin: {
         left: 100,
-        right: 100
-      }
+        right: 100,
+      },
     });
     this.pdf.setLineWidth(1);
     this.pdf.setDrawColor(0, 0, 0);
@@ -1417,67 +1750,71 @@ export class PdfExport {
 
     //10. ¿La víctima tiene usted alguna discapacidad?
     this.pdf.setFontSize(9);
-    this.pdf.text('10. ¿La víctima tiene usted alguna discapacidad?',65,610);
+    this.pdf.text('10. ¿La víctima tiene usted alguna discapacidad?', 65, 610);
     //cuadro No
     this.pdf.setFontSize(7);
-    this.pdf.rect(270,600,30,15);
-    this.pdf.text('NO',272, 610);
-    this.pdf.line(285,600,285,615);
+    this.pdf.rect(270, 600, 30, 15);
+    this.pdf.text('NO', 272, 610);
+    this.pdf.line(285, 600, 285, 615);
     //Cuadro si
-    this.pdf.rect(310,600,30,15);
-    this.pdf.text('SI',312, 610);
-    this.pdf.line(325,600,325,615);
+    this.pdf.rect(310, 600, 30, 15);
+    this.pdf.text('SI', 312, 610);
+    this.pdf.line(325, 600, 325, 615);
     //campo cual
     this.pdf.text('¿Cuál?', 352, 610);
-    this.pdf.rect(350,600,80,15);
+    this.pdf.rect(350, 600, 80, 15);
 
-    //lineas para la flecha 
-    this.pdf.line(320,615,320,630);
-    this.pdf.line(140,630,320,630);
-    this.pdf.line(140,630,140,640)
-     //11.  ¿La víctima tiene cuidador/a?
-     this.pdf.setFontSize(9);
-     this.pdf.text('11.  ¿La víctima tiene cuidador/a?',65,650);
-     //cuadro No
+    //lineas para la flecha
+    this.pdf.line(320, 615, 320, 630);
+    this.pdf.line(140, 630, 320, 630);
+    this.pdf.line(140, 630, 140, 640);
+    //11.  ¿La víctima tiene cuidador/a?
+    this.pdf.setFontSize(9);
+    this.pdf.text('11.  ¿La víctima tiene cuidador/a?', 65, 650);
+    //cuadro No
     this.pdf.setFontSize(7);
-    this.pdf.rect(270,640,30,15);
-    this.pdf.text('NO',272, 650);
-    this.pdf.line(285,640,285,655);
+    this.pdf.rect(270, 640, 30, 15);
+    this.pdf.text('NO', 272, 650);
+    this.pdf.line(285, 640, 285, 655);
     //Cuadro si
-    this.pdf.rect(310,640,30,15);
-    this.pdf.text('SI',312, 650);
-    this.pdf.line(325,640,325,655);
+    this.pdf.rect(310, 640, 30, 15);
+    this.pdf.text('SI', 312, 650);
+    this.pdf.line(325, 640, 325, 655);
 
     //12. ¿La víctima se encuentra en estado de embarazo?
     this.pdf.setFontSize(9);
-    this.pdf.text('12. ¿La víctima se encuentra en estado de embarazo?',65,680);
+    this.pdf.text(
+      '12. ¿La víctima se encuentra en estado de embarazo?',
+      65,
+      680
+    );
     //cuadro No
     this.pdf.setFontSize(7);
-    this.pdf.rect(290,670,30,15);
-    this.pdf.text('NO',292, 680);
-    this.pdf.line(305,670,305,685);
+    this.pdf.rect(290, 670, 30, 15);
+    this.pdf.text('NO', 292, 680);
+    this.pdf.line(305, 670, 305, 685);
     //Cuadro si
-    this.pdf.rect(330,670,30,15);
-    this.pdf.text('SI',332, 680);
-    this.pdf.line(345,670,345,685);
+    this.pdf.rect(330, 670, 30, 15);
+    this.pdf.text('SI', 332, 680);
+    this.pdf.line(345, 670, 345, 685);
     //campo cual
     this.pdf.text('¿Cuántos meses?', 382, 680);
-    this.pdf.rect(380,670,80,15);
-    this.pdf.line(445,670,445,685);
-    //campo SD 
-    this.pdf.rect(470,670,30,15);
-    this.pdf.text('SD',472, 680);
-    this.pdf.line(485,670,485,685);
-    //campo NA 
-    this.pdf.rect(510,670,30,15);
-    this.pdf.text('NA',512, 680);
-    this.pdf.line(525,670,525,685);
+    this.pdf.rect(380, 670, 80, 15);
+    this.pdf.line(445, 670, 445, 685);
+    //campo SD
+    this.pdf.rect(470, 670, 30, 15);
+    this.pdf.text('SD', 472, 680);
+    this.pdf.line(485, 670, 485, 685);
+    //campo NA
+    this.pdf.rect(510, 670, 30, 15);
+    this.pdf.text('NA', 512, 680);
+    this.pdf.line(525, 670, 525, 685);
 
     this.pdf.addPage();
-    this.crearEncabezado(nombreFormato, 42,true);
+    this.crearEncabezado(nombreFormato, 42, true);
     //cuadricula
     this.crearCuadricula(false);
-    //segundo titulo 
+    //segundo titulo
     autoTable(this.pdf, {
       html: '#titulo-blanco-2',
       useCss: true,
@@ -1489,24 +1826,40 @@ export class PdfExport {
     });
 
     this.pdf.setFontSize(9);
-    this.pdf.text('Revise los siguientes en el expediente: (consigne ideas generales)', 65, 130);
+    this.pdf.text(
+      'Revise los siguientes en el expediente: (consigne ideas generales)',
+      65,
+      130
+    );
 
     //13. Resumen de la historia clínica de la mujer víctima. Este resumen de historia clínica debe contener:
-    this.pdf.text('13. Resumen de la historia clínica de la mujer víctima. Este resumen de historia clínica debe contener:' ,65,150);
+    this.pdf.text(
+      '13. Resumen de la historia clínica de la mujer víctima. Este resumen de historia clínica debe contener:',
+      65,
+      150
+    );
     //punto a
-    this.pdf.text('a. El diagnóstico inicial de la afectación de la violencia en la salud física y mental  de las mujeres víctimas', 85,170);
+    this.pdf.text(
+      'a. El diagnóstico inicial de la afectación de la violencia en la salud física y mental  de las mujeres víctimas',
+      85,
+      170
+    );
     this.pdf.setLineWidth(1);
     this.pdf.setDrawColor(0, 0, 0);
     this.pdf.line(85, 190, 510, 190);
     this.pdf.line(85, 210, 510, 210);
     this.pdf.line(85, 230, 510, 230);
     //punto b
-    this.pdf.text('b. El plan de tratamiento a seguir', 85,250);
+    this.pdf.text('b. El plan de tratamiento a seguir', 85, 250);
     this.pdf.line(85, 270, 510, 270);
     this.pdf.line(85, 290, 510, 290);
     this.pdf.line(85, 310, 510, 310);
     //14. Situación especial de riesgo en que se encuentre la víctima
-    this.pdf.text('14. Situación especial de riesgo en que se encuentre la víctima', 65,330);
+    this.pdf.text(
+      '14. Situación especial de riesgo en que se encuentre la víctima',
+      65,
+      330
+    );
     this.pdf.line(85, 350, 510, 350);
     this.pdf.line(85, 370, 510, 370);
     this.pdf.line(85, 390, 510, 390);
@@ -1521,51 +1874,63 @@ export class PdfExport {
       },
     });
     //15. Fecha de la medida de atención ordenada
-    this.pdf.text('15. Fecha de la medida de atención ordenada', 65,470);
+    this.pdf.text('15. Fecha de la medida de atención ordenada', 65, 470);
     this.pdf.setLineWidth(1);
     this.pdf.setDrawColor(0, 0, 0);
-    this.pdf.rect(270,460,80,15);
+    this.pdf.rect(270, 460, 80, 15);
     //lineas dentro de lo cuadro fecha
-    this.pdf.line(280,460,280,475);
-    this.pdf.line(290,460,290,475);
-    this.pdf.line(300,460,300,475);
-    this.pdf.line(310,460,310,475);
-    this.pdf.line(320,460,320,475);
-    this.pdf.line(330,460,330,475);
-    this.pdf.line(340,460,340,475);
+    this.pdf.line(280, 460, 280, 475);
+    this.pdf.line(290, 460, 290, 475);
+    this.pdf.line(300, 460, 300, 475);
+    this.pdf.line(310, 460, 310, 475);
+    this.pdf.line(320, 460, 320, 475);
+    this.pdf.line(330, 460, 330, 475);
+    this.pdf.line(340, 460, 340, 475);
     this.pdf.setFontSize(7);
-    this.pdf.text('DÍA',275,482);
-    this.pdf.text('MES',295,482);
-    this.pdf.text('AÑO',325,482);
+    this.pdf.text('DÍA', 275, 482);
+    this.pdf.text('MES', 295, 482);
+    this.pdf.text('AÑO', 325, 482);
 
     //16. Tiempo de la medida de atención
     this.pdf.setFontSize(9);
-    this.pdf.text('16. Tiempo de la medida de atención', 65,500);
+    this.pdf.text('16. Tiempo de la medida de atención', 65, 500);
     this.pdf.setLineWidth(1);
     this.pdf.setDrawColor(0, 0, 0);
-    this.pdf.rect(270,490,40,15);
-    this.pdf.line(280,490,280,505);
-    this.pdf.line(290,490,290,505);
-    this.pdf.line(300,490,300,505);
+    this.pdf.rect(270, 490, 40, 15);
+    this.pdf.line(280, 490, 280, 505);
+    this.pdf.line(290, 490, 290, 505);
+    this.pdf.line(300, 490, 300, 505);
     //17. Mecanismo de seguimiento establecido en el fallo
-    this.pdf.text('17. Mecanismo de seguimiento establecido en el fallo', 65,530);
-    this.pdf.rect(400,520,50,50);
-    this.pdf.line(425,520,425,570);
-    this.pdf.line(400,540,450,540);
-    this.pdf.text('SI',410,535);
-    this.pdf.text('NO',430,535);
-    
-    this.pdf.text('Indique Sí o No el fallo determinó algún mecanismo de seguimiento',100,560);
+    this.pdf.text(
+      '17. Mecanismo de seguimiento establecido en el fallo',
+      65,
+      530
+    );
+    this.pdf.rect(400, 520, 50, 50);
+    this.pdf.line(425, 520, 425, 570);
+    this.pdf.line(400, 540, 450, 540);
+    this.pdf.text('SI', 410, 535);
+    this.pdf.text('NO', 430, 535);
+
+    this.pdf.text(
+      'Indique Sí o No el fallo determinó algún mecanismo de seguimiento',
+      100,
+      560
+    );
     //17.1 Transcriba en el instrumento el mecanismo de seguimiento.
-    this.pdf.text('17.1 Transcriba en el instrumento el mecanismo de seguimiento.',65,630);
-    this.pdf.line(85,650,370,650);
-    this.pdf.line(85,670,370,670);
+    this.pdf.text(
+      '17.1 Transcriba en el instrumento el mecanismo de seguimiento.',
+      65,
+      630
+    );
+    this.pdf.line(85, 650, 370, 650);
+    this.pdf.line(85, 670, 370, 670);
 
-    this.pdf.line(420,575,420,590);
-    this.pdf.line(120,590,420,590);
-    this.pdf.line(120,590,120,615);
+    this.pdf.line(420, 575, 420, 590);
+    this.pdf.line(120, 590, 420, 590);
+    this.pdf.line(120, 590, 120, 615);
 
-    this.pdf.line(440,575,440,625);
+    this.pdf.line(440, 575, 440, 625);
     autoTable(this.pdf, {
       html: '#tabla-informacion',
       useCss: true,
@@ -1577,17 +1942,17 @@ export class PdfExport {
     });
 
     this.pdf.addPage();
-    this.crearEncabezado(nombreFormato, 42,true);
+    this.crearEncabezado(nombreFormato, 42, true);
     //cuadricula
     this.crearCuadricula(false);
 
     //18. Cumplimiento del seguimiento.
-    this.pdf.text('18. Cumplimiento del seguimiento.', 65,130);
-    this.pdf.rect(400,130,50,50);
-    this.pdf.line(425,130,425,180);
-    this.pdf.line(400,150,450,150);
-    this.pdf.text('SI',410,145);
-    this.pdf.text('NO',430,145);
+    this.pdf.text('18. Cumplimiento del seguimiento.', 65, 130);
+    this.pdf.rect(400, 130, 50, 50);
+    this.pdf.line(425, 130, 425, 180);
+    this.pdf.line(400, 150, 450, 150);
+    this.pdf.text('SI', 410, 145);
+    this.pdf.text('NO', 430, 145);
 
     autoTable(this.pdf, {
       html: '#verifique',
@@ -1600,7 +1965,7 @@ export class PdfExport {
     });
     this.pdf.setLineWidth(1);
     this.pdf.setDrawColor(0, 0, 0);
-    this.pdf.line(440,183,440,205);
+    this.pdf.line(440, 183, 440, 205);
     autoTable(this.pdf, {
       html: '#tabla-informacion-1',
       useCss: true,
@@ -1633,13 +1998,13 @@ export class PdfExport {
 
     this.pdf.setLineWidth(1);
     this.pdf.setDrawColor(0, 0, 0);
-    this.pdf.rect(400,290,50,50);
-    this.pdf.line(425,290,425,340);
-    this.pdf.line(400,310,450,310);
-    this.pdf.text('SI',410,305);
-    this.pdf.text('NO',430,305);
+    this.pdf.rect(400, 290, 50, 50);
+    this.pdf.line(425, 290, 425, 340);
+    this.pdf.line(400, 310, 450, 310);
+    this.pdf.text('SI', 410, 305);
+    this.pdf.text('NO', 430, 305);
 
-    this.pdf.line(440,345,440,365);
+    this.pdf.line(440, 345, 440, 365);
     autoTable(this.pdf, {
       html: '#tabla-informacion-2',
       useCss: true,
@@ -1662,12 +2027,12 @@ export class PdfExport {
 
     this.pdf.setLineWidth(1);
     this.pdf.setDrawColor(0, 0, 0);
-    this.pdf.rect(400,510,20,20);
-    this.pdf.rect(400,550,20,20);
-    this.pdf.rect(400,590,20,20);
+    this.pdf.rect(400, 510, 20, 20);
+    this.pdf.rect(400, 550, 20, 20);
+    this.pdf.rect(400, 590, 20, 20);
 
     this.pdf.addPage();
-    this.crearEncabezado(nombreFormato, 42,true);
+    this.crearEncabezado(nombreFormato, 42, true);
     //cuadricula
     this.crearCuadricula(false);
 
@@ -1682,10 +2047,14 @@ export class PdfExport {
     });
 
     this.pdf.setFontSize(9);
-    this.pdf.text('Marque con una X cuando se haya enviado el oficio y se haya anexado la copia al expediente', 75, 200);
+    this.pdf.text(
+      'Marque con una X cuando se haya enviado el oficio y se haya anexado la copia al expediente',
+      75,
+      200
+    );
     this.pdf.setLineWidth(1);
     this.pdf.setDrawColor(0, 0, 0);
-    this.pdf.rect(480,190,20,20);
+    this.pdf.rect(480, 190, 20, 20);
 
     //pregunta 21
     autoTable(this.pdf, {
@@ -1700,35 +2069,39 @@ export class PdfExport {
 
     this.pdf.setLineWidth(1);
     this.pdf.setDrawColor(0, 0, 0);
-    this.pdf.rect(430,230,50,50);
-    this.pdf.line(455,230,455,280);
-    this.pdf.line(430,250,480,250);
-    this.pdf.text('SI',440,240);
-    this.pdf.text('NO',460,240);
+    this.pdf.rect(430, 230, 50, 50);
+    this.pdf.line(455, 230, 455, 280);
+    this.pdf.line(430, 250, 480, 250);
+    this.pdf.text('SI', 440, 240);
+    this.pdf.text('NO', 460, 240);
 
-    this.pdf.line(440,285,440,350);
-    this.pdf.line(90,350,440,350);
-    this.pdf.line(90,350,90,370);
+    this.pdf.line(440, 285, 440, 350);
+    this.pdf.line(90, 350, 440, 350);
+    this.pdf.line(90, 350, 90, 370);
 
-    this.pdf.text('CASA REFUGIO',75,380);
-    this.pdf.text('ALBERGUE TEMPORAL',75,400);
-    this.pdf.text('SERVICIOS HOTELEROS',75,420);
-    this.pdf.rect(200,370,20,50); 
-    this.pdf.line(200,385,220,385);
-    this.pdf.line(200,401,220,401);
+    this.pdf.text('CASA REFUGIO', 75, 380);
+    this.pdf.text('ALBERGUE TEMPORAL', 75, 400);
+    this.pdf.text('SERVICIOS HOTELEROS', 75, 420);
+    this.pdf.rect(200, 370, 20, 50);
+    this.pdf.line(200, 385, 220, 385);
+    this.pdf.line(200, 401, 220, 401);
 
-    this.pdf.text('Registre el nombre y dirección del sitio donde se está prestando la medida', 75,455);
-    this.pdf.line(75,475,400,475);
-    this.pdf.line(75,495,400,495);
+    this.pdf.text(
+      'Registre el nombre y dirección del sitio donde se está prestando la medida',
+      75,
+      455
+    );
+    this.pdf.line(75, 475, 400, 475);
+    this.pdf.line(75, 495, 400, 495);
 
-    this.pdf.line(460,285,460,535);
-    this.pdf.line(90,535,460,535);
-    this.pdf.line(90,535,90,550);
+    this.pdf.line(460, 285, 460, 535);
+    this.pdf.line(90, 535, 460, 535);
+    this.pdf.line(90, 535, 90, 550);
 
-    this.pdf.rect(460,610,20,20);
+    this.pdf.rect(460, 610, 20, 20);
 
     this.pdf.addPage();
-    this.crearEncabezado(nombreFormato, 42,true);
+    this.crearEncabezado(nombreFormato, 42, true);
     //cuadricula
     this.crearCuadricula(false);
 
@@ -1744,17 +2117,17 @@ export class PdfExport {
     });
     this.pdf.setLineWidth(1);
     this.pdf.setDrawColor(0, 0, 0);
-    this.pdf.rect(430,120,50,50);
-    this.pdf.line(455,120,455,170);
-    this.pdf.line(430,140,480,140);
-    this.pdf.text('SI',440,130);
-    this.pdf.text('NO',460,130);
+    this.pdf.rect(430, 120, 50, 50);
+    this.pdf.line(455, 120, 455, 170);
+    this.pdf.line(430, 140, 480, 140);
+    this.pdf.text('SI', 440, 130);
+    this.pdf.text('NO', 460, 130);
 
-    this.pdf.line(460,175,460,218);
+    this.pdf.line(460, 175, 460, 218);
 
-    this.pdf.line(440,175,440,200);
-    this.pdf.line(120,200,440,200);
-    this.pdf.line(120,200,120,218);
+    this.pdf.line(440, 175, 440, 200);
+    this.pdf.line(120, 200, 440, 200);
+    this.pdf.line(120, 200, 120, 218);
 
     autoTable(this.pdf, {
       html: '#pregunta-22-2',
@@ -1787,24 +2160,24 @@ export class PdfExport {
 
     this.pdf.setLineWidth(1);
     this.pdf.setDrawColor(0, 0, 0);
-    this.pdf.rect(430,360,50,50);
-    this.pdf.line(455,360,455,410);
-    this.pdf.line(430,380,480,380);
-    this.pdf.text('SI',440,370);
-    this.pdf.text('NO',460,370);
+    this.pdf.rect(430, 360, 50, 50);
+    this.pdf.line(455, 360, 455, 410);
+    this.pdf.line(430, 380, 480, 380);
+    this.pdf.text('SI', 440, 370);
+    this.pdf.text('NO', 460, 370);
 
-    this.pdf.line(75,480,480,480);
-    this.pdf.line(75,500,480,500);
-    this.pdf.line(75,520,480,520);
+    this.pdf.line(75, 480, 480, 480);
+    this.pdf.line(75, 500, 480, 500);
+    this.pdf.line(75, 520, 480, 520);
 
-    this.pdf.rect(430,560,50,50);
-    this.pdf.line(455,560,455,610);
-    this.pdf.line(430,580,480,580);
-    this.pdf.text('SI',440,570);
-    this.pdf.text('NO',460,570);
+    this.pdf.rect(430, 560, 50, 50);
+    this.pdf.line(455, 560, 455, 610);
+    this.pdf.line(430, 580, 480, 580);
+    this.pdf.text('SI', 440, 570);
+    this.pdf.text('NO', 460, 570);
 
     this.pdf.addPage();
-    this.crearEncabezado(nombreFormato, 42,true);
+    this.crearEncabezado(nombreFormato, 42, true);
     //cuadricula
     this.crearCuadricula(false);
 
@@ -1819,21 +2192,21 @@ export class PdfExport {
     });
     this.pdf.setLineWidth(1);
     this.pdf.setDrawColor(0, 0, 0);
-    this.pdf.rect(430,120,50,50);
-    this.pdf.line(455,120,455,170);
-    this.pdf.line(430,140,480,140);
-    this.pdf.text('SI',440,140);
-    this.pdf.text('NO',460,140);
+    this.pdf.rect(430, 120, 50, 50);
+    this.pdf.line(455, 120, 455, 170);
+    this.pdf.line(430, 140, 480, 140);
+    this.pdf.text('SI', 440, 140);
+    this.pdf.text('NO', 460, 140);
 
-    this.pdf.line(440,175,440,190);
-    this.pdf.line(120,190,440,190);
-    this.pdf.line(120,190,120,205);
+    this.pdf.line(440, 175, 440, 190);
+    this.pdf.line(120, 190, 440, 190);
+    this.pdf.line(120, 190, 120, 205);
 
-    this.pdf.rect(430,210,50,50);
-    this.pdf.line(455,210,455,260);
-    this.pdf.line(430,230,480,230);
-    this.pdf.text('SI',440,220);
-    this.pdf.text('NO',460,220);
+    this.pdf.rect(430, 210, 50, 50);
+    this.pdf.line(455, 210, 455, 260);
+    this.pdf.line(430, 230, 480, 230);
+    this.pdf.text('SI', 440, 220);
+    this.pdf.text('NO', 460, 220);
 
     autoTable(this.pdf, {
       html: '#titulo-blanco-4',
@@ -1865,13 +2238,13 @@ export class PdfExport {
     });
     this.pdf.setLineWidth(1);
     this.pdf.setDrawColor(0, 0, 0);
-    this.pdf.rect(430,340,50,80);
-    this.pdf.line(455,340,455,420);
-    this.pdf.line(430,360,480,360);
-    this.pdf.line(430,380,480,380);
-    this.pdf.line(430,400,480,400);
-    this.pdf.text('SI',440,350);
-    this.pdf.text('NO',460,350);
+    this.pdf.rect(430, 340, 50, 80);
+    this.pdf.line(455, 340, 455, 420);
+    this.pdf.line(430, 360, 480, 360);
+    this.pdf.line(430, 380, 480, 380);
+    this.pdf.line(430, 400, 480, 400);
+    this.pdf.text('SI', 440, 350);
+    this.pdf.text('NO', 460, 350);
 
     autoTable(this.pdf, {
       html: '#pregunta-25-1',
@@ -1882,12 +2255,12 @@ export class PdfExport {
         right: 70,
       },
     });
-    
+
     this.pdf.addPage();
-    this.crearEncabezado(nombreFormato, 42,true);
+    this.crearEncabezado(nombreFormato, 42, true);
     //cuadricula
     this.crearCuadricula(false);
-    
+
     autoTable(this.pdf, {
       html: '#pregunta-26',
       useCss: true,
@@ -1899,9 +2272,9 @@ export class PdfExport {
     });
     this.pdf.setLineWidth(1);
     this.pdf.setDrawColor(0, 0, 0);
-    this.pdf.line(85,220,500,220);
-    this.pdf.line(85,240,500,240);
-    this.pdf.line(85,260,500,260);
+    this.pdf.line(85, 220, 500, 220);
+    this.pdf.line(85, 240, 500, 240);
+    this.pdf.line(85, 260, 500, 260);
 
     autoTable(this.pdf, {
       html: '#pregunta-27',
@@ -1915,33 +2288,32 @@ export class PdfExport {
 
     this.pdf.setLineWidth(1);
     this.pdf.setDrawColor(0, 0, 0);
-    this.pdf.rect(430,330,50,50);
-    this.pdf.line(455,330,455,380);
-    this.pdf.line(430,350,480,350);
-    this.pdf.text('SI',440,340);
-    this.pdf.text('NO',460,340);
+    this.pdf.rect(430, 330, 50, 50);
+    this.pdf.line(455, 330, 455, 380);
+    this.pdf.line(430, 350, 480, 350);
+    this.pdf.text('SI', 440, 340);
+    this.pdf.text('NO', 460, 340);
 
-    this.pdf.line(440,385,440,410);
-    this.pdf.line(120,410,440,410);
-    this.pdf.line(120,410,120,425);
+    this.pdf.line(440, 385, 440, 410);
+    this.pdf.line(120, 410, 440, 410);
+    this.pdf.line(120, 410, 120, 425);
 
+    this.pdf.rect(430, 470, 50, 60);
+    this.pdf.line(455, 470, 455, 530);
+    this.pdf.line(430, 490, 480, 490);
+    this.pdf.line(430, 510, 480, 510);
+    this.pdf.text('SI', 440, 480);
+    this.pdf.text('NO', 460, 480);
 
-    this.pdf.rect(430,470,50,60);
-    this.pdf.line(455,470,455,530);
-    this.pdf.line(430,490,480,490);
-    this.pdf.line(430,510,480,510);
-    this.pdf.text('SI',440,480);
-    this.pdf.text('NO',460,480);
-
-    this.pdf.rect(430,620,50,60);
-    this.pdf.line(455,620,455,680);
-    this.pdf.line(430,640,480,640);
-    this.pdf.line(430,660,480,660);
-    this.pdf.text('SI',440,630);
-    this.pdf.text('NO',460,630);
+    this.pdf.rect(430, 620, 50, 60);
+    this.pdf.line(455, 620, 455, 680);
+    this.pdf.line(430, 640, 480, 640);
+    this.pdf.line(430, 660, 480, 660);
+    this.pdf.text('SI', 440, 630);
+    this.pdf.text('NO', 460, 630);
 
     this.pdf.addPage();
-    this.crearEncabezado(nombreFormato, 42,true);
+    this.crearEncabezado(nombreFormato, 42, true);
     //cuadricula
     this.crearCuadricula(false);
 
@@ -1954,35 +2326,140 @@ export class PdfExport {
         right: 60,
       },
     });
-    
+
     this.pdf.setFontSize(9);
 
-    this.pdf.text('29. Realice una valoración de los informes mensuales y determine, si la Comisaría de Familia debe:',65,130);
-    this.pdf.text('a. Prorrogar la medida de atención.', 75,150);
-    this.pdf.text('b. Revocar la medida de atención.', 75,175);
-    this.pdf.text('c. Continuar con el seguimiento mensual.', 75,195);
+    this.pdf.text(
+      '29. Realice una valoración de los informes mensuales y determine, si la Comisaría de Familia debe:',
+      65,
+      130
+    );
+    this.pdf.text('a. Prorrogar la medida de atención.', 75, 150);
+    this.pdf.text('b. Revocar la medida de atención.', 75, 175);
+    this.pdf.text('c. Continuar con el seguimiento mensual.', 75, 195);
 
     this.pdf.setLineWidth(1);
     this.pdf.setDrawColor(0, 0, 0);
-    this.pdf.rect(250,140,20,60);
-    this.pdf.line(250,160,270,160);
-    this.pdf.line(250,180,270,180);
+    this.pdf.rect(250, 140, 20, 60);
+    this.pdf.line(250, 160, 270, 160);
+    this.pdf.line(250, 180, 270, 180);
 
-    this.pdf.text('Asegúrese de informar al Comisario(a) el resultado de la valoración para que proceda mediante auto la respectiva orden.', 65, 230);
+    this.pdf.text(
+      'Asegúrese de informar al Comisario(a) el resultado de la valoración para que proceda mediante auto la respectiva orden.',
+      65,
+      230
+    );
 
     this.pdf.text('30. Observaciones', 65, 250);
-    this.pdf.line(75,270,520,270);
-    this.pdf.line(75,290,520,290);
-    this.pdf.line(75,310,520,310);
-    this.pdf.line(75,330,520,330);
+    this.pdf.line(75, 270, 520, 270);
+    this.pdf.line(75, 290, 520, 290);
+    this.pdf.line(75, 310, 520, 310);
+    this.pdf.line(75, 330, 520, 330);
 
-
-    this.pdf.text('Firma de quien realizó el seguimiento',75, 400);
-    this.pdf.text('Nombre',75,420);
-    this.pdf.text('Cargo:',75,440);
-
+    this.pdf.text('Firma de quien realizó el seguimiento', 75, 400);
+    this.pdf.text('Nombre', 75, 420);
+    this.pdf.text('Cargo:', 75, 440);
 
     this.crearPiePagina(4);
+    window.open(URL.createObjectURL(this.pdf.output('blob')));
+  }
+
+  static generarPdfFormatoSeguimiento(dataReporte?: DataSeguimiento) {
+    this.pdf = new jsPDF('p', 'pt', 'letter');
+    this.pdf.setFontSize(10);
+    const dia = formatDate(new Date(), 'dd', 'es');
+    const mes = formatDate(new Date(), 'MMMM', 'es');
+    const anio = formatDate(new Date(), 'yyyy', 'es');
+    const ciudad = dataReporte!.ciudadRemision
+      ? dataReporte!.ciudadRemision
+      : '________________';
+    const nombreVictima = dataReporte!.nombreVictima
+      ? dataReporte!.nombreVictima
+      : '__________________________________________________';
+    const nombreFormato = 'FORMATO INFORME DE SEGUIMIENTO';
+    this.crearEncabezado(nombreFormato, 42);
+
+    /** Ciudad, fecha y medida de protección */
+    this.pdf.text('Ciudad: ' + ciudad, 85, 130);
+    this.pdf.text('Fecha: ' + dia + ' / ' + mes + ' / ' + anio, 85, 145);
+    this.pdf.text('MP-VIF: _____________________', 85, 160);
+
+    /** Nombre y aplicacion de formato */
+    this.pdf.text('Nombre Completo: ' + nombreVictima, 85, 200);
+    this.pdf.text('Aplicado a través de:', 85, 215);
+
+    this.pdf.setLineJoin(1);
+    this.pdf.setDrawColor(0, 0, 0);
+
+    this.pdf.rect(125, 225, 10, 10);
+    this.pdf.text('Consulta en Domicilio', 140, 235);
+    this.pdf.rect(125, 245, 10, 10);
+    this.pdf.text('Audiencia de seguimiento', 140, 255);
+    this.pdf.rect(125, 265, 10, 10);
+    this.pdf.text('Contacto Telefónico', 140, 275);
+    this.pdf.rect(125, 285, 10, 10);
+    this.pdf.text('Taller vivencial de seguimiento', 140, 295);
+    this.pdf.rect(125, 305, 10, 10);
+    this.pdf.text('Otra ¿Cúal? ____________________', 140, 315);
+
+    /** Preguntas */
+
+    autoTable(this.pdf, {
+      html: '#preguntas-aplicables',
+      startY: 340,
+      useCss: true,
+      margin: {
+        left: 85,
+        right: 80,
+      },
+    });
+
+    this.pdf.addPage();
+
+    this.crearEncabezado(nombreFormato, 42);
+
+    autoTable(this.pdf, {
+      html: '#preguntas-aplicables-2',
+      startY: 130,
+      useCss: true,
+      margin: {
+        left: 85,
+        right: 80,
+      },
+    });
+
+    this.pdf.addPage();
+
+    this.crearEncabezado(nombreFormato, 42);
+
+    /**Observaciones y firmas */
+    this.pdf.text(
+      'Observaciones del (la) profesional/ Conducta a seguir:',
+      85,
+      140
+    );
+    this.pdf.setDrawColor(0, 0, 0);
+    this.pdf.line(85, 155, 520, 155);
+    this.pdf.line(85, 170, 520, 170);
+    this.pdf.line(85, 185, 520, 185);
+    this.pdf.line(85, 200, 520, 200);
+    this.pdf.line(85, 215, 520, 215);
+    this.pdf.line(85, 230, 520, 230);
+    this.pdf.line(85, 245, 520, 245);
+    this.pdf.line(85, 260, 520, 260);
+
+    this.pdf.line(85, 320, 250, 320);
+    this.pdf.text('Nombre del usuario(a)', 85, 330);
+    this.pdf.text('C.C.', 85, 340);
+
+    this.pdf.line(85, 370, 250, 370);
+    this.pdf.text('Profesional que realiza la intervención', 85, 380);
+
+    this.pdf.line(85, 420, 250, 420);
+    this.pdf.text('Nombre Profesional de seguimiento', 85, 430);
+
+    this.crearPiePagina();
+
     window.open(URL.createObjectURL(this.pdf.output('blob')));
   }
 
@@ -1999,7 +2476,6 @@ export class PdfExport {
       this.pdf.rect(60, 103, 492, 680);
       this.pdf.line(60, 715, 554, 715);
     }
-    
   }
 
   /**
@@ -2161,5 +2637,4 @@ export class PdfExport {
     }
     return cad;
   }
-
 }

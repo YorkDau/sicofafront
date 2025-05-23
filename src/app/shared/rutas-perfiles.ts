@@ -18,32 +18,9 @@ export const perfilAuxiliar: MenuInterface[] = [
         ruta: './ciudadano',
       },
       {
-        titulo: 'Seguimientos',
-        ruta: './agenda',
-      },
-      {
         titulo: 'Consulta General',
         ruta: './consulta/comisaria-general'
       }
-    ],
-  },
-  {
-    titulo: 'Configuración',
-    icon: './assets/images/documento-firmado.svg',
-    ruta: null,
-    subRutas: [
-      {
-        titulo: 'Usuarios',
-        ruta: './usuario',
-      },
-      {
-        titulo: 'Permisos',
-        ruta: './permiso',
-      },
-      {
-        titulo: 'Perfiles',
-        ruta: './perfil',
-      },
     ],
   },
   {
@@ -229,20 +206,17 @@ export const perfilTrabajadorSocial: MenuInterface[] = [
       {
         titulo: 'Consulta Ciudadanos',
         ruta: './ciudadano',
-      }
-    ],
-  },
-  {
-    titulo: 'Consultas',
-    icon: './assets/images/documento-firmado.svg',
-    ruta: null,
-    subRutas: [
+      },
       {
         titulo: 'Seguimientos',
-        ruta: './consulta/comisaria-general',
+        ruta: './psicologia/seguimientos',
+      },
+      {
+        titulo: 'Consulta General',
+        ruta: './consulta/comisaria-general'
       }
     ],
-  },
+  }
 ];
 
 export const perfilAdministrador: MenuInterface[] = [

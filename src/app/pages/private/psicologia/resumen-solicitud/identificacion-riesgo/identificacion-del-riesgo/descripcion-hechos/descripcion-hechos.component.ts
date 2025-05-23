@@ -18,11 +18,12 @@ export class DescripcionHechosComponent implements AfterViewInit {
 
   public formDescripcionHechos: FormGroup;
   public dateMax: Date = new Date();
-  public dateMin: Date = new Date(
-    new Date().setDate(new Date().getDate() - 3650)
-  );
+  public dateMin: Date = new Date(new Date().setDate(new Date().getDate() - 3650));
 
   private tarea = JSON.parse(sessionStorage.getItem('info')!);
+
+  public camposObligatorios: string[] = [];
+  public showOnSubmitIsRequired: boolean = false;
 
   constructor(
     private modales: Modales,
@@ -41,16 +42,8 @@ export class DescripcionHechosComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.getDescripcionHechos();
   }
-  /**
-   * @description valida los campos segun el nombre y las condiciones del formulario
-   * @param name nombre del campo en el formulario
-   * @returns
-   */
-  public isRequiredField(
-    form: FormGroup,
-    name: string,
-    obligatory: boolean = false
-  ) {
+
+  public isRequiredField(form: FormGroup, name: string, obligatory: boolean = false) {
     if (obligatory && !this.camposObligatorios.includes(name))
       this.camposObligatorios.push(name);
     const dirty = form.get(name)?.dirty;
@@ -66,61 +59,80 @@ export class DescripcionHechosComponent implements AfterViewInit {
     return dirty && required ? !form.get(name)?.valid || empty : false;
   }
 
-  /**
-   * Consulta la información de descripcion  de los hechos
-   * @returns
-   */
-  public async getDescripcionHechos() {
-    try {
-      const result = await lastValueFrom(
-        this.identificacionDelRiesgoService.getDescripcionHechosPorSolicitud(
-          this.tarea.idSolicitud
-        )
-      );
-      if (!result) {
-        this.modales.modalInformacion('No se encontraron los datosss.');
-        return;
-      }
-      if (result.statusCode != 200) {
-        this.modales.modalInformacion(result.message);
-        return;
-      }
-      if (!result.data) {
-        this.modales.modalInformacion(Mensajes.MENSAJE_ERROR_G);
-        return;
-      }
-      this.formDescripcionHechos
-        .get('hora')
-        ?.setValue(
-          this.datePipe.transform(new Date(result.data.fecha), 'HH:mm')
-        );
-      this.formDescripcionHechos
-        .get('fecha')
-        ?.setValue(new Date(result.data.fecha));
-      this.formDescripcionHechos
-        .get('descripcionHechos')
-        ?.setValue(result.data.descripcionHechos);
-      this.formDescripcionHechos
-        .get('lugarHechos')
-        ?.setValue(result.data.lugarHechos);
-    } catch (error: any) {
-      this.modales.modalInformacion(Mensajes.MENSAJE_ERROR_G);
-    }
+private parseFechaString(fechaStr: string): Date | null {
+  const fechaRegex = /^(\d{1,2})\/(\d{1,2})\/(\d{4})(?:\s+(\d{2}):(\d{2}):(\d{2}))?$/;
+  const match = fechaStr.match(fechaRegex);
+  if (!match) return null;
+
+  const dia = Number(match[1]);
+  const mes = Number(match[2]);
+  const anio = Number(match[3]);
+  const hora = match[4] ? Number(match[4]) : 0;
+  const minutos = match[5] ? Number(match[5]) : 0;
+  const segundos = match[6] ? Number(match[6]) : 0;
+
+  if (
+    dia < 1 || dia > 31 ||
+    mes < 1 || mes > 12 ||
+    anio < 1900 || anio > 3000 ||
+    hora < 0 || hora > 23 ||
+    minutos < 0 || minutos > 59 ||
+    segundos < 0 || segundos > 59
+  ) {
+    return null;
   }
+
+  return new Date(anio, mes - 1, dia, hora, minutos, segundos);
+}
+
+public async getDescripcionHechos() {
+  try {
+    const result = await lastValueFrom(
+      this.identificacionDelRiesgoService.getDescripcionHechosPorSolicitud(
+        this.tarea.idSolicitud
+      )
+    );
+
+    if (!result?.data || result.statusCode !== 200) {
+      this.modales.modalInformacion(result?.message || Mensajes.MENSAJE_ERROR_G);
+      return;
+    }
+
+    const fechaOriginal = result.data.fecha;
+    const fechaParseada = this.parseFechaString(fechaOriginal);
+
+    if (!fechaParseada) {
+      this.modales.modalInformacion('La fecha recibida es inválida.');
+      return;
+    }
+
+    this.formDescripcionHechos.patchValue({
+      fecha: fechaParseada,
+      hora: this.datePipe.transform(fechaParseada, 'HH:mm'),
+      descripcionHechos: result.data.descripcionHechos || '',
+      lugarHechos: result.data.lugarHechos || '',
+    });
+  } catch (error) {
+    this.modales.modalInformacion(Mensajes.MENSAJE_ERROR_G);
+  }
+}
+
 
   public actualizarDescripcionHechos() {
     const formValue = this.formDescripcionHechos.value;
+
+    const fechaFormateada = this.datePipe.transform(formValue.fecha, 'yyyy-MM-dd');
+
     const body = {
       descripcionHechos: formValue.descripcionHechos,
-      fecha: this.datePipe.transform(formValue.fecha, 'MM-dd-yyyy'),
+      fecha: fechaFormateada,
       hora: formValue.hora,
       idSolicitudServicio: this.tarea.idSolicitud,
       lugarHechos: formValue.lugarHechos,
     };
+
     return lastValueFrom(
-      this.identificacionDelRiesgoService.actualizarDescripcionHechosPorSolicitud(
-        body
-      )
+      this.identificacionDelRiesgoService.actualizarDescripcionHechosPorSolicitud(body)
     );
   }
 
@@ -130,12 +142,10 @@ export class DescripcionHechosComponent implements AfterViewInit {
 
   archivarDiligencias() {
     this.modales.modalArchivarDiligencias(this.tarea, '/psicologia');
-
     this.modales.modalInformacion('Por favor diligencie los campos requeridos');
   }
 
   async guardar() {
-    //Insertar aquí las acciones a realizar.
     console.log("Guardando datos...");
     if (this.isValidForm()) {
       console.log("Formulario válido, guardando...");
@@ -150,19 +160,10 @@ export class DescripcionHechosComponent implements AfterViewInit {
     } else {
       console.log(this.formDescripcionHechos);
       console.log(this.camposObligatorios);
-
       this.showOnSubmitIsRequired = true;
     }
   }
 
-  public camposObligatorios: string[] = [];
-  public showOnSubmitIsRequired: boolean = false;
-
-  /**
-   * @description valida si el formulario es válido
-   * @param formulario
-   * @returns
-   */
   isValidForm(): boolean {
     let camposRequeridos: string[];
     const validarCamposObligatorios = (form: FormGroup) => {
@@ -174,9 +175,8 @@ export class DescripcionHechosComponent implements AfterViewInit {
       });
       return temp;
     };
-    camposRequeridos = SharedFunctions.findInvalidControls(
-      this.formDescripcionHechos
-    ).concat(validarCamposObligatorios(this.formDescripcionHechos));
+    camposRequeridos = SharedFunctions.findInvalidControls(this.formDescripcionHechos)
+      .concat(validarCamposObligatorios(this.formDescripcionHechos));
     return this.formDescripcionHechos.valid && !camposRequeridos.length;
   }
 }

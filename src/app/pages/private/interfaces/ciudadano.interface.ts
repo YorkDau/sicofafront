@@ -22,13 +22,15 @@ export interface CiudadanoDetalleInterface {
   registro_completo?: boolean;
   requiereModificacon?: boolean;
 
-  pueblo_indigena?: string
-  poblacion_lgtbi?: boolean
-  nino_nina_adolecente?: boolean
-  victima_conflicto_armado?: boolean
-  persona_lider_defensor_DH?: boolean
-  persona_habitalidad_calle?: boolean
-  migrante?: boolean
+  pueblo_indigena?: string;
+  poblacion_lgtbi?: boolean;
+  adulto_mayor?: boolean;
+  mujer_embarazada?: boolean;
+  nino_nina_adolecente?: boolean;
+  victima_conflicto_armado?: boolean;
+  persona_lider_defensor_DH?: boolean;
+  persona_habitalidad_calle?: boolean;
+  migrante?: boolean;
 }
 
 export interface CiudadanoCompletoInterface {
@@ -63,6 +65,8 @@ export interface CiudadanoCompletoInterface {
   estadoEmbarazo: EstadoEmbarazo;
   afiliadoSeguridadSocial: AfiliadoSeguridadSocial;
   poblacionLgtbi?: boolean;
+  adultoMayor?: boolean;
+  mujerEmbarazada?: boolean;
   ninoNinaAdolocente?: boolean;
   migrante?: boolean;
   victimaConflictoArmado?: boolean;

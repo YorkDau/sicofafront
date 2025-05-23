@@ -129,6 +129,16 @@
       <br />
       Vacunación completa para la edad -
       {{ datosReporte.vacunacionCompleta ? "SI" : "NO" }}
+      <br />
+      <br />
+      Observaciones salud
+      <br />
+
+      {{
+        datosReporte.observacionesSalud
+          ? datosReporte.observacionesSalud
+          : "SIN OBSERVACIONES"
+      }}
     </td>
   </tr>
   <tr>
@@ -151,23 +161,30 @@
   <tr>
     <td class="border border-dark p-2">VINCULACIÓN AL SISTEMA EDUCATIVO</td>
     <td class="border border-dark p-2">
-      El NNA está matriculado en el colegio
-      {{
-        datosReporte.matriculadoEnElColegio
-          ? datosReporte.matriculadoEnElColegio
-          : "__________________"
-      }}
-      y cursa
-      {{
-        datosReporte.gradoCursa ? datosReporte.gradoCursa : "__________________"
-      }}
-      en jornada
-      {{
-        datosReporte.jornadaEstudio
-          ? datosReporte.jornadaEstudio
-          : "__________________"
-      }}
-      de lunes a viernes
+    
+        ¿Es escolarizado?
+        <br />
+        {{ datosReporte.escolarizado ? "SI" : "NO" }} 
+        <br />
+        Matriculado en el colegio -
+        {{
+          datosReporte.matriculadoEnElColegio
+        ? datosReporte.matriculadoEnElColegio
+        : "N/A"
+        }}
+        <br />
+        Grado que cursa -
+        {{
+          datosReporte.gradoCursa ? datosReporte.gradoCursa : "N/A"
+        }}
+        <br />
+        Jornada -
+        {{
+          datosReporte.jornadaEstudio
+        ? datosReporte.jornadaEstudio
+        : "N/A" 
+        }}
+        <br />
     </td>
   </tr>
   <tr>
@@ -243,6 +260,26 @@
       {{ nombreCompleto ? nombreCompleto : "______________" }}
     </td>
   </tr>
+    <tr>
+    <td class="border border-dark p-2">CONCEPTO TÉCNICO PSICOLOGIA</td>
+    <td class="border border-dark p-2">
+     {{
+        datosReporte.observacionesPsicologia
+          ? datosReporte.observacionesPsicologia 
+          : "Sin observaciones psicologicas"
+      }}
+    </td>
+  </tr>
+      <tr>
+    <td class="border border-dark p-2">CONCEPTO TÉCNICO TRABAJADOR SOCIAL</td>
+    <td class="border border-dark p-2">
+     {{
+        datosReporte.observacionesTrabajoSocial
+          ? datosReporte.observacionesTrabajoSocial 
+          : "Sin observaciones trabajador social"
+      }}
+    </td>
+  </tr>
   <tr>
     <td></td>
   </tr>
@@ -273,6 +310,12 @@
           : "_________________________"
       }}.
     </td>
+  </tr>
+  <tr>
+    <td></td>
+  </tr>
+  <tr>
+    <td></td>
   </tr>
   <tr>
     <td></td>

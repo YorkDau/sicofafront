@@ -2,9 +2,7 @@
   <h4 class="mb-5">DESCRIPCIÓN DE LOS HECHOS</h4>
   <div class="row">
     <div class="form-group col-lg-4 mb-4">
-      <label for="fecha" class="form-label"
-        >Fecha<span class="mx-1">*</span></label
-      >
+      <label for="fecha" class="form-label">Fecha<span class="mx-1">*</span></label>
       <div class="input-group">
         <input
           matInput
@@ -16,28 +14,32 @@
           id="fecha"
           formControlName="fecha"
           [ngClass]="{
-            'border-danger': isRequiredField(
-              formDescripcionHechos,
-              'lugarHechos'
-            )
+            'border-danger': isRequiredField(formDescripcionHechos, 'fecha')
           }"
           [max]="dateMax"
           [min]="dateMin"
         />
         <span class="input-group-text sinfondo-DatePicker">
-          <mat-datepicker-toggle
-            matSuffix
-            [for]="picker"
-          ></mat-datepicker-toggle>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </span>
       </div>
+      <small
+        class="form-text text-danger"
+        *ngIf="isRequiredField(formDescripcionHechos, 'fecha')"
+      >
+        Campo requerido
+      </small>
+      <small
+        class="form-text text-danger"
+        *ngIf="formDescripcionHechos.get('fecha')?.invalid && formDescripcionHechos.get('fecha')?.touched"
+      >
+        Fecha inválida
+      </small>
     </div>
 
     <div class="form-group col-lg-4 mb-4">
-      <label class="form-label text-capitalize"
-        >lugar<span class="mx-1">*</span></label
-      >
+      <label class="form-label text-capitalize">Lugar<span class="mx-1">*</span></label>
       <input
         type="text"
         class="form-control"
@@ -52,43 +54,38 @@
       <small
         class="form-text text-danger"
         *ngIf="isRequiredField(formDescripcionHechos, 'lugarHechos')"
-        >Campo requerido</small
       >
+        Campo requerido
+      </small>
     </div>
 
     <div class="form-group col-lg-4 mb-4">
-      <label class="form-label text-capitalize"
-        >hora aproximada<span class="mx-1">*</span></label
-      >
+      <label class="form-label text-capitalize">Hora aproximada<span class="mx-1">*</span></label>
       <input
         type="time"
         class="form-control"
         [ngClass]="{
           'border-danger': isRequiredField(formDescripcionHechos, 'hora')
         }"
-        placeholder="hh:mm a.m."
+        placeholder="HH:mm"
         formControlName="hora"
         required
       />
       <small
         class="form-text text-danger"
         *ngIf="isRequiredField(formDescripcionHechos, 'hora')"
-        >Campo requerido</small
       >
+        Campo requerido
+      </small>
     </div>
 
     <div class="form-group col-lg-12 mt-4">
-      <label class="form-label text-capitalize"
-        >descripción de los hechos</label
-      >
+      <label class="form-label text-capitalize">Descripción de los hechos<span class="mx-1">*</span></label>
       <textarea
         type="text"
         class="form-control"
         [ngClass]="{
-          'border-danger': isRequiredField(
-            formDescripcionHechos,
-            'descripcionHechos'
-          )
+          'border-danger': isRequiredField(formDescripcionHechos, 'descripcionHechos')
         }"
         placeholder="Descripción de los hechos"
         formControlName="descripcionHechos"
@@ -99,16 +96,14 @@
       <small
         class="form-text text-danger"
         *ngIf="isRequiredField(formDescripcionHechos, 'descripcionHechos')"
-        >Campo requerido</small
       >
+        Campo requerido
+      </small>
     </div>
   </div>
 </form>
 
-<div
-  class="d-flex align-items-center justify-content-end mt-5"
-  style="gap: 1rem"
->
+<div class="d-flex align-items-center justify-content-end mt-5" style="gap: 1rem">
   <button type="button" class="btn btn-outline-danger" (click)="cancelar()">
     Cancelar
   </button>

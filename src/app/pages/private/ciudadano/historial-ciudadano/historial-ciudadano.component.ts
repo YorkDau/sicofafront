@@ -44,6 +44,11 @@ export class HistorialCiudadanoComponent {
     },
     { name: 'proceso', title: 'Proceso' },
     { name: 'estado_de_la_solicitud', title: 'estado' },
+    {
+      name: 'perfil',
+      title: 'Perfil',
+      render: (value) => value?.toUpperCase(),
+    }, 
     { name: 'actions', title: 'acciones' },
   ];
 
@@ -256,6 +261,8 @@ export class HistorialCiudadanoComponent {
         this.ciudadano.victima_conflicto_armado ||
         this.ciudadano.persona_lider_defensor_DH ||
         this.ciudadano.persona_habitalidad_calle ||
+        this.ciudadano.adulto_mayor ||
+        this.ciudadano.mujer_embarazada ||
         this.ciudadano.migrante)
     );
   }

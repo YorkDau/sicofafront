@@ -52,9 +52,10 @@ export class DerechosSegundoComponent implements OnInit {
    */
   private cargarForm() {
     this.derechosSegundo = this.fb.group({
-      matriculadoEnElColegio: ['', Validators.required],
-      gradoCursa: ['', Validators.required],
-      jornadaEstudio: ['', Validators.required],
+      escolarizado: true,
+      matriculadoEnElColegio: [''],
+      gradoCursa: [''],
+      jornadaEstudio: [''],
       tipoVivienda: 'Arriendo',
       otroTipoVivienda: 'Casa',
       otroTipoViviendaCual: '',
@@ -80,6 +81,25 @@ export class DerechosSegundoComponent implements OnInit {
    * @description escucha cambios en el formulario
    */
   private cambiosForm() {
+    this.derechosSegundo.controls['escolarizado'].valueChanges.subscribe(v => {
+      if (!v) {
+        this.derechosSegundo.controls['matriculadoEnElColegio'].disable();
+        this.derechosSegundo.controls['matriculadoEnElColegio'].setValue('N/A');
+        this.derechosSegundo.controls['gradoCursa'].disable();
+        this.derechosSegundo.controls['gradoCursa'].setValue('N/A');
+        this.derechosSegundo.controls['jornadaEstudio'].disable();
+        this.derechosSegundo.controls['jornadaEstudio'].setValue('N/A');
+      }
+      else {
+        this.derechosSegundo.controls['matriculadoEnElColegio'].enable();
+        this.derechosSegundo.controls['matriculadoEnElColegio'].setValue('');
+        this.derechosSegundo.controls['gradoCursa'].enable();
+        this.derechosSegundo.controls['gradoCursa'].setValue('');
+        this.derechosSegundo.controls['jornadaEstudio'].enable();
+        this.derechosSegundo.controls['jornadaEstudio'].setValue('');
+      }
+    });
+
     this.derechosSegundo.controls['otroTipoVivienda'].valueChanges.subscribe(
       (v) => {
         if (v === 'Otro') {
@@ -157,6 +177,9 @@ export class DerechosSegundoComponent implements OnInit {
     if (objInvolucrado) {
       if (objInvolucrado.esVictima) {
         this.derechosSegundo.patchValue({
+          escolarizado: ValidarCampos.validarBooleanos(
+            objInvolucrado.escolarizado
+          ),
           matriculadoEnElColegio: ValidarCampos.validarString(
             objInvolucrado.matriculadoEnElColegio
           ),

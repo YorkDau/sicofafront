@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/services/auth.service';
 
 import { CodigosRespuesta, ImagenesModal, Mensajes } from 'src/app/constants';
@@ -15,7 +15,10 @@ import {
 import { SeguimientoService } from 'src/app/services/seguimiento.service';
 import { SharedService } from 'src/app/services/shared.service';
 import { Modales } from 'src/app/shared/modals';
-import { DataSeguimiento, TiposFormatoSeguimiento } from '../../interfaces/seguimiento.interface';
+import {
+  DataSeguimiento,
+  TiposFormatoSeguimiento,
+} from '../../interfaces/seguimiento.interface';
 import { PdfExport } from './formatos/pdf-exports';
 
 @Component({
@@ -32,6 +35,10 @@ export class GenerarSeguimientoComponent implements OnInit {
   public dataReporte!: DataSeguimiento;
   public listaFormatos: TiposFormatoSeguimiento[] = [];
   private archivo!: string | null;
+  public modo: string = 'formato';
+  listaFormatosFiltrados: any[] = []; // La que se muestra en el select
+
+  listaFormatosInforme = [{ id: '0001', nombre: 'Informe_Seguimiento' }];
 
   user!: UserInterface | undefined;
 
@@ -43,17 +50,40 @@ export class GenerarSeguimientoComponent implements OnInit {
     private sharedService: SharedService,
     private authService: AuthService,
     private dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.user = this.authService.currentUserValue;
     this.objSol = JSON.parse(sessionStorage.getItem('info')!);
   }
 
   ngOnInit(): void {
-    this.getListInvolucrados();
     this.cargarForm();
+    this.route.queryParams.subscribe((params) => {
+      if (params['modo']) {
+        this.modo = params['modo'];
+        this.resetForm();
+      }
+      console.log('Modo:', this.modo);
+    });
+    this.getListInvolucrados();
   }
+  private resetForm(): void {
+    this.myForm.reset({
+      involucrado: '',
+      formato: '',
+      nombreFormato: '',
+    });
+    this.listaFormatos = [];
+    this.listaFormatosFiltrados = [];
+    this.archivo = null;
+    this.mostrarValidaciones = false;
 
+    // Si necesitas mantener algún valor específico después del reset:
+    // this.myForm.patchValue({
+    //   algunCampoQueQuierasMantener: valor
+    // });
+  }
   /**
    * @description carga los campos del formulario
    */
@@ -61,9 +91,10 @@ export class GenerarSeguimientoComponent implements OnInit {
     this.myForm = this.fb.group({
       involucrado: ['', [Validators.required]],
       formato: ['', Validators.required],
-      nombreFormato: ['']
+      nombreFormato: [''],
     });
   }
+
   /**
    * @description carga la informacion para el select de los involucrados
    */
@@ -93,6 +124,14 @@ export class GenerarSeguimientoComponent implements OnInit {
           next: (data: ResponseInterface) => {
             if (data.statusCode === CodigosRespuesta.OK) {
               this.listaFormatos = data.data;
+              console.log('Lista de formatos:', this.listaFormatos);
+              this.filtrarFormatos();
+              console.log(
+                'Lista filtrados por el modo :',
+                this.modo,
+                '=>',
+                this.listaFormatosFiltrados
+              );
             } else {
               this.msgError();
             }
@@ -101,6 +140,9 @@ export class GenerarSeguimientoComponent implements OnInit {
             this.msgError();
           },
         });
+    } else {
+      this.listaFormatos = [];
+      this.listaFormatosFiltrados = [];
     }
   }
 
@@ -110,11 +152,12 @@ export class GenerarSeguimientoComponent implements OnInit {
   public obtenerDatosSeguimiento(event: any) {
     const involucrado = this.myForm.controls['involucrado'].value;
     if (event.target.value !== 0) {
-      this.segumientoService.getInformacionInvolucrado(
-        this.objSol.idSolicitud,
-        event.target.value,
-        involucrado
-      )
+      this.segumientoService
+        .getInformacionInvolucrado(
+          this.objSol.idSolicitud,
+          event.target.value,
+          involucrado
+        )
         .subscribe({
           next: (data: ResponseInterface) => {
             if (data.statusCode === CodigosRespuesta.OK) {
@@ -127,6 +170,21 @@ export class GenerarSeguimientoComponent implements OnInit {
             this.msgError();
           },
         });
+    }
+  }
+  /**
+   * @description se filtran los formatos dependiendo del modo
+   */
+
+  public filtrarFormatos() {
+    if (this.modo === 'formato') {
+      this.listaFormatosFiltrados = this.listaFormatos.filter(
+        (f) => f.nombre !== 'Informe_Seguimiento'
+      );
+    } else if (this.modo === 'informe') {
+      this.listaFormatosFiltrados = this.listaFormatos.filter(
+        (f) => f.nombre === 'Informe_Seguimiento'
+      );
     }
   }
 
@@ -146,7 +204,20 @@ export class GenerarSeguimientoComponent implements OnInit {
    */
 
   private guardarArchivoSeguimiento(obj: CargaArchivoRemision) {
-    this.sharedService.guardarArchivoRemision(obj).subscribe({
+    const formValue = this.myForm.value;
+
+    const request: CargaArchivoRemision = {
+      entrada: this.archivo ?? '',
+      idInvolucrado: formValue.involucrado,
+      idPruebaPericial: null,
+      idSolicitudServicio: this.objSol.idSolicitud,
+      idUsuario: this.user?.userID!,
+      nombrearchivo: null,
+      tipoDocumento: formValue.formato?.nombre,
+    };
+
+    console.log('obj final a guardar', request);
+    this.sharedService.guardarArchivoRemision(request).subscribe({
       next: (data: ResponseInterface) => {
         if (data.statusCode === CodigosRespuesta.OK) {
           Modales.modalExito(
@@ -186,7 +257,6 @@ export class GenerarSeguimientoComponent implements OnInit {
    * @description para guardar el seguimiento se valida que los campos esten llenos
    */
   public guardar() {
-
     this.mostrarValidaciones = false;
     if (this.myForm.invalid) {
       this.mostrarValidaciones = true;
@@ -208,27 +278,62 @@ export class GenerarSeguimientoComponent implements OnInit {
    */
 
   public generarPDF() {
-    const formato = this.myForm.controls['formato'].value;
+    const formato = this.myForm.controls['formato'].value.nombre;
+    console.log('Modo actual:', this.modo);
+    console.log('Formato seleccionado:', formato);
+    console.log('Data del reporte:', this.dataReporte);
 
-    switch (formato) {
-      case 'Constancia_De_Seguimiento_Contacto_Telefonico':
-        PdfExport.generarPdfConstanciaSeguimientoContactoTelefonico(this.dataReporte);
-        break;
-      case 'Auto_Ordenando_Visita_Domiciliaria':
-        PdfExport.generarPdfAutoOrdenandoVisitaDomiciliaria(this.dataReporte);
-        break;
-      case 'Informe_De_Seguimiento_Entrevista_Interventiva':
-        PdfExport.generarPdfInformeSeguimientoEntrevistaInterventiva(this.dataReporte);
-        break;
-      case 'Formato_Seguimiento_Medidas_Proteccion':
-        PdfExport.generarPdfFormatoSeguimientoMedidasProteccion(this.dataReporte);
-        break;
-      case 'Instrumento_Verificacion_De_La_Efectividad_De_La_Medida_De_Proteccion':
-        PdfExport.generarPdfInstrumentoVerificacionEfectividadMedidasProteccion();
-        break;
-      case 'Instrumento_Para_El_Seguimiento_A_Las_Medidas_De_Atencion':
-        PdfExport.generarPdfInstrumentoSeguimientoEfectividadMedidasAtencion();
-        break;
+    if (!formato) {
+      console.warn('No se ha seleccionado un formato válido.');
+      return;
+    }
+
+    if (!this.dataReporte) {
+      console.warn('No hay datos disponibles para generar el reporte.');
+      return;
+    }
+
+    if (this.modo === 'formato') {
+      switch (formato) {
+        case 'Constancia_De_Seguimiento_Contacto_Telefonico':
+          PdfExport.generarPdfConstanciaSeguimientoContactoTelefonico(
+            this.dataReporte
+          );
+          break;
+        case 'Auto_Ordenando_Visita_Domiciliaria':
+          PdfExport.generarPdfAutoOrdenandoVisitaDomiciliaria(this.dataReporte);
+          break;
+        case 'Informe_De_Seguimiento_Entrevista_Interventiva':
+          PdfExport.generarPdfInformeSeguimientoEntrevistaInterventiva(
+            this.dataReporte
+          );
+          break;
+        case 'Formato_Seguimiento_Medidas_Proteccion':
+          PdfExport.generarPdfFormatoSeguimientoMedidasProteccion(
+            this.dataReporte
+          );
+          break;
+        case 'Instrumento_Verificacion_De_La_Efectividad_De_La_Medida_De_Proteccion':
+          PdfExport.generarPdfInstrumentoVerificacionEfectividadMedidasProteccion();
+          break;
+        case 'Instrumento_Para_El_Seguimiento_A_Las_Medidas_De_Atencion':
+          PdfExport.generarPdfInstrumentoSeguimientoEfectividadMedidasAtencion();
+          break;
+        default:
+          console.warn(`Formato no reconocido en modo 'formato': ${formato}`);
+          break;
+      }
+    } else if (this.modo === 'informe') {
+      switch (formato) {
+        case 'Informe_Seguimiento':
+          PdfExport.generarPdfFormatoSeguimiento(this.dataReporte);
+          break;
+        default:
+          console.warn(`Formato no reconocido en modo 'informe': ${formato}`);
+          break;
+      }
+    } else {
+      console.warn(`Modo no reconocido: ${this.modo}`);
     }
   }
 
@@ -246,7 +351,7 @@ export class GenerarSeguimientoComponent implements OnInit {
       nombrearchivo,
       tipoDocumento,
       idSolicitudServicio: this.objSol.idSolicitud,
-      idUsuario: this.user?.userID!, 
+      idUsuario: this.user?.userID!,
       idInvolucrado: this.myForm.get('involucrado')?.value,
       idPruebaPericial: this.myForm.get('pericial')?.value,
     };

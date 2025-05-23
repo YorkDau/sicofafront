@@ -4,15 +4,17 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { Observable, Subject, Subscription } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { CodigosRespuesta, Mensajes, Regex } from '../../../../../constants';
 import { RecepcionCasosInterface } from '../../../../../interfaces/recepcion-casos.interface';
 import { SharedService } from '../../../../../services/shared.service';
 import { SharedFunctions } from '../../../../../shared/functions';
 import { Modales } from '../../../../../shared/modals';
 import {
+  DepartamentoInterface,
   DominioInterface,
-  LugarExpedicionInterface,
+  MunicipioInterface,
+  PaisInterface,
 } from '../../../interfaces/ciudadano.interface';
 import { ActualizacionInvolucrado } from '../../interfaces/actualizacion-involucrado.interface';
 import {
@@ -48,9 +50,11 @@ export class DatosInvolucradosComponent implements AfterViewInit {
   public formHijosAgresor: FormGroup[] = [];
 
   public listaTipoDocumento!: DominioInterface[];
-  public listaLugarExpedicion!: LugarExpedicionInterface[];
   public listaSexo!: DominioInterface[];
   public listaGenero!: DominioInterface[];
+  public selectPaises: PaisInterface[] = [];
+  public selectDepartamento: DepartamentoInterface[] = [];
+  public selectMunicipio: MunicipioInterface[] = [];
   public listaNivelAcademico!: DominioInterface[];
   public listaDiscapacidad!: DominioInterface[];
   public listaCultura!: DominioInterface[];
@@ -109,7 +113,10 @@ export class DatosInvolucradosComponent implements AfterViewInit {
       descripcionOrganizacionCriminal: [''],
       agresorOrganizacionCriminal: [false],
       edadAproximadaAgresor: [],
-      lugarExpedicion: [{ value: '', disabled: false }, [Validators.required]],
+      // lugarExpedicion: [{ value: '', disabled: false }, [Validators.required]],
+      paisExp: [{ value: '', disabled: false }, [Validators.required]],
+      departamentoExp: [{ value: '', disabled: false }, [Validators.required]],
+      municipioExp: [{ value: '', disabled: false }, [Validators.required]],
       fechaExpedicion: [{ value: '', disabled: false }, [Validators.required]],
     });
 
@@ -134,8 +141,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
       mesesEmbarazo: [0, [Validators.max(9), Validators.min(0)]],
       victimaConflicto: [false, Validators.required],
       victimaDesplazamiento: [false, Validators.required],
-      eps: [''],
-      
+      eps: [''],      
       ips: [''],
       cultura: [''],
       numeroHijos: [0],
@@ -152,7 +158,10 @@ export class DatosInvolucradosComponent implements AfterViewInit {
         ],
       ],
       seguridad: [false],
-      lugarExpedicion: [{ value: '', disabled: false }, [Validators.required]],
+      // lugarExpedicion: [{ value: '', disabled: false }, [Validators.required]],  
+      paisExp: [{ value: '', disabled: false }, [Validators.required]],
+      departamentoExp: [{ value: '', disabled: false }, [Validators.required]],
+      municipioExp: [{ value: '', disabled: false }, [Validators.required]],
       fechaExpedicion: [{ value: '', disabled: false }, [Validators.required]],
     });
   }
@@ -169,7 +178,6 @@ export class DatosInvolucradosComponent implements AfterViewInit {
     this.getListaRelacionParental();
     this.getListaEstadoCivil();
     this.getListaOtros();
-    this.getListaLugarExpedicion();  
   }
 
   /**
@@ -182,6 +190,28 @@ export class DatosInvolucradosComponent implements AfterViewInit {
         if (resultVictima && resultVictima.statusCode === CodigosRespuesta.OK) {
           this.victima = resultVictima.data;
           this.setFormDataVictima();
+          this.cargaSelectPaises(this.victima.tipoDocumento??0);
+          this.sharedService
+              .getDepartamentos(this.victima.paisExp??0)
+              .subscribe((departamentos) => {
+                if (departamentos.statusCode === CodigosRespuesta.OK) {
+                  this.selectDepartamento = departamentos.data;
+                }
+              });
+            this.sharedService
+              .getCiudades(this.victima.departamentoExp??0)
+              .subscribe((municipios) => {
+                if (municipios.statusCode === CodigosRespuesta.OK) {
+                  this.selectMunicipio = municipios.data;
+                }
+              });
+            this.sharedService
+              .getLocalidadPorMunicipio(this.victima.municipioExp??0)
+              .subscribe((localidades) => {
+                // if (localidades.statusCode === CodigosRespuesta.OK) {
+                //   this.selectLocalidad = localidades.data;
+                // }
+              });
         } else {
           this.modales.modalInformacion(Mensajes.MENSAJE_ERROR_G);
         }
@@ -276,8 +306,8 @@ export class DatosInvolucradosComponent implements AfterViewInit {
       seguridad: values.eps || values.ips ? true : false,
       embarazo: embarazo ? embarazo.toUpperCase() : 'NO',
     });
-    const lugarExpedicionFormValue = this.victima.lugarExpedicion || ''  
-    this.formVictima.controls['lugarExpedicion'].setValue(lugarExpedicionFormValue);
+    // const lugarExpedicionFormValue = this.victima.lugarExpedicion || ''
+    // this.formVictima.controls['lugarExpedicion'].setValue(lugarExpedicionFormValue);
 
     if (this.victima.hijos) {
       this.setHijosVictima(this.victima.hijos);
@@ -406,7 +436,9 @@ export class DatosInvolucradosComponent implements AfterViewInit {
    */
   public postActualizarInvolucradoAgresor(): Observable<boolean> {
     let subject = new Subject<boolean>();
-    const formValueAgresor: InvolucradoDTO = this.formAgresor.value;
+    console.log("ANTES DE ",this.formAgresor);
+    const formValueAgresor: InvolucradoDTO = this.formAgresor.getRawValue();
+  console.log("FORMULARIO AGRESOR VALUE",formValueAgresor);
     const bodyAgresor: ActualizacionInvolucrado = {
       idInvolucrado: this.agresor.id,
       ocupacion: formValueAgresor.ocupacion,
@@ -446,7 +478,10 @@ export class DatosInvolucradosComponent implements AfterViewInit {
       numeroDocumento: formValueAgresor.numeroDocumento
         ? formValueAgresor.numeroDocumento
         : '',
-      lugarExpedicion: formValueAgresor.lugarExpedicion,
+      // lugarExpedicion: formValueAgresor.lugarExpedicion,
+      paisExp: formValueAgresor.paisExp,
+      departamentoExp: formValueAgresor.departamentoExp,
+      municipioExp: formValueAgresor.municipioExp,
       fechaExpedicion: formValueAgresor.fechaExpedicion,
       idIdentidadGenero: formValueAgresor.identidadGenero,
       edadAproximadaAgresor: formValueAgresor.edadAproximadaAgresor
@@ -523,7 +558,10 @@ export class DatosInvolucradosComponent implements AfterViewInit {
       idtipoDocumento: this.victima.tipoDocumento,
       numeroDocumento: this.victima.numeroDocumento,
       idIdentidadGenero: formValueVictima.identidadGenero,
-      lugarExpedicion: formValueVictima.lugarExpedicion,
+      // lugarExpedicion: formValueVictima.lugarExpedicion,
+      paisExp: formValueVictima.paisExp,
+      departamentoExp: formValueVictima.departamentoExp,
+      municipioExp: formValueVictima.municipioExp,
       fechaExpedicion: formValueVictima.fechaExpedicion,
       fechaNacimiento: formValueVictima.fechaNacimiento,
     };
@@ -705,16 +743,6 @@ export class DatosInvolucradosComponent implements AfterViewInit {
     const result = await this.sharedService.getDominioFromLocal('Tipo_Otro');
     this.listaOtros = result;
   }
-  /**
-   * @description obtiene la lista de opcion Otro
-   */
-  private async getListaLugarExpedicion() {
-    this.sharedService.getLugarExpedicion().subscribe((lugarExpedicion) => {
-      if (lugarExpedicion.statusCode === CodigosRespuesta.OK) {
-        this.listaLugarExpedicion = lugarExpedicion.data;
-      }
-    });
-  }
 
   /**
    * @description filtra solo números
@@ -890,6 +918,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
       );
       return false;
     }
+    console.log(this.formVictima.valid, !camposRequeridos.length, !errorHijos);
     return this.formVictima.valid && !camposRequeridos.length && !errorHijos;
   }
 
@@ -931,6 +960,69 @@ export class DatosInvolucradosComponent implements AfterViewInit {
         }
       }
     });
+    console.log(temp)
     return temp;
+  }
+
+/**
+   * @description carga el select pais dependiendo si es colombiano y habilita el departamento y municipio
+   */
+public isColombiano(event: any) {
+  // this.cColombiano = false;
+  // this.myForm.get('pais')?.setValue('');
+  if (event.target.value != 0) {
+    this.cargaSelectPaises(event.target.value);
+  }
+}
+
+  /**
+   * @description carga el select de paises
+   */
+  private cargaSelectPaises(idTipDoc: number) {
+    this.sharedService.getPaisPorId(idTipDoc).subscribe((paises) => {
+      if (paises.statusCode === CodigosRespuesta.OK) {
+        this.selectPaises = paises.data;
+      }
+    });
+  }
+
+  /**
+   * @description carga el select departamento dependiendo del pais
+   */
+  public cargaSelectDepartamento(event: any) {
+    // this.myForm.get('departamento')?.setValue('');
+    // this.myForm.get('municipio')?.setValue('');
+    // this.myForm.get('localidad')?.setValue('');
+
+    // if (event.target.value == 1) {
+    //   this.cColombiano = true;
+    // }
+    if (event.target.value != 0) {
+      this.sharedService
+        .getDepartamentos(event.target.value)
+        .subscribe((departamentos) => {
+          if (departamentos.statusCode === CodigosRespuesta.OK) {
+            this.selectDepartamento = departamentos.data;
+          }
+        });
+    }
+  }
+
+  /**
+   * @description carga el select municipio dependiendo del departamento y del pais
+   */
+  public cargaSelectMunicipio(event: any) {
+    // this.myForm.get('municipio')?.setValue('');
+    // this.myForm.get('localidad')?.setValue('');
+
+    if (event.target.value != 0) {
+      this.sharedService
+        .getCiudades(event.target.value)
+        .subscribe((municipio) => {
+          if (municipio.statusCode === CodigosRespuesta.OK) {
+            this.selectMunicipio = municipio.data;
+          }
+        });
+    }
   }
 }

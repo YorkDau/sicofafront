@@ -4,7 +4,9 @@ export interface SolicitudServicioInterface {
   fecha_solicitud?: Date;
   hora_solicitud?: Date;
   descripcion_de_hechos?: string;
+  perfil?: string;
   estado_de_la_solicitud?: string;
+  
 
 }
 export interface SolicitudServicioDetalleInterface {
