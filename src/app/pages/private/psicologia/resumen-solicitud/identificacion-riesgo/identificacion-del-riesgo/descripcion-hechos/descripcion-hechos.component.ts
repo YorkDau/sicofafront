@@ -60,48 +60,30 @@ export class DescripcionHechosComponent implements AfterViewInit {
   }
 
 private parseFechaString(fechaStr: string): Date | null {
-  const fechaRegex = /^(\d{1,2})\/(\d{1,2})\/(\d{4})(?:\s+(\d{1,2}):(\d{2}):(\d{2})\s*(AM|PM|am|pm)?)?$/;
+  const fechaRegex = /^(\d{1,2})\/(\d{1,2})\/(\d{4})(?:\s+(\d{2}):(\d{2}):(\d{2}))?$/;
   const match = fechaStr.match(fechaRegex);
   if (!match) return null;
 
-  let parte1 = Number(match[1]);
-  let parte2 = Number(match[2]);
+  const dia = Number(match[1]);
+  const mes = Number(match[2]);
   const anio = Number(match[3]);
-  let hora = match[4] ? Number(match[4]) : 0;
+  const hora = match[4] ? Number(match[4]) : 0;
   const minutos = match[5] ? Number(match[5]) : 0;
   const segundos = match[6] ? Number(match[6]) : 0;
-  const ampm = match[7]?.toUpperCase();
-  let dia, mes;
-  if (parte1 > 12) {
-    dia = parte1;
-    mes = parte2;
-  } else if (parte2 > 12) {
-    dia = parte2;
-    mes = parte1;
-  } else {
-    dia = parte1;
-    mes = parte2;
-  }
 
   if (
     dia < 1 || dia > 31 ||
     mes < 1 || mes > 12 ||
     anio < 1900 || anio > 3000 ||
-    hora < 0 || hora > 12 ||
+    hora < 0 || hora > 23 ||
     minutos < 0 || minutos > 59 ||
     segundos < 0 || segundos > 59
   ) {
     return null;
   }
 
-  if (ampm) {
-    if (ampm === 'PM' && hora < 12) hora += 12;
-    if (ampm === 'AM' && hora === 12) hora = 0;
-  }
-
   return new Date(anio, mes - 1, dia, hora, minutos, segundos);
 }
-
 
 public async getDescripcionHechos() {
   try {

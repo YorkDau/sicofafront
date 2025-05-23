@@ -27,6 +27,7 @@ import { CargarArchivoProrroga } from '../interfaces/seguimiento.interface';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { lastValueFrom } from 'rxjs';
 import { GestionUsuariosService } from 'src/app/pages/private/comisario/administracion/services/gestion-usuarios.service';
+import { PdfExport } from '../ejecutar-seguimiento/generar-seguimiento/formatos/pdf-exports';
 
 @Component({
   selector: 'app-decision-seguimiento',
@@ -82,6 +83,13 @@ export class DecisionSeguimientoComponent implements OnInit {
   ngAfterViewInit() {
     this.cargarTabla();
     this.dataSource.paginator = this.paginator;
+  }
+    public imprimir() {
+      this.generarPDF();
+  }
+
+  public generarPDF() {
+    PdfExport.generarPdfActa();        
   }
 
   private getUsuarioLogueado() {
