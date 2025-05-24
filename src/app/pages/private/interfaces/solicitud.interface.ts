@@ -40,4 +40,5 @@ export interface SolicitudCiudadanoInterface {
   justificacionRemision?: string;
   idUsuarioSistema: number;
   idSolicitud?: number;
+  sexoAfectado: string;
 }

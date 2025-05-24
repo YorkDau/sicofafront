@@ -170,7 +170,7 @@
     </div>
 
     <div class="row mb-4">
-      <div class="col-lg-5" *ngIf="cComisariaFamilia">
+      <div class="col-lg-4" *ngIf="cComisariaFamilia">
         <label for="idtipoTramite" class="form-label">
           Clasifique el trámite del caso*
         </label>
@@ -186,7 +186,19 @@
           {{ msgObligatorio }}
         </div>
       </div>
-      <div class="offset-1 col-lg-4" *ngIf="cComisariaFamilia">
+
+      <div class="col-lg-4">
+        <label for="sexoAfectado" class="form-label">
+          Afectado en el contexto familiar
+        </label>
+        <select id="sexoAfectado" formControlName="sexoAfectado" class="form-select">
+          <option *ngFor="let afectado of selectAfectados" [value]="afectado.code">
+            {{ afectado.nombre }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-lg-4" *ngIf="cComisariaFamilia">
         <label for="idContextofamiliar" class="form-label"> Contexto familiar* </label>
         <select id="idContextofamiliar" formControlName="idContextofamiliar" class="form-select" [ngClass]="{
             'input-req': isRequiredContextoFamiliar() && mostrarValidaciones

@@ -23,6 +23,7 @@ import { Modales } from '../../../modals';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { UserInterface } from 'src/app/interfaces/usuario.interface';
 import { ModalRemisionComponent } from 'src/app/pages/private/solicitud/modal-remision/modal-remision.component';
+import { SexosAfectados } from 'src/app/pages/private/solicitud/preguntas/preguntas.component';
 
 export enum UseModalRemision {
   Familia = 1,
@@ -44,6 +45,7 @@ export class RecepcionCasosComponent implements OnInit {
     'tipoSolicitud',
     'nombresApellidos',
     'tipoProceso',
+    'sexoAfectado',
     'numeroDocumento',
     'fechaSolicitud',
     'estado',
@@ -393,5 +395,9 @@ export class RecepcionCasosComponent implements OnInit {
       return true;
     }
     return false;
+  }
+
+  transformarSexo(code: string) {
+    return SexosAfectados.find(s => s.code === code)?.nombre
   }
 }

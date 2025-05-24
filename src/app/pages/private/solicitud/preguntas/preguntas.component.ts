@@ -23,11 +23,19 @@ import { SolicitudCiudadanoInterface } from '../../interfaces/solicitud.interfac
 import { SolicitudService } from '../services/solicitud.service';
 import { UserInterface } from 'src/app/interfaces/usuario.interface';
 import { AuthService } from 'src/app/auth/services/auth.service';
+import { select } from '@ngrx/store';
 
 export enum UseModalRemision {
   Familia = 1,
   Externa = 2,
 }
+
+export const SexosAfectados = [
+  { code: "HOMBRE", nombre: "Masculino" },
+  { code: "MUJER", nombre: "Femenino" },
+  { code: "NA", nombre: "No aplica" }
+]
+
 @Component({
   selector: 'app-preguntas',
   templateUrl: './preguntas.component.html',
@@ -46,6 +54,7 @@ export class PreguntasComponent implements OnInit, OnChanges {
   public selectRelacion: interfaces.DominioInterface[] = [];
   public selectTipo_Tramite: interfaces.DominioInterface[] = [];
   public selectContextoFamiliar: interfaces.DominioInterface[] = [];
+  public selectAfectados = SexosAfectados;
   public id_ciudadano!: number;
   public fechaActual: Date = new Date();
   public entidad!: number;
@@ -97,13 +106,26 @@ showDownloadButton: any;
     });
 
     this.myForm
-      .get('esCompetenciaComisaria')
-      ?.valueChanges.subscribe((resp) => {
-        this.myForm.get('noCompetenciaDescripcion')?.setValue('');
-        this.myForm.get('esNecesarioRemitir')?.setValue('no');
-        this.myForm.get('idtipoTramite')?.setValue('');
-        this.myForm.get('idContextofamiliar')?.setValue('');
-      });
+    .get('esCompetenciaComisaria')
+    ?.valueChanges.subscribe((resp) => {
+      this.myForm.get('noCompetenciaDescripcion')?.setValue('');
+      this.myForm.get('esNecesarioRemitir')?.setValue('no');
+      this.myForm.get('idtipoTramite')?.setValue('');
+      this.myForm.get('idContextofamiliar')?.setValue('');
+    });
+
+    this.myForm.controls['idtipoTramite']
+    .valueChanges.subscribe(resp => {
+      const idtipoTramite = resp as number
+      if (idtipoTramite != 91) {
+        this.myForm.controls['sexoAfectado'].setValue('NA')
+        this.myForm.get('sexoAfectado')?.disable()
+      }
+      else {
+        this.myForm.get('sexoAfectado')?.enable()
+        this.myForm.patchValue({ 'sexoAfectado': 'MUJER' })
+      }
+    });    
   }
 
   /**
@@ -140,6 +162,7 @@ showDownloadButton: any;
         idContextofamiliar: '',
         esNecesarioRemitir: 'no',
         noCompetenciaDescripcion: '',
+        sexoAfectado: ['MUJER', []]
       },
       {
         validators: [
@@ -196,6 +219,7 @@ showDownloadButton: any;
             this.myForm.controls['idContextofamiliar'].setValue(resp.data.idContextofamiliar);
             this.myForm.controls['esNecesarioRemitir'].setValue(resp.data.esNecesarioRemitir == true ? 'si' : 'no');
             this.myForm.controls['noCompetenciaDescripcion'].setValue(resp.data.noCompetenciaDescripcion);
+            this.myForm.patchValue({'sexoAfectado': resp.data.sexoAfectado ?? 'NA'});
         });
     }
   
@@ -486,7 +510,8 @@ showDownloadButton: any;
       idComisariaRemision: this.comisaria,
       justificacionRemision: this.justificacion,
       idUsuarioSistema: this.user.userID,
-      idSolicitud: this.idSolicitud
+      idSolicitud: this.idSolicitud,
+      sexoAfectado: this.myForm.value['sexoAfectado'] ?? 'NA'
     };
   }
 }

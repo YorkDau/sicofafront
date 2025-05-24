@@ -209,6 +209,12 @@
           {{ row.tipoProceso }}
         </mat-cell>
       </ng-container>
+      <ng-container matColumnDef="sexoAfectado">
+        <mat-header-cell *matHeaderCellDef> Sexo afectado </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          {{ transformarSexo(row.sexoAfectado ?? 'NA') }}
+        </mat-cell>
+      </ng-container>
       <ng-container matColumnDef="numeroDocumento">
         <mat-header-cell *matHeaderCellDef> No. de doc </mat-header-cell>
         <mat-cell *matCellDef="let row">

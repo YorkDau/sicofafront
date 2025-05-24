@@ -14,4 +14,5 @@ export interface RecepcionCasosInterface {
   pathRetorno: string | undefined;
   actividad: string;
   remision?: number;
+  sexoAfectado?: string;
 }
