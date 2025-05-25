@@ -10,8 +10,6 @@ import { SeguimientoComponent } from 'src/app/shared/seguimiento/seguimiento.com
 import { PsicologiaComponent } from './psicologia.component';
 
 import { DatosInvolucradosComponent } from './resumen-solicitud/datos-involucrados/datos-involucrados.component';
-import { ConclusionRecomendacionesComponent } from './resumen-solicitud/identificacion-riesgo/entrevista-psicologica-emocional/conclusion-recomendaciones/conclusion-recomendaciones.component';
-import { ValoracionComponent } from './resumen-solicitud/identificacion-riesgo/identificacion-del-riesgo/valoracion/valoracion.component';
 import { IdentificacionRiesgoComponent } from './resumen-solicitud/identificacion-riesgo/identificacion-riesgo.component';
 
 const routes: Routes = [
@@ -52,6 +50,10 @@ const routes: Routes = [
   },
   {
     path: 'identificacion-riesgo/:idSolicitud',
+    component: IdentificacionRiesgoComponent,
+  },
+  {
+    path: 'identificacion-riesgo/:idSolicitud/:tab',
     component: IdentificacionRiesgoComponent,
   },
 ];

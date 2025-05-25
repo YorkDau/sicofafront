@@ -333,7 +333,14 @@ export class RecepcionCasosComponent implements OnInit {
         this.router.navigate([objSolicitud.path]);
       }
     } else {
-      this.router.navigate([objSolicitud.path, objSolicitud.idSolicitud]);
+      if (objSolicitud.sexoAfectado === 'HOMBRE' && 
+        objSolicitud.path === '../psicologia/identificacion-riesgo' &&
+        objSolicitud.tipoProceso === 'Caso de Violencia Familiar-Identificación del Riesgo') {
+        this.router.navigate([objSolicitud.path, objSolicitud.idSolicitud, 2]);
+      }
+      else {
+        this.router.navigate([objSolicitud.path, objSolicitud.idSolicitud]);
+      }
     }
 
     sessionStorage.setItem('info', JSON.stringify(objSolicitud));
