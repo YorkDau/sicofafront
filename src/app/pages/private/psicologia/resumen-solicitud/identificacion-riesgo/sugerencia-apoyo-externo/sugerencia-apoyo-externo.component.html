@@ -1,7 +1,7 @@
 <form [formGroup]="myForm" class="background-gray2 rounded-basic p-4 mb-3">
   <div class="px-4">
     <h4 class="color-text-azul">
-      ORIENTACIÓN Y RECOMENDACIONES A LAS MUJERES VÍCTIMAS DE VIOLENCIA EN EL
+      ORIENTACIÓN Y RECOMENDACIONES A LAS PERSONAS VÍCTIMAS DE VIOLENCIA EN EL
       CONTEXTO FAMILIAR
     </h4>
 
@@ -116,7 +116,7 @@
   ></app-seguridad-redes-apoyo-pdf>
 
   <div class="row mt-3 px-4">
-    <div class="col-6">
+    <div class="col-12">
       <fieldset class="border border-primary p-2">
         <legend class="float-none w-auto p-2 color-text-azul">
           Generación de Formatos
@@ -131,6 +131,15 @@
             (click)="imprimirPDF(true)"
           >
             Imprimir Formato Completo
+          </button>
+          <button
+            *ngIf="tarea && tarea.idSolicitud"
+            class="btn btn-primary"
+            disabled
+            matTooltip="Formato aún no disponible"
+            (click)="imprimirPDF(true)"
+          >
+            Imprimir Formato Hombre
           </button>
         </div>
       </fieldset>
