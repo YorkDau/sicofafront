@@ -60,16 +60,25 @@ export class DescripcionHechosComponent implements AfterViewInit {
   }
 
 private parseFechaString(fechaStr: string): Date | null {
-  const fechaRegex = /^(\d{1,2})\/(\d{1,2})\/(\d{4})(?:\s+(\d{2}):(\d{2}):(\d{2}))?$/;
+  const fechaRegex = /^(\d{1,2})\/(\d{1,2})\/(\d{4})\s+(\d{1,2}):(\d{2}):(\d{2})\s*(AM|PM)$/i;
   const match = fechaStr.match(fechaRegex);
   if (!match) return null;
 
-  const dia = Number(match[1]);
-  const mes = Number(match[2]);
+  let dia = Number(match[2]); // día está en la segunda posición (MM/DD/YYYY)
+  let mes = Number(match[1]); // mes está en la primera posición
   const anio = Number(match[3]);
-  const hora = match[4] ? Number(match[4]) : 0;
-  const minutos = match[5] ? Number(match[5]) : 0;
-  const segundos = match[6] ? Number(match[6]) : 0;
+
+  let hora = Number(match[4]);
+  const minutos = Number(match[5]);
+  const segundos = Number(match[6]);
+  const meridiano = match[7].toUpperCase();
+
+  // Convertir a formato 24 horas
+  if (meridiano === 'PM' && hora !== 12) {
+    hora += 12;
+  } else if (meridiano === 'AM' && hora === 12) {
+    hora = 0;
+  }
 
   if (
     dia < 1 || dia > 31 ||
@@ -84,6 +93,7 @@ private parseFechaString(fechaStr: string): Date | null {
 
   return new Date(anio, mes - 1, dia, hora, minutos, segundos);
 }
+
 
 public async getDescripcionHechos() {
   try {
