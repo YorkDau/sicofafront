@@ -1,15 +1,34 @@
 <div class="container-fluid bg-white">
-    <div class="row">
-        <div class="col-lg-6 box-logo">
-            <img src="../../assets/images/LogoSICOFA.svg" 
-                 alt="logo SICOFA" 
-                 class="img-fluid logo-sicofa" />
-            <img src="../../assets/images/logoAuth.png" 
-                 alt="logo alcaldía" 
-                 class="img-fluid logo-alcaldia" />
-        </div>
-        <div class="col-lg-6">
-            <router-outlet></router-outlet>
-        </div>
+  <div class="row">
+    <div class="col-lg-6 box-logo text-center">
+      <div class="mb-4">
+        <img src="../../assets/images/sigfa_logo.png" 
+             alt="Logo SICOFA" 
+             class="img-fluid logo-sicofa" 
+              />
+      </div>
+      <div class="d-flex justify-content-center align-items-center gap-4 mb-4 flex-wrap">
+        <img src="../../assets/images/logoAuth.png" 
+             alt="Logo Alcaldía" 
+             class="img-fluid logo-alcaldia" 
+             style="max-height: 250px;" />
+
+        <img src="../../assets/images/unnamed.png" 
+             alt="Logo PNUD" 
+             class="img-fluid logo-nuevo" 
+             style="max-height: 150px;" />
+      </div>
+      <div>
+        <p class="text-white text-center mb-0">
+          "Este sistema ha sido desarrollado en colaboración con el Programa de las 
+        </p>
+        <p class="text-white text-center mb-0">
+          Naciones Unidas para el Desarrollo – PNUD."
+        </p>
+      </div>
     </div>
+    <div class="col-lg-6">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
 </div>
