@@ -64,22 +64,40 @@ private parseFechaString(fechaStr: string): Date | null {
   const match = fechaStr.match(fechaRegex);
   if (!match) return null;
 
-  let dia = Number(match[2]); // día está en la segunda posición (MM/DD/YYYY)
-  let mes = Number(match[1]); // mes está en la primera posición
+  let num1 = Number(match[1]);
+  let num2 = Number(match[2]);
   const anio = Number(match[3]);
-
-  let hora = Number(match[4]);
+  const horaOriginal = Number(match[4]);
   const minutos = Number(match[5]);
   const segundos = Number(match[6]);
   const meridiano = match[7].toUpperCase();
 
-  // Convertir a formato 24 horas
+  // Detectar si es MM/DD/YYYY o DD/MM/YYYY
+  let dia: number;
+  let mes: number;
+  if (num1 > 12) {
+    // DD/MM/YYYY
+    dia = num1;
+    mes = num2;
+  } else if (num2 > 12) {
+    // MM/DD/YYYY
+    mes = num1;
+    dia = num2;
+  } else {
+    // Ambiguo, por defecto asumimos MM/DD/YYYY
+    mes = num1;
+    dia = num2;
+  }
+
+  // Convertir hora a formato 24h
+  let hora = horaOriginal;
   if (meridiano === 'PM' && hora !== 12) {
     hora += 12;
   } else if (meridiano === 'AM' && hora === 12) {
     hora = 0;
   }
 
+  // Validaciones
   if (
     dia < 1 || dia > 31 ||
     mes < 1 || mes > 12 ||
@@ -93,6 +111,7 @@ private parseFechaString(fechaStr: string): Date | null {
 
   return new Date(anio, mes - 1, dia, hora, minutos, segundos);
 }
+
 
 
 public async getDescripcionHechos() {
