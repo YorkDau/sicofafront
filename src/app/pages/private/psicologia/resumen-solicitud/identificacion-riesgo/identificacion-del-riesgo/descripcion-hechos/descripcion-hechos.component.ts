@@ -59,58 +59,23 @@ export class DescripcionHechosComponent implements AfterViewInit {
     return dirty && required ? !form.get(name)?.valid || empty : false;
   }
 
-private parseFechaString(fechaStr: string): Date | null {
-  const fechaRegex = /^(\d{1,2})\/(\d{1,2})\/(\d{4})\s+(\d{1,2}):(\d{2}):(\d{2})\s*(AM|PM)$/i;
-  const match = fechaStr.match(fechaRegex);
+private parseFecha(fechaStr: string): Date | null {
+  const regex = /^(\d{1,2})\/(\d{1,2})\/(\d{4})/;
+  const match = fechaStr.match(regex);
   if (!match) return null;
 
-  let num1 = Number(match[1]);
-  let num2 = Number(match[2]);
+  const mes = Number(match[1]);
+  const dia = Number(match[2]);
   const anio = Number(match[3]);
-  const horaOriginal = Number(match[4]);
-  const minutos = Number(match[5]);
-  const segundos = Number(match[6]);
-  const meridiano = match[7].toUpperCase();
 
-  // Detectar si es MM/DD/YYYY o DD/MM/YYYY
-  let dia: number;
-  let mes: number;
-  if (num1 > 12) {
-    // DD/MM/YYYY
-    dia = num1;
-    mes = num2;
-  } else if (num2 > 12) {
-    // MM/DD/YYYY
-    mes = num1;
-    dia = num2;
-  } else {
-    // Ambiguo, por defecto asumimos MM/DD/YYYY
-    mes = num1;
-    dia = num2;
-  }
+  const esFechaValida =
+    dia >= 1 && dia <= 31 &&
+    mes >= 1 && mes <= 12 &&
+    anio >= 1900 && anio <= 3000;
 
-  // Convertir hora a formato 24h
-  let hora = horaOriginal;
-  if (meridiano === 'PM' && hora !== 12) {
-    hora += 12;
-  } else if (meridiano === 'AM' && hora === 12) {
-    hora = 0;
-  }
-
-  // Validaciones
-  if (
-    dia < 1 || dia > 31 ||
-    mes < 1 || mes > 12 ||
-    anio < 1900 || anio > 3000 ||
-    hora < 0 || hora > 23 ||
-    minutos < 0 || minutos > 59 ||
-    segundos < 0 || segundos > 59
-  ) {
-    return null;
-  }
-
-  return new Date(anio, mes - 1, dia, hora, minutos, segundos);
+  return esFechaValida ? new Date(anio, mes - 1, dia) : null;
 }
+
 
 
 
@@ -128,12 +93,16 @@ public async getDescripcionHechos() {
     }
 
     const fechaOriginal = result.data.fecha;
-    const fechaParseada = this.parseFechaString(fechaOriginal);
+    const fechaParseada = this.parseFecha(fechaOriginal);
 
     if (!fechaParseada) {
       this.modales.modalInformacion('La fecha recibida es inválida.');
       return;
     }
+    console.log('Fecha parseada:', fechaParseada);
+    console.log('Hora original:', result.data.hora);
+    console.log('Hora transformada:', this.datePipe.transform(fechaParseada, 'HH:mm'));
+    
 
     this.formDescripcionHechos.patchValue({
       fecha: fechaParseada,

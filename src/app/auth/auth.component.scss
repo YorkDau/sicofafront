@@ -14,7 +14,7 @@
     align-content: center;
 
     .logo-sicofa {
-        max-width: 80%;
+        max-width: 60%;
         height: auto;
     }
 
@@ -22,5 +22,10 @@
         max-width: 50%;
         height: auto;
         filter: brightness(0) invert(1);
+    }
+    
+    .logo-pnud{
+        max-width: 50%;
+        height: auto;
     }
 }
