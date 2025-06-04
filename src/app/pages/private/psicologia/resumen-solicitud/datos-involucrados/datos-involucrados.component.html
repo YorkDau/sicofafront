@@ -921,9 +921,6 @@
             class="form-select"
             placeholder="Tipo de documento"
             formControlName="tipoDocumento"
-            [ngClass]="{
-              'border-danger': isRequiredField(formAgresor, 'tipoDocumento')
-            }"
             (change)="isColombiano($event)"
           >
             <option value="">Seleccione una opción</option>
@@ -934,14 +931,18 @@
               {{ item.nombre_Dominio }}
             </option>
           </select>
-          <small
+          <!-- 
+            [ngClass]="{
+              'border-danger': isRequiredField(formAgresor, 'tipoDocumento')
+            }"
+            <small
             class="form-text text-danger"
             [ngClass]="{
               'opacity-0': !isRequiredField(formAgresor, 'tipoDocumento')
             }"
           >
             Campo requerido
-          </small>
+          </small> -->
         </div>
 
         <div class="form-group col-lg-4">
@@ -954,10 +955,10 @@
             placeholder="Número Documento"
             formControlName="numeroDocumento"
             maxlength="20"
-            [ngClass]="{
-              'border-danger': isRequiredField(formAgresor, 'numeroDocumento')
-            }"
           />
+          <!-- [ngClass]="{
+            'border-danger': isRequiredField(formAgresor, 'numeroDocumento')
+          }"
           <small
             class="form-text text-danger"
             [ngClass]="{
@@ -965,7 +966,7 @@
             }"
           >
             Campo requerido
-          </small>
+          </small> -->
         </div>
 
         <div class="form-group col-lg-4 mb-4">
