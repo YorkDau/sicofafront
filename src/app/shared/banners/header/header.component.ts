@@ -95,7 +95,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.intervalo = setInterval(() => {
       this.actualizarNotificaciones();
       console.log("noticaciones atualizadas")
-    }, 300000); // 300,000 ms = 5 minutos
+    },60000);
     
   }
 

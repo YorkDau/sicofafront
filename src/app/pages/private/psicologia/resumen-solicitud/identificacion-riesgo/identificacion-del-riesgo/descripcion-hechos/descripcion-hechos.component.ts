@@ -59,31 +59,25 @@ export class DescripcionHechosComponent implements AfterViewInit {
     return dirty && required ? !form.get(name)?.valid || empty : false;
   }
 
-private parseFechaString(fechaStr: string): Date | null {
-  const fechaRegex = /^(\d{1,2})\/(\d{1,2})\/(\d{4})(?:\s+(\d{2}):(\d{2}):(\d{2}))?$/;
-  const match = fechaStr.match(fechaRegex);
+private parseFecha(fechaStr: string): Date | null {
+  const regex = /^(\d{1,2})\/(\d{1,2})\/(\d{4})/;
+  const match = fechaStr.match(regex);
   if (!match) return null;
 
-  const dia = Number(match[1]);
-  const mes = Number(match[2]);
+  const mes = Number(match[1]);
+  const dia = Number(match[2]);
   const anio = Number(match[3]);
-  const hora = match[4] ? Number(match[4]) : 0;
-  const minutos = match[5] ? Number(match[5]) : 0;
-  const segundos = match[6] ? Number(match[6]) : 0;
 
-  if (
-    dia < 1 || dia > 31 ||
-    mes < 1 || mes > 12 ||
-    anio < 1900 || anio > 3000 ||
-    hora < 0 || hora > 23 ||
-    minutos < 0 || minutos > 59 ||
-    segundos < 0 || segundos > 59
-  ) {
-    return null;
-  }
+  const esFechaValida =
+    dia >= 1 && dia <= 31 &&
+    mes >= 1 && mes <= 12 &&
+    anio >= 1900 && anio <= 3000;
 
-  return new Date(anio, mes - 1, dia, hora, minutos, segundos);
+  return esFechaValida ? new Date(anio, mes - 1, dia) : null;
 }
+
+
+
 
 public async getDescripcionHechos() {
   try {
@@ -99,12 +93,16 @@ public async getDescripcionHechos() {
     }
 
     const fechaOriginal = result.data.fecha;
-    const fechaParseada = this.parseFechaString(fechaOriginal);
+    const fechaParseada = this.parseFecha(fechaOriginal);
 
     if (!fechaParseada) {
       this.modales.modalInformacion('La fecha recibida es inválida.');
       return;
     }
+    console.log('Fecha parseada:', fechaParseada);
+    console.log('Hora original:', result.data.hora);
+    console.log('Hora transformada:', this.datePipe.transform(fechaParseada, 'HH:mm'));
+    
 
     this.formDescripcionHechos.patchValue({
       fecha: fechaParseada,
