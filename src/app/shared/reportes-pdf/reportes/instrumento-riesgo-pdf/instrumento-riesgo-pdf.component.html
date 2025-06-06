@@ -963,7 +963,7 @@
       <th>Valoracion:</th>
       <td>
         <span *ngIf="idSolicitud > 1">{{
-          valoracion && valoracion.puntuacion ? valoracion.puntuacion : 0
+          valoracion && valoracion.puntuacion ? valoracion.puntuacion * 10 : 0
         }}</span>
         <span *ngIf="idSolicitud == 0">_________</span>
       </td>
