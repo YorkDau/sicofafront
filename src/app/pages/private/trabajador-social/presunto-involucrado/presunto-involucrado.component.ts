@@ -76,11 +76,12 @@ export class PresuntoInvolucradoComponent implements OnInit, OnDestroy {
     this.tipoDocumentoSub = this.store
       .select('tipo_documento')
       .subscribe(({ tipo_documento }) => {
-        if (estado)
-          this.listaTipoDocumento = tipo_documento.filter(
-            (v) => v.codigo === 'NUIP'
-          );
-        else this.listaTipoDocumento = tipo_documento;
+        // if (estado)
+        //   this.listaTipoDocumento = tipo_documento.filter(
+        //     (v) => v.codigo === 'NUIP'
+        //   );
+        // else this.listaTipoDocumento = tipo_documento;
+        this.listaTipoDocumento = tipo_documento;
       });
   }
 
