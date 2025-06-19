@@ -40,6 +40,7 @@ export class CargarPruebasComponent implements OnInit {
     nombrePrueba: new FormControl('', [Validators.required]),
     idInvolucrado: new FormControl(''),
     idPruebaPericial: new FormControl(''),
+    idSinPrueba: new FormControl(''),
   });
   public avisoError: string = '';
 
