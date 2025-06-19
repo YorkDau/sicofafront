@@ -28,6 +28,7 @@ export interface SolicitudCiudadanoInterface {
   fechaHechoViolento: string;
   descripcionHechos: string;
   esVictima: boolean;
+  id_tipo_entidad: string;
   conviveConAgresor: boolean;
   relacionParentescoAgresor: number;
   esCompetenciaComisaria: boolean;

@@ -64,6 +64,26 @@
       </div>
     </div>
 
+    <div class="form-group mb-3">
+      <label for="id_tipo_entidad" class="form-label">
+        Tipo de entidad que pone en conocimiento los hechos
+      </label>
+      <select
+        id="id_tipo_entidad"
+        class="form-select"
+        [(ngModel)]="detalleSolicitud.id_tipo_entidad"
+        disabled
+      >
+        <option [value]="null">N/A</option>
+        <option
+          *ngFor="let entidad of listaTipoEntidad"
+          [value]="entidad.id_Dominio"
+        >
+          {{ entidad.nombre_Dominio }}
+        </option>
+      </select>
+    </div>
+
     <div class="form-group mb-3 col-lg-12">
       <label class="form-label">Número de víctimas</label>
       <input type="text" disabled class="form-control shadow-none text-sm"

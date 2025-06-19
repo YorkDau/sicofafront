@@ -23,7 +23,8 @@ import { SolicitudCiudadanoInterface } from '../../interfaces/solicitud.interfac
 import { SolicitudService } from '../services/solicitud.service';
 import { UserInterface } from 'src/app/interfaces/usuario.interface';
 import { AuthService } from 'src/app/auth/services/auth.service';
-import { select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/store/app.reducer';
 
 export enum UseModalRemision {
   Familia = 1,
@@ -53,7 +54,8 @@ export class PreguntasComponent implements OnInit, OnChanges {
   public msgObligatorio: string = Mensajes.CAMPO_OBLIGATORIO;
   public selectRelacion: interfaces.DominioInterface[] = [];
   public selectTipo_Tramite: interfaces.DominioInterface[] = [];
-  public selectContextoFamiliar: interfaces.DominioInterface[] = [];
+  public selectContextoFamiliar: interfaces.DominioInterface[] = [];  
+  public listaTipoEntidad: interfaces.DominioInterface[] = [];
   public selectAfectados = SexosAfectados;
   public id_ciudadano!: number;
   public fechaActual: Date = new Date();
@@ -63,7 +65,7 @@ export class PreguntasComponent implements OnInit, OnChanges {
   public mostrarMensajeDias: boolean = false;
   public validaGuardarOactualizar: boolean = true;
   private user!: UserInterface;
-showDownloadButton: any;
+  showDownloadButton: any;
 
   constructor(
     private fb: FormBuilder,
@@ -72,6 +74,7 @@ showDownloadButton: any;
     private solicitudService: SolicitudService,
     private authService: AuthService,
     private router: Router,
+    private store: Store<AppState>,
     private datePipe: DatePipe
     
   ) {
@@ -125,7 +128,23 @@ showDownloadButton: any;
         this.myForm.get('sexoAfectado')?.enable()
         this.myForm.patchValue({ 'sexoAfectado': 'MUJER' })
       }
-    });    
+    });
+    
+    this.store.select('tipo_entidad').subscribe(({ tipo_entidad }) => {
+      this.listaTipoEntidad = tipo_entidad;
+    });  
+
+    this.myForm.controls["esVictima"]
+    .valueChanges
+    .subscribe(value => {
+      this.myForm.controls["id_tipo_entidad"].setValue(null)
+      if (value === 'no') {
+        this.myForm.controls["id_tipo_entidad"].enable()
+      }
+      else {        
+        this.myForm.controls["id_tipo_entidad"].disable()
+      }
+    })
   }
 
   /**
@@ -155,6 +174,7 @@ showDownloadButton: any;
         fechaHechoViolento: ['', [Validators.required]],
         descripcionHechos: ['', [Validators.required]],
         esVictima: ['no', [Validators.required]],
+        id_tipo_entidad: [null, [Validators.required]],
         relacionParentescoAgresor: ['', [Validators.required]],
         conviveConAgresor: ['no', []],
         esCompetenciaComisaria: ['no', [Validators.required]],
@@ -212,6 +232,7 @@ showDownloadButton: any;
             this.myForm.controls['horaSolicitud'].setValue(resp.data.hora_solicitud);
             this.myForm.controls['descripcionHechos'].setValue(resp.data.descripcion_de_hechos);
             this.myForm.controls['esVictima'].setValue(resp.data.es_victima == true ? 'si' : 'no');
+            this.myForm.controls['id_tipo_entidad'].setValue(resp.data.descripcion_de_hechos);
             this.myForm.controls['relacionParentescoAgresor'].setValue(resp.data.relacionParentescoAgresor);
             this.myForm.controls['conviveConAgresor'].setValue(resp.data.conviveConAgresor == true ? 'si' : 'no');
             this.myForm.controls['esCompetenciaComisaria'].setValue(resp.data.esCompetenciaComisaria == true ? 'si' : 'no');
@@ -488,6 +509,7 @@ showDownloadButton: any;
       )!,
       descripcionHechos: this.myForm.get('descripcionHechos')?.value,
       esVictima: this.myForm.get('esVictima')?.value == 'si' ? true : false,
+      id_tipo_entidad: this.myForm.get('id_tipo_entidad')?.value,
       conviveConAgresor:
         this.myForm.get('conviveConAgresor')?.value == 'si' ? true : false,
       relacionParentescoAgresor: this.myForm.get('relacionParentescoAgresor')

@@ -17,10 +17,9 @@ export interface SolicitudServicioDetalleInterface {
   fecha_hecho_violento: Date;
   descripcion_de_hechos: string;
   es_victima: boolean;
+  id_tipo_entidad: string;
   numero_victimas: number;
-  anexos?: AnexosInterface[];
-  
-  
+  anexos?: AnexosInterface[];  
 }
 export interface AnexosInterface {
   fechaCreacion: string;

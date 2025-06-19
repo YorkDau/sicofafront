@@ -9,6 +9,9 @@ import { SolicitudServicioDetalleInterface, AnexosInterface } from '../../../int
 import { CiudadanoService } from '../../services/ciudadano.service';
 import { SharedService } from 'src/app/services/shared.service';
 import { CodigosRespuesta } from 'src/app/constants';
+import * as interfaces from 'src/app/pages/private/interfaces/ciudadano.interface';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/store/app.reducer';
 
 @Component({
   selector: 'app-modal-detalle-solicitud-ciudadano',
@@ -18,7 +21,8 @@ import { CodigosRespuesta } from 'src/app/constants';
 export class ModalDetalleSolicitudCiudadanoComponent implements OnInit {
   public detalleSolicitud!: SolicitudServicioDetalleInterface;
   public anexos: AnexosInterface[] = [];
-  public paginatedAnexos: AnexosInterface[] = [];
+  public paginatedAnexos: AnexosInterface[] = []; 
+  public listaTipoEntidad: interfaces.DominioInterface[] = [];
   public cargando = true;
   public pageSize = 5;
   public pageSizeOptions = [5, 10, 25];
@@ -30,6 +34,7 @@ export class ModalDetalleSolicitudCiudadanoComponent implements OnInit {
     private ciudadanoService: CiudadanoService,
     private sharedService: SharedService,
     private modales: Modales,
+    private store: Store<AppState>,
   ) { 
     if (!this.data.id_solicitud) {
       console.error("Error de enrutamiento: No se obtuvo la identificación de la solicitud");
@@ -45,7 +50,11 @@ export class ModalDetalleSolicitudCiudadanoComponent implements OnInit {
 
   async ngOnInit() {
     await this.getSolicitudDetalle();
-    await this.cargarAnexos();
+    await this.cargarAnexos();    
+
+    this.store.select('tipo_entidad').subscribe(({ tipo_entidad }) => {
+      this.listaTipoEntidad = tipo_entidad;
+    });
   }
 
   public async getSolicitudDetalle() {
