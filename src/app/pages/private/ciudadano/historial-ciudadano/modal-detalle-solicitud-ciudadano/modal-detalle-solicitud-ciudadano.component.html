@@ -1,7 +1,11 @@
 <div class="p-3 position-relative">
-  <button mat-icon-button class="close-button position-absolute top-0 end-0">
+  <div  class="d-flex justify-content-between align-items-center">
+    <h4 class="pr-5 titulo mb-3 ">DETALLE SOLICITUD DEL CIUDADANO</h4>
+    <button mat-icon-button class="close-button position-absolute top-0 end-0 ">
     <mat-icon class="close-icon" color="warn" (click)="cerrarModal()">close</mat-icon>
   </button>
+  </div>
+
 
   <div *ngIf="!cargando; else loading" class="row overflow">
     <div class="col-12">
@@ -69,37 +73,64 @@
       <input type="text" disabled class="form-control shadow-none text-sm"
         [value]="detalleSolicitud?.numero_victimas || 'Sin dato'" />
     </div>
+<div class="col-12 mt-4">
+  <h6 class="subtitulo mb-2 text-center">INFORMACION  DEL ACCIONADO </h6>
 
-    <!-- Sección de Anexos -->
-    <div class="col-12 mt-3">
+  <div *ngIf="detalleSolicitud?.involucrados?.length > 0; else noInvolucrados">
+    <div class="estilo-tabla">
+      <table class="table table-sm table-hover align-middle">
+        <thead class="table-light text-center">
+          <tr>
+            <th style="width: 40%">Nombre completo</th>
+            <th style="width: 30%">Número de documento</th>
+            <th style="width: 30%">Relación con la victima</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let inv of detalleSolicitud.involucrados" class="text-center text-sm">
+            <td>{{ inv.nombre_completo || 'SIN NOMBRE' }}</td>
+            <td>{{ inv.numero_documento || 'SIN DOCUMENTO' }}</td>
+            <td>{{ inv.parentesco || 'NO TIENE ASIGNADO' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <ng-template #noInvolucrados>
+    <div class="alert alert-warning mt-2 text-sm text-center">
+      <mat-icon>info</mat-icon> No se encontraron involucrados registrados en esta solicitud.
+    </div>
+  </ng-template>
+</div>
+<div class="col-12 mt-3">
       <h6 class="subtitulo mb-2 text-center">DOCUMENTOS ANEXOS</h6>
-
       <div *ngIf="anexos?.length > 0; else noAnexos">
-        <div class="table-responsive">
+        <div class="estilo-tabla">
           <table class="table table-sm table-hover align-middle">
             <thead class="table-light text-center">
               <tr>
-                <th style="width: 40%">Nombre del Archivo</th>
-                <th style="width: 40%">Nombre del Documento</th>
-                <th style="width: 15%">Fecha</th>
-                <th style="width: 5%">Acción</th>
+                <th style="width: 35%">Nombre del Archivo</th>
+                <th style="width: 25%">Nombre del Documento</th>
+                <th style="width: 10%">Fecha</th>
+                <th style="width: 3%">Acción</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let anexo of paginatedAnexos">
-                <td class="text-truncate text-sm" title="{{anexo.nombreArchivo}}">
+              <tr *ngFor="let anexo of paginatedAnexos" class="text-center " >
+                <td class="text-truncate" title="{{anexo.nombreArchivo}}">
                   {{ anexo.nombreArchivo || 'Sin nombre' }}
                 </td>
-                <td class="text-truncate text-sm" title="{{anexo.nombreDocumento}}">
+                <td class="text-truncate" title="{{anexo.nombreDocumento}}">
                   {{ anexo.nombreDocumento || 'Sin nombre' }}
                 </td>
-                <td class="text-center text-sm">
+                <td>
                   {{ (anexo.fechaCreacion | date:'dd/MM/yyyy') || 'Sin fecha' }}
                 </td>
-                <td class="text-center">
-                  <button mat-icon-button color="primary" class="btn-sm" 
-                          (click)="descargarArchivo(anexo)" matTooltip="Descargar">
-                    <mat-icon fontSize="small">cloud_download</mat-icon>
+                <td>
+                  <button mat-icon-button color="primary" 
+                          (click)="descargarArchivo(anexo)" matTooltip="Descargar adjunto">
+                    <mat-icon class="material-icons-outlined">file_download</mat-icon>
                   </button>
                 </td>
               </tr>

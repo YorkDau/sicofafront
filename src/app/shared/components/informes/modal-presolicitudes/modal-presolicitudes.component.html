@@ -20,151 +20,104 @@
     autocomplete="off"
     (submit)="consultarPresolicitudes()"
   >
-<div class="row">
-  <!-- Fecha Solicitud Inicial -->
-  <div class="col-lg-3">
-    <div class="mb-2">
-      <label for="fechaSolicitud" class="form-label">Fecha Solicitud Inicial</label>
-      <div class="input-group">
-        <input
-          matInput
-          readonly
-          (click)="pickerInicio.open()"
-          [matDatepicker]="pickerInicio"
-          class="form-control form-control-date-Picker sinborde-DatePicker"
-          id="fechaSolicitud"
-          placeholder="Fecha Solicitud Inicial"
-          formControlName="fechaSolicitud"
-        />
-        <span class="input-group-text sinfondo-DatePicker">
-          <mat-datepicker-toggle matSuffix [for]="pickerInicio"></mat-datepicker-toggle>
-          <mat-datepicker #pickerInicio></mat-datepicker>
-        </span>
+    <div class="row">
+      <div class="col-lg-3">
+        <div class="mb-2">
+          <label for="fechaSolicitud" class="form-label">Fecha Solicitud Inicial</label>
+          <div class="input-group">
+            <input
+              matInput
+              readonly
+              (click)="pickerInicio.open()"
+              [matDatepicker]="pickerInicio"
+              class="form-control form-control-date-Picker sinborde-DatePicker"
+              id="fechaSolicitud"
+              placeholder="Fecha Solicitud Inicial"
+              formControlName="fechaSolicitud"
+            />
+            <span class="input-group-text sinfondo-DatePicker">
+              <mat-datepicker-toggle matSuffix [for]="pickerInicio"></mat-datepicker-toggle>
+              <mat-datepicker #pickerInicio></mat-datepicker>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3">
+        <div class="mb-2">
+          <label for="fechaSolicitudFinal" class="form-label">Fecha Solicitud Final</label>
+          <div class="input-group">
+            <input
+              matInput
+              readonly
+              (click)="pickerFinal.open()"
+              [matDatepicker]="pickerFinal"
+              class="form-control form-control-date-Picker sinborde-DatePicker"
+              id="fechaSolicitudFinal"
+              placeholder="Fecha Solicitud Final"
+              formControlName="fechaSolicitudFinal"
+            />
+            <span class="input-group-text sinfondo-DatePicker">
+              <mat-datepicker-toggle matSuffix [for]="pickerFinal"></mat-datepicker-toggle>
+              <mat-datepicker #pickerFinal></mat-datepicker>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3">
+        <div class="mb-2">
+          <label for="codigo" class="form-label">Código solicitud</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="codigoSolicitud"
+            maxlength="40"
+            id="codigo"
+          />
+        </div>
+      </div>
+
+      <div class="col-lg-3 d-flex align-items-center justify-content-end">
+        <div class="mt-2">
+          <button type="submit" class="btn btn-primary">
+            <img src="assets/images/busqueda.svg" alt="search" class="img-fluid me-2" />
+            Buscar
+          </button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- Fecha Solicitud Final -->
-  <div class="col-lg-3">
-    <div class="mb-2">
-      <label for="fechaSolicitudFinal" class="form-label">Fecha Solicitud Final</label>
-      <div class="input-group">
-        <input
-          matInput
-          readonly
-          (click)="pickerFinal.open()"
-          [matDatepicker]="pickerFinal"
-          class="form-control form-control-date-Picker sinborde-DatePicker"
-          id="fechaSolicitudFinal"
-          placeholder="Fecha Solicitud Final"
-          formControlName="fechaSolicitudFinal"
-        />
-        <span class="input-group-text sinfondo-DatePicker">
-          <mat-datepicker-toggle matSuffix [for]="pickerFinal"></mat-datepicker-toggle>
-          <mat-datepicker #pickerFinal></mat-datepicker>
-        </span>
-      </div>
+    <div *ngIf="form.errors?.rangoFechasInvalido" class="text-danger mt-2">
+      La fecha inicial debe ser menor o igual que la fecha final.
     </div>
-  </div>
-
-  <!-- Código solicitud -->
-  <div class="col-lg-3">
-    <div class="mb-2">
-      <label for="codigo" class="form-label">Código solicitud</label>
-      <input
-        type="text"
-        class="form-control"
-        formControlName="codigoSolicitud"
-        placeholder="Código solicitud"
-        maxlength="40"
-        id="codigo"
-      />
-    </div>
-  </div>
-
-  <!-- Botón Buscar -->
-  <div class="col-lg-3 d-flex align-items-center justify-content-end">
-    <div class="mt-2">
-      <button type="submit" class="btn btn-primary">
-        <img src="assets/images/busqueda.svg" alt="search" class="img-fluid me-2" />
-        Buscar
-      </button>
-    </div>
-  </div>
-</div>
-
-<!-- Mensaje de error -->
-<div *ngIf="form.errors?.rangoFechasInvalido" class="text-danger mt-2">
-  La fecha inicial debe ser menor o igual que la fecha final.
-</div>
-
   </form>
 
   <div class="background-light rounded-basic p-2 mb-2 flex-grow-1 d-flex flex-column" *ngIf="formSubmitted">
-    <div class="w-50" *ngIf="dataSource.data.length === 0">
-      <app-no-data [mensaje]="mensajeSinReg"> </app-no-data>
+    <div class="w-50" *ngIf="listaCasos.length === 0">
+      <app-no-data [mensaje]="mensajeSinReg"></app-no-data>
     </div>
 
-    <div class="flex-grow-1 d-flex flex-column" [ngStyle]="{ display: dataSource.data.length > 0 ? 'flex' : 'none' }">
-      <div
-        class="table-container flex-grow-1"
-        [ngStyle]="{
-          'overflow': 'auto',
-          'max-height': dataSource.data.length > 3 ? '300px' : 'unset'
-        }"
-      >
-        <mat-table [dataSource]="dataSource" id="table-private" class="w-100">
-          <ng-container matColumnDef="codigoSolicitud">
-            <mat-header-cell *matHeaderCellDef> Código Solicitud </mat-header-cell>
-            <mat-cell *matCellDef="let row">
-              <span [title]="row.codigoSolicitud">
-                {{ row.codigoSolicitud }}
-              </span>
-            </mat-cell>
-          </ng-container>
-
-          <ng-container matColumnDef="fechaSolicitud">
-            <mat-header-cell *matHeaderCellDef> Fecha Solicitud </mat-header-cell>
-            <mat-cell *matCellDef="let row">
-              {{ row.fechaSolicitud | date: 'dd/MM/yyyy' }}
-            </mat-cell>
-          </ng-container>
-
-          <ng-container matColumnDef="descripcionHechos">
-            <mat-header-cell *matHeaderCellDef> Descripcion Hechos </mat-header-cell>
-            <mat-cell *matCellDef="let row">
-              <span [title]="row.codigoSolicitud">
-                {{ row.descripcionHechos }}
-              </span>
-            </mat-cell>
-          </ng-container>
-
-          <ng-container matColumnDef="esCompetenciaComisaria">
-            <mat-header-cell *matHeaderCellDef> Es Competencia Comisaria </mat-header-cell>
-            <mat-cell *matCellDef="let row">
-              {{ row.esCompetenciaComisaria === 1 ? 'SI' : 'NO' }}
-            </mat-cell>
-          </ng-container>
-
-          <ng-container matColumnDef="estadoSolicitud">
-            <mat-header-cell *matHeaderCellDef> Estado </mat-header-cell>
-            <mat-cell *matCellDef="let row">
-              {{ row.estadoSolicitud | titlecase }}
-            </mat-cell>
-          </ng-container>
-
-          <mat-header-row *matHeaderRowDef="columnas"></mat-header-row>
-          <mat-row *matRowDef="let row; columns: columnas"></mat-row>
-        </mat-table>
+    <div class="flex-grow-1 d-flex flex-column" [ngStyle]="{ display: listaCasos.length > 0 ? 'flex' : 'none' }">
+      <div class="table-container flex-grow-1" 
+           [ngStyle]="{
+             'overflow': 'auto',
+             'max-height': listaCasos.length > 6 ? '400px' : 'unset'
+           }">
+        <aurora-table
+          [data]="listaCasos"
+          [columns]="columns"
+          [actions]="actions"
+          [pageSizeOptions]="[5, 10, 20, 50]"
+          class="w-100"
+        >
+          <ng-template #noDataTemplate>
+            <div class="text-center p-4">
+              <app-no-data [mensaje]="mensajeSinReg"></app-no-data>
+            </div>
+          </ng-template>
+        </aurora-table>
       </div>
-
-      <mat-paginator
-        [pageSizeOptions]="[5, 10, 20, 50]"
-        showFirstLastButtons
-        aria-label="Select page of request"
-        class="mt-2"
-      >
-      </mat-paginator>
     </div>
   </div>
 </div>

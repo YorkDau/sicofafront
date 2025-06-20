@@ -17,6 +17,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ModalPresolicitudesComponent } from '../modal-presolicitudes/modal-presolicitudes.component';
+import { AuroraActionColumn, AuroraTableColumn } from 'src/app/shared/table/table.component';
 export enum UseModalRemision {
   Familia = 1,
   Externa = 2,
@@ -34,17 +35,53 @@ export class ConsultaComisariaGeneralComponent implements OnInit {
 
 @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-public columnas: string[] = [
-  'codigoSolicitud',
-  'nombreCiudadano', 
-  'tipoDocumento',         
-  'numeroDocumento', 
-  'fechaSolicitud',         
-  'estadoSolicitud', 
-  'proceso',
-  'perfil'
+public columns: AuroraTableColumn[] = [
+  { name: 'codigoSolicitud', title: 'Código Solicitud' },
+{
+  name: 'nombreCiudadano', // Usamos el nombre original pero con render personalizado
+  title: 'Ciudadano',
+  render: (value: string, row: any) => 
+    [row.nombreCiudadano, row.primerApellido, row.segundoApellido]
+      .filter(Boolean)
+      .join(' ')
+      .toUpperCase()
+}
+  ,
+  { 
+    name: 'nombreDocumento', 
+    title: 'Tipo Documento',
+    render: (value: string) => value?.toUpperCase()
+  },
+  { name: 'numeroDocumento', title: 'No. Documento' },
+  { 
+    name: 'fechaSolicitud', 
+    title: 'Fecha Solicitud',
+    render: (value: string) => this.datePipe.transform(value, 'dd/MM/yyyy') || value
+  },
+  { 
+    name: 'estadoSolicitud', 
+    title: 'Estado',
+    render: (value: string) => value?.toUpperCase()
+  },
+  { 
+    name: 'proceso', 
+    title: 'Proceso',
+    render: (value: string) => value?.toUpperCase()
+  },
+  { 
+    name: 'perfil', 
+    title: 'Perfil',
+    render: (value: string) => value?.toUpperCase()
+  }
 ];
-
+public actions: AuroraActionColumn[] = [
+  {
+    imagen: 'assets/images/eye.svg',
+    tooltip: 'Ver detalle',
+    tooltipPosition: 'right',
+    accion: (row) => this.verHistorialCiudadano(row)
+  }
+];
   
 
   private perfil: string = '';
@@ -66,6 +103,7 @@ public columnas: string[] = [
     private sharedService: SharedService,
     private authService: AuthService,
     private dialog: MatDialog,
+    private datePipe: DatePipe,
     private router: Router
   ) {
     this.user = this.authService.currentUserValue!;
@@ -94,7 +132,7 @@ public columnas: string[] = [
     const dialogRef = this.dialog.open(ModalPresolicitudesComponent, {
       panelClass: ['roundedModal', 'custom-presolicitudes-modal'],
       disableClose: true,
-      width: '1200px',
+      width: '1300px',
       height: '90vh', // Cambiado a viewport height
       maxHeight: '90vh',
       autoFocus: false
@@ -109,41 +147,38 @@ public columnas: string[] = [
   /**
    * @description llama servicio consulta general solcitudes
    */
-  public coonsultarSolicitudesGeneralesFiltro() {
-    this.validarFormObligatorio();
+public coonsultarSolicitudesGeneralesFiltro() {
+  this.validarFormObligatorio();
 
-    if (this.form.valid) {
-      this.formSubmitted = true;
-      this.mostrarValidaciones = false;
+  if (this.form.valid) {
+    this.formSubmitted = true;
+    this.mostrarValidaciones = false;
 
-      this.sharedService
-        .consultaSolicitudesGenerales(this.form.value)
-        .subscribe({
-          next: (data: ResponseInterface) => {
-            if (data.statusCode === CodigosRespuesta.OK) {
-              if (data.data.datosPaginados.length > 0) {
-                this.listaCasos = data.data.datosPaginados;
-                this.dataSource = new MatTableDataSource(this.listaCasos);
-                this.dataSource.paginator = this.paginator;
-              } else {
-                this.limpiarRegistros();
-              }
+    this.sharedService
+      .consultaSolicitudesGenerales(this.form.value)
+      .subscribe({
+        next: (data: ResponseInterface) => {
+          if (data.statusCode === CodigosRespuesta.OK) {
+            this.listaCasos = data.data.datosPaginados || [];
+            if (this.listaCasos.length === 0) {
+              this.mensajeSinReg = 'No se encontraron solicitudes con los filtros aplicados';
             }
-          },
-          error: () => {
-            Modales.modalInformacion(
-              Mensajes.MENSAJE_ERROR_G,
-              this.dialog,
-              ImagenesModal.EXCLAMACION
-            );
-          },
-        });
-    } else {
-      this.mostrarValidaciones = true;
-      this.formSubmitted = false;
-      this.limpiarRegistros();
-    }
+          }
+        },
+        error: () => {
+          Modales.modalInformacion(
+            Mensajes.MENSAJE_ERROR_G,
+            this.dialog,
+            ImagenesModal.EXCLAMACION
+          );
+        },
+      });
+  } else {
+    this.mostrarValidaciones = true;
+    this.formSubmitted = false;
+    this.listaCasos = [];
   }
+}
   validarFormObligatorio() {
     const { nombres, primerApellido, segundoApellido, fechaS } =
       this.form.value;
@@ -169,6 +204,7 @@ public columnas: string[] = [
    * @description hace dispatch de la tarea y envía a la ruta parametrizada
    * @param objSolicitud objeto solicitud
    */
+
   dispatchTarea(objSolicitud: RecepcionCasosInterface) {
     if (objSolicitud.tipoSolicitud === 'PRE') {
       if (objSolicitud.path === '../abogado/firmar-cargar') {

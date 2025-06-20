@@ -1,21 +1,13 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  ValidationErrors,
-  Validators
-} from '@angular/forms';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { SharedService } from 'src/app/services/shared.service';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { CodigosRespuesta, ImagenesModal, Mensajes } from 'src/app/constants';
 import { RecepcionCasosInterface } from 'src/app/interfaces/recepcion-casos.interface';
 import { ResponseInterface } from 'src/app/interfaces/response.interface';
 import { Modales } from 'src/app/shared/modals';
+import { AuroraTableColumn, AuroraActionColumn } from 'src/app/shared/table/table.component';
 
 @Component({
   selector: 'app-modal-presolicitudes',
@@ -23,21 +15,46 @@ import { Modales } from 'src/app/shared/modals';
   styleUrls: ['./modal-presolicitudes.component.scss'],
 })
 export class ModalPresolicitudesComponent implements OnInit {
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-
   form!: FormGroup;
   formSubmitted = false;
   mostrarValidaciones = false;
   mensajeSinReg = 'No se encontraron solicitudes.';
-  columnas = [
-    'codigoSolicitud',
-    'fechaSolicitud',
-    'estadoSolicitud',
-    'esCompetenciaComisaria',
-    'descripcionHechos'
+  
+  // Configuración de Aurora Table
+  public columns: AuroraTableColumn[] = [
+    { name: 'codigoSolicitud', title: 'Código Solicitud' },
+    { 
+      name: 'fechaSolicitud', 
+      title: 'Fecha Solicitud',
+      render: (value: string) => new Date(value).toLocaleDateString()
+    },
+    { 
+      name: 'estadoSolicitud', 
+      title: 'Estado',
+      render: (value: string) => value?.toUpperCase()
+    },
+    { 
+      name: 'esCompetenciaComisaria', 
+      title: 'Competencia',
+      render: (value: boolean) => value ? 'SÍ' : 'NO'
+    },
+    { 
+      name: 'descripcionHechos', 
+      title: 'Descripción Hechos',
+      render: (value: string) => value || 'Sin descripción'
+    }
   ];
-  dataSource = new MatTableDataSource<RecepcionCasosInterface>([]);
-  private listaCasos: RecepcionCasosInterface[] = [];
+
+  public actions: AuroraActionColumn[] = [
+    {
+      imagen: 'assets/images/select.svg',
+      tooltip: 'Seleccionar solicitud',
+      tooltipPosition: 'right',
+      accion: (row) => this.seleccionarSolicitud(row)
+    }
+  ];
+
+  public listaCasos: RecepcionCasosInterface[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -87,7 +104,6 @@ export class ModalPresolicitudesComponent implements OnInit {
     this.mostrarValidaciones = true;
 
     if (this.form.invalid) {
-      // Marca todos los controles para mostrar errores
       this.form.markAllAsTouched();
       this.formSubmitted = false;
       this.limpiarTabla();
@@ -100,14 +116,13 @@ export class ModalPresolicitudesComponent implements OnInit {
       .subscribe({
         next: (data: ResponseInterface) => {
           if (data.statusCode === CodigosRespuesta.OK) {
-            const datos = data.data.datosPaginados || [];
-            if (datos.length) {
-              this.listaCasos = datos;
-              this.dataSource = new MatTableDataSource(this.listaCasos);
-              this.dataSource.paginator = this.paginator;
-            } else {
-              this.limpiarTabla();
+            this.listaCasos = data.data.datosPaginados || [];
+            if (this.listaCasos.length === 0) {
+              this.mensajeSinReg = 'No se encontraron solicitudes con los filtros aplicados';
             }
+          } else {
+            this.listaCasos = [];
+            this.mensajeSinReg = 'No se encontraron resultados';
           }
         },
         error: () => {
@@ -116,13 +131,13 @@ export class ModalPresolicitudesComponent implements OnInit {
             this.dialog,
             ImagenesModal.EXCLAMACION
           );
+          this.listaCasos = [];
         }
       });
   }
 
   limpiarTabla() {
     this.listaCasos = [];
-    this.dataSource = new MatTableDataSource(this.listaCasos);
   }
 
   seleccionarSolicitud(solicitud: RecepcionCasosInterface) {

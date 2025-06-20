@@ -137,7 +137,7 @@ export class ModalDetalleSolicitudCiudadanoComponent implements OnInit {
         const link = document.createElement('a');
         const fileName = anexo.nombreDocumento;
         link.href = source;
-        link.download = `${fileName}`;
+        link.download = `${fileName}.pdf`;
         link.click();
       } else {
         this.modales.modalInformacion('Error al descargar el archivo');
