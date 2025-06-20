@@ -263,7 +263,7 @@
           </option>
         </select>
       </div>
-
+<!-- 
       <div class="col-4 p-3">
         <label>País de Nacimiento</label>
 
@@ -279,7 +279,6 @@
         </select>
       </div>
 
-      <!-- <div class="col-4 p-3" *ngIf="cColombiano"> -->
       <div class="col-4 p-3">
         <label>Departamento de Nacimiento</label>
 
@@ -328,6 +327,17 @@
             {{ localidad.localidadNombre }}
           </option>
         </select>
+      </div> -->
+
+      <div class="col-4 p-3">
+        <label>Dirección de Residencia</label>
+        <input
+          type="text"
+          maxlength="100"
+          class="form-control"
+          formControlName="dirResidencia"
+          placeholder="Dirección de Residencia"
+        />
       </div>
 
       <div class="col-4 p-3">
@@ -338,17 +348,6 @@
           formControlName="barrio"
           maxlength="30"
           placeholder="Barrio"
-        />
-      </div>
-
-      <div class="col-4 p-3">
-        <label>Dirección de Residencia</label>
-        <input
-          type="text"
-          maxlength="100"
-          class="form-control"
-          formControlName="dirResidencia"
-          placeholder="Dirección de Residencia"
         />
       </div>
 
