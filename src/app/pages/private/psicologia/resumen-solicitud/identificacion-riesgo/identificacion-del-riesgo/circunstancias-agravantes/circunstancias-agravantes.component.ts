@@ -160,15 +160,29 @@ export class CircunstanciasAgravantesComponent implements AfterViewInit {
       .subscribe((data: ResponseInterface) => {
         if (data.statusCode === CodigosRespuesta.OK) {
           this.listFormTipoViolencia = data.data;
-          this.listFormTipoViolencia = this.listFormTipoViolencia.map(
-            (item: FormTipoViolenciaInterface) => {
-              return {
-                ...item,
-                puntuacionPrevio: item.puntuacionPrevio ?? undefined,
-                mesPrevio: item.mesPrevio ?? undefined,
-              };
-            }
-          );
+          const allNull = this.listFormTipoViolencia.findIndex(i => i.puntuacionPrevio !== null);
+          if (allNull == -1) {
+            this.listFormTipoViolencia = this.listFormTipoViolencia.map(
+              (item: FormTipoViolenciaInterface) => {
+                return {
+                  ...item,
+                  puntuacionPrevio: 0,
+                  mesPrevio: item.mesPrevio ?? undefined,
+                };
+              }
+            );
+          }
+          else {
+            this.listFormTipoViolencia = this.listFormTipoViolencia.map(
+              (item: FormTipoViolenciaInterface) => {
+                return {
+                  ...item,
+                  puntuacionPrevio: item.puntuacionPrevio ?? undefined,
+                  mesPrevio: item.mesPrevio ?? undefined,
+                };
+              }
+            );
+          }
           console.log(this.listFormTipoViolencia)
         }
         this.setInitialDataPost();
@@ -186,13 +200,24 @@ export class CircunstanciasAgravantesComponent implements AfterViewInit {
     this.listFormTipoViolencia.forEach((item) => {
       this.dataPost.listadoRespuestas.push({
         idCuestionario: item.idQuestionario,
-        mes: item.mesPrevio == null ? false : item.mesPrevio,
-        puntuacion:
-          item.puntuacionPrevio == null || item.puntuacionPrevio == 0
-            ? false
-            : true,
+        mes: this.calculateMonthValue(item.mesPrevio),
+        puntuacion: this.calculateScoreValue(item.puntuacionPrevio)
       });
     });
+  }
+
+  private calculateMonthValue = (value: any) => {
+    if (value === null || value == undefined) {
+      return undefined;
+    }
+    return value == null ? false : true
+  }
+
+  private calculateScoreValue = (value: any) => {
+    if (value === null || value == undefined) {
+      return undefined;
+    }
+    return value == 0 ? false : true
   }
 
   public cancelar() {

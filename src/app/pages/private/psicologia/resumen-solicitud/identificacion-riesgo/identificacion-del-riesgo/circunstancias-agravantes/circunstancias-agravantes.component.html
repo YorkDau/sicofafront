@@ -4,42 +4,57 @@
   <div class="row" *ngFor="let tipo of listFormTipoViolencia" style="height: auto; margin-bottom: 20px;">
     <label class="form-label">{{ tipo.descripcion }}</label>
     <div class="pt-2">
-      <div class="form-check form-check-inline">
-        <input *ngIf="tipo.puntuacionPrevio === 0 || tipo.puntuacionPrevio === null" 
-               class="form-check-input" type="radio" checked 
-               name="{{ tipo.idQuestionario }}" id="no{{ tipo.idQuestionario }}" 
-               (change)="habilitarRadioMes($event, tipo.idTipoViolencia)" [value]="false" />
-        <input *ngIf="tipo.puntuacionPrevio != 0 && tipo.puntuacionPrevio !== null" 
-               class="form-check-input" type="radio" name="{{ tipo.idQuestionario }}" 
-               id="no{{ tipo.idQuestionario }}" (change)="habilitarRadioMes($event, tipo.idTipoViolencia)" 
-               [value]="false" />
-        <label class="form-check-label form-label" for="no{{ tipo.idQuestionario }}">
-          NO
-        </label>
-      </div>
-      <div class="form-check form-check-inline">
-        <input *ngIf="tipo.puntuacionPrevio === 0 || tipo.puntuacionPrevio === null" 
-               class="form-check-input" type="radio" name="{{ tipo.idQuestionario }}" 
-               id="si{{ tipo.idQuestionario }}" (change)="habilitarRadioMes($event, tipo.idTipoViolencia)" 
-               value="true" />
-        <input *ngIf="tipo.puntuacionPrevio != 0 && tipo.puntuacionPrevio !== null" 
-               class="form-check-input" type="radio" checked name="{{ tipo.idQuestionario }}" 
-               id="si{{ tipo.idQuestionario }}" (change)="habilitarRadioMes($event, tipo.idTipoViolencia)" 
-               value="true" />
-        <label class="form-check-label form-label" for="si{{ tipo.idQuestionario }}">
-          SI
-        </label>
-      </div>
 
-      <!-- Nullable option -->
-      <div class="form-check form-check-inline">
-        <input *ngIf="tipo.nullable && tipo.puntuacionPrevio !== undefined" class="form-check-input" type="radio" name="{{ tipo.idQuestionario }}"
-          id="siy{{ tipo.idQuestionario }}" (change)="habilitarRadioMes($event, tipo.idTipoViolencia)" [value]="undefined" />
-        <input *ngIf="tipo.nullable && tipo.puntuacionPrevio === undefined" class="form-check-input" type="radio" checked name="{{ tipo.idQuestionario }}"
-          id="siy{{ tipo.idQuestionario }}" (change)="habilitarRadioMes($event, tipo.idTipoViolencia)" [value]="undefined" />
-        <label class="form-check-label form-label" for="siy{{ tipo.idQuestionario }}">
-          {{tipo.nullable}}
-        </label>
+      <div class="div-check-options">
+
+        <!-- No option -->
+        <div class="form-check form-check-inline">
+          <input *ngIf="tipo.nullable && tipo.puntuacionPrevio === undefined"
+                class="form-check-input" type="radio" 
+                name="{{ tipo.idQuestionario }}" id="no{{ tipo.idQuestionario }}" 
+                (change)="habilitarRadioMes($event, tipo.idTipoViolencia)" [value]="false" />
+          <input *ngIf="tipo.puntuacionPrevio === 0 || tipo.puntuacionPrevio === null" 
+                class="form-check-input" type="radio" checked 
+                name="{{ tipo.idQuestionario }}" id="no{{ tipo.idQuestionario }}" 
+                (change)="habilitarRadioMes($event, tipo.idTipoViolencia)" [value]="false" />
+          <input *ngIf="tipo.puntuacionPrevio != 0 && tipo.puntuacionPrevio !== undefined" 
+                class="form-check-input" type="radio" name="{{ tipo.idQuestionario }}" 
+                id="no{{ tipo.idQuestionario }}" (change)="habilitarRadioMes($event, tipo.idTipoViolencia)" 
+                [value]="false" />
+          <label class="form-check-label form-label" for="no{{ tipo.idQuestionario }}">
+            NO
+          </label>
+        </div>
+
+        <!-- Yes option -->
+        <div class="form-check form-check-inline">
+          <input *ngIf="tipo.nullable && tipo.puntuacionPrevio === undefined"
+                class="form-check-input" type="radio" name="{{ tipo.idQuestionario }}" 
+                id="si{{ tipo.idQuestionario }}" (change)="habilitarRadioMes($event, tipo.idTipoViolencia)" 
+                [value]="true" />
+          <input *ngIf="tipo.puntuacionPrevio === 0 || tipo.puntuacionPrevio === null" 
+                class="form-check-input" type="radio" name="{{ tipo.idQuestionario }}" 
+                id="si{{ tipo.idQuestionario }}" (change)="habilitarRadioMes($event, tipo.idTipoViolencia)" 
+                [value]="true" />
+          <input *ngIf="tipo.puntuacionPrevio != 0 && tipo.puntuacionPrevio != null" 
+                class="form-check-input" type="radio" checked name="{{ tipo.idQuestionario }}" 
+                id="si{{ tipo.idQuestionario }}" (change)="habilitarRadioMes($event, tipo.idTipoViolencia)" 
+                [value]="true" />
+          <label class="form-check-label form-label" for="si{{ tipo.idQuestionario }}">
+            SI
+          </label>
+        </div>
+
+        <!-- Nullable option -->
+        <div class="form-check form-check-inline">
+          <input *ngIf="tipo.nullable && tipo.puntuacionPrevio !== undefined" class="form-check-input" type="radio" name="{{ tipo.idQuestionario }}"
+            id="siy{{ tipo.idQuestionario }}" (change)="habilitarRadioMes($event, tipo.idTipoViolencia)" [value]="undefined" />
+          <input *ngIf="tipo.nullable && tipo.puntuacionPrevio === undefined" class="form-check-input" type="radio" checked name="{{ tipo.idQuestionario }}"
+            id="siy{{ tipo.idQuestionario }}" (change)="habilitarRadioMes($event, tipo.idTipoViolencia)" [value]="undefined" />
+          <label class="form-check-label form-label" for="siy{{ tipo.idQuestionario }}">
+            {{tipo.nullable}}
+          </label>
+        </div>
       </div>
       
       <!-- Select para fuerzas armadas -->
@@ -47,7 +62,7 @@
            class="mt-3 w-40">
         <label class="form-label">¿A cual?</label>
         <select class="form-select w-25" 
-               
+              
                 [(ngModel)]="tipo.fuerzaArmadaSeleccionada" 
                 name="fuerzaArmada{{tipo.idQuestionario}}"
                 (change)="onFuerzaArmadaChange(tipo.idQuestionario, $event.target.value)">
@@ -58,19 +73,20 @@
         </select>
       </div>
       <div *ngIf="isAntecedentesJudiciales(tipo.descripcion) && (tipo.puntuacionPrevio != 0 && tipo.puntuacionPrevio !== null)" 
-      class="mt-3 w-40">
-   <label class="form-label">¿Qué tipo de antecedentes?</label>
-   <select class="form-select w-25"
-           placeholder="Seleccione una opción"
-           [(ngModel)]="tipo.antecedentesSeleccionados" 
-           name="antecedentes{{tipo.idQuestionario}}"
-           (change)="onAntecedentesChange(tipo.idQuestionario, $event.target.selectedOptions)">
-           <option disabled value="">Seleccione un opción</option>
-     <option *ngFor="let opcion of antecedentesOptions" [value]="opcion.value">
-       {{opcion.label}}
-     </option>
-   </select>
- </div>
+            class="mt-3 w-40">
+        <label class="form-label">¿Qué tipo de antecedentes?</label>
+        <select class="form-select w-25"
+                placeholder="Seleccione una opción"
+                [(ngModel)]="tipo.antecedentesSeleccionados" 
+                name="antecedentes{{tipo.idQuestionario}}"
+                (change)="onAntecedentesChange(tipo.idQuestionario, $event.target.selectedOptions)">
+                <option disabled value="">Seleccione un opción</option>
+          <option *ngFor="let opcion of antecedentesOptions" [value]="opcion.value">
+            {{opcion.label}}
+          </option>
+        </select>
+      </div>
+
     </div>
   </div>
 
