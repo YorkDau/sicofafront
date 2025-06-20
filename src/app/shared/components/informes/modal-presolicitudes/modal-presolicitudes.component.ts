@@ -29,6 +29,11 @@ export class ModalPresolicitudesComponent implements OnInit {
       render: (value: string) => new Date(value).toLocaleDateString()
     },
     { 
+      name: 'tipoSolicitud', 
+      title: 'Tipo Solicitud',
+      render: (value: string) => value?.toUpperCase()
+    },
+    { 
       name: 'estadoSolicitud', 
       title: 'Estado',
       render: (value: string) => value?.toUpperCase()

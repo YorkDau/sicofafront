@@ -132,7 +132,7 @@ public actions: AuroraActionColumn[] = [
     const dialogRef = this.dialog.open(ModalPresolicitudesComponent, {
       panelClass: ['roundedModal', 'custom-presolicitudes-modal'],
       disableClose: true,
-      width: '1300px',
+      width: '1200px',
       height: '90vh', // Cambiado a viewport height
       maxHeight: '90vh',
       autoFocus: false

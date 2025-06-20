@@ -139,6 +139,10 @@ export class SeguimientoService {
       objMedidas
     );
   }
+  guardarMedidasSeguimientoPard(){
+    return "";
+    
+  }
   /**
    * @description Cerrar actuaciones de la tarea
    * @param body

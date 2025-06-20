@@ -1,34 +1,37 @@
-<div class="p-3 position-relative d-flex flex-column" style="height: 90vh;">
-  <button mat-icon-button class="close-button position-absolute top-0 end-0" (click)="cerrarModal()">
+<div class="position-relative d-flex flex-column" style="height: 85vh; overflow: hidden; padding: 1rem;">
+  <!-- Botón cerrar fijo arriba a la derecha -->
+  <button mat-icon-button 
+          (click)="cerrarModal()" 
+          style="position: absolute; top: 1rem; right: 1rem; z-index: 10;">
     <mat-icon class="close-icon" color="warn">close</mat-icon>
   </button>
 
-  <section class="background-gray rounded-basic p-2 mb-2">
-    <div class="d-flex align-items-center mb-2">
-      <span class="title-medium" style="font-size: 30px">
+  <!-- Encabezado -->
+  <section class="background-gray rounded-basic px-2 py-1 mb-2">
+    <div class="d-flex align-items-center mb-1">
+      <span class="title-medium" style="font-size: 24px">
         CONSULTA GENERAL DE PRE-SOLICITUDES
       </span>
     </div>
-    <p class="subtitle-medium">
+    <p class="subtitle-medium mb-0">
       <strong>Encuentre las pre-solicitudes que previamente han impuesto un caso en Comisaría de Familia.</strong>
     </p>
   </section>
 
+  <!-- Formulario -->
   <form
-    class="background-gray rounded-basic p-3 mb-3"
+    class="background-gray rounded-basic px-3 py-2"
     [formGroup]="form"
     autocomplete="off"
     (submit)="consultarPresolicitudes()"
   >
     <div class="row">
+      <!-- Fecha inicial -->
       <div class="col-lg-3">
         <div class="mb-2">
           <label for="fechaSolicitud" class="form-label">Fecha Solicitud Inicial</label>
           <div class="input-group">
-            <input
-              matInput
-              readonly
-              (click)="pickerInicio.open()"
+            <input matInput readonly (click)="pickerInicio.open()"
               [matDatepicker]="pickerInicio"
               class="form-control form-control-date-Picker sinborde-DatePicker"
               id="fechaSolicitud"
@@ -43,14 +46,12 @@
         </div>
       </div>
 
+      <!-- Fecha final -->
       <div class="col-lg-3">
         <div class="mb-2">
           <label for="fechaSolicitudFinal" class="form-label">Fecha Solicitud Final</label>
           <div class="input-group">
-            <input
-              matInput
-              readonly
-              (click)="pickerFinal.open()"
+            <input matInput readonly (click)="pickerFinal.open()"
               [matDatepicker]="pickerFinal"
               class="form-control form-control-date-Picker sinborde-DatePicker"
               id="fechaSolicitudFinal"
@@ -65,6 +66,7 @@
         </div>
       </div>
 
+      <!-- Código -->
       <div class="col-lg-3">
         <div class="mb-2">
           <label for="codigo" class="form-label">Código solicitud</label>
@@ -78,8 +80,9 @@
         </div>
       </div>
 
-      <div class="col-lg-3 d-flex align-items-center justify-content-end">
-        <div class="mt-2">
+      <!-- Botón buscar -->
+      <div class="col-lg-3 d-flex align-items-end justify-content-end">
+        <div>
           <button type="submit" class="btn btn-primary">
             <img src="assets/images/busqueda.svg" alt="search" class="img-fluid me-2" />
             Buscar
@@ -88,22 +91,23 @@
       </div>
     </div>
 
+    <!-- Validación de fechas -->
     <div *ngIf="form.errors?.rangoFechasInvalido" class="text-danger mt-2">
       La fecha inicial debe ser menor o igual que la fecha final.
     </div>
   </form>
 
-  <div class="background-light rounded-basic p-2 mb-2 flex-grow-1 d-flex flex-column" *ngIf="formSubmitted">
+  <!-- Resultados -->
+  <div class="background-light rounded-basic p-2 mt-2 flex-grow-1 d-flex flex-column overflow-auto" *ngIf="formSubmitted">
+    
+    <!-- Sin resultados -->
     <div class="w-50" *ngIf="listaCasos.length === 0">
       <app-no-data [mensaje]="mensajeSinReg"></app-no-data>
     </div>
 
-    <div class="flex-grow-1 d-flex flex-column" [ngStyle]="{ display: listaCasos.length > 0 ? 'flex' : 'none' }">
-      <div class="table-container flex-grow-1" 
-           [ngStyle]="{
-             'overflow': 'auto',
-             'max-height': listaCasos.length > 6 ? '400px' : 'unset'
-           }">
+    <!-- Con resultados -->
+    <div *ngIf="listaCasos.length > 0" class="d-flex flex-column flex-grow-1">
+      <div class="table-container flex-grow-1 d-flex flex-column">
         <aurora-table
           [data]="listaCasos"
           [columns]="columns"
