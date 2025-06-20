@@ -16,7 +16,6 @@ export interface AutoInterface {
   tipoMedida: number;
   check: boolean;
 }
-
 export interface MedidasInterface {
   activo: number;
   check: boolean;
