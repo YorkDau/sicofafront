@@ -22,6 +22,7 @@ export interface ActualizacionInvolucrado {
   agresorOrganizacionCriminal?: boolean;
   // Nuevos campos:
   idSexo?: number;
+  idRegimen?: number;
   idRelacionPareja?: number;
   primerNombre?: string;
   segundoNombre?: string;

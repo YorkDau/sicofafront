@@ -19,20 +19,19 @@ interface us {
 export class HeaderComponent implements OnInit, OnDestroy {
   private bsModuloActual = this.sharedService.bsModuloActual$;
   private subModActual!: Subscription;
+  private intervalo: any;
 
-  public nombreComisaria: string = 'Comisaría de Familia';
+  public nombreComisaria: string ='' ;
   public mostrarMenu: boolean = false;
   public rolSeleccionado: string = '';
-  totalNotificaciones: number = 0;
+  public totalNotificaciones: number = 0;
 
-  currentUser!: UserInterface | undefined;
-  loadMenu: boolean = false;
-  id_comisaria: any;
-  solicitudes: any;
-  private intervalo: any;
-  preSolicitudes: any;
-  citasPublicas: any
+  public currentUser!: UserInterface | undefined;
+  public loadMenu: boolean = false;
+  public id_comisaria: any;
 
+  public preSolicitudes: number = 0;
+  public citasPublicas: number = 0;
 
   public usuario: us = {
     nombre: 'Comisaría User',
@@ -42,50 +41,22 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(
     private sharedService: SharedService,
     private authService: AuthService,
-    private router: Router
   ) {
     this.authService.loadPage$.subscribe((data) => {
       if (data) {
         this.loadMenu = true;
+        this.authService.selectComisariaValue(this.authService.id_comisaria);
+        this.nombreComisaria = Array.isArray(this.authService.comisariasList) && this.authService.comisariasList.length > 0
+          ? this.authService.comisariasList[0].nombreComisaria
+          : 'Comisaría de Familia';
         this.currentUser = this.authService.currentUserValue;
         this.id_comisaria = this.currentUser?.idComisaria;
         this.rolSeleccionado = this.currentUser?.perfil!;
-        this.obtenerPerfil(this.currentUser?.perfil!);
+        this.obtenerPerfil(this.rolSeleccionado);
         this.cargaNotificaciones();
       }
     });
-  }
-
-  cargaNotificaciones() {
-    this.sharedService
-    .getSolicitudesComisaria(this.id_comisaria)
-    .subscribe((data) => {
-      if (data.statusCode === CodigosRespuesta.OK) {
-        this.solicitudes = data.data;
-       if(!data.data.datosPaginados){
-        this.preSolicitudes = 0;
-       }else{
-        this.preSolicitudes = data.data.datosPaginados.length;
-       }
-      }
-    });
-
-    this.sharedService
-  
-      .getCitasComisaria(this.id_comisaria)
-      .subscribe((data) => {
-        if (data.statusCode === CodigosRespuesta.OK) {
-          this.solicitudes = data.data;
-          if(!data.data.datosPaginados){
-            this.citasPublicas = 0;
-          }else{
-            this.citasPublicas = data.data.datosPaginados.length
-          }
-         
-          this.calcularTotalNotificaciones();
-        }
-      });
-
+    
   }
 
   ngOnInit(): void {
@@ -93,37 +64,53 @@ export class HeaderComponent implements OnInit, OnDestroy {
       (v) => (this.mostrarMenu = v)
     );
     this.intervalo = setInterval(() => {
-      this.actualizarNotificaciones();
-      console.log("noticaciones atualizadas")
-    },60000);
-    
+      const user = this.authService.currentUserValue;
+      if (user) {
+        this.actualizarNotificaciones();
+      }
+    }, 60000*3);    
   }
-
-  actualizarNotificaciones(){
-    this.cargaNotificaciones()
-  }
+  
 
   ngOnDestroy(): void {
     if (this.subModActual) {
       this.subModActual.unsubscribe();
     }
-   
+    if (this.intervalo) {
+      clearInterval(this.intervalo);
+    }
   }
 
-  /**
-   * @description cierra la sesión del usuario
-   */
-  public cerrarSesion() {
+  actualizarNotificaciones() {
+    this.cargaNotificaciones();
+  }
+
+  cargaNotificaciones() {
+    this.sharedService.getSolicitudesComisaria(this.id_comisaria).subscribe((data) => {
+      if (data.statusCode === CodigosRespuesta.OK) {
+        this.preSolicitudes = data.data?.datosPaginados?.length || 0;
+        this.calcularTotalNotificaciones();
+      }
+    });
+
+    this.sharedService.getCitasComisaria(this.id_comisaria).subscribe((data) => {
+      if (data.statusCode === CodigosRespuesta.OK) {
+        this.citasPublicas = data.data?.datosPaginados?.length || 0;
+        this.calcularTotalNotificaciones();
+      }
+    });
+  }
+
+  calcularTotalNotificaciones() {
+    this.totalNotificaciones = this.preSolicitudes + this.citasPublicas;
+  }
+
+  cerrarSesion() {
     this.authService.cerrarSesion();
   }
 
-
   verDetalle(item: any) {
     // Aquí puedes abrir un modal o redirigir a otra página con más detalles
-  }
-  calcularTotalNotificaciones() {
-    // Sumar la cantidad de pre-solicitudes y citas
-    this.totalNotificaciones = this.preSolicitudes + this.citasPublicas;
   }
 
   private obtenerPerfil(perfil: string) {
@@ -141,23 +128,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.llenarArrayUsuario('Psicólogo', CodigosPerfil.PSICOLOGO);
         break;
       case CodigosPerfil.TRABAJADORSOCIAL:
-        this.llenarArrayUsuario(
-          'Trabajador Social',
-          CodigosPerfil.TRABAJADORSOCIAL
-        );
+        this.llenarArrayUsuario('Trabajador Social', CodigosPerfil.TRABAJADORSOCIAL);
         break;
       case CodigosPerfil.ADMINISTRADOR:
         this.llenarArrayUsuario('Administrador', CodigosPerfil.ADMINISTRADOR);
         break;
-      default:
-        break;
     }
   }
 
-  /**
-   * @description llena un objeto array para simular usuarios
-   */
-  llenarArrayUsuario(nombre: string, cod: string) {
+  private llenarArrayUsuario(nombre: string, cod: string) {
     this.usuario.roles!.push({ nombre, cod });
   }
 }

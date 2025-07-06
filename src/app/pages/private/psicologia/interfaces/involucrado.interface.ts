@@ -8,6 +8,7 @@
   tipoDocumento?: number;
   numeroDocumento?: string;
   sexo?: number;
+  regimen?: number;
   identidadGenero?: number;
   ocupacion?: string;
   idEscolaridad?: number;

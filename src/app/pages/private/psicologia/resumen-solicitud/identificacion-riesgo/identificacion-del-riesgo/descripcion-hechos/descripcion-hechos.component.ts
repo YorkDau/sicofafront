@@ -60,21 +60,34 @@ export class DescripcionHechosComponent implements AfterViewInit {
   }
 
 private parseFecha(fechaStr: string): Date | null {
-  const regex = /^(\d{1,2})\/(\d{1,2})\/(\d{4})/;
-  const match = fechaStr.match(regex);
-  if (!match) return null;
+  const formatoCorrecto = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
 
-  const mes = Number(match[1]);
-  const dia = Number(match[2]);
-  const anio = Number(match[3]);
+  if (formatoCorrecto.test(fechaStr)) {
+    const [, diaStr, mesStr, anioStr] = fechaStr.match(formatoCorrecto)!;
+    const dia = Number(diaStr);
+    const mes = Number(mesStr);
+    const anio = Number(anioStr);
 
-  const esFechaValida =
-    dia >= 1 && dia <= 31 &&
-    mes >= 1 && mes <= 12 &&
-    anio >= 1900 && anio <= 3000;
+    const esFechaValida =
+      dia >= 1 && dia <= 31 &&
+      mes >= 1 && mes <= 12 &&
+      anio >= 1900 && anio <= 3000;
 
-  return esFechaValida ? new Date(anio, mes - 1, dia) : null;
+    return esFechaValida ? new Date(anio, mes - 1, dia) : null;
+  }
+
+  const fecha = new Date(fechaStr);
+  if (isNaN(fecha.getTime())) return null;
+
+  const dia = fecha.getDate().toString().padStart(2, '0');
+  const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
+  const anio = fecha.getFullYear();
+
+  const nuevaFechaStr = `${dia}/${mes}/${anio}`;
+
+  return this.parseFecha(nuevaFechaStr);
 }
+
 
 
 

@@ -122,10 +122,11 @@
           />
         </div>
 
-        
         <div class="form-group col-lg-4 mb-4">
-          <label class="form-label text-capitalize">País de Expedición<span class="mx-1">*</span></label>
-  
+          <label class="form-label text-capitalize"
+            >País de Expedición<span class="mx-1">*</span></label
+          >
+
           <select
             class="form-select"
             formControlName="paisExp"
@@ -137,10 +138,12 @@
             </option>
           </select>
         </div>
-  
+
         <div class="form-group col-lg-4 mb-4">
-          <label class="form-label text-capitalize">Departamento de Expedición<span class="mx-1">*</span></label>
-  
+          <label class="form-label text-capitalize"
+            >Departamento de Expedición<span class="mx-1">*</span></label
+          >
+
           <select
             class="form-select"
             formControlName="departamentoExp"
@@ -155,10 +158,12 @@
             </option>
           </select>
         </div>
-  
+
         <div class="form-group col-lg-4 mb-4">
-          <label class="form-label text-capitalize">Municipio de Expedición <span class="mx-1">*</span></label>
-  
+          <label class="form-label text-capitalize"
+            >Municipio de Expedición <span class="mx-1">*</span></label
+          >
+
           <select class="form-select" formControlName="municipioExp">
             <option disabled value="">Municipio de Expedición</option>
             <option
@@ -331,7 +336,6 @@
             maxlength="50"
           />
         </div> -->
-
 
         <div class="form-group col-lg-4">
           <label class="form-label text-capitalize"
@@ -702,9 +706,10 @@
           </div>
         </div>
 
-        
         <div class="col-lg-12 mb-4">
-          <p class="form-label">¿Es usted una persona en situación de desplazamiento?</p>
+          <p class="form-label">
+            ¿Es usted una persona en situación de desplazamiento?
+          </p>
 
           <div class="form-check form-check-inline">
             <input
@@ -729,80 +734,123 @@
             <label class="form-check-label form-label" for="sic"> SI </label>
           </div>
         </div>
+        <div class="row align-items-end">
+          <!-- Pregunta con radios -->
+          <div class="col-md-3">
+            <p class="form-label">
+              ¿Se encuentra afiliado al Sistema de Seguridad Social en Salud?
+            </p>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="seguridad"
+                formControlName="seguridad"
+                [value]="false"
+                (click)="
+                  formVictima.get('eps')?.setValue('');
+                  formVictima.get('ips')?.setValue('')
+                "
+                id="radioNo"
+              />
+              <label class="form-check-label form-label" for="radioNo"
+                >NO</label
+              >
+            </div>
 
-        <div class="col-lg-4 mb-4">
-          <p class="form-label">
-            ¿Se encuentra afiliado al Sistema de Seguridad Social en Salud?
-          </p>
-
-          <div class="form-check form-check-inline">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="seguridad"
-              formControlName="seguridad"
-              [value]="false"
-              (click)="
-                formVictima.get('eps')?.setValue('');
-                formVictima.get('ips')?.setValue('')
-              "
-            />
-            <label class="form-check-label form-label" for="nos"> NO </label>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="seguridad"
+                formControlName="seguridad"
+                [value]="true"
+                id="radioSi"
+              />
+              <label class="form-check-label form-label" for="radioSi"
+                >SI</label
+              >
+            </div>
           </div>
-          <div class="form-check form-check-inline">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="seguridad"
-              formControlName="seguridad"
-              [value]="true"
-            />
-            <label class="form-check-label form-label" for="sis"> SI </label>
+
+          <!-- Régimen de Salud -->
+          <div class="col-md-3" *ngIf="formVictima.get('seguridad')?.value">
+            <label for="regimen" class="form-label">
+              Régimen de Salud<span class="mx-1">*</span>
+            </label>
+            <select
+              class="form-select"
+              [ngClass]="{
+                'border-danger': isRequiredField(formVictima, 'regimen')
+              }"
+              formControlName="regimen"
+            >
+              <option value="">Seleccione una opción</option>
+              <option
+                *ngFor="let item of listaRegimen"
+                [value]="item.id_Dominio"
+              >
+                {{ item.nombre_Dominio }}
+              </option>
+            </select>
+            <small
+              class="form-text text-danger"
+              [ngClass]="{
+                'opacity-0': !isRequiredField(
+                  formVictima,
+                  'regimen',
+                  true
+                )
+              }"
+              >Campo requerido</small
+            >
           </div>
-        </div>
 
-        <div class="col-lg-4" *ngIf="formVictima.get('seguridad')?.value">
-          <label for="eps" class="form-label"
-            >EPS<span class="mx-1">*</span></label
-          >
-          <input
-            type="text"
-            class="form-control"
-            formControlName="eps"
-            [ngClass]="{
-              'border-danger': isRequiredField(formVictima, 'eps', true)
-            }"
-            maxlength="50"
-          />
-          <small
-            class="form-text text-danger"
-            [ngClass]="{
-              'opacity-0': !isRequiredField(formVictima, 'eps', true)
-            }"
-            >Campo requerido</small
-          >
-        </div>
+          <!-- EPS -->
+          <div class="col-md-3" *ngIf="formVictima.get('seguridad')?.value">
+            <label for="eps" class="form-label"
+              >EPS<span class="mx-1">*</span></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              formControlName="eps"
+              maxlength="50"
+              [ngClass]="{
+                'border-danger': isRequiredField(formVictima, 'eps', true)
+              }"
+            />
+            <small
+              class="form-text text-danger"
+              [ngClass]="{
+                'opacity-0': !isRequiredField(formVictima, 'eps', true)
+              }"
+              >Campo requerido</small
+            >
+          </div>
 
-        <div class="col-lg-4" *ngIf="formVictima.get('seguridad')?.value">
-          <label for="ips" class="form-label"
-            >IPS<span class="mx-1">*</span></label
-          >
-          <input
-            type="text"
-            class="form-control"
-            formControlName="ips"
-            maxlength="50"
-            [ngClass]="{
-              'border-danger': isRequiredField(formVictima, 'ips', true)
-            }"
-          />
-          <small
-            class="form-text text-danger"
-            [ngClass]="{
-              'opacity-0': !isRequiredField(formVictima, 'ips', true)
-            }"
-            >Campo requerido</small
-          >
+          <!-- IPS -->
+          <div class="col-md-3" *ngIf="formVictima.get('seguridad')?.value">
+            <label for="ips" class="form-label"
+              >IPS<span class="mx-1">*</span></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              formControlName="ips"
+              maxlength="50"
+              [ngClass]="{
+                'border-danger': isRequiredField(formVictima, 'ips', true)
+              }"
+            />
+            <small
+              class="form-text text-danger"
+              [ngClass]="{
+                'opacity-0': !isRequiredField(formVictima, 'ips', true)
+              }"
+              >Campo requerido</small
+            >
+          </div>
         </div>
       </div>
 
@@ -970,8 +1018,10 @@
         </div>
 
         <div class="form-group col-lg-4 mb-4">
-          <label class="form-label text-capitalize">País de Expedición<span class="mx-1">*</span></label>
-  
+          <label class="form-label text-capitalize"
+            >País de Expedición<span class="mx-1">*</span></label
+          >
+
           <select
             class="form-select"
             formControlName="paisExp"
@@ -983,10 +1033,12 @@
             </option>
           </select>
         </div>
-  
+
         <div class="form-group col-lg-4 mb-4">
-          <label class="form-label text-capitalize">Departamento de Expedición<span class="mx-1">*</span></label>
-  
+          <label class="form-label text-capitalize"
+            >Departamento de Expedición<span class="mx-1">*</span></label
+          >
+
           <select
             class="form-select"
             formControlName="departamentoExp"
@@ -1001,10 +1053,12 @@
             </option>
           </select>
         </div>
-  
+
         <div class="form-group col-lg-4 mb-4">
-          <label class="form-label text-capitalize">Municipio de Expedición<span class="mx-1">*</span></label>
-  
+          <label class="form-label text-capitalize"
+            >Municipio de Expedición<span class="mx-1">*</span></label
+          >
+
           <select class="form-select" formControlName="municipioExp">
             <option disabled value="">Municipio de Expedición</option>
             <option
@@ -1143,7 +1197,6 @@
             maxlength="50"
           />
         </div> -->
-        
 
         <div class="form-group col-lg-4">
           <label class="form-label text-capitalize">ocupación</label>
@@ -1208,12 +1261,12 @@
         <div *ngFor="let hijo of formHijosAgresor; let i = index">
           <h5 class="col-12">Hijo #{{ i + 1 }}</h5>
           <app-hijos-involucrados
-          [form]="hijo"
-          [listaSexo]="listaSexo"
-          [listaTipoRelacion]="listaTipoRelacion"
-          [listaRelacionParental]="listaRelacionParental"
-        >
-        </app-hijos-involucrados>
+            [form]="hijo"
+            [listaSexo]="listaSexo"
+            [listaTipoRelacion]="listaTipoRelacion"
+            [listaRelacionParental]="listaRelacionParental"
+          >
+          </app-hijos-involucrados>
         </div>
       </section>
 

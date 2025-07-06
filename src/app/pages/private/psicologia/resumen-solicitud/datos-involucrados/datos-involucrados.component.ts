@@ -56,6 +56,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
   public selectDepartamento: DepartamentoInterface[] = [];
   public selectMunicipio: MunicipioInterface[] = [];
   public listaNivelAcademico!: DominioInterface[];
+  public listaRegimen!: DominioInterface[];
   public listaDiscapacidad!: DominioInterface[];
   public listaCultura!: DominioInterface[];
   public listaTipoRelacion!: DominioInterface[];
@@ -94,6 +95,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
       tipoDocumento: [{ value: '', disabled: false }],
       numeroDocumento: [{ value: '', disabled: false }],
       sexo: [{ value: '', disabled: false }, Validators.required],
+      //regimen: [{ value: '', disabled: false }, Validators.required],
       identidadGenero: [{ value: '', disabled: false }],
       idEscolaridad: [''],
       ocupacion: [''],
@@ -129,6 +131,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
       tipoDocumento: [{ value: '', disabled: false }, [Validators.required]],
       numeroDocumento: [{ value: '', disabled: false }, [Validators.required]],
       sexo: [{ value: '', disabled: false }, [Validators.required]],
+      regimen: [{ value: '', disabled: false }, [Validators.required]],
       identidadGenero: [{ value: '', disabled: false }, [Validators.required]],
       ocupacion: ['', Validators.required],
       idEscolaridad: ['', Validators.required],
@@ -141,7 +144,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
       mesesEmbarazo: [0, [Validators.max(9), Validators.min(0)]],
       victimaConflicto: [false, Validators.required],
       victimaDesplazamiento: [false, Validators.required],
-      eps: [''],      
+      eps: [''],
       ips: [''],
       cultura: [''],
       numeroHijos: [0],
@@ -158,7 +161,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
         ],
       ],
       seguridad: [false],
-      // lugarExpedicion: [{ value: '', disabled: false }, [Validators.required]],  
+      // lugarExpedicion: [{ value: '', disabled: false }, [Validators.required]],
       paisExp: [{ value: '', disabled: false }, [Validators.required]],
       departamentoExp: [{ value: '', disabled: false }, [Validators.required]],
       municipioExp: [{ value: '', disabled: false }, [Validators.required]],
@@ -174,6 +177,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
     this.getListaDiscapacidad();
     this.getListaNivelAcademico();
     this.getListaCultura();
+    this.getListaRegimen();
     this.getListaTipoRelacion();
     this.getListaRelacionParental();
     this.getListaEstadoCivil();
@@ -188,30 +192,31 @@ export class DatosInvolucradosComponent implements AfterViewInit {
       .getInvolucradoVictima(this.tarea.idSolicitud)
       .subscribe((resultVictima) => {
         if (resultVictima && resultVictima.statusCode === CodigosRespuesta.OK) {
-          this.victima = resultVictima.data;
+          console.log(this.victima = resultVictima.data);
+          
           this.setFormDataVictima();
-          this.cargaSelectPaises(this.victima.tipoDocumento??0);
+          this.cargaSelectPaises(this.victima.tipoDocumento ?? 0);
           this.sharedService
-              .getDepartamentos(this.victima.paisExp??0)
-              .subscribe((departamentos) => {
-                if (departamentos.statusCode === CodigosRespuesta.OK) {
-                  this.selectDepartamento = departamentos.data;
-                }
-              });
-            this.sharedService
-              .getCiudades(this.victima.departamentoExp??0)
-              .subscribe((municipios) => {
-                if (municipios.statusCode === CodigosRespuesta.OK) {
-                  this.selectMunicipio = municipios.data;
-                }
-              });
-            this.sharedService
-              .getLocalidadPorMunicipio(this.victima.municipioExp??0)
-              .subscribe((localidades) => {
-                // if (localidades.statusCode === CodigosRespuesta.OK) {
-                //   this.selectLocalidad = localidades.data;
-                // }
-              });
+            .getDepartamentos(this.victima.paisExp ?? 0)
+            .subscribe((departamentos) => {
+              if (departamentos.statusCode === CodigosRespuesta.OK) {
+                this.selectDepartamento = departamentos.data;
+              }
+            });
+          this.sharedService
+            .getCiudades(this.victima.departamentoExp ?? 0)
+            .subscribe((municipios) => {
+              if (municipios.statusCode === CodigosRespuesta.OK) {
+                this.selectMunicipio = municipios.data;
+              }
+            });
+          this.sharedService
+            .getLocalidadPorMunicipio(this.victima.municipioExp ?? 0)
+            .subscribe((localidades) => {
+              // if (localidades.statusCode === CodigosRespuesta.OK) {
+              //   this.selectLocalidad = localidades.data;
+              // }
+            });
         } else {
           this.modales.modalInformacion(Mensajes.MENSAJE_ERROR_G);
         }
@@ -268,6 +273,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
       eps,
       ips,
       relacionPareja,
+      regimen,
       ...values
     } = this.nullToEmptyString(this.agresor);
     this.formAgresor.patchValue({
@@ -300,9 +306,12 @@ export class DatosInvolucradosComponent implements AfterViewInit {
       embarazo,
       victimaDesplazamiento,
       ...values
+      
     } = this.nullToEmptyString(this.victima);
+    console.log('Values a setear en el form:', values);
     this.formVictima.patchValue({
       ...values,
+      regimen: values.idRegimen,
       seguridad: values.eps || values.ips ? true : false,
       embarazo: embarazo ? embarazo.toUpperCase() : 'NO',
     });
@@ -366,6 +375,10 @@ export class DatosInvolucradosComponent implements AfterViewInit {
     );
     this.listaNivelAcademico = result;
   }
+  private async getListaRegimen() {
+    const result = await this.sharedService.getDominioFromLocal('RegimenSalud');
+    this.listaRegimen = result;
+  }
 
   /**
    * @description obtiene la lista de discapacidad
@@ -392,15 +405,14 @@ export class DatosInvolucradosComponent implements AfterViewInit {
     );
     this.listaTipoRelacion = result;
   }
-    /**
+  /**
    * @description obtiene la lista relacion parental
    */
   private async getListaRelacionParental() {
     const result = await this.sharedService.getDominioFromLocal(
       'Relacion_parental'
     );
-    this.listaRelacionParental= result;
-    console.log(this.listaRelacionParental);
+    this.listaRelacionParental = result;
   }
 
   /**
@@ -436,9 +448,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
    */
   public postActualizarInvolucradoAgresor(): Observable<boolean> {
     let subject = new Subject<boolean>();
-    console.log("ANTES DE ",this.formAgresor);
     const formValueAgresor: InvolucradoDTO = this.formAgresor.getRawValue();
-  console.log("FORMULARIO AGRESOR VALUE",formValueAgresor);
     const bodyAgresor: ActualizacionInvolucrado = {
       idInvolucrado: this.agresor.id,
       ocupacion: formValueAgresor.ocupacion,
@@ -465,6 +475,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
       descripcionOrganizacionCriminal:
         formValueAgresor.descripcionOrganizacionCriminal,
       idSexo: formValueAgresor.sexo,
+      idRegimen: formValueAgresor.regimen,
       idRelacionPareja: formValueAgresor.relacionPareja,
       primerNombre: formValueAgresor.primerNombre,
       segundoNombre: formValueAgresor.segundoNombre,
@@ -548,6 +559,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
 
       //nuevos campos solo para agresor:
       idSexo: formValueVictima.sexo,
+      idRegimen: formValueVictima.regimen,
       idRelacionPareja: formValueVictima.relacionPareja,
       nombres: this.getNombreCompleto(formValueVictima, true),
       apellidos: this.getNombreCompleto(formValueVictima, false, true),
@@ -689,7 +701,6 @@ export class DatosInvolucradosComponent implements AfterViewInit {
             element.relacionParental ? element.relacionParental : '',
             [Validators.required],
           ],
-          
         });
 
         this.formHijosVictima.push(hijo);
@@ -919,6 +930,10 @@ export class DatosInvolucradosComponent implements AfterViewInit {
       return false;
     }
     console.log(this.formVictima.valid, !camposRequeridos.length, !errorHijos);
+    console.log('Campos inválidos:',SharedFunctions.findInvalidControls(this.formVictima)
+    );
+    console.log('Campos obligatorios vacíos:',this.validarCamposObligatorios(this.formVictima)
+    );
     return this.formVictima.valid && !camposRequeridos.length && !errorHijos;
   }
 
@@ -960,20 +975,20 @@ export class DatosInvolucradosComponent implements AfterViewInit {
         }
       }
     });
-    console.log(temp)
+    console.log(temp);
     return temp;
   }
 
-/**
+  /**
    * @description carga el select pais dependiendo si es colombiano y habilita el departamento y municipio
    */
-public isColombiano(event: any) {
-  // this.cColombiano = false;
-  // this.myForm.get('pais')?.setValue('');
-  if (event.target.value != 0) {
-    this.cargaSelectPaises(event.target.value);
+  public isColombiano(event: any) {
+    // this.cColombiano = false;
+    // this.myForm.get('pais')?.setValue('');
+    if (event.target.value != 0) {
+      this.cargaSelectPaises(event.target.value);
+    }
   }
-}
 
   /**
    * @description carga el select de paises

@@ -1,134 +1,236 @@
-.header {
-  color: #fff;
+::ng-deep .mat-menu-panel.compact-notifications-menu {
+  margin-top: 10px !important;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+.compact-header {
   display: flex;
-  width: 100%;
-  height: 50px;
-
-  background: linear-gradient(
-    90deg,
-    #0092BE 0%,
-    #00B6ED 100%
-  );
-  opacity: 1;
-
-  .options {
-    .comisaria {
-      font-size: 14px;
-      font-weight: bold;
-    }
-    .perfil {
-      font-size: 13px;
-    }
-  }
-
-  &.header-public {
-    height: 102px;
-    padding-left: 30px !important;
-  }
-}
-.menu-notificaciones {
-  width: 300px;
-  max-height: 400px;
-  margin-top: 35px !important;
-}
-
-
-.notificaciones-container {
-  padding: 1rem;
-  background-color: #f7f7f7; /* Fondo claro para mayor contraste */
-  border-radius: 10px; /* Bordes redondeados */
-}
-
-.titulo {
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.notificacion-seccion {
-  padding: 10px 0;
-  margin-bottom: 10px;
-  border-bottom: 1px solid #e0e0e0;
-}
-
-.notificacion-seccion h6 {
-  font-size: 16px;
-  color: #333;
-  margin: 0;
-}
-
-.sin-datos {
-  font-size: 14px;
-  color: #888;
-  text-align: center;
-  margin-top: 10px;
-}
-
-.seccion-header {
-  display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 10px; /* Espaciado entre el icono y el texto */
-  font-weight: bold;
-  font-size: 16px;
-}
-
-.seccion-header mat-icon {
-  font-size: 20px; /* Tamaño del ícono */
-  color: #0092BE; /* Color del ícono */
-}
-
-button.mat-menu-item {
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-}
-
-.notifications {
-  position: relative;
-}
-
-.mat-icon {
-  font-size: 28px; /* Ajusta el tamaño del ícono */
-  color: #ffffff; /* Color blanco para el ícono */
-}
-
-.notification-count {
-  position: absolute;
-  top: 1px;  /* Ajuste para posicionar el contador mejor */
-  right: -2px; /* Ajuste para posicionar el contador mejor */
-  background-color: #ed8c37;
+  height: 60px;
+  padding: 0 15px;
+  background: linear-gradient(90deg, #0092be 0%, #00b6ed 100%);
   color: white;
-  font-size: 12px;
-  font-weight: 500;
-  border-radius: 50%; /* Forma redondeada */
-  width: 18px;
-  height: 18px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0 2px 6px rgba(255, 255, 255, 0.2); /* Sombra para destacar */
-  z-index: 10; /* Asegura que el contador esté sobre el ícono */
-}
-
-.mat-icon.notifications {
-  font-size: 30px;
   position: relative;
+  z-index: 100;
+
+  &.public-view {
+    height: 80px;
+    background: transparent;
+    box-shadow: none;
+
+    .logo-img {
+      height: 45px;
+    }
+  }
+
+  .logo-area {
+    .logo-img {
+      height: 35px;
+    }
+  }
+
+  .controls-area {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    .location-area {
+      display: flex;
+      align-items: center;
+      padding: 5px 10px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      font-size: 13px;
+      font-weight: 500;
+
+      .location-icon {
+        font-size: 18px;
+        margin-right: 6px;
+      }
+    }
+
+    .notifications-area {
+      position: relative;
+
+      .notif-btn {
+        width: 40px;
+        height: 40px;
+
+        .notif-icon {
+          font-size: 24px;
+        }
+
+        .notif-badge {
+          position: absolute;
+          top: 2px;
+          right: 2px;
+          background-color: #ff5252;
+          color: white;
+          font-size: 11px;
+          font-weight: bold;
+          min-width: 18px;
+          height: 18px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          animation: pulse 1.5s infinite;
+        }
+      }
+    }
+
+    .profile-area {
+      .profile-btn {
+        padding: 0 10px;
+        height: 45px;
+        border-radius: 22px;
+
+        .profile-content {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+
+          .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            img {
+              width: 16px;
+              height: 16px;
+            }
+          }
+
+          .profile-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+
+            .user-name {
+              font-size: 13px;
+              font-weight: 500;
+              line-height: 1.2;
+            }
+
+            .user-role {
+              font-size: 11px;
+              opacity: 0.9;
+            }
+          }
+
+          .dropdown-icon {
+            font-size: 20px;
+            margin-left: 5px;
+          }
+        }
+      }
+    }
+  }
 }
 
-/* Mejorar la separación entre las secciones */
-hr {
-  border: 0;
-  border-top: 1px solid #e0e0e0;
-  margin-top: 10px;
-  margin-bottom: 10px;
+/* Perfil */
+.compact-profile-menu {
+  width: 260px;
+  padding: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+
+  .profile-header {
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    background-color: #f8f9fa;
+
+    .profile-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #0092be;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 12px;
+
+      img {
+        width: 18px;
+        height: 18px;
+      }
+    }
+
+    .profile-data {
+      h4 {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      p {
+        margin: 3px 0 0;
+        font-size: 12px;
+        color: #7f8c8d;
+      }
+    }
+  }
+
+  .profiles-section {
+    padding: 8px 0;
+
+    h5 {
+      margin: 5px 16px;
+      font-size: 11px;
+      color: #7f8c8d;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    button.mat-menu-item {
+      height: 42px;
+      font-size: 13px;
+
+      mat-icon:first-child {
+        margin-right: 10px;
+      }
+
+      .check-icon {
+        color: #27ae60;
+        margin-left: auto;
+      }
+
+      &.active {
+        background-color: #e1f5fe;
+        color: #0092be;
+      }
+    }
+  }
+
+  .logout-btn {
+    color: #e74c3c;
+    height: 42px;
+
+    mat-icon {
+      color: #e74c3c;
+      margin-right: 10px;
+    }
+  }
 }
 
-/* Estilo para cuando se pasa el mouse por encima de una sección */
-.notificacion-seccion:hover {
-  background-color: #e0f7fa;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
 
-.notificacion-seccion:hover .seccion-header mat-icon {
-  color: #006064; /* Cambia el color del ícono al pasar el mouse */
+  50% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }

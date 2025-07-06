@@ -1,100 +1,89 @@
-<header
-  class="header d-flex justify-content-between align-items-center pe-2 ps-2"
-  [ngClass]="{ 'header-public': !mostrarMenu }"
->
-  <img
-    src="assets/images/sigfa_logo_bl2.png"
-    alt="brand"
-    width="200"
-    class="img-fluid"
-  />
-
-  <section
-    class="options d-flex align-items-center"
-    style="gap: 1rem"
-    *ngIf="mostrarMenu"
-  >
-    <div class="comisaria">
-      {{ nombreComisaria }}
-    </div>
-
-<!-- Botón de Notificaciones -->
-<button
-  mat-icon-button
-  class="notifications"
-  [matMenuTriggerFor]="menuNotificaciones"
->
-  <mat-icon class="material-icons-outlined">notifications</mat-icon>
-  <!-- Contador de notificaciones -->
-  <span *ngIf="totalNotificaciones > 0" class="notification-count">{{ totalNotificaciones }}</span>
-</button>
-
-<!-- Bandeja de Notificaciones -->
-<mat-menu #menuNotificaciones="matMenu" class="menu-notificaciones">
-  <div class="notificaciones-container">
-    
-    <!-- Sección de Pre-Solicitudes -->
-    <div class="notificacion-seccion">
-      <div class="seccion-header">
-        <mat-icon class="icon">assignment</mat-icon>
-        <h6>Pre-Solicitudes ({{ preSolicitudes }})</h6>
-      </div>
-      <ng-container *ngIf="preSolicitudes > 0; else sinPreSolicitudes">
-        <!-- Aquí puedes agregar contenido adicional si es necesario -->
-      </ng-container>
-      <ng-template #sinPreSolicitudes>
-        <p class="sin-datos">No hay pre-solicitudes.</p>
-      </ng-template>
-    </div>
-
-    <hr />
-
-    <!-- Sección de Citas Públicas -->
-    <div class="notificacion-seccion">
-      <div class="seccion-header">
-        <mat-icon class="icon">event_note</mat-icon>
-        <h6>Citas Públicas ({{ citasPublicas }})</h6>
-      </div>
-      <ng-container *ngIf="citasPublicas > 0; else sinCitas">
-        <!-- Aquí puedes agregar contenido adicional si es necesario -->
-      </ng-container>
-      <ng-template #sinCitas>
-        <p class="sin-datos">No hay citas públicas.</p>
-      </ng-template>
-    </div>
+<header class="compact-header" [ngClass]="{ 'public-view': !mostrarMenu }">
+  <!-- Logo -->
+  <div class="logo-area">
+    <img src="assets/images/sigfa_logo_bl2.png" alt="SIGFA" class="logo-img">
   </div>
+
+  <!-- Controles -->
+  <section *ngIf="mostrarMenu" class="controls-area">
+    <!-- Comisaría -->
+    <div class="location-area">
+      <mat-icon class="location-icon">location_on</mat-icon>
+      <span class="location-text">{{ nombreComisaria }}</span>
+    </div>
+    
+    <!-- Notificaciones -->
+    <div class="notifications-area">
+      <button mat-icon-button [matMenuTriggerFor]="notificationsMenu" class="notif-btn">
+        <mat-icon class="notif-icon">notifications</mat-icon>
+        <span *ngIf="totalNotificaciones > 0" class="notif-badge">{{ totalNotificaciones }}</span>
+      </button>
+      
+<mat-menu #notificationsMenu="matMenu">
+  <button mat-menu-item disabled>
+    <strong>Notificaciones</strong>
+  </button>
+  <mat-divider></mat-divider>
+
+  <button mat-menu-item disabled>
+    Pre-Solicitudes: {{ preSolicitudes }}
+  </button>
+  <mat-divider></mat-divider>
+
+  <button mat-menu-item disabled>
+    Citas Públicas: {{ citasPublicas }}
+  </button>
 </mat-menu>
 
-    <span style="font-size: 26px">|</span>
 
-    <button
-      mat-button
-      class="perfil d-flex align-items-center"
-      [matMenuTriggerFor]="menuPerfilHeader"
-    >
-      <img
-        src="assets/images/user_white.svg"
-        height="17px"
-        width="17px"
-        alt="person"
-        class="me-2"
-      />
-      <span>{{ usuario.nombre }} - {{ rolSeleccionado }}</span>
-    </button>
-
-    <mat-menu #menuPerfilHeader="matMenu" class="menu-perfil-header">
-      <span class="text-muted">Perfiles de Operación</span>
-      <button
-        mat-menu-item
-        *ngFor="let item of usuario.roles"
-        [ngClass]="{ active: rolSeleccionado === item.cod }"
-      >
-        <span>{{ item.nombre }}</span>
+    </div>
+    
+    <!-- Perfil -->
+    <div class="profile-area">
+      <button mat-button [matMenuTriggerFor]="profileMenu" class="profile-btn">
+        <div class="profile-content">
+          <div class="avatar">
+            <img src="assets/images/user_white.svg" alt="Usuario">
+          </div>
+          <div class="profile-info">
+            <span class="user-name">{{ usuario.nombre }}</span>
+            <span class="user-role">{{ rolSeleccionado }}</span>
+          </div>
+          <mat-icon class="dropdown-icon">expand_more</mat-icon>
+        </div>
       </button>
-      <hr />
-      <button mat-menu-item (click)="cerrarSesion()">
-        <span>Cerrar sesión</span>
-      </button>
-    </mat-menu>
+      
+      <mat-menu #profileMenu="matMenu">
+        <div class="profile-header">
+          <div class="profile-avatar">
+            <img src="assets/images/user_white.svg" alt="Usuario">
+          </div>
+          <div class="profile-data">
+            <h4>{{ usuario.nombre }}</h4>
+            <p>{{ usuario.correo || 'usuario@dominio.com' }}</p>
+          </div>
+        </div>
+        
+        <mat-divider></mat-divider>
+        
+        <div class="profiles-section">
+          <h5>Perfil disponible</h5>
+          <button mat-menu-item *ngFor="let item of usuario.roles" 
+                  [class.active]="rolSeleccionado === item.cod"
+                  (click)="cambiarRol(item.cod)">
+            <mat-icon>account_circle</mat-icon>
+            <span>{{ item.nombre }}</span>
+            <mat-icon *ngIf="rolSeleccionado === item.cod" class="check-icon">check</mat-icon>
+          </button>
+        </div>
+        
+        <mat-divider></mat-divider>
+        
+        <button mat-menu-item class="logout-btn" (click)="cerrarSesion()">
+          <mat-icon>logout</mat-icon>
+          <span>Cerrar sesión</span>
+        </button>
+      </mat-menu>
+    </div>
   </section>
 </header>
