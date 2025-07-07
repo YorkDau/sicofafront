@@ -20,19 +20,19 @@
       A los {{ fechaActual | date: "dd" }} días del mes de
       {{ fechaActual | date: "MMMM" }} del año
       {{ fechaActual | date: "yyyy" }} hace presencia en la comisaría de
-      familia, el(la) señor(a)
+      familia, el(la) señor(a) o entidad
       {{
         datosReporte.nombreDenunciante
           ? datosReporte.nombreDenunciante
           : " ________________________"
       }}
-      identificada con cédula de ciudadanía número
+      identificado(a) con cédula de ciudadanía o Nit número
       {{
         datosReporte.numeroDocumentoDen
           ? datosReporte.numeroDocumentoDen
           : " ___________________"
       }}
-      expedida en __________________, en calidad de: progenitor(a) del niño,
+      expedida en __________________, en calidad de: ciudadano/entidad denunciante del niño,
       niña o adolescente
       {{ nombreCompleto ? nombreCompleto : "________________________" }}
       identificado con T.I.
