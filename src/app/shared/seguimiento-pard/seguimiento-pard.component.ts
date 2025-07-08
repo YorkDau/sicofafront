@@ -63,7 +63,7 @@ export class SeguimientoPardComponent implements OnInit {
   private initForm(): void {
     this.myForm = this.fb.group({
       rConclusion: ['Si', Validators.required],
-      justificacion: ['', Validators.required],
+      justificacion: [''],
       rIncumplimiento: [0, Validators.required],
       medidas: this.fb.array([]),
     });

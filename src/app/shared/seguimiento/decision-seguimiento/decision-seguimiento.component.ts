@@ -180,7 +180,7 @@ export class DecisionSeguimientoComponent implements OnInit {
       medidasDeProteccion: this.fb.array([]),
       medidasDeEstabilizacion: this.fb.array([]),
       rConclusion: ['Si', Validators.required],
-      justificacion: ['', Validators.required],
+      justificacion: [''],
       rIncumplimiento: [0, Validators.required],
     });
   }
