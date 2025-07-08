@@ -161,14 +161,15 @@ export class SeguimientoPardComponent implements OnInit {
     );
   }
 
-  public onConclusionChange(value: string): void {
-    if (value === 'No') {
-      this.myForm.get('rIncumplimiento')?.enable();
-    } else {
-      this.myForm.get('rIncumplimiento')?.setValue(0);
-      this.myForm.get('rIncumplimiento')?.disable();
-    }
+public onConclusionChange(value: string): void {
+  if (value === 'No') {
+    this.myForm.get('rIncumplimiento')?.enable(); 
+    this.myForm.get('rIncumplimiento')?.setValue(1); 
+  } else {
+    this.myForm.get('rIncumplimiento')?.setValue(0); 
+    this.myForm.get('rIncumplimiento')?.disable();
   }
+}
 
   public modalConfirmaCerrarActuacion() {
     if (this.myForm.invalid) {
