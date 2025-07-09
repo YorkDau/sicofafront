@@ -69,10 +69,14 @@ $CO_1030_COMISARIA-theme: mat.define-light-theme(
   font-weight: 500;
 }
 
-* {
-  margin: 0;
-  font-family: "WorkSans", "Helvetica Neue", sans-serif;
-}
+/* MODIFICACIÓN CLAVE:
+  Elimina la regla '*' para font-family y aplícala a 'html, body'.
+  Esto permite que la fuente se herede correctamente y evita conflictos.
+*/
+// * {
+//   margin: 0;
+//   // font-family: "WorkSans", "Helvetica Neue", sans-serif; // ELIMINA ESTO
+// }
 
 :root {
   --alto: #e0e0e0;

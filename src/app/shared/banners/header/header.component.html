@@ -1,44 +1,40 @@
 <header class="compact-header" [ngClass]="{ 'public-view': !mostrarMenu }">
-  <!-- Logo -->
   <div class="logo-area">
-    <img src="assets/images/sigfa_logo_bl2.png" alt="SIGFA" class="logo-img">
-  </div>
+    <a routerLink="/" class="home-link">
+      <img src="assets/images/sigfa_logo_bl2.png" alt="SIGFA" class="logo-img">
+    </a>
+    
+    </div>
 
-  <!-- Controles -->
   <section *ngIf="mostrarMenu" class="controls-area">
-    <!-- Comisaría -->
     <div class="location-area">
       <mat-icon class="location-icon">location_on</mat-icon>
       <span class="location-text">{{ nombreComisaria }}</span>
     </div>
     
-    <!-- Notificaciones -->
     <div class="notifications-area">
       <button mat-icon-button [matMenuTriggerFor]="notificationsMenu" class="notif-btn">
         <mat-icon class="notif-icon">notifications</mat-icon>
         <span *ngIf="totalNotificaciones > 0" class="notif-badge">{{ totalNotificaciones }}</span>
       </button>
       
-<mat-menu #notificationsMenu="matMenu">
-  <button mat-menu-item disabled>
-    <strong>Notificaciones</strong>
-  </button>
-  <mat-divider></mat-divider>
+      <mat-menu #notificationsMenu="matMenu">
+        <button mat-menu-item disabled>
+          <strong>Notificaciones</strong>
+        </button>
+        <mat-divider></mat-divider>
 
-  <button mat-menu-item disabled>
-    Pre-Solicitudes: {{ preSolicitudes }}
-  </button>
-  <mat-divider></mat-divider>
+        <button mat-menu-item disabled>
+          Pre-Solicitudes: {{ preSolicitudes }}
+        </button>
+        <mat-divider></mat-divider>
 
-  <button mat-menu-item disabled>
-    Citas Públicas: {{ citasPublicas }}
-  </button>
-</mat-menu>
-
-
+        <button mat-menu-item disabled>
+          Citas Públicas: {{ citasPublicas }}
+        </button>
+      </mat-menu>
     </div>
     
-    <!-- Perfil -->
     <div class="profile-area">
       <button mat-button [matMenuTriggerFor]="profileMenu" class="profile-btn">
         <div class="profile-content">
@@ -46,7 +42,6 @@
             <img src="assets/images/user_white.svg" alt="Usuario">
           </div>
           <div class="profile-info">
-            <span class="user-name">{{ usuario.nombre }}</span>
             <span class="user-role">{{ rolSeleccionado }}</span>
           </div>
           <mat-icon class="dropdown-icon">expand_more</mat-icon>
@@ -58,16 +53,13 @@
           <div class="profile-avatar">
             <img src="assets/images/user_white.svg" alt="Usuario">
           </div>
-          <div class="profile-data">
-            <h4>{{ usuario.nombre }}</h4>
-            <p>{{ usuario.correo || 'usuario@dominio.com' }}</p>
-          </div>
+
         </div>
         
         <mat-divider></mat-divider>
         
         <div class="profiles-section">
-          <h5>Perfil disponible</h5>
+          <h6>Perfil disponible</h6>
           <button mat-menu-item *ngFor="let item of usuario.roles" 
                   [class.active]="rolSeleccionado === item.cod"
                   (click)="cambiarRol(item.cod)">

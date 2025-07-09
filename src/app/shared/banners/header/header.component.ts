@@ -45,7 +45,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.authService.loadPage$.subscribe((data) => {
       if (data) {
         this.loadMenu = true;
-        this.authService.selectComisariaValue(this.authService.id_comisaria);
+        this.authService.getselectComisariaValue(this.authService.id_comisaria);
         this.nombreComisaria = Array.isArray(this.authService.comisariasList) && this.authService.comisariasList.length > 0
           ? this.authService.comisariasList[0].nombreComisaria
           : 'Comisaría de Familia';

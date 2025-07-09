@@ -1,0 +1,26 @@
+<div class="header">
+  <h5>BIENVENIDO , has seleccionado el perfil: {{ selectedProfileDisplayName || 'Cargando perfil...' }}</h5>
+</div>
+<div class="cards-grid-container">
+  <div class="cards-grid-container"> <ng-container *ngFor="let card of cards">
+      <div
+        *ngIf="card.visible"
+        class="card"
+        (click)="goToCardRoute(card.route)"
+      >
+        <div class="card-icon">
+          <mat-icon>{{ card.icon }}</mat-icon>
+        </div>
+        <h3 class="card-title">{{ card.title }}</h3>
+        <p class="card-description">{{ card.description }}</p>
+        <a
+          [routerLink]="card.route"
+          class="card-link"
+          (click)="$event.stopPropagation()"
+        >
+          Registrar
+        </a>
+      </div>
+    </ng-container>
+  </div>
+</div>

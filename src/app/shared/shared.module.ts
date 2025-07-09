@@ -72,6 +72,7 @@ import { ObservacionApelacionComponent } from './components/informes/observacion
 import { EnRevisionPorComponent } from './components/general/en-revision-por/en-revision-por.component';
 import { ConsultaComisariaGeneralComponent } from './components/informes/consulta-general/consulta-general.component';
 import { ModalPresolicitudesComponent } from './components/informes/modal-presolicitudes/modal-presolicitudes.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 @NgModule({
   imports: [
@@ -112,7 +113,8 @@ import { ModalPresolicitudesComponent } from './components/informes/modal-presol
     FormatosVaciosComponent,
     SetPerfilComponent,
     AccionesFormularioComponent,
-    TextoAutoPipe
+    TextoAutoPipe,
+    DashboardComponent
   ],
   declarations: [
     AuroraTableComponent,
@@ -181,7 +183,8 @@ import { ModalPresolicitudesComponent } from './components/informes/modal-presol
     ConsultaApelacionesComponent,
     ConsultaComisariaGeneralComponent,
     ObservacionApelacionComponent,
-    ModalPresolicitudesComponent
+    ModalPresolicitudesComponent,
+    DashboardComponent,
   ],
   providers: [],
 })

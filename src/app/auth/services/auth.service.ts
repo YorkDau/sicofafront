@@ -19,8 +19,17 @@ export class AuthService {
   public comisariasList: ComisariaAuth[] = [];
   public id_comisaria: any;
 
+  public nombrePerfilSeleccionado: string | null = null; 
+  
+  private _selectedComisariaSubject: BehaviorSubject<any>;
+  public selectedComisaria$: Observable<any>;
+
   constructor(private http: HttpClient, private router: Router) {
     this.setComisariasPerfiles();
+    this._selectedComisariaSubject = new BehaviorSubject<any>(this.getselectComisariaValue(this.id_comisaria));
+    this.selectedComisaria$ = this._selectedComisariaSubject.asObservable();
+    
+    this.getselectProfileName(); 
   }
 
   setComisariasPerfiles() {
@@ -35,6 +44,7 @@ export class AuthService {
       this.comisariasList = perfiles_comisarias.comisarias;
     }
   }
+
   get perfiles(): any {
     this.setComisariasPerfiles();
     return this.perfilesList.map((val) => val.perfil);
@@ -49,12 +59,42 @@ export class AuthService {
     sessionStorage.setItem(environment.USER_INFO, JSON.stringify(user));
   }
 
-  public selectComisariaValue(_id_comisaria: any) {
+  public setComisariaAndProfileSelection(_id_comisaria: any, _nombrePerfil: string | null) { 
     this.id_comisaria = _id_comisaria;
+    this.nombrePerfilSeleccionado = _nombrePerfil; 
+    
+    sessionStorage.setItem(environment.SELECTED_COMISARIA_ID, _id_comisaria.toString());
+    if (_nombrePerfil) { 
+      sessionStorage.setItem(environment.SELECTED_PROFILE_NAME, _nombrePerfil);
+    } else {
+      sessionStorage.removeItem(environment.SELECTED_PROFILE_NAME);
+    }
+    
+    this._selectedComisariaSubject.next(_id_comisaria); 
   }
 
-  public getselectComisariaValue(): any {
+  public getselectComisariaValue(id_comisaria: any): any {
+    if (this.id_comisaria === undefined || this.id_comisaria === null) {
+      const storedId = sessionStorage.getItem(environment.SELECTED_COMISARIA_ID);
+      if (storedId) {
+        this.id_comisaria = Number(storedId);
+        console.log('AuthService LOG: getselectComisariaValue cargado desde sessionStorage:', this.id_comisaria);
+      }
+    }
+    console.log('AuthService LOG: getselectComisariaValue devolviendo:', this.id_comisaria);
     return this.id_comisaria;
+  }
+
+  public getselectProfileName(): string | null {
+    if (this.nombrePerfilSeleccionado === null) {
+      const storedProfileName = sessionStorage.getItem(environment.SELECTED_PROFILE_NAME);
+      if (storedProfileName) {
+        this.nombrePerfilSeleccionado = storedProfileName;
+        console.log('AuthService LOG: getselectProfileName cargado desde sessionStorage:', this.nombrePerfilSeleccionado);
+      }
+    }
+    console.log('AuthService LOG: getselectProfileName devolviendo:', this.nombrePerfilSeleccionado);
+    return this.nombrePerfilSeleccionado;
   }
 
   public emitirLoadPage(value: boolean) {
@@ -73,13 +113,17 @@ export class AuthService {
   cerrarSesion() {
     sessionStorage.clear();
     this.currentUserValue = undefined;
+    this.id_comisaria = undefined;
+    this.nombrePerfilSeleccionado = null;
+    if (this._selectedComisariaSubject) {
+        this._selectedComisariaSubject.next(undefined);
+    }
     window.location.reload();
     this.router.navigate(['./login']);
   }
 
   private save(resp: ResponseInterface) {
     if (resp.statusCode === 200) {
-
       sessionStorage.setItem(environment.JWT_TOKEN, resp.data.token);
       sessionStorage.setItem(
         environment.PERFILES_COMISARIAS,
@@ -89,13 +133,29 @@ export class AuthService {
         })
       );
       let obj: UserInterface = {
-        usuario: resp.data.idComisaria,
+        usuario: resp.data.idComisaria, // Esto parece incorrecto, ¿no debería ser resp.data.usuario o similar?
         perfil: null,
         userID: resp.data.userID,
-        idComisaria: resp.data.idComisaria,
+        idComisaria: resp.data.idComisaria, 
         reset: resp.data.reset,
       };
       this.currentUserValue = obj;
+
+      if (resp.data.comisarias && resp.data.comisarias.length === 1 && resp.data.perfiles && resp.data.perfiles.length === 1) {
+          const onlyComisaria = resp.data.comisarias[0];
+          const onlyPerfil = resp.data.perfiles[0];
+          if (onlyPerfil.idComisaria === onlyComisaria.idComisaria) {
+              this.setComisariaAndProfileSelection(onlyComisaria.idComisaria, onlyPerfil.nombrePerfil); 
+          }
+      } else {
+          sessionStorage.removeItem(environment.SELECTED_COMISARIA_ID);
+          sessionStorage.removeItem(environment.SELECTED_PROFILE_NAME); 
+          this.id_comisaria = undefined;
+          this.nombrePerfilSeleccionado = null;
+          if (this._selectedComisariaSubject) {
+            this._selectedComisariaSubject.next(undefined);
+          }
+      }
     }
   }
 }
