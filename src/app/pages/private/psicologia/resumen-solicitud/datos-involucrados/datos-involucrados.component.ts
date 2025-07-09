@@ -131,7 +131,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
       tipoDocumento: [{ value: '', disabled: false }, [Validators.required]],
       numeroDocumento: [{ value: '', disabled: false }, [Validators.required]],
       sexo: [{ value: '', disabled: false }, [Validators.required]],
-      regimen: [{ value: '', disabled: false }, [Validators.required]],
+      regimen: [{ value: '', disabled: false }, []],
       identidadGenero: [{ value: '', disabled: false }, [Validators.required]],
       ocupacion: ['', Validators.required],
       idEscolaridad: ['', Validators.required],
