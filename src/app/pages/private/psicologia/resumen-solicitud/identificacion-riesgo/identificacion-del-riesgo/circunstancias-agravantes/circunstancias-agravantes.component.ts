@@ -6,6 +6,8 @@ import {
   RespuestaTipoViolencia,
 } from '../../../../interfaces/involucrado.interface';
 import { IdentificacionDelRiesgoService } from '../../../../services/identificacion-del-riesgo.service';
+import { DominioInterface } from 'src/app/interfaces/dominio.interface';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-circunstancias-agravantes',
@@ -18,27 +20,31 @@ export class CircunstanciasAgravantesComponent implements AfterViewInit {
 
   public listFormTipoViolencia: FormTipoViolenciaInterface[] = [];
   public dataPost!: RespuestaTipoViolencia;
+  public listaFuerzasArmadas!: DominioInterface[];
+  public listaAntecedentesDisciplinarios!: DominioInterface[];
 
-  public fuerzasArmadasOptions = [
-    { value: 'Policía', label: 'Policía' },
-    { value: 'Ejército Nacional', label: 'Ejército Nacional' },
-    { value: 'ESMAD', label: 'ESMAD' },
-    { value: 'Otra', label: 'Otra' }
-  ];
-
-  public antecedentesOptions = [
-    { label: 'Judiciales', value: 'Judiciales' },
-    { label: 'Tribunales', value: 'Tribunales' },
-    { label: 'Disciplinarios', value: 'Disciplinarios' },
-    { label: 'Otros', value: 'Otros' }  
-  ];
-
+  
   private tarea = JSON.parse(sessionStorage.getItem('info')!);
 
-  constructor(private identificacionService: IdentificacionDelRiesgoService) {}
+  constructor(
+    private identificacionService: IdentificacionDelRiesgoService,
+    private sharedService: SharedService
+  ) {}
 
   ngAfterViewInit(): void {
     this.getListFormTipoViolencia(7);
+    this.getListaFuerzasArmadas();
+    this.getListaAntecedentesDisciplinarios();
+  }
+  private async getListaFuerzasArmadas() {
+    const result = await this.sharedService.getDominioFromLocal('FuerzasArmadas');
+    this.listaFuerzasArmadas = result;
+    console.log("FuerzasArmadas",result)
+  }
+    private async getListaAntecedentesDisciplinarios() {
+    const result = await this.sharedService.getDominioFromLocal('AntecedentesDisciplinarios');
+    this.listaAntecedentesDisciplinarios = result;
+    console.log("AntecedentesDisciplinarios",result)
   }
 
   public isFuerzasArmadas(descripcion: string): boolean {
@@ -49,102 +55,96 @@ export class CircunstanciasAgravantesComponent implements AfterViewInit {
     return descripcion.toLowerCase().includes('antecedentes judiciales');
   }
 
-
-  public onFuerzaArmadaChange(idQuestionario: number, selectedOptions: HTMLOptionsCollection) {
-    const values = Array.from(selectedOptions).map(option => (option as HTMLOptionElement).value);
-    this.listFormTipoViolencia = this.listFormTipoViolencia.map(item => {
-      if (item.idQuestionario === idQuestionario) {
-        return { ...item, antecedentesSeleccionados: values };
-      }
-      return item;
-    });
+  public getRadioValue(tipo: FormTipoViolenciaInterface): boolean | undefined {
+    if (tipo.puntuacionPrevio === undefined) return undefined;
+    if (tipo.puntuacionPrevio === 0 || tipo.puntuacionPrevio === null)
+      return false;
+    return true;
   }
 
-  public onAntecedentesChange(idQuestionario: number, selectedOptions: HTMLOptionsCollection) {
-    const values = Array.from(selectedOptions).map(option => (option as HTMLOptionElement).value);
-    this.listFormTipoViolencia = this.listFormTipoViolencia.map(item => {
-      if (item.idQuestionario === idQuestionario) {
-        return { ...item, antecedentesSeleccionados: values };
-      }
-      return item;
-    });
-  }
+  public habilitarRadioMes(event: any, idTipoViolencia: number) {
+    const idCuestionario = parseInt(event.target.name, 10);
+    const valor = event.target.value;
 
-  public habilitarRadioMes(event: any, tipoViolencia: number) {
-    // const idCuestionario = +event.target.name;
-    // const puntuacion = event.target.value === 'true';
+    let pregunta: boolean | undefined;
+    if (valor === 'undefined') {
+      pregunta = undefined;
+    } else {
+      pregunta = valor === 'true';
+    }
 
-    // this.listFormTipoViolencia = this.listFormTipoViolencia.map((item) => {
-    //   if (item.idTipoViolencia === tipoViolencia && item.idQuestionario === idCuestionario) {
-    //     return {
-    //       ...item,
-    //       puntuacionPrevio: puntuacion ? 1 : 0,
-    //       mesPrevio: puntuacion,
-    //       fuerzaArmadaSeleccionada: puntuacion ? item.fuerzaArmadaSeleccionada : undefined,
-    //       antecedentesSeleccionados: puntuacion ? item.antecedenteSeleccionado : []
-    //     };
-    //   }
-    //   return item;
-    // });
+    const puntuacion = pregunta === undefined ? undefined : pregunta ? 1 : 0;
 
-    // this.setListadoRespuestas(idCuestionario, puntuacion);
-    const { name, value } = event.target;
-    console.log(name, value, tipoViolencia);
-    const idCuestionario = event.target.name;
-    const pregunta = event.target.value === 'undefined' ? undefined : Boolean(JSON.parse(event.target.value));
-    const puntuacion = pregunta === undefined ? undefined : (pregunta ? 1 : 0);
-    this.listFormTipoViolencia = this.listFormTipoViolencia.map(
-      (item: FormTipoViolenciaInterface) => {
-        if (
-          item.idTipoViolencia === tipoViolencia &&
-          item.idQuestionario === idCuestionario
-        ) {
-          return {
-            ...item,
-            puntuacionPrevio: puntuacion,
-            mesPrevio: pregunta,
-          };
+    this.listFormTipoViolencia = this.listFormTipoViolencia.map((item) => {
+      if (
+        item.idTipoViolencia === idTipoViolencia &&
+        item.idQuestionario === idCuestionario
+      ) {
+        if (pregunta === false || pregunta === undefined) {
+          if (this.isFuerzasArmadas(item.descripcion)) {
+            item.fuerzaArmadaSeleccionada = undefined;
+          }
+          if (this.isAntecedentesJudiciales(item.descripcion)) {
+            item.antecedenteSeleccionado = undefined;
+          }
         }
-        return item;
+        return {
+          ...item,
+          puntuacionPrevio: puntuacion,
+          mesPrevio: pregunta,
+          selectedOption: pregunta,
+        };
       }
+      return item;
+    });
+
+    this.setListadoRespuestas(idCuestionario, pregunta);
+  }
+
+  public onFuerzaArmadaChange(idQuestionario: number, selectedValue: string) {
+    this.listFormTipoViolencia = this.listFormTipoViolencia.map((item) => {
+      if (item.idQuestionario === idQuestionario) {
+        return { ...item, fuerzaArmadaSeleccionada: selectedValue };
+      }
+      return item;
+    });
+  }
+
+  public onAntecedentesChange(
+    idQuestionario: number,
+    selectedOptions: HTMLOptionsCollection
+  ) {
+    const values = Array.from(selectedOptions).map(
+      (option) => (option as HTMLOptionElement).value
     );
-    console.log(idCuestionario, pregunta, puntuacion);
-    this.setListadoRespuestas(+idCuestionario, pregunta);
+    this.listFormTipoViolencia = this.listFormTipoViolencia.map((item) => {
+      if (item.idQuestionario === idQuestionario) {
+        return { ...item, antecedentesSeleccionados: values };
+      }
+      return item;
+    });
   }
 
   private setListadoRespuestas(idCuestionario: number, puntuacion?: boolean) {
-    const index = this.dataPost.listadoRespuestas.findIndex(item => item.idCuestionario === idCuestionario);
+    const index = this.dataPost.listadoRespuestas.findIndex(
+      (item) => item.idCuestionario === idCuestionario
+    );
     if (index !== -1) {
       this.dataPost.listadoRespuestas[index] = {
         idCuestionario,
         mes: puntuacion,
-        puntuacion
+        puntuacion: puntuacion === true,
       };
     } else {
       this.dataPost.listadoRespuestas.push({
         idCuestionario,
         mes: puntuacion,
-        puntuacion
+        puntuacion: puntuacion === true,
       });
     }
   }
 
   public getListFormTipoViolencia(tipoViolencia: number) {
-    // this.dataPost = {
-    //   idTarea: this.tarea.idTarea,
-    //   idSolicitudServicio: this.tarea.idSolicitud,
-    //   idTipoViolencia: tipoViolencia,
-    //   listadoRespuestas: [],
-    // };
-
-    // this.identificacionService
-    //   .getTipoViolencia(this.tarea.idSolicitud, tipoViolencia, this.tarea.idTarea)
-    //   .subscribe((data: ResponseInterface) => {
-    //     if (data.statusCode === CodigosRespuesta.OK) {
-    //       this.listFormTipoViolencia = data.data;
-    //       this.setInitialDataPost();
-    //     }
-    //   });
     this.dataPost = {
       idTarea: this.tarea.idTarea,
       idSolicitudServicio: this.tarea.idSolicitud,
@@ -160,64 +160,43 @@ export class CircunstanciasAgravantesComponent implements AfterViewInit {
       .subscribe((data: ResponseInterface) => {
         if (data.statusCode === CodigosRespuesta.OK) {
           this.listFormTipoViolencia = data.data;
-          const allNull = this.listFormTipoViolencia.findIndex(i => i.puntuacionPrevio !== null);
-          if (allNull == -1) {
-            this.listFormTipoViolencia = this.listFormTipoViolencia.map(
-              (item: FormTipoViolenciaInterface) => {
-                return {
-                  ...item,
-                  puntuacionPrevio: 0,
-                  mesPrevio: item.mesPrevio ?? undefined,
-                };
+
+          // Inicializa selectedOption para cada elemento después de cargar los datos
+          this.listFormTipoViolencia = this.listFormTipoViolencia.map(
+            (item: FormTipoViolenciaInterface) => {
+              let initialSelectedOption: boolean | undefined;
+              if (
+                item.puntuacionPrevio === 0 ||
+                item.puntuacionPrevio === null
+              ) {
+                initialSelectedOption = false; // Corresponde a 'NO'
+              } else if (item.puntuacionPrevio === 1) {
+                initialSelectedOption = true; // Corresponde a 'SI'
+              } else {
+                initialSelectedOption = undefined;
               }
-            );
-          }
-          else {
-            this.listFormTipoViolencia = this.listFormTipoViolencia.map(
-              (item: FormTipoViolenciaInterface) => {
-                return {
-                  ...item,
-                  puntuacionPrevio: item.puntuacionPrevio ?? undefined,
-                  mesPrevio: item.mesPrevio ?? undefined,
-                };
-              }
-            );
-          }
-          console.log(this.listFormTipoViolencia)
+
+              return {
+                ...item,
+                puntuacionPrevio: item.puntuacionPrevio ?? undefined,
+                mesPrevio: item.mesPrevio ?? initialSelectedOption,
+                selectedOption: initialSelectedOption,
+              };
+            }
+          );
         }
         this.setInitialDataPost();
       });
   }
 
   private setInitialDataPost() {
-    // this.listFormTipoViolencia.forEach((item) => {
-    //   this.dataPost.listadoRespuestas.push({
-    //     idCuestionario: item.idQuestionario,
-    //     mes: item.mesPrevio ?? false,
-    //     puntuacion: item.puntuacionPrevio ? true : false
-    //   });
-    // });
     this.listFormTipoViolencia.forEach((item) => {
       this.dataPost.listadoRespuestas.push({
         idCuestionario: item.idQuestionario,
-        mes: this.calculateMonthValue(item.mesPrevio),
-        puntuacion: this.calculateScoreValue(item.puntuacionPrevio)
+        mes: item.mesPrevio,
+        puntuacion: item.puntuacionPrevio === 1 ? true : false,
       });
     });
-  }
-
-  private calculateMonthValue = (value: any) => {
-    if (value === null || value == undefined) {
-      return undefined;
-    }
-    return value == null ? false : true
-  }
-
-  private calculateScoreValue = (value: any) => {
-    if (value === null || value == undefined) {
-      return undefined;
-    }
-    return value == 0 ? false : true
   }
 
   public cancelar() {
@@ -229,7 +208,8 @@ export class CircunstanciasAgravantesComponent implements AfterViewInit {
   }
 
   public siguiente() {
-    this.identificacionService.postFormTipoViolencia(this.dataPost)
+    this.identificacionService
+      .postFormTipoViolencia(this.dataPost)
       .subscribe((data: ResponseInterface) => {
         if (data.statusCode === CodigosRespuesta.OK) {
           this.siguientePaso.emit('Siguiente');

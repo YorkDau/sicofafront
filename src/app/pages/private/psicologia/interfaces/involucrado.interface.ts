@@ -60,12 +60,13 @@ export interface FormTipoViolenciaInterface {
   descripcion: string;
   esCerrada: boolean;
   puntuacion: number;
-  puntuacionPrevio?: number;
+  puntuacionPrevio: number | null | undefined;
   mesPrevio?: boolean;
   tipoViolencia?: string;
   fuerzaArmadaSeleccionada?: string;
   antecedenteSeleccionado?: string;
   nullable?: string;
+  selectedOption?: boolean | undefined; 
 }
 
 export interface RespuestaTipoViolencia {
