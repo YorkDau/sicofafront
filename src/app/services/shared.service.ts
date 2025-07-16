@@ -158,41 +158,36 @@ export class SharedService {
     );
   }
 
-  public consultarApelaciones(
-    filtros: any
-  ): Observable<any> {
+  public consultarApelaciones(filtros: any): Observable<any> {
     return this.http.post<any>(
       `${PATH_SERVER}/Apelaciones/ConsultarApelaciones`,
       filtros
     );
   }
-  public consultaSolicitudesGenerales(
-    filtros: any
-  ): Observable<any> {
+  public consultaSolicitudesGenerales(filtros: any): Observable<any> {
     return this.http.post<any>(
       `${PATH_SERVER}/Solicitud/ConsultarSolicitudesFiltro`,
       filtros
     );
   }
-  public consultaPreSolicitudesGenerales(
-    filtros: any
-  ): Observable<any> {
+  public consultaPreSolicitudesGenerales(filtros: any): Observable<any> {
     return this.http.post<any>(
       `${PATH_SERVER}/Solicitud/ConsultarPreSolicitudesFiltro`,
       filtros
     );
   }
 
-  
   public ConsultarObservacionesApelaciones(
     id_solicitud_servicio: number
   ): Observable<any> {
-    return this.http.get<any>( 
-      `${PATH_SERVER}/Apelaciones/ConsultarObservacionesApelaciones/${id_solicitud_servicio}`,
+    return this.http.get<any>(
+      `${PATH_SERVER}/Apelaciones/ConsultarObservacionesApelaciones/${id_solicitud_servicio}`
     );
   }
 
-  public guardarObservacionesApelaciones(observacionApelacion: any): Observable<any> {
+  public guardarObservacionesApelaciones(
+    observacionApelacion: any
+  ): Observable<any> {
     console.log(observacionApelacion);
     return this.http.post<any>(
       `${PATH_SERVER}/Apelaciones/GuardarObservacionesApelaciones`,
@@ -431,48 +426,56 @@ export class SharedService {
     );
   }
 
-    /**
+  /**
    * @description llama a un servicio para retomar los datos del involucrado principal
    * @param idSolicitud
    * @returns observable
    */
-    public ConsultaInvolucradoPrincipal(idSolicitud: number): Observable<ResponseInterface> {
-      return this.http.get<ResponseInterface>(
-        `${PATH_SERVER}/Solicitud/ConsultaInvolucradoPrincipal/${idSolicitud}`
-      );
-    }
+  public ConsultaInvolucradoPrincipal(
+    idSolicitud: number
+  ): Observable<ResponseInterface> {
+    return this.http.get<ResponseInterface>(
+      `${PATH_SERVER}/Solicitud/ConsultaInvolucradoPrincipal/${idSolicitud}`
+    );
+  }
 
-    /**
+  /**
    * @description llama a un servicio para retomar y obtener los datos del accionante
    * @param idCiudadano
    * @returns observable
    */
-        public ObtenerAccionante(idCiudadano: number): Observable<ResponseInterface> {
-          return this.http.get<ResponseInterface>(
-            `${PATH_SERVER}/EvaluacionPsicologica/ObtenerInvolucrado/${idCiudadano}?esvictima=false&principal=true`
-          );
-        }
+  public ObtenerAccionante(idCiudadano: number): Observable<ResponseInterface> {
+    return this.http.get<ResponseInterface>(
+      `${PATH_SERVER}/EvaluacionPsicologica/ObtenerInvolucrado/${idCiudadano}?esvictima=false&principal=true`
+    );
+  }
 
-        /**
+  /**
    * @description llama a un servicio para retomar y obtener la solicitud detallada
    * @param idSolicitud
    * @returns observable
    */
-        public ObtenerSolicitudDetalle(idSolicitud: number): Observable<ResponseInterface> {
-          return this.http.get<ResponseInterface>(
-            `${PATH_SERVER}/Solicitud/ObtenerDatosSolicitud/${idSolicitud}`
-          );
-        }
+  public ObtenerSolicitudDetalle(
+    idSolicitud: number
+  ): Observable<ResponseInterface> {
+    return this.http.get<ResponseInterface>(
+      `${PATH_SERVER}/Solicitud/ObtenerDatosSolicitud/${idSolicitud}`
+    );
+  }
 
-        public getSolicitudesComisaria(id_comisaria: number): Observable<ResponseInterface> {
-          return this.http.get<ResponseInterface>(
-            `${PATH_SERVER}/Solicitud/ObtenerSolicitudes/${id_comisaria}`
-          );
-        }
+  public getSolicitudesComisaria(
+    id_comisaria: number
+  ): Observable<ResponseInterface> {
+    return this.http.get<ResponseInterface>(
+      `${PATH_SERVER}/Solicitud/ObtenerSolicitudes/${id_comisaria}`
+    );
+  }
 
-        public getCitasComisaria(id_comisaria: number): Observable<ResponseInterface> {
-          return this.http.get<ResponseInterface>(
-            `${PATH_SERVER}/Cita/ObtenerCitas/${id_comisaria}`
-          );
-        }
+  public getCitasComisaria(
+    id_comisaria: number
+  ): Observable<ResponseInterface> {
+    return this.http.get<ResponseInterface>(
+      `${PATH_SERVER}/Cita/ObtenerCitas/${id_comisaria}`
+    );
+  }
 }

@@ -55,6 +55,8 @@ export interface CiudadanoCompletoInterface {
   idOrientacionSexual?: number;
   idNivelAcademico: number;
   idEstadoAcademico: number;
+  idEstrato: number;
+  idLocalidadComuna: number;
   direccionResidencia: string;
   idLocalidad?: number;
   barrio: string;
@@ -62,6 +64,7 @@ export interface CiudadanoCompletoInterface {
   celular?: string;
   correoElectronico?: string;
   idDiscapasidad?: number;
+  mujerFamilia?: string;
   estadoEmbarazo: EstadoEmbarazo;
   afiliadoSeguridadSocial: AfiliadoSeguridadSocial;
   poblacionLgtbi?: boolean;

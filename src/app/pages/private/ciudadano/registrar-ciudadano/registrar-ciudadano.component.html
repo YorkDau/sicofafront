@@ -51,7 +51,7 @@
           placeholder="No. de Documento"
           (keyup)="existe = false"
           (focusout)="yaExisteCiudadano()"
-          (input)="filtraDocumentoSegunTipo('nroDoc','tipDoc')"
+          (input)="filtraDocumentoSegunTipo('nroDoc', 'tipDoc')"
         />
         <div
           class="msj-req"
@@ -155,7 +155,7 @@
             <mat-datepicker #picker></mat-datepicker>
           </label>
         </div>
-      </div>      
+      </div>
 
       <div class="col-4 p-3">
         <label>Fecha de Nacimiento</label>
@@ -263,7 +263,7 @@
           </option>
         </select>
       </div>
-<!-- 
+      <!-- 
       <div class="col-4 p-3">
         <label>País de Nacimiento</label>
 
@@ -330,6 +330,33 @@
       </div> -->
 
       <div class="col-4 p-3">
+        <label>Localidad/Comuna</label>
+
+        <select class="form-select" formControlName="localidadComuna">
+          <option disabled value="">Localidad/Comuna</option>
+          <option
+            *ngFor="let localidad of selectLocalidadComuna"
+            [value]="localidad.id_Dominio"
+          >
+            {{ localidad.nombre_Dominio }}
+          </option>
+        </select>
+      </div>
+      <div class="col-4 p-3">
+        <label>Estrato</label>
+
+        <select class="form-select" formControlName="estrato">
+          <option disabled value="">Estrato</option>
+          <option
+            *ngFor="let estrato of selectEstrato"
+            [value]="estrato.id_Dominio"
+          >
+            {{ estrato.nombre_Dominio }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-4 p-3">
         <label>Dirección de Residencia</label>
         <input
           type="text"
@@ -392,10 +419,7 @@
       <div class="col-4 p-3">
         <label>Nivel Académico</label>
 
-        <select
-          class="form-select"
-          formControlName="nivAcademico"
-        >
+        <select class="form-select" formControlName="nivAcademico">
           <option disabled value="">Nivel Académico</option>
           <option
             *ngFor="let nivelAcademico of selectNivel_Academico"
@@ -413,13 +437,10 @@
         </div>
         -->
       </div>
-      <div class="col-4 p-3" >
+      <div class="col-4 p-3">
         <label>Estado Académico</label>
 
-        <select
-          class="form-select"
-          formControlName="estadoAcademico"
-        >
+        <select class="form-select" formControlName="estadoAcademico">
           <option disabled value="">Estado Académico</option>
           <option
             *ngFor="let estadoAcademico of selectEstado_Academico"
@@ -437,10 +458,7 @@
         {{ msgObligatorio }}
             </div>
         -->
-    
       </div>
-
-      
 
       <div class="col-4 p-3">
         <label>Teléfono</label>
@@ -685,6 +703,35 @@
           />
         </div>
       </div>
+      <div class="row mt-3">
+        <div class="col-lg-4">
+          <label class="form-label">¿Es usted mujer cabeza de familia? </label>
+          <div class="pt-2">
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                id="noMF"
+                name="rMujerFamilia"
+                formControlName="rMujerFamilia"
+                value="no"
+              />
+              <label class="form-check-label form-label" for="noMF"> NO </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="rMujerFamilia"
+                value="si"
+                id="siMF"
+                formControlName="rMujerFamilia"
+              />
+              <label class="form-check-label form-label" for="siMF"> SI </label>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="row px-0 p-3">
@@ -734,7 +781,7 @@
           id="chkMujerEmbarazada"
         />
 
-        <label class="form-check-label"  for="chkMujerEmbarazada"
+        <label class="form-check-label" for="chkMujerEmbarazada"
           >Mujer embarazada</label
         >
       </div>
