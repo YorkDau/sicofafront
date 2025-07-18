@@ -48,12 +48,11 @@ export class HistorialCiudadanoComponent {
       name: 'perfil',
       title: 'Perfil',
       render: (value) => value?.toUpperCase(),
-    }, 
+    },
     { name: 'actions', title: 'acciones' },
   ];
 
   public actions: AuroraActionColumn[] = [
-  
     {
       imagen: 'assets/images/eye.svg',
       tooltip: 'Visualizar',
@@ -66,17 +65,17 @@ export class HistorialCiudadanoComponent {
       imagen: 'assets/images/irProceso.svg',
       tooltip: 'Retomar solicitud',
       tooltipPosition: 'right',
-      accion: (row:SolicitudServicioInterface) => {
+      accion: (row: SolicitudServicioInterface) => {
         this.router.navigate(['/solicitud', row.id_solicitud_servicio]);
       },
     },
-
   ];
 
   private id_ciudadano: number | undefined = undefined;
   public ciudadano: CiudadanoDetalleInterface | undefined = undefined;
   public listaRecepcion: SolicitudServicioInterface[] = [];
   public mostrarOcultarBoton: boolean = true;
+  public esAuxiliar: boolean = true;
   currentUser!: UserInterface | undefined;
 
   constructor(
@@ -89,6 +88,7 @@ export class HistorialCiudadanoComponent {
     private authService: AuthService
   ) {
     this.user = this.authService.currentUserValue;
+    this.esAuxiliar = this.user?.perfil === 'AUX';
     if (this.authService.currentUserValue?.perfil === 'COM') {
       this.mostrarOcultarBoton = false;
       this.actions.pop();
@@ -125,7 +125,7 @@ export class HistorialCiudadanoComponent {
     this.dialog.open(ModalDetalleSolicitudCiudadanoComponent, {
       panelClass: ['roundedModal', 'modalFondoGris'],
       disableClose: false,
-      width: '1200px',  // Aumenté de 776px a 900px
+      width: '1200px', // Aumenté de 776px a 900px
       maxWidth: '90vw', // Aumenté ligeramente de 90vw a 92vw
       maxHeight: '90vh',
       data: { id_solicitud, ciudadano: this.ciudadano },
@@ -190,7 +190,10 @@ export class HistorialCiudadanoComponent {
       }
       this.listaRecepcion = [];
       const result = await lastValueFrom(
-        this.ciudadanoService.getSolicitudesCiudadano(this.id_ciudadano, this.user?.idComisaria)
+        this.ciudadanoService.getSolicitudesCiudadano(
+          this.id_ciudadano,
+          this.user?.idComisaria
+        )
       );
       if (result && result.statusCode != 200) {
         this.modales.modalInformacion(result.message);

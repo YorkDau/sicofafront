@@ -21,9 +21,9 @@
             </h4>
           </div>
 
-          <div class="col-lg-6 d-flex" *ngIf="ciudadano.requiereModificacon">
+          <div class="col-lg-6 d-flex" *ngIf="esAuxiliar">
             <app-no-data
-              mensaje="Los datos del ciudadano están incompletos"
+              mensaje="Actualizar datos del ciudadano"
             ></app-no-data>
             <div
               class="fondo-img-edit d-inline-flex mt-3 ms-3 pointer-event"
