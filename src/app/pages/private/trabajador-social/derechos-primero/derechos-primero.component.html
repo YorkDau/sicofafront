@@ -326,5 +326,14 @@
         formControlName="observacionesSalud"
       ></textarea>
     </div>
+
+    <div class='mt-4'>
+      <app-carga-archivo
+        (baseArchivo)="onBaseArchivo($event)"
+        textoCargar='Cargar adjunto'
+        matTooltip='Cargar adjunto'
+      >
+      </app-carga-archivo>
+    </div>
   </div>
 </form>
