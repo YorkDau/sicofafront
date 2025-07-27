@@ -89,8 +89,8 @@
       </div>
     </div>
 
-    <div class="row mt-3">
-      <div class="col-lg-4 my-3">
+    <div class="row flex items-end mt-3">
+      <div class="my-3">
         <label for="id_tipo_entidad" class="form-label">
           Tipo de entidad que pone en conocimiento los hechos
         </label>
@@ -109,10 +109,17 @@
           </option>
         </select>
       </div>
+      <div *ngIf="myForm.value.esVictima === 'no'">
+        <app-carga-archivo
+          (baseArchivo)="cargarAdjunto($event)"
+          [textoCargar]="'Cargar adjunto'"
+           matTooltip="Cargar adjunto"
+        ></app-carga-archivo>
+      </div>
     </div>
 
     <div class="row mt-3">
-      <div class="col-lg-4 my-3">
+      <div>
         <label class="form-label">
           Relación o Parentesco con el Agresor*
         </label>
@@ -246,36 +253,36 @@
     <div class="row mb-4" *ngIf="cComisariaFamilia">
       <div class="col-lg-12">
         <div class="form-check form-check-inline">
-          <input 
-            class="form-check-input" 
-            type="radio" 
-            name="esNecesarioRemitir" 
+          <input
+            class="form-check-input"
+            type="radio"
+            name="esNecesarioRemitir"
             id="nor"
-            formControlName="esNecesarioRemitir" 
+            formControlName="esNecesarioRemitir"
             [value]="'no'"
           />
           <label class="form-check-label form-label" for="nor"> NO </label>
         </div>
         <div class="form-check form-check-inline">
-          <input 
-            class="form-check-input" 
-            type="radio" 
-            name="esNecesarioRemitir" 
+          <input
+            class="form-check-input"
+            type="radio"
+            name="esNecesarioRemitir"
             id="sir"
-            formControlName="esNecesarioRemitir" 
+            formControlName="esNecesarioRemitir"
             [value]="'si'"
           />
           <label class="form-check-label form-label" for="sir"> SI </label>
         </div>
       </div>
     </div>
-    
+
     <div class="row mb-4" *ngIf="mostrarBotonDescargar">
       <div class="col-lg-12">
         <button class="btn btn-secondary" (click)="descargarDocumento()">Descargar Formato Traslado</button>
       </div>
     </div>
-    
+
 
     <div class="d-flex justify-content-lg-end w-100 mb-4">
       <button class="btn btn-danger me-5 px-5" [routerLink]="['/historial-ciudadano', id_ciudadano]">Cancelar</button>

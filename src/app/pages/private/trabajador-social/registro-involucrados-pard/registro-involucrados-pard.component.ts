@@ -1,18 +1,18 @@
-import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { CodigosRespuesta, ImagenesModal, Mensajes } from 'src/app/constants';
-import { ResponseInterface } from 'src/app/interfaces/response.interface';
-import { Modales } from 'src/app/shared/modals';
-import { DerechosPrimeroComponent } from '../derechos-primero/derechos-primero.component';
-import { DerechosSegundoComponent } from '../derechos-segundo/derechos-segundo.component';
-import { PresuntoInvolucradoComponent } from '../presunto-involucrado/presunto-involucrado.component';
-import { TrabajadorSocialService } from '../services/trabajador-social.service';
+import { Component, ViewChild, OnInit, OnDestroy } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
+import { Router } from "@angular/router";
+import { Subscription } from "rxjs";
+import { CodigosRespuesta, ImagenesModal, Mensajes } from "src/app/constants";
+import { ResponseInterface } from "src/app/interfaces/response.interface";
+import { Modales } from "src/app/shared/modals";
+import { DerechosPrimeroComponent } from "../derechos-primero/derechos-primero.component";
+import { DerechosSegundoComponent } from "../derechos-segundo/derechos-segundo.component";
+import { PresuntoInvolucradoComponent } from "../presunto-involucrado/presunto-involucrado.component";
+import { TrabajadorSocialService } from "../services/trabajador-social.service";
 
 @Component({
-  selector: 'app-registro-involucrados-pard',
-  templateUrl: './registro-involucrados-pard.component.html',
+  selector: "app-registro-involucrados-pard",
+  templateUrl: "./registro-involucrados-pard.component.html",
   styles: [],
 })
 export class RegistroInvolucradosPardComponent implements OnInit, OnDestroy {
@@ -33,7 +33,7 @@ export class RegistroInvolucradosPardComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private dialog: MatDialog,
-    private trabajadorSocialService: TrabajadorSocialService
+    private trabajadorSocialService: TrabajadorSocialService,
   ) {}
 
   ngOnDestroy(): void {
@@ -42,7 +42,7 @@ export class RegistroInvolucradosPardComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.escucharCambiosInvolucrado();
-    this.objInvolucrado = JSON.parse(sessionStorage.getItem('inv_pard')!);
+    this.objInvolucrado = JSON.parse(sessionStorage.getItem("inv_pard")!);
   }
 
   /**
@@ -52,11 +52,11 @@ export class RegistroInvolucradosPardComponent implements OnInit, OnDestroy {
     Modales.modalConfirmacion(
       Mensajes.MENSAJE_CANCELAR_SOL,
       this.dialog,
-      ImagenesModal.EXCLAMACION
+      ImagenesModal.EXCLAMACION,
     ).subscribe((res) => {
       if (res) {
         this.redireccionar();
-        sessionStorage.removeItem('inv_pard');
+        sessionStorage.removeItem("inv_pard");
       }
     });
   }
@@ -65,7 +65,7 @@ export class RegistroInvolucradosPardComponent implements OnInit, OnDestroy {
    * @description redirecciona a la ruta casos
    */
   private redireccionar(): void {
-    this.router.navigate(['../trabajador-social/involucrados-pard']);
+    this.router.navigate(["../trabajador-social/involucrados-pard"]);
   }
 
   /**
@@ -75,6 +75,7 @@ export class RegistroInvolucradosPardComponent implements OnInit, OnDestroy {
     const resInvolucrado = this.validarInvolucradosForm();
     const resDerechos1 = this.validarDerechosP1();
     const resDerechos2 = this.validarDerechosP2();
+    console.log("involucrado -> ", resInvolucrado);
     if (resDerechos1 && resDerechos2 && resInvolucrado) {
       if (this.objInvolucrado) this.editarInvolucrado();
       else this.guardarInvolucrado();
@@ -97,7 +98,7 @@ export class RegistroInvolucradosPardComponent implements OnInit, OnDestroy {
         resultado = true;
       }
     }
-
+    console.log("validacion -> ", resultado);
     return resultado;
   }
 
@@ -146,7 +147,7 @@ export class RegistroInvolucradosPardComponent implements OnInit, OnDestroy {
         } else {
           this.mostrarTodoForm = true;
         }
-      }
+      },
     );
   }
 
@@ -165,7 +166,7 @@ export class RegistroInvolucradosPardComponent implements OnInit, OnDestroy {
 
     let obj = {
       ...principal,
-      eps: '',
+      eps: "",
       infoAdicional: {
         idInvolucrado,
         registroExpedidoEn,
@@ -201,7 +202,7 @@ export class RegistroInvolucradosPardComponent implements OnInit, OnDestroy {
             Modales.modalExito(
               Mensajes.MENSAJE_OK,
               ImagenesModal.OK,
-              this.dialog
+              this.dialog,
             );
             this.redireccionar();
           } else {
@@ -221,7 +222,7 @@ export class RegistroInvolucradosPardComponent implements OnInit, OnDestroy {
     Modales.modalInformacion(
       Mensajes.MENSAJE_ERROR_G,
       this.dialog,
-      ImagenesModal.EXCLAMACION
+      ImagenesModal.EXCLAMACION,
     );
   }
 
@@ -258,7 +259,7 @@ export class RegistroInvolucradosPardComponent implements OnInit, OnDestroy {
             Modales.modalExito(
               Mensajes.MENSAJE_OK,
               ImagenesModal.OK,
-              this.dialog
+              this.dialog,
             );
             this.redireccionar();
           } else {
