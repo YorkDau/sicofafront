@@ -64,7 +64,6 @@ export class GenerarSeguimientoComponent implements OnInit {
         this.modo = params['modo'];
         this.resetForm();
       }
-      console.log('Modo:', this.modo);
     });
     this.getListInvolucrados();
   }
@@ -124,14 +123,7 @@ export class GenerarSeguimientoComponent implements OnInit {
           next: (data: ResponseInterface) => {
             if (data.statusCode === CodigosRespuesta.OK) {
               this.listaFormatos = data.data;
-              console.log('Lista de formatos:', this.listaFormatos);
               this.filtrarFormatos();
-              console.log(
-                'Lista filtrados por el modo :',
-                this.modo,
-                '=>',
-                this.listaFormatosFiltrados
-              );
             } else {
               this.msgError();
             }
@@ -216,7 +208,6 @@ export class GenerarSeguimientoComponent implements OnInit {
       tipoDocumento: formValue.formato?.nombre,
     };
 
-    console.log('obj final a guardar', request);
     this.sharedService.guardarArchivoRemision(request).subscribe({
       next: (data: ResponseInterface) => {
         if (data.statusCode === CodigosRespuesta.OK) {
@@ -279,9 +270,6 @@ export class GenerarSeguimientoComponent implements OnInit {
 
   public generarPDF() {
     const formato = this.myForm.controls['formato'].value.nombre;
-    console.log('Modo actual:', this.modo);
-    console.log('Formato seleccionado:', formato);
-    console.log('Data del reporte:', this.dataReporte);
 
     if (!formato) {
       console.warn('No se ha seleccionado un formato válido.');

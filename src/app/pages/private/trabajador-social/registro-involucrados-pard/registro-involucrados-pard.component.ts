@@ -75,7 +75,6 @@ export class RegistroInvolucradosPardComponent implements OnInit, OnDestroy {
     const resInvolucrado = this.validarInvolucradosForm();
     const resDerechos1 = this.validarDerechosP1();
     const resDerechos2 = this.validarDerechosP2();
-    console.log("involucrado -> ", resInvolucrado);
     if (resDerechos1 && resDerechos2 && resInvolucrado) {
       if (this.objInvolucrado) this.editarInvolucrado();
       else this.guardarInvolucrado();
@@ -94,20 +93,10 @@ export class RegistroInvolucradosPardComponent implements OnInit, OnDestroy {
       const form = this.presuntoInvolucrado.involucradoForm;
       if (form.invalid) {
         this.trabajadorSocialService.emitirInvolucrados(true);
-        // Atributos inválidos
-        const invalidControls = Object.keys(form.controls).filter(key => form.get(key)?.invalid);
-        // Atributos válidos
-        const validControls = Object.keys(form.controls).filter(key => form.get(key)?.valid);
 
-        console.log("Atributos válidos:", validControls);
-        console.log("Atributos inválidos:", invalidControls);
-        console.log("Formulario inválido. Errores:", form.errors, form);
       } else {
         this.trabajadorSocialService.emitirInvolucrados(false);
         resultado = true;
-        const validControls = Object.keys(form.controls).filter(key => form.get(key)?.valid);
-        console.log("Atributos válidos:", validControls);
-        console.log("Formulario válido y exitoso.");
       }
     }
     return resultado;
