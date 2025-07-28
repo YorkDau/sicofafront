@@ -108,6 +108,7 @@ export class PresuntoInvolucradoComponent implements OnInit, OnDestroy {
       correoElectronico: ['', Validators.pattern(Regex.EMAIL)],
       datosAdicionales: '',
       registroExpedidoEn: 'Notaria',
+      esRepresentante: false, // ✅ Agregado aquí
       nombreEntidadExpedicion: '',
       edad: [
         0,
@@ -185,6 +186,7 @@ export class PresuntoInvolucradoComponent implements OnInit, OnDestroy {
    */
   private cargarFormEdicion(): void {
     const objInvolucrado = JSON.parse(sessionStorage.getItem('inv_pard')!);
+    console.log('objInvolucrado', objInvolucrado);
 
     if (objInvolucrado) {
       this.trabajadorSocialService.emitirAgresor(
@@ -208,6 +210,7 @@ export class PresuntoInvolucradoComponent implements OnInit, OnDestroy {
         ),
         esVictima: ValidarCampos.validarBooleanos(objInvolucrado.esVictima),
         esPrincipal: ValidarCampos.validarBooleanos(objInvolucrado.esPrincipal),
+        esRepresentante: ValidarCampos.validarBooleanos(objInvolucrado.esRepresentante),
         // idLugarExpedicion: ValidarCampos.validarNumber(
         //   objInvolucrado.idLugarExpedicion
         // ),

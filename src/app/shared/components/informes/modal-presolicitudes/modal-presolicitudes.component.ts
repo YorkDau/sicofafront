@@ -20,36 +20,63 @@ export class ModalPresolicitudesComponent implements OnInit {
   mostrarValidaciones = false;
   mensajeSinReg = 'No se encontraron solicitudes.';
   
-  // Configuración de Aurora Table
-  public columns: AuroraTableColumn[] = [
-    { name: 'codigoSolicitud', title: 'Código Solicitud' },
-    { 
-      name: 'fechaSolicitud', 
-      title: 'Fecha Solicitud',
-      render: (value: string) => new Date(value).toLocaleDateString()
-    },
-    { 
-      name: 'tipoSolicitud', 
-      title: 'Tipo Solicitud',
-      render: (value: string) => value?.toUpperCase()
-    },
-    { 
-      name: 'estadoSolicitud', 
-      title: 'Estado',
-      render: (value: string) => value?.toUpperCase()
-    },
-    { 
-      name: 'esCompetenciaComisaria', 
-      title: 'Competencia',
-      render: (value: boolean) => value ? 'SÍ' : 'NO'
-    },
-    { 
-      name: 'descripcionHechos', 
-      title: 'Descripción Hechos',
-      render: (value: string) => value || 'Sin descripción'
-    }
-  ];
-
+public columns: AuroraTableColumn[] = [
+  { 
+    name: 'codigoSolicitud', 
+    title: 'Código Solicitud',
+    width: '120px' // Ancho fijo para códigos
+  },
+  {
+    name: 'fechaSolicitud',
+    title: 'Fecha Solicitud',
+    width: '120px', // Ancho fijo para fechas
+    render: (value: string) => new Date(value).toLocaleDateString()
+  },
+  { 
+    name: 'tipoSolicitud', 
+    title: 'Tipo Solicitud',
+    width: '150px', // Ancho ajustado para tipos de solicitud
+    render: (value: string) => value?.toUpperCase()
+  },
+  { 
+    name: 'estadoSolicitud', 
+    title: 'Estado',
+    width: '100px', // Ancho para estados
+    render: (value: string) => value?.toUpperCase()
+  },
+  { 
+    name: 'esCompetenciaComisaria', 
+    title: 'Competencia',
+    width: '100px', // Ancho para sí/no
+    render: (value: boolean) => value ? 'SÍ' : 'NO'
+  },
+  { 
+    name: 'nombreInvolucradoVictima', // Nombre de la Víctima Principal
+    title: 'Nombre Víctima',
+    width: '200px', // Buen ancho para nombres completos
+    render: (value: string) => value || 'N/A'
+  },
+  { 
+    name: 'tipoDocumentoInvolucradoVictima', // Tipo de Documento de la Víctima Principal
+    title: 'Tipo Documento',
+    width: '150px', // Ancho para tipos de documento
+    render: (value: string) => value || 'N/A'
+  },
+  { 
+    name: 'documentoInvolucradoVictima', // Número de Documento de la Víctima Principal
+    title: 'Documento Víctima',
+    width: '150px', // Ancho para números de documento
+    render: (value: string) => value || 'N/A'
+  },
+  { 
+    name: 'descripcionHechos', 
+    title: 'Descripción Hechos',
+    width: 'auto', // Permite que tome el espacio restante
+    // o un valor como '1fr' si usa CSS Grid o flexbox para distribución
+    // o un ancho fijo grande si lo prefieres, ej. '300px'
+    render: (value: string) => value || 'Sin descripción'
+  }
+];
   public actions: AuroraActionColumn[] = [
     {
       imagen: 'assets/images/select.svg',

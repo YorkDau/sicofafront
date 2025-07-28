@@ -186,6 +186,8 @@ export enum DescargasExcel {
   EXTENSION = '.xlsx',
   INFORMES_SOLICITUDES = 'Informe solicitudes',
   NOMBRE_HOJA_INOFORME = 'Informe',
+  // ¡Añade esta línea!
+  REPORTE_PARD = 'Reporte_Solicitudes_PARD', // Nuevo miembro para el nombre del reporte PARD
 }
 
 export const InvolucradosPARD = {

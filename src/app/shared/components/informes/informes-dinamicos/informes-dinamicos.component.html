@@ -1,5 +1,4 @@
 <div class="background-filter-private d-flex flex-column w-100 mb-3">
-  <!-- filtros -->
   <form [formGroup]="formulario" class="row" autocomplete="off">
     <div class="row">
       <span class="title-medium me-5 mb-3 text-center">GENERAR REPORTES</span>
@@ -7,9 +6,7 @@
     <div class="row">
       <div class="col-lg-3">
         <div class="mb-3">
-          <label for="tareaRetomar" class="form-label"
-            >Tipo de Documento (víctima)</label
-          >
+          <label for="tareaRetomar" class="form-label">Tipo de Documento (víctima)</label>
           <select
             class="form-select"
             formControlName="tipoDocumento"
@@ -33,9 +30,7 @@
       </div>
       <div class="col-lg-3">
         <div class="mb-3">
-          <label for="numeroDocumento" class="form-label"
-            >Numero de Documento (víctima)</label
-          >
+          <label for="numeroDocumento" class="form-label">Numero de Documento (víctima)</label>
           <input
             type="text"
             class="form-control"
@@ -54,9 +49,7 @@
       </div>
       <div class="col-lg-3">
         <div class="mb-3">
-          <label for="nombreVictima" class="form-label"
-            >Nombre Completo (víctima)</label
-          >
+          <label for="nombreVictima" class="form-label">Nombre Completo (víctima)</label>
           <input
             type="text"
             class="form-control"
@@ -68,9 +61,7 @@
       </div>
       <div class="col-lg-3">
         <div class="mb-3">
-          <label for="idGenero" class="form-label"
-            >Identidad de Género (Víctima)</label
-          >
+          <label for="idGenero" class="form-label">Identidad de Género (Víctima)</label>
           <select class="form-select" formControlName="idGenero">
             <option disabled value="">Identidad de Género</option>
             <option
@@ -95,9 +86,7 @@
       </div>
       <div class="col-lg-3">
         <div class="mb-3">
-          <label for="nombreCompletoAgresor" class="form-label"
-            >Nombre Completo (Agresor)</label
-          >
+          <label for="nombreCompletoAgresor" class="form-label">Nombre Completo (Agresor)</label>
           <input
             type="text"
             class="form-control"
@@ -109,9 +98,7 @@
       </div>
       <div class="col-lg-3">
         <div class="mb-3">
-          <label for="fechaHechoViolento" class="form-label"
-            >Fecha Hecho Violento</label
-          >
+          <label for="fechaHechoViolento" class="form-label">Fecha Hecho Violento</label>
           <div class="input-group">
             <input
               mat-input
@@ -146,9 +133,7 @@
       </div>
       <div class="col-lg-3">
         <div class="mb-3">
-          <label for="codigoSolicitud" class="form-label"
-            >Código de Solicitud</label
-          >
+          <label for="codigoSolicitud" class="form-label">Código de Solicitud</label>
           <input
             type="text"
             class="form-control"
@@ -160,9 +145,7 @@
       </div>
       <div class="col-lg-3">
         <div class="mb-3">
-          <label for="fechaInicial" class="form-label"
-            >Fecha inicial (Solicitud)</label
-          >
+          <label for="fechaInicial" class="form-label">Fecha inicial (Solicitud)</label>
           <div class="input-group">
             <input
               mat-input
@@ -197,9 +180,7 @@
       </div>
       <div class="col-lg-3">
         <div class="mb-3">
-          <label for="fechaFinal" class="form-label"
-            >Fecha final (Solicitud)</label
-          >
+          <label for="fechaFinal" class="form-label">Fecha final (Solicitud)</label>
           <div class="input-group">
             <input
               mat-input
@@ -225,6 +206,18 @@
         </div>
       </div>
 
+      <div class="col-lg-3">
+        <div class="form-check mb-3 mt-4"> <input
+            class="form-check-input"
+            type="checkbox"
+            id="generarPARD"
+            formControlName="pard_generar"
+          >
+          <label class="form-check-label" for="generarPARD">
+            Generar Reporte PARD
+          </label>
+        </div>
+      </div>
       <div class="col-lg-3 d-flex align-items-center justify-content-center">
         <div class="mb-3 mt-3">
           <button
@@ -237,7 +230,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="row">
     </div>
   </form>
