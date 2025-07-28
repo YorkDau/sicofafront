@@ -91,14 +91,25 @@ export class RegistroInvolucradosPardComponent implements OnInit, OnDestroy {
   private validarInvolucradosForm(): boolean {
     let resultado = false;
     if (this.presuntoInvolucrado) {
-      if (this.presuntoInvolucrado.involucradoForm.invalid) {
+      const form = this.presuntoInvolucrado.involucradoForm;
+      if (form.invalid) {
         this.trabajadorSocialService.emitirInvolucrados(true);
+        // Atributos inválidos
+        const invalidControls = Object.keys(form.controls).filter(key => form.get(key)?.invalid);
+        // Atributos válidos
+        const validControls = Object.keys(form.controls).filter(key => form.get(key)?.valid);
+
+        console.log("Atributos válidos:", validControls);
+        console.log("Atributos inválidos:", invalidControls);
+        console.log("Formulario inválido. Errores:", form.errors, form);
       } else {
         this.trabajadorSocialService.emitirInvolucrados(false);
         resultado = true;
+        const validControls = Object.keys(form.controls).filter(key => form.get(key)?.valid);
+        console.log("Atributos válidos:", validControls);
+        console.log("Formulario válido y exitoso.");
       }
     }
-    console.log("validacion -> ", resultado);
     return resultado;
   }
 
@@ -110,29 +121,32 @@ export class RegistroInvolucradosPardComponent implements OnInit, OnDestroy {
     if (this.derechosP1) {
       if (this.derechosP1.derechosPrimero.invalid) {
         this.trabajadorSocialService.emitirDerechosP1(true);
+        console.log("Derechos P1 inválido. Errores:", this.derechosP1.derechosPrimero.errors, this.derechosP1.derechosPrimero);
       } else {
         this.trabajadorSocialService.emitirDerechosP1(false);
         resultado = true;
+        console.log("Derechos P1 válido y exitoso.");
       }
     }
-
     return resultado;
   }
 
   /**
    * @description validar formulario derechos parte 2
+   * @returns true si el formulario es válido, false en caso contrario
    */
   private validarDerechosP2(): boolean {
     let resultado = false;
-    if (this.derechosP1) {
+    if (this.derechosP2) {
       if (this.derechosP2.derechosSegundo.invalid) {
         this.trabajadorSocialService.emitirDerechosP2(true);
+        console.log("Derechos P2 inválido. Errores:", this.derechosP2.derechosSegundo.errors, this.derechosP2.derechosSegundo);
       } else {
         this.trabajadorSocialService.emitirDerechosP2(false);
         resultado = true;
+        console.log("Derechos P2 válido y exitoso.");
       }
     }
-
     return resultado;
   }
 
@@ -233,7 +247,7 @@ export class RegistroInvolucradosPardComponent implements OnInit, OnDestroy {
     let obj = {
       ...this.presuntoInvolucrado.involucradoForm.value,
     };
-
+    console.log("objeto involucrado -> ", obj);
     obj.idInvolucrado = Number(obj.idInvolucrado);
     obj.idSolicitudServicio = Number(obj.idSolicitudServicio);
     obj.tipoDocumento = Number(obj.tipoDocumento);
@@ -242,6 +256,8 @@ export class RegistroInvolucradosPardComponent implements OnInit, OnDestroy {
     obj.departamentoExp = Number(obj.departamentoExp);
     obj.municipioExp = Number(obj.municipioExp);
     obj.esVictima = Boolean(JSON.parse(obj.esVictima));
+    obj.esRepresentante = Boolean(JSON.parse(obj.esRepresentante));
+
     obj.telefono = String(obj.telefono);
 
     return obj;
