@@ -175,7 +175,7 @@ export class PreguntasComponent implements OnInit, OnChanges {
         esVictima: ["no", [Validators.required]],
         id_tipo_entidad: [null, [Validators.required]],
         relacionParentescoAgresor: ["", [Validators.required]],
-        adjunto: ["", [Validators.required]],
+        adjunto: [""],
         conviveConAgresor: ["no", []],
         esCompetenciaComisaria: ["no", [Validators.required]],
         idtipoTramite: "",

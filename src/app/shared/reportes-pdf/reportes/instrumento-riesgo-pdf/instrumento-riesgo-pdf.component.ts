@@ -118,7 +118,6 @@ export class InstrumentoRiesgoPdfComponent implements AfterViewInit, OnChanges {
     const result = await lastValueFrom(
       this.reportesService.getInstrumentoRiesgo(this.idSolicitud)
     );
-    console.log("result", result);
     if (result && result.statusCode == 200) {
       this.reporte = result.data;
       this.agresor = this.reporte ? this.reporte.agresor : null;
