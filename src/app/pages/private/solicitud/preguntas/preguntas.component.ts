@@ -175,7 +175,7 @@ export class PreguntasComponent implements OnInit, OnChanges {
         esVictima: ["no", [Validators.required]],
         id_tipo_entidad: [null, [Validators.required]],
         relacionParentescoAgresor: ["", [Validators.required]],
-        adjunto: ["", [Validators.required]],
+        adjunto: ["", []],
         conviveConAgresor: ["no", []],
         esCompetenciaComisaria: ["no", [Validators.required]],
         idtipoTramite: "",
@@ -189,6 +189,7 @@ export class PreguntasComponent implements OnInit, OnChanges {
           validaciones.validarClasifiqueTramite,
           validaciones.validarContextoFamiliar,
           validaciones.validarJustifique,
+          validaciones.validarAdjunto,
         ],
       },
     );
@@ -227,6 +228,7 @@ export class PreguntasComponent implements OnInit, OnChanges {
     this.sharedService
       .ObtenerSolicitudDetalle(this.idSolicitud)
       .subscribe((resp) => {
+        console.log(resp);
         this.myForm.controls["fechaSolicitud"].setValue(
           resp.data.fecha_solicitud,
         );
@@ -267,7 +269,7 @@ export class PreguntasComponent implements OnInit, OnChanges {
       });
   }
 
-  private cargarAdjunto(base64: string) {
+  public cargarAdjunto(base64: string) {
     this.myForm.patchValue({ adjunto: base64 });
   }
 
@@ -337,6 +339,11 @@ export class PreguntasComponent implements OnInit, OnChanges {
    */
   public isRequiredJustifique(): boolean {
     return this.myForm.hasError("requiredJustifique");
+  }
+
+  public isRequiredAdjunto(): boolean {
+    console.log(this.myForm);
+    return this.myForm.hasError("requiredAdjunto");
   }
 
   /**

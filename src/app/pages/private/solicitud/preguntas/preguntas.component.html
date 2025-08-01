@@ -115,6 +115,9 @@
           [textoCargar]="'Cargar adjunto'"
            matTooltip="Cargar adjunto"
         ></app-carga-archivo>
+        <div class="msj-req" *ngIf="isRequiredAdjunto() && mostrarValidaciones" >
+            {{msgObligatorio}}
+        </div>
       </div>
     </div>
 
