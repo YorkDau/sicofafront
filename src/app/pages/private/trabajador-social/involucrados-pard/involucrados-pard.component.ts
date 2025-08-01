@@ -123,7 +123,9 @@ export class InvolucradosPARDComponent implements OnInit {
         apellidos: d.primerApellido + ' ' + d.segundoApellido,
         tipoDocumento: d.tipoDocumento,
         numeroDocumento: d.numeroDocumento,
-        tipoInvolucrado: d.esVictima ? 'Accionante' : 'Accionado',
+        tipoInvolucrado:
+          (d.esVictima ? 'Accionante' : 'Accionado') +
+          (d.esRepresentante ? ' - Rep. Legal' : ''),
       });
     });
 

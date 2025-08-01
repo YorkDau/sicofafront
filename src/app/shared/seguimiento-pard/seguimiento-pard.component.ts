@@ -191,7 +191,6 @@ public onConclusionChange(value: string): void {
       next: (data: ResponseInterface) => {
         if (data.statusCode === CodigosRespuesta.OK) {
           this.usuarioLogueado = `${data.data.nombres} ${data.data.apellidos}`;
-          console.log('Usuario logueado:', this.usuarioLogueado);
         } else {
           this.msgError();
         }
@@ -225,7 +224,6 @@ public onConclusionChange(value: string): void {
     }
   private async cerrarActuacion() {
   const medidasResueltas = this.obtenerMedidasParaCierre();
-  console.log('Medidas a guardar:', medidasResueltas);
 
   const guardado = await this.guardarMedidasPard(medidasResueltas);
 
@@ -265,9 +263,8 @@ private obtenerMedidasParaCierre(): MedidasInterface[] {
       comentario: this.myForm.get('justificacion')?.value,
       medidasDeAtencion: [],
       medidasDeEstabilizacion: [],
-      medidasDeProteccion: medidas, // 👈 usamos solo esta lista
+      medidasDeProteccion: medidas,
     };
-    console.log('Guardando medidas:', obj);
     const res: ResponseInterface = await lastValueFrom(
       this.seguimientoService.guardarMedidasSeguimiento(obj)
     );

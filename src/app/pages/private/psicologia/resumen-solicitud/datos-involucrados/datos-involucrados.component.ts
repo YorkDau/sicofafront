@@ -192,7 +192,6 @@ export class DatosInvolucradosComponent implements AfterViewInit {
       .getInvolucradoVictima(this.tarea.idSolicitud)
       .subscribe((resultVictima) => {
         if (resultVictima && resultVictima.statusCode === CodigosRespuesta.OK) {
-          console.log(this.victima = resultVictima.data);
           
           this.setFormDataVictima();
           this.cargaSelectPaises(this.victima.tipoDocumento ?? 0);
@@ -308,7 +307,6 @@ export class DatosInvolucradosComponent implements AfterViewInit {
       ...values
       
     } = this.nullToEmptyString(this.victima);
-    console.log('Values a setear en el form:', values);
     this.formVictima.patchValue({
       ...values,
       regimen: values.idRegimen,
@@ -929,11 +927,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
       );
       return false;
     }
-    console.log(this.formVictima.valid, !camposRequeridos.length, !errorHijos);
-    console.log('Campos inválidos:',SharedFunctions.findInvalidControls(this.formVictima)
-    );
-    console.log('Campos obligatorios vacíos:',this.validarCamposObligatorios(this.formVictima)
-    );
+    
     return this.formVictima.valid && !camposRequeridos.length && !errorHijos;
   }
 
@@ -975,7 +969,6 @@ export class DatosInvolucradosComponent implements AfterViewInit {
         }
       }
     });
-    console.log(temp);
     return temp;
   }
 
