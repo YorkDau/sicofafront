@@ -205,7 +205,7 @@
         <label for="idtipoTramite" class="form-label">
           Clasifique el trámite del caso*
         </label>
-        <select id="idtipoTramite" formControlName="idtipoTramite" class="form-select" [ngClass]="{
+        <select id="idtipoTramite" name="idtipoTramite" formControlName="idtipoTramite" class="form-select" [ngClass]="{
             'input-req': isRequiredClasifiqueTramite() && mostrarValidaciones
           }">
           <option disabled value="">Seleccione</option>

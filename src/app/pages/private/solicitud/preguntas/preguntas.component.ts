@@ -122,6 +122,7 @@ export class PreguntasComponent implements OnInit, OnChanges {
       });
 
     this.myForm.controls["idtipoTramite"].valueChanges.subscribe((resp) => {
+      console.log(resp);
       const idtipoTramite = resp as number;
       if (idtipoTramite != 91) {
         this.myForm.controls["sexoAfectado"].setValue("NA");
@@ -137,9 +138,10 @@ export class PreguntasComponent implements OnInit, OnChanges {
     });
 
     this.myForm.controls["esVictima"].valueChanges.subscribe((value) => {
-      this.myForm.controls["id_tipo_entidad"].setValue(null);
+      this.myForm.controls["id_tipo_entidad"].setValue("");
       if (value === "no") {
         this.myForm.controls["id_tipo_entidad"].enable();
+        this.myForm.controls["adjunto"].setValue("");
       } else {
         this.myForm.controls["id_tipo_entidad"].disable();
       }
@@ -173,7 +175,7 @@ export class PreguntasComponent implements OnInit, OnChanges {
         fechaHechoViolento: ["", [Validators.required]],
         descripcionHechos: ["", [Validators.required]],
         esVictima: ["no", [Validators.required]],
-        id_tipo_entidad: [null, [Validators.required]],
+        id_tipo_entidad: ["", [Validators.required]],
         relacionParentescoAgresor: ["", [Validators.required]],
         adjunto: ["", []],
         conviveConAgresor: ["no", []],
@@ -228,7 +230,6 @@ export class PreguntasComponent implements OnInit, OnChanges {
     this.sharedService
       .ObtenerSolicitudDetalle(this.idSolicitud)
       .subscribe((resp) => {
-        console.log(resp);
         this.myForm.controls["fechaSolicitud"].setValue(
           resp.data.fecha_solicitud,
         );
@@ -253,9 +254,11 @@ export class PreguntasComponent implements OnInit, OnChanges {
         this.myForm.controls["esCompetenciaComisaria"].setValue(
           resp.data.esCompetenciaComisaria == true ? "si" : "no",
         );
-        this.myForm.controls["idtipoTramite"].setValue(resp.data.idtipoTramite);
+        this.myForm.controls["idtipoTramite"].setValue(
+          resp.data.idtipoTramite ?? 0,
+        );
         this.myForm.controls["idContextofamiliar"].setValue(
-          resp.data.idContextofamiliar,
+          resp.data.idContextofamiliar ?? "",
         );
         this.myForm.controls["esNecesarioRemitir"].setValue(
           resp.data.esNecesarioRemitir == true ? "si" : "no",
@@ -342,7 +345,6 @@ export class PreguntasComponent implements OnInit, OnChanges {
   }
 
   public isRequiredAdjunto(): boolean {
-    console.log(this.myForm);
     return this.myForm.hasError("requiredAdjunto");
   }
 
@@ -527,6 +529,7 @@ export class PreguntasComponent implements OnInit, OnChanges {
   }
 
   private get getDataPost(): SolicitudCiudadanoInterface {
+    console.log("value -> ", this.myForm.value);
     return {
       idCiudadano: this.id_ciudadano,
       idComisaria: this.user.idComisaria,
@@ -554,10 +557,9 @@ export class PreguntasComponent implements OnInit, OnChanges {
         this.myForm.get("esCompetenciaComisaria")?.value == "si" ? true : false,
       noCompetenciaDescripcion: this.myForm.get("noCompetenciaDescripcion")
         ?.value,
-      idtipoTramite:
-        this.myForm.get("idtipoTramite")?.value == ""
-          ? 0
-          : this.myForm.get("idtipoTramite")?.value,
+      idtipoTramite: this.myForm.get("idtipoTramite")?.value
+        ? 0
+        : this.myForm.get("idtipoTramite")?.value,
       idContextofamiliar:
         this.myForm.get("idContextofamiliar")?.value == ""
           ? 0
