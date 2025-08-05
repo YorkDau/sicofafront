@@ -232,8 +232,6 @@ export class CrearModifcarUsuariosComponent implements OnInit {
       if (this.myForm.invalid) {
         this.mostrarValidaciones = true;
       } else {
-        console.log ("Guardando usuario nuevo")
-        console.log(this.getDataPostCrearUsuario);
         this.crearNuevoUsuario(this.getDataPostCrearUsuario);
       }
     } else {
@@ -267,7 +265,6 @@ export class CrearModifcarUsuariosComponent implements OnInit {
     const perfiles = this.myForm.get('perfil')?.value;
     const tipoDeDocumento = parseInt(this.myForm.get('tipoDocumento')?.value);
     const numeroTarjet = this.myForm.get('numeroTarjetaProfesional')?.value;
-    console.log("numeroTarjet", numeroTarjet);
     return {
       nombres: this.myForm.get('primerNombre')?.value + ' ' + this.myForm.get('segundoNombre')?.value,
       apellidos: this.myForm.get('primerApellido')?.value + ' ' + this.myForm.get('segundoApellido')?.value,

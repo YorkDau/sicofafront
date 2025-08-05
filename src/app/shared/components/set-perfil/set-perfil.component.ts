@@ -118,10 +118,8 @@ export class SetPerfilComponent implements OnInit {
         nombrePerfil: nombreLegiblePerfil,
         refresh: true,
       });
-      console.log('SetPerfilComponent LOG: Modal cerrado con éxito.');
     } else {
       this.mostrarValidaciones = true;
-      console.log('SetPerfilComponent LOG: Formulario inválido.');
     }
   }
 

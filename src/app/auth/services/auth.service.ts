@@ -78,10 +78,8 @@ export class AuthService {
       const storedId = sessionStorage.getItem(environment.SELECTED_COMISARIA_ID);
       if (storedId) {
         this.id_comisaria = Number(storedId);
-        console.log('AuthService LOG: getselectComisariaValue cargado desde sessionStorage:', this.id_comisaria);
       }
     }
-    console.log('AuthService LOG: getselectComisariaValue devolviendo:', this.id_comisaria);
     return this.id_comisaria;
   }
 
@@ -90,10 +88,8 @@ export class AuthService {
       const storedProfileName = sessionStorage.getItem(environment.SELECTED_PROFILE_NAME);
       if (storedProfileName) {
         this.nombrePerfilSeleccionado = storedProfileName;
-        console.log('AuthService LOG: getselectProfileName cargado desde sessionStorage:', this.nombrePerfilSeleccionado);
       }
     }
-    console.log('AuthService LOG: getselectProfileName devolviendo:', this.nombrePerfilSeleccionado);
     return this.nombrePerfilSeleccionado;
   }
 

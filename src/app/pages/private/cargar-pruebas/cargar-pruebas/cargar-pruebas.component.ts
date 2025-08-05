@@ -93,7 +93,6 @@ export class CargarPruebasComponent implements OnInit {
       'Pruebas_Periciales'
     );
     this.listaPruebasPericiales = result;
-    console.log("PRUEBAS PERICIALES", this.listaPruebasPericiales);
   }
 
   /**
@@ -147,7 +146,6 @@ export class CargarPruebasComponent implements OnInit {
       const idInvolucrado = this.form.get('idInvolucrado')?.value;
       const idPruebaPericial = this.form.get('idPruebaPericial')?.value ;
 
-      console.log("ID PRUEBA PERICIAL", idPruebaPericial);
       this.cargarPruebasService
         .anadirPrueba({
           entrada: base64,

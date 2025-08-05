@@ -128,7 +128,6 @@ export class ConsultaApelacionesComponent implements OnInit {
             if (data.statusCode === CodigosRespuesta.OK) {
               if (data.data.datosPaginados.length > 0) {
                 this.listaCasos = data.data.datosPaginados;
-                console.log(this.listaCasos)
                 this.dataSource = new MatTableDataSource(this.listaCasos);
                 this.dataSource.paginator = this.paginator;
               } else {
@@ -301,7 +300,6 @@ export class ConsultaApelacionesComponent implements OnInit {
    *@description redirecciona al historial del ciudadano
    */
   verHistorialCiudadano(objSolicitud: any) {
-    console.log(objSolicitud)
     let redirreccion = '';
     sessionStorage.setItem('info', JSON.stringify(objSolicitud));
     if (this.perfil === 'ABO') {
@@ -313,7 +311,6 @@ export class ConsultaApelacionesComponent implements OnInit {
     } else if (this.perfil === 'TSO') {
       redirreccion = 'trabajador-social';
     }
-    console.log(redirreccion)
     this.router.navigate([`${redirreccion}/observacion/apelaciones`, objSolicitud.id_solicitud_servicio]);
   }
 

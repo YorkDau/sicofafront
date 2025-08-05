@@ -112,11 +112,7 @@ public async getDescripcionHechos() {
       this.modales.modalInformacion('La fecha recibida es inválida.');
       return;
     }
-    console.log('Fecha parseada:', fechaParseada);
-    console.log('Hora original:', result.data.hora);
-    console.log('Hora transformada:', this.datePipe.transform(fechaParseada, 'HH:mm'));
-    
-
+  
     this.formDescripcionHechos.patchValue({
       fecha: fechaParseada,
       hora: this.datePipe.transform(fechaParseada, 'HH:mm'),
@@ -157,9 +153,7 @@ public async getDescripcionHechos() {
   }
 
   async guardar() {
-    console.log("Guardando datos...");
     if (this.isValidForm()) {
-      console.log("Formulario válido, guardando...");
       this.showOnSubmitIsRequired = false;
       await this.actualizarDescripcionHechos()
         .then((success) => {
@@ -169,8 +163,6 @@ public async getDescripcionHechos() {
           this.modales.modalInformacion(Mensajes.MENSAJE_ERROR_G);
         });
     } else {
-      console.log(this.formDescripcionHechos);
-      console.log(this.camposObligatorios);
       this.showOnSubmitIsRequired = true;
     }
   }

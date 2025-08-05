@@ -71,9 +71,7 @@ export class ModalDetalleSolicitudCiudadanoComponent implements OnInit {
       }
 
       this.detalleSolicitud = result.data;
-      console.log('Datos de solicitud cargados:', this.detalleSolicitud);
     } catch (error: any) {
-      console.error('Error al obtener detalle de solicitud:', error);
       SharedFunctions.getErrorMessage(error);
       this.modales.modalInformacion(Mensajes.MENSAJE_ERROR_G);
       this.cerrarModal();
@@ -85,12 +83,10 @@ export class ModalDetalleSolicitudCiudadanoComponent implements OnInit {
   private async cargarAnexos() {
     try {
       if (this.detalleSolicitud?.anexos) {
-        console.log('Anexos encontrados en detalleSolicitud:', this.detalleSolicitud.anexos);
         this.mapearAnexos(this.detalleSolicitud.anexos);
         return;
       }
   
-      console.log('Obteniendo anexos mediante ConsultaGeneral...');
       const result = await lastValueFrom(
         this.sharedService.ConsultaGeneral(this.data.id_solicitud)
       );
@@ -101,7 +97,6 @@ export class ModalDetalleSolicitudCiudadanoComponent implements OnInit {
       }
   
       if (result.data.anexos) {
-        console.log('Anexos obtenidos del servicio:', result.data.anexos);
         this.mapearAnexos(result.data.anexos);
       } else {
         console.warn('El servicio no devolvió anexos en la respuesta');
@@ -121,7 +116,6 @@ export class ModalDetalleSolicitudCiudadanoComponent implements OnInit {
     }));
     
     this.updatePaginatedAnexos();
-    console.log('Anexos mapeados:', this.anexos);
   }
 
   private updatePaginatedAnexos(): void {

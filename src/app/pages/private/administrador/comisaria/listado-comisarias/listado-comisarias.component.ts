@@ -65,8 +65,6 @@ export class ListadoComisariasComponent implements OnInit {
 
     this.store.select('departamento').subscribe(({ departamento }) => {
       this.listaDepto = departamento;
-      console.log("DEPARTAMENTOO STORE")
-      console.log(this.listaDepto);
     });
   }
 

@@ -186,7 +186,6 @@ export class PresuntoInvolucradoComponent implements OnInit, OnDestroy {
    */
   private cargarFormEdicion(): void {
     const objInvolucrado = JSON.parse(sessionStorage.getItem('inv_pard')!);
-    console.log('objInvolucrado', objInvolucrado);
 
     if (objInvolucrado) {
       this.trabajadorSocialService.emitirAgresor(

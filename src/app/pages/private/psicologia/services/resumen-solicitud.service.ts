@@ -19,7 +19,6 @@ export class ResumentCasoPsicologiaService {
   public getDetallesCiudadanoAccionante(
     id_solicitud: number | string
   ): Observable<ResponseInterface> {
-    console.log("id",id_solicitud);
     return this.http
       .get<ResponseInterface>(
         `${this.api}/EvaluacionPsicologica/ObtenerAccionante/${id_solicitud}`

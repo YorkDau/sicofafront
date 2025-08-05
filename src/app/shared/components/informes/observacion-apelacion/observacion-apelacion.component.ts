@@ -29,7 +29,6 @@ export class ObservacionApelacionComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.objSol);
     this.cargarForm();
     this.consultarObservaciones();
   }
