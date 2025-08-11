@@ -97,7 +97,7 @@ export class HomeComponent implements OnInit, OnDestroy {
               .split("T")
               .join(" ")} Solicitud #${
               programacion.codigoSolicitud
-            } Programacion #${programacion.idProgramacion}
+            } Programacion #${programacion.idProgramacion} Audiencia #${programacion.audiencia}
             `,
         color: {
           primary: programacion.esAgendaTarea ? "#1e90ff" : "#b5b5b5",
