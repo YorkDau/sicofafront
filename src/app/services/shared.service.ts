@@ -188,7 +188,6 @@ export class SharedService {
   public guardarObservacionesApelaciones(
     observacionApelacion: any
   ): Observable<any> {
-    console.log(observacionApelacion);
     return this.http.post<any>(
       `${PATH_SERVER}/Apelaciones/GuardarObservacionesApelaciones`,
       observacionApelacion

@@ -110,11 +110,9 @@ export class RegistroInvolucradosPardComponent implements OnInit, OnDestroy {
     if (this.derechosP1) {
       if (this.derechosP1.derechosPrimero.invalid) {
         this.trabajadorSocialService.emitirDerechosP1(true);
-        console.log("Derechos P1 inválido. Errores:", this.derechosP1.derechosPrimero.errors, this.derechosP1.derechosPrimero);
       } else {
         this.trabajadorSocialService.emitirDerechosP1(false);
         resultado = true;
-        console.log("Derechos P1 válido y exitoso.");
       }
     }
     return resultado;
@@ -129,11 +127,9 @@ export class RegistroInvolucradosPardComponent implements OnInit, OnDestroy {
     if (this.derechosP2) {
       if (this.derechosP2.derechosSegundo.invalid) {
         this.trabajadorSocialService.emitirDerechosP2(true);
-        console.log("Derechos P2 inválido. Errores:", this.derechosP2.derechosSegundo.errors, this.derechosP2.derechosSegundo);
       } else {
         this.trabajadorSocialService.emitirDerechosP2(false);
         resultado = true;
-        console.log("Derechos P2 válido y exitoso.");
       }
     }
     return resultado;
@@ -236,7 +232,6 @@ export class RegistroInvolucradosPardComponent implements OnInit, OnDestroy {
     let obj = {
       ...this.presuntoInvolucrado.involucradoForm.value,
     };
-    console.log("objeto involucrado -> ", obj);
     obj.idInvolucrado = Number(obj.idInvolucrado);
     obj.idSolicitudServicio = Number(obj.idSolicitudServicio);
     obj.tipoDocumento = Number(obj.tipoDocumento);

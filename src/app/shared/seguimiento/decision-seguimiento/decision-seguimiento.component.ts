@@ -554,7 +554,6 @@ export class DecisionSeguimientoComponent implements OnInit {
    * @description metodo que devuelve las medias resultas para poder guardarlas
    */
   private get getMedidasResueltas(): listaMedidasInterface {
-    console.log(this.medidasData);
     return {
       idTareaInstrumentros: null,
       idSolicitudServicio: this.medidasData!.idSolicitudServicio,

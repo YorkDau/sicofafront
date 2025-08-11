@@ -360,7 +360,6 @@ export class RegistrarCiudadanoComponent implements OnInit {
    */
   public isColombiano(event: any) {
     this.cColombiano = false;
-    console.log('ES COLOMBIANO: ', event.target.value);
     this.myForm.get('pais')?.setValue('');
     if (event.target.value != 0) {
       this.cargaSelectPaises(event.target.value);
@@ -680,7 +679,6 @@ export class RegistrarCiudadanoComponent implements OnInit {
    * @description Solo permite ingresar numeros
    */
   public soloNumero(campo: string) {
-    console.log(campo);
     SharedFunctions.soloNumero(campo, this.myForm);
   }
   public filtraDocumentoSegunTipo(campo: string, campoSelect: string) {

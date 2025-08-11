@@ -39,12 +39,10 @@ export class CircunstanciasAgravantesComponent implements AfterViewInit {
   private async getListaFuerzasArmadas() {
     const result = await this.sharedService.getDominioFromLocal('FuerzasArmadas');
     this.listaFuerzasArmadas = result;
-    console.log("FuerzasArmadas",result)
   }
     private async getListaAntecedentesDisciplinarios() {
     const result = await this.sharedService.getDominioFromLocal('AntecedentesDisciplinarios');
     this.listaAntecedentesDisciplinarios = result;
-    console.log("AntecedentesDisciplinarios",result)
   }
 
   public isFuerzasArmadas(descripcion: string): boolean {
