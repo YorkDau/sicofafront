@@ -192,7 +192,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
       .getInvolucradoVictima(this.tarea.idSolicitud)
       .subscribe((resultVictima) => {
         if (resultVictima && resultVictima.statusCode === CodigosRespuesta.OK) {
-          
+          this.victima = resultVictima.data;
           this.setFormDataVictima();
           this.cargaSelectPaises(this.victima.tipoDocumento ?? 0);
           this.sharedService
