@@ -125,33 +125,36 @@
       </select>
     </div>
 
-    <div class="col-lg-3 mb-3">
-      <label for="vicAgr" class="form-label">Tipo involucrado</label>
-      <select
-        id="vicAgr"
-        class="form-select"
-        formControlName="esVictima"
-        (change)="cambioInvolucrado($event.target.value)"
-      >
-        <option [value]="true">Accionante (Victima/Rep. Legal)</option>
-        <option [value]="false">Accionado</option>
-      </select>
-    </div>
+<div class="col-lg-3 mb-3">
+  <label for="vicAgr" class="form-label">Tipo involucrado</label>
+  <select
+    id="vicAgr"
+    class="form-select"
+    formControlName="esVictima"
+  >
+    <option [ngValue]="true">Accionante (Victima/Rep. Legal)</option>
+    <option [ngValue]="false">Accionado</option>
+  </select>
+</div>
 
-    <!-- ✅ Checkbox centrado verticalmente -->
-    <div class="col-lg-3 d-flex align-items-end justify-content-start mb-3">
-      <div class="form-check">
-        <input
-          type="checkbox"
-          class="form-check-input"
-          id="esRepresentante"
-          formControlName="esRepresentante"
-        />
-        <label class="form-check-label ms-2" for="esRepresentante">
-          Es representante legal
-        </label>
-      </div>
-    </div>
+<!-- Mostrar solo si esVictima es true -->
+<div
+  class="col-lg-3 d-flex align-items-end justify-content-start mb-3"
+  *ngIf="involucradoForm.get('esVictima')?.value"
+>
+  <div class="form-check">
+    <input
+      type="checkbox"
+      class="form-check-input"
+      id="esRepresentante"
+      formControlName="esRepresentante"
+    />
+    <label class="form-check-label ms-2" for="esRepresentante">
+      Es representante legal
+    </label>
+  </div>
+</div>
+
 
     <div class="col-lg-3"></div>
   </div>
@@ -236,7 +239,7 @@
         placeholder="Edad"
         maxlength="3"
         formControlName="edad"
-        oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.value.length);"
+        oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
         [ngClass]="{
           'input-req': (isMin('edad') || isMax('edad') || isRequired('edad')) && mostrarValidaciones
         }"
