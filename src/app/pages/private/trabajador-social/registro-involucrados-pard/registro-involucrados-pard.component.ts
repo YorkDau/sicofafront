@@ -33,7 +33,7 @@ export class RegistroInvolucradosPardComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private dialog: MatDialog,
-    private trabajadorSocialService: TrabajadorSocialService,
+    private trabajadorSocialService: TrabajadorSocialService
   ) {}
 
   ngOnDestroy(): void {
@@ -41,18 +41,24 @@ export class RegistroInvolucradosPardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.escucharCambiosInvolucrado();
     this.objInvolucrado = JSON.parse(sessionStorage.getItem("inv_pard")!);
   }
 
   /**
-   * @description muestra modal cancelar
+   * Escucha cambios desde el hijo para decidir si mostrar formularios hijos
    */
+  public evaluarFormularioHijo(event: {
+    esVictima: boolean;
+    esRepresentante: boolean;
+  }): void {
+    this.mostrarTodoForm = event.esVictima && !event.esRepresentante;
+  }
+
   public cancelar(): void {
     Modales.modalConfirmacion(
       Mensajes.MENSAJE_CANCELAR_SOL,
       this.dialog,
-      ImagenesModal.EXCLAMACION,
+      ImagenesModal.EXCLAMACION
     ).subscribe((res) => {
       if (res) {
         this.redireccionar();
@@ -61,20 +67,15 @@ export class RegistroInvolucradosPardComponent implements OnInit, OnDestroy {
     });
   }
 
-  /**
-   * @description redirecciona a la ruta casos
-   */
   private redireccionar(): void {
     this.router.navigate(["../trabajador-social/involucrados-pard"]);
   }
 
-  /**
-   * @description valida y emite los errores en los formularios
-   */
   public validarFormularios(): void {
     const resInvolucrado = this.validarInvolucradosForm();
     const resDerechos1 = this.validarDerechosP1();
     const resDerechos2 = this.validarDerechosP2();
+
     if (resDerechos1 && resDerechos2 && resInvolucrado) {
       if (this.objInvolucrado) this.editarInvolucrado();
       else this.guardarInvolucrado();
@@ -84,16 +85,12 @@ export class RegistroInvolucradosPardComponent implements OnInit, OnDestroy {
     }
   }
 
-  /**
-   * @description validar formulario presunto involucrado
-   */
   private validarInvolucradosForm(): boolean {
     let resultado = false;
     if (this.presuntoInvolucrado) {
       const form = this.presuntoInvolucrado.involucradoForm;
       if (form.invalid) {
         this.trabajadorSocialService.emitirInvolucrados(true);
-
       } else {
         this.trabajadorSocialService.emitirInvolucrados(false);
         resultado = true;
@@ -102,9 +99,6 @@ export class RegistroInvolucradosPardComponent implements OnInit, OnDestroy {
     return resultado;
   }
 
-  /**
-   * @description validar formulario derechos parte 1
-   */
   private validarDerechosP1(): boolean {
     let resultado = false;
     if (this.derechosP1) {
@@ -118,10 +112,6 @@ export class RegistroInvolucradosPardComponent implements OnInit, OnDestroy {
     return resultado;
   }
 
-  /**
-   * @description validar formulario derechos parte 2
-   * @returns true si el formulario es válido, false en caso contrario
-   */
   private validarDerechosP2(): boolean {
     let resultado = false;
     if (this.derechosP2) {
@@ -135,25 +125,6 @@ export class RegistroInvolucradosPardComponent implements OnInit, OnDestroy {
     return resultado;
   }
 
-  /**
-   * @description escucha cambios formulario de involucrados
-   */
-  private escucharCambiosInvolucrado(): void {
-    this.involucradoSub = this.trabajadorSocialService.agresor$.subscribe(
-      (v) => {
-        if (!v) {
-          this.mostrarTodoForm = false;
-        } else {
-          this.mostrarTodoForm = true;
-        }
-      },
-    );
-  }
-
-  /**
-   * @description arma el objeto para insertar o editar
-   * @returns objeto para insertar o editar
-   */
   private armarObjGuardarActualizar(): any {
     const principal = this.armarObjetoPrincipal();
     const {
@@ -186,12 +157,10 @@ export class RegistroInvolucradosPardComponent implements OnInit, OnDestroy {
         infoAdicional: { ...obj.infoAdicional, ...derechos },
       };
     }
+
     return obj;
   }
 
-  /**
-   * @description llama servicio que guarda edita involucrado
-   */
   private guardarInvolucrado(): void {
     this.trabajadorSocialService
       .guardarInvolucradoComplementaria(this.armarObjGuardarActualizar())
@@ -201,7 +170,7 @@ export class RegistroInvolucradosPardComponent implements OnInit, OnDestroy {
             Modales.modalExito(
               Mensajes.MENSAJE_OK,
               ImagenesModal.OK,
-              this.dialog,
+              this.dialog
             );
             this.redireccionar();
           } else {
@@ -214,42 +183,32 @@ export class RegistroInvolucradosPardComponent implements OnInit, OnDestroy {
       });
   }
 
-  /**
-   * @description muestra modal error
-   */
   private modalError(): void {
     Modales.modalInformacion(
       Mensajes.MENSAJE_ERROR_G,
       this.dialog,
-      ImagenesModal.EXCLAMACION,
+      ImagenesModal.EXCLAMACION
     );
   }
 
-  /**
-   * @description arma objeto casteado
-   */
   private armarObjetoPrincipal(): any {
     let obj = {
       ...this.presuntoInvolucrado.involucradoForm.value,
     };
+
     obj.idInvolucrado = Number(obj.idInvolucrado);
     obj.idSolicitudServicio = Number(obj.idSolicitudServicio);
     obj.tipoDocumento = Number(obj.tipoDocumento);
-    // obj.idLugarExpedicion = Number(obj.idLugarExpedicion);
     obj.paisExp = Number(obj.paisExp);
     obj.departamentoExp = Number(obj.departamentoExp);
     obj.municipioExp = Number(obj.municipioExp);
-    obj.esVictima = Boolean(JSON.parse(obj.esVictima));
-    obj.esRepresentante = Boolean(JSON.parse(obj.esRepresentante));
-
+    obj.esVictima = Boolean(obj.esVictima);
+    obj.esRepresentante = Boolean(obj.esRepresentante);
     obj.telefono = String(obj.telefono);
 
     return obj;
   }
 
-  /**
-   * @description llama servicio que edita involucrado
-   */
   private editarInvolucrado(): void {
     this.trabajadorSocialService
       .actualizarInvolucradoComplementaria(this.armarObjGuardarActualizar())
@@ -259,7 +218,7 @@ export class RegistroInvolucradosPardComponent implements OnInit, OnDestroy {
             Modales.modalExito(
               Mensajes.MENSAJE_OK,
               ImagenesModal.OK,
-              this.dialog,
+              this.dialog
             );
             this.redireccionar();
           } else {

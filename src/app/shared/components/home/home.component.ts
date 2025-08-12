@@ -57,19 +57,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-<<<<<<< Updated upstream
     console.log("HomeComponent LOG: ngOnInit llamado.");
     this.authService.selectedComisaria$
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         console.log("HomeComponent LOG: selectedComisaria$ emitió.");
         this.checkIfAuxiliarProfileIsSelected();
-=======
-    this.authService.selectedComisaria$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.checkIfAuxiliarProfileIsSelected(); 
->>>>>>> Stashed changes
       });
     this.obtenerAudiencias();
     this.checkIfAuxiliarProfileIsSelected();
