@@ -1,43 +1,43 @@
-import { StepperOrientation } from '@angular/cdk/stepper';
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatStepper } from '@angular/material/stepper';
-import { Title } from '@angular/platform-browser';
-import { Router } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
-import { CodigosRespuesta, Mensajes, Regex } from '../../../../../constants';
-import { RecepcionCasosInterface } from '../../../../../interfaces/recepcion-casos.interface';
-import { SharedService } from '../../../../../services/shared.service';
-import { SharedFunctions } from '../../../../../shared/functions';
-import { Modales } from '../../../../../shared/modals';
+import { StepperOrientation } from "@angular/cdk/stepper";
+import { AfterViewInit, Component, ViewChild } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { MatStepper } from "@angular/material/stepper";
+import { Title } from "@angular/platform-browser";
+import { Router } from "@angular/router";
+import { Observable, Subject } from "rxjs";
+import { CodigosRespuesta, Mensajes, Regex } from "../../../../../constants";
+import { RecepcionCasosInterface } from "../../../../../interfaces/recepcion-casos.interface";
+import { SharedService } from "../../../../../services/shared.service";
+import { SharedFunctions } from "../../../../../shared/functions";
+import { Modales } from "../../../../../shared/modals";
 import {
   DepartamentoInterface,
   DominioInterface,
   MunicipioInterface,
   PaisInterface,
-} from '../../../interfaces/ciudadano.interface';
-import { ActualizacionInvolucrado } from '../../interfaces/actualizacion-involucrado.interface';
+} from "../../../interfaces/ciudadano.interface";
+import { ActualizacionInvolucrado } from "../../interfaces/actualizacion-involucrado.interface";
 import {
   HijoInvolucrado,
   InvolucradoDTO,
-} from '../../interfaces/involucrado.interface';
-import { IdentificacionDelRiesgoService } from '../../services/identificacion-del-riesgo.service';
+} from "../../interfaces/involucrado.interface";
+import { IdentificacionDelRiesgoService } from "../../services/identificacion-del-riesgo.service";
 
 @Component({
-  selector: 'app-datos-involucrados',
-  templateUrl: './datos-involucrados.component.html',
-  styleUrls: ['./datos-involucrados.component.scss'],
+  selector: "app-datos-involucrados",
+  templateUrl: "./datos-involucrados.component.html",
+  styleUrls: ["./datos-involucrados.component.scss"],
 })
 export class DatosInvolucradosComponent implements AfterViewInit {
-  @ViewChild('stepper') stepper!: MatStepper;
-  public orientation: StepperOrientation = 'horizontal';
+  @ViewChild("stepper") stepper!: MatStepper;
+  public orientation: StepperOrientation = "horizontal";
 
   public dateMax: Date = new Date();
   public dateMin: Date = new Date(
-    new Date().setDate(new Date().getDate() - 54750)
+    new Date().setDate(new Date().getDate() - 54750),
   ); //Fecha de hace 30 dias
   public tarea: RecepcionCasosInterface = JSON.parse(
-    sessionStorage.getItem('info')!
+    sessionStorage.getItem("info")!,
   );
 
   public agresor!: InvolucradoDTO;
@@ -75,33 +75,33 @@ export class DatosInvolucradosComponent implements AfterViewInit {
     private sharedService: SharedService,
     private identificacionDelRiesgoService: IdentificacionDelRiesgoService,
     private title: Title,
-    private router: Router
+    private router: Router,
   ) {
     this.title.setTitle(
-      'SICOFA - Información de involucrados - Actualizar información de involucrados'
+      "SICOFA - Información de involucrados - Actualizar información de involucrados",
     );
     if (window.screen.width <= 768) {
-      this.orientation = 'vertical';
+      this.orientation = "vertical";
     } else {
-      this.orientation = 'horizontal';
+      this.orientation = "horizontal";
     }
 
     this.formAgresor = this.formBuilder.group({
-      primerNombre: [{ value: '', disabled: false }, Validators.required],
-      segundoNombre: [{ value: '', disabled: false }],
-      primerApellido: [{ value: '', disabled: false }, Validators.required],
-      segundoApellido: [{ value: '', disabled: false }],
-      fechaNacimiento: [{ value: '', disabled: false }],
-      tipoDocumento: [{ value: '', disabled: false }],
-      numeroDocumento: [{ value: '', disabled: false }],
-      sexo: [{ value: '', disabled: false }, Validators.required],
+      primerNombre: [{ value: "", disabled: false }, Validators.required],
+      segundoNombre: [{ value: "", disabled: false }],
+      primerApellido: [{ value: "", disabled: false }, Validators.required],
+      segundoApellido: [{ value: "", disabled: false }],
+      fechaNacimiento: [{ value: "", disabled: false }],
+      tipoDocumento: [{ value: "", disabled: false }],
+      numeroDocumento: [{ value: "", disabled: false }],
+      sexo: [{ value: "", disabled: false }, Validators.required],
       //regimen: [{ value: '', disabled: false }, Validators.required],
-      identidadGenero: [{ value: '', disabled: false }],
-      idEscolaridad: [''],
-      ocupacion: [''],
-      llamameComo: [''],
+      identidadGenero: [{ value: "", disabled: false }],
+      idEscolaridad: [""],
+      ocupacion: [""],
+      llamameComo: [""],
       numeroHijos: [0],
-      cultura: [''],
+      cultura: [""],
       hijos: [
         [
           {
@@ -112,46 +112,46 @@ export class DatosInvolucradosComponent implements AfterViewInit {
           } as HijoInvolucrado,
         ],
       ],
-      descripcionOrganizacionCriminal: [''],
+      descripcionOrganizacionCriminal: [""],
       agresorOrganizacionCriminal: [false],
       edadAproximadaAgresor: [],
       // lugarExpedicion: [{ value: '', disabled: false }, [Validators.required]],
-      paisExp: [{ value: '', disabled: false }, [Validators.required]],
-      departamentoExp: [{ value: '', disabled: false }, [Validators.required]],
-      municipioExp: [{ value: '', disabled: false }, [Validators.required]],
-      fechaExpedicion: [{ value: '', disabled: false }, [Validators.required]],
+      paisExp: [{ value: "", disabled: false }, [Validators.required]],
+      departamentoExp: [{ value: "", disabled: false }, [Validators.required]],
+      municipioExp: [{ value: "", disabled: false }, [Validators.required]],
+      fechaExpedicion: [{ value: "", disabled: false }, [Validators.required]],
     });
 
     this.formVictima = this.formBuilder.group({
-      primerNombre: [{ value: '', disabled: false }, [Validators.required]],
-      segundoNombre: [{ value: '', disabled: false }],
-      primerApellido: [{ value: '', disabled: false }, [Validators.required]],
-      segundoApellido: [{ value: '', disabled: false }],
-      fechaNacimiento: [{ value: '', disabled: false }, [Validators.required]],
-      tipoDocumento: [{ value: '', disabled: false }, [Validators.required]],
-      numeroDocumento: [{ value: '', disabled: false }, [Validators.required]],
-      sexo: [{ value: '', disabled: false }, [Validators.required]],
-      regimen: [{ value: '', disabled: false }, []],
-      identidadGenero: [{ value: '', disabled: false }, [Validators.required]],
-      ocupacion: ['', Validators.required],
-      idEscolaridad: ['', Validators.required],
-      relacionPareja: ['', Validators.required],
-      relacionAgresor: ['', Validators.required],
-      descripcionRelacionAgresor: [''],
-      idDiscapacidad: [''],
-      descripcionDiscapacidad: [''],
-      embarazo: ['NO', Validators.required],
+      primerNombre: [{ value: "", disabled: false }, [Validators.required]],
+      segundoNombre: [{ value: "", disabled: false }],
+      primerApellido: [{ value: "", disabled: false }, [Validators.required]],
+      segundoApellido: [{ value: "", disabled: false }],
+      fechaNacimiento: [{ value: "", disabled: false }, [Validators.required]],
+      tipoDocumento: [{ value: "", disabled: false }, [Validators.required]],
+      numeroDocumento: [{ value: "", disabled: false }, [Validators.required]],
+      sexo: [{ value: "", disabled: false }, [Validators.required]],
+      regimen: [{ value: "", disabled: false }, []],
+      identidadGenero: [{ value: "", disabled: false }, [Validators.required]],
+      ocupacion: ["", Validators.required],
+      idEscolaridad: ["", Validators.required],
+      relacionPareja: ["", Validators.required],
+      relacionAgresor: ["", Validators.required],
+      descripcionRelacionAgresor: [""],
+      idDiscapacidad: [""],
+      descripcionDiscapacidad: [""],
+      embarazo: ["NO", Validators.required],
       mesesEmbarazo: [0, [Validators.max(9), Validators.min(0)]],
       victimaConflicto: [false, Validators.required],
       victimaDesplazamiento: [false, Validators.required],
-      eps: [''],
-      ips: [''],
-      cultura: [''],
+      eps: [""],
+      ips: [""],
+      cultura: [""],
       numeroHijos: [0],
       hijos: [
         [
           {
-            nombres: '',
+            nombres: "",
             custodia: 0,
             edad: 0,
             edadEn: 0,
@@ -162,10 +162,10 @@ export class DatosInvolucradosComponent implements AfterViewInit {
       ],
       seguridad: [false],
       // lugarExpedicion: [{ value: '', disabled: false }, [Validators.required]],
-      paisExp: [{ value: '', disabled: false }, [Validators.required]],
-      departamentoExp: [{ value: '', disabled: false }, [Validators.required]],
-      municipioExp: [{ value: '', disabled: false }, [Validators.required]],
-      fechaExpedicion: [{ value: '', disabled: false }, [Validators.required]],
+      paisExp: [{ value: "", disabled: false }, [Validators.required]],
+      departamentoExp: [{ value: "", disabled: false }, [Validators.required]],
+      municipioExp: [{ value: "", disabled: false }, [Validators.required]],
+      fechaExpedicion: [{ value: "", disabled: false }, [Validators.required]],
     });
   }
 
@@ -289,6 +289,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
    * @description Setea los datos del formulario con los datos del victima
    */
   private setFormDataVictima() {
+    console.log("victima -> ", this.victima);
     // Campos que no hacen parte del formulario pero si del dto
     const {
       id,
@@ -305,13 +306,12 @@ export class DatosInvolucradosComponent implements AfterViewInit {
       embarazo,
       victimaDesplazamiento,
       ...values
-      
     } = this.nullToEmptyString(this.victima);
     this.formVictima.patchValue({
       ...values,
       regimen: values.idRegimen,
       seguridad: values.eps || values.ips ? true : false,
-      embarazo: embarazo ? embarazo.toUpperCase() : 'NO',
+      embarazo: embarazo ? embarazo.toUpperCase() : "NO",
     });
     // const lugarExpedicionFormValue = this.victima.lugarExpedicion || ''
     // this.formVictima.controls['lugarExpedicion'].setValue(lugarExpedicionFormValue);
@@ -332,7 +332,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
         Object.prototype.hasOwnProperty.call(object, key) &&
         object[key] == null
       ) {
-        object[key] = '';
+        object[key] = "";
       }
     }
     return object;
@@ -343,7 +343,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
    */
   private async getListaTipoDocumento() {
     const result = await this.sharedService.getDominioFromLocal(
-      'Tipo_identificacion'
+      "Tipo_identificacion",
     );
     this.listaTipoDocumento = result;
   }
@@ -352,7 +352,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
    * @description obtiene la lista de sexo
    */
   private async getListaSexo() {
-    const result = await this.sharedService.getDominioFromLocal('Sexo');
+    const result = await this.sharedService.getDominioFromLocal("Sexo");
     this.listaSexo = result;
   }
 
@@ -360,7 +360,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
    * @description obtiene la lista de Identidad Genero
    */
   private async getListaIdentidadGenero() {
-    const result = await this.sharedService.getDominioFromLocal('Genero');
+    const result = await this.sharedService.getDominioFromLocal("Genero");
     this.listaGenero = result;
   }
 
@@ -368,13 +368,12 @@ export class DatosInvolucradosComponent implements AfterViewInit {
    * @description obtiene la lista de Nivel Academico
    */
   private async getListaNivelAcademico() {
-    const result = await this.sharedService.getDominioFromLocal(
-      'Nivel_Academico'
-    );
+    const result =
+      await this.sharedService.getDominioFromLocal("Nivel_Academico");
     this.listaNivelAcademico = result;
   }
   private async getListaRegimen() {
-    const result = await this.sharedService.getDominioFromLocal('RegimenSalud');
+    const result = await this.sharedService.getDominioFromLocal("RegimenSalud");
     this.listaRegimen = result;
   }
 
@@ -382,7 +381,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
    * @description obtiene la lista de discapacidad
    */
   private async getListaDiscapacidad() {
-    const result = await this.sharedService.getDominioFromLocal('Discapacidad');
+    const result = await this.sharedService.getDominioFromLocal("Discapacidad");
     this.listaDiscapacidad = result;
   }
 
@@ -390,7 +389,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
    * @description obtiene la lista de cultura
    */
   private async getListaCultura() {
-    const result = await this.sharedService.getDominioFromLocal('Tipo_Cultura');
+    const result = await this.sharedService.getDominioFromLocal("Tipo_Cultura");
     this.listaCultura = result;
   }
 
@@ -398,18 +397,16 @@ export class DatosInvolucradosComponent implements AfterViewInit {
    * @description obtiene la lista de relacion con el agresor
    */
   private async getListaTipoRelacion() {
-    const result = await this.sharedService.getDominioFromLocal(
-      'Tipo_Relacion'
-    );
+    const result =
+      await this.sharedService.getDominioFromLocal("Tipo_Relacion");
     this.listaTipoRelacion = result;
   }
   /**
    * @description obtiene la lista relacion parental
    */
   private async getListaRelacionParental() {
-    const result = await this.sharedService.getDominioFromLocal(
-      'Relacion_parental'
-    );
+    const result =
+      await this.sharedService.getDominioFromLocal("Relacion_parental");
     this.listaRelacionParental = result;
   }
 
@@ -421,14 +418,14 @@ export class DatosInvolucradosComponent implements AfterViewInit {
   public isRequiredField(
     form: FormGroup,
     name: string,
-    obligatory: boolean = false
+    obligatory: boolean = false,
   ) {
     if (obligatory && !this.camposObligatorios.includes(name))
       this.camposObligatorios.push(name);
     const dirty = form.get(name)?.dirty;
     const required = SharedFunctions.findInvalidControls(form).includes(name);
     const empty =
-      typeof form.get(name)?.value == 'string' && form.get(name)?.value == '';
+      typeof form.get(name)?.value == "string" && form.get(name)?.value == "";
     if (obligatory) {
       return dirty && empty;
     }
@@ -459,16 +456,16 @@ export class DatosInvolucradosComponent implements AfterViewInit {
         : 0,
       Cultura: formValueAgresor.cultura ? formValueAgresor.cultura : 0,
       RelacionAgresor: 0,
-      descripcionRelacionAgresor: '',
+      descripcionRelacionAgresor: "",
       TipoDiscapcidad: 0,
       informacionHijos: this.getHijos(this.formHijosAgresor),
-      descripcionDiscapacidad: '',
-      embarazo: 'NO',
+      descripcionDiscapacidad: "",
+      embarazo: "NO",
       mesesEmbarazo: 0,
       victimaConflicto: false,
       victimaDesplazamiento: false,
-      eps: '',
-      ips: '',
+      eps: "",
+      ips: "",
       agresorOrganizacionCriminal: formValueAgresor.agresorOrganizacionCriminal,
       descripcionOrganizacionCriminal:
         formValueAgresor.descripcionOrganizacionCriminal,
@@ -486,7 +483,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
         : 0,
       numeroDocumento: formValueAgresor.numeroDocumento
         ? formValueAgresor.numeroDocumento
-        : '',
+        : "",
       // lugarExpedicion: formValueAgresor.lugarExpedicion,
       paisExp: formValueAgresor.paisExp,
       departamentoExp: formValueAgresor.departamentoExp,
@@ -499,7 +496,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
     };
     if (bodyAgresor.informacionHijos?.length != bodyAgresor.numeroHijos) {
       this.modales.modalInformacion(
-        'El numero de hijos no coincide con la información de los hijos registrados.'
+        "El numero de hijos no coincide con la información de los hijos registrados.",
       );
       subject.next(false);
       return subject.asObservable();
@@ -510,7 +507,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
         next: ({ statusCode }) => {
           if (statusCode === CodigosRespuesta.OK) {
             this.modales
-              .modalExito('Datos guardados exitosamente.')
+              .modalExito("Datos guardados exitosamente.")
               .subscribe(() => {
                 subject.next(true);
               });
@@ -552,7 +549,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
       victimaDesplazamiento: formValueVictima.victimaDesplazamiento,
       eps: formValueVictima.eps,
       ips: formValueVictima.ips,
-      descripcionOrganizacionCriminal: '',
+      descripcionOrganizacionCriminal: "",
       agresorOrganizacionCriminal: false,
 
       //nuevos campos solo para agresor:
@@ -577,7 +574,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
     };
     if (bodyVictima.informacionHijos?.length !== bodyVictima.numeroHijos) {
       this.modales.modalInformacion(
-        'El numero de hijos no coincide con la información de los hijos registrados.'
+        "El numero de hijos no coincide con la información de los hijos registrados.",
       );
       subject.next(false);
       return subject.asObservable();
@@ -604,26 +601,26 @@ export class DatosInvolucradosComponent implements AfterViewInit {
   public getNombreCompleto(
     involucrado: InvolucradoDTO,
     includeNombres: boolean = false,
-    includeApellidos: boolean = false
+    includeApellidos: boolean = false,
   ) {
     const nombres = [
       includeNombres && involucrado.primerNombre
         ? involucrado.primerNombre
-        : '',
+        : "",
       includeNombres && involucrado.segundoNombre
         ? involucrado.segundoNombre
-        : '',
+        : "",
       includeApellidos && involucrado.primerApellido
         ? involucrado.primerApellido
-        : '',
+        : "",
       includeApellidos && involucrado.segundoApellido
         ? involucrado.segundoApellido
-        : '',
+        : "",
     ];
-    return nombres.join(' ').trim();
+    return nombres.join(" ").trim();
   }
   changeHijosVictima() {
-    let numHijos = this.formVictima.get('numeroHijos')?.value;
+    let numHijos = this.formVictima.get("numeroHijos")?.value;
 
     if (!numHijos) {
       this.formHijosVictima = [];
@@ -634,10 +631,10 @@ export class DatosInvolucradosComponent implements AfterViewInit {
 
       for (let index = 1; index <= numHijos; index++) {
         let hijo = this.formBuilder.group({
-          nombres: ['', [Validators.required]],
-          custodia: ['', [Validators.required]],
-          sexo: ['', [Validators.required]],
-          relacionParental: ['', [Validators.required]],
+          nombres: ["", [Validators.required]],
+          custodia: ["", [Validators.required]],
+          sexo: ["", [Validators.required]],
+          relacionParental: ["", [Validators.required]],
           edad: [
             0,
             [Validators.required, Validators.maxLength(2), Validators.max(99)],
@@ -651,7 +648,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
   }
 
   changeHijosAgresor() {
-    let numHijos = this.formAgresor.get('numeroHijos')?.value;
+    let numHijos = this.formAgresor.get("numeroHijos")?.value;
 
     if (!numHijos) {
       this.formHijosAgresor = [];
@@ -662,12 +659,12 @@ export class DatosInvolucradosComponent implements AfterViewInit {
 
       for (let index = 1; index <= numHijos; index++) {
         let hijo = this.formBuilder.group({
-          nombres: ['', [Validators.required]],
-          custodia: ['', [Validators.required]],
-          sexo: ['', [Validators.required]],
+          nombres: ["", [Validators.required]],
+          custodia: ["", [Validators.required]],
+          sexo: ["", [Validators.required]],
           edad: [0, [Validators.required]],
           edadEn: [0, [Validators.required]],
-          relacionParental: ['', [Validators.required]],
+          relacionParental: ["", [Validators.required]],
         });
 
         this.formHijosAgresor.push(hijo);
@@ -689,14 +686,14 @@ export class DatosInvolucradosComponent implements AfterViewInit {
         let hijo = this.formBuilder.group({
           nombres: [element.nombres, [Validators.required]],
           custodia: [
-            element.custodia ? element.custodia : '',
+            element.custodia ? element.custodia : "",
             [Validators.required],
           ],
-          sexo: [element.sexo ? element.sexo : '', [Validators.required]],
+          sexo: [element.sexo ? element.sexo : "", [Validators.required]],
           edad: [element.edad ? element.edad : 0, [Validators.required]],
           edadEn: [element.edadEn ? element.edadEn : 0, [Validators.required]],
           relacionParental: [
-            element.relacionParental ? element.relacionParental : '',
+            element.relacionParental ? element.relacionParental : "",
             [Validators.required],
           ],
         });
@@ -720,14 +717,14 @@ export class DatosInvolucradosComponent implements AfterViewInit {
         let hijo = this.formBuilder.group({
           nombres: [element.nombres, [Validators.required]],
           custodia: [
-            element.custodia ? element.custodia : '',
+            element.custodia ? element.custodia : "",
             [Validators.required],
           ],
-          sexo: [element.sexo ? element.sexo : '', [Validators.required]],
+          sexo: [element.sexo ? element.sexo : "", [Validators.required]],
           edad: [element.edad ? element.edad : 0, [Validators.required]],
           edadEn: [element.edadEn ? element.edadEn : 0, [Validators.required]],
           relacionParental: [
-            element.relacionParental ? element.relacionParental : '',
+            element.relacionParental ? element.relacionParental : "",
             [Validators.required],
           ],
         });
@@ -741,7 +738,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
    * @description obtiene la lista de relacion con el agresor
    */
   private async getListaEstadoCivil() {
-    const result = await this.sharedService.getDominioFromLocal('Estado_Civil');
+    const result = await this.sharedService.getDominioFromLocal("Estado_Civil");
     this.listaEstadoCivil = result;
   }
 
@@ -749,7 +746,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
    * @description obtiene la lista de opcion Otro
    */
   private async getListaOtros() {
-    const result = await this.sharedService.getDominioFromLocal('Tipo_Otro');
+    const result = await this.sharedService.getDominioFromLocal("Tipo_Otro");
     this.listaOtros = result;
   }
 
@@ -760,20 +757,20 @@ export class DatosInvolucradosComponent implements AfterViewInit {
   public inputNumber(
     input: HTMLInputElement,
     min: number = 0,
-    max: number = 9
+    max: number = 9,
   ) {
     let value: number = Number(
       input.value
-        .replace(Regex.NUMERO_G, '')
-        .substring(0, max > 9 ? max.toString().length : 1)
+        .replace(Regex.NUMERO_G, "")
+        .substring(0, max > 9 ? max.toString().length : 1),
     );
 
     if (value < min) {
-      input.value = '';
+      input.value = "";
     } else if (value > max) {
-      input.value = 0 + '';
+      input.value = 0 + "";
     } else {
-      input.value = value + '';
+      input.value = value + "";
     }
   }
 
@@ -782,7 +779,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
    * @param input entrada
    */
   public inputMeses(input: HTMLInputElement, form: FormGroup, field: string) {
-    let value = input.value.replace(Regex.NUMERO_G, '');
+    let value = input.value.replace(Regex.NUMERO_G, "");
     form.get(field)?.setValue(value);
   }
   /**
@@ -816,20 +813,20 @@ export class DatosInvolucradosComponent implements AfterViewInit {
   }
 
   cancelar() {
-    this.modales.modalCancelar('/psicologia');
+    this.modales.modalCancelar("/psicologia");
   }
 
   archivarDiligencias() {
-    this.modales.modalArchivarDiligencias(this.tarea, '/psicologia');
+    this.modales.modalArchivarDiligencias(this.tarea, "/psicologia");
   }
 
   guardar(
-    formulario: 'agresor' | 'victima',
-    cerrarActuaciones: boolean = false
+    formulario: "agresor" | "victima",
+    cerrarActuaciones: boolean = false,
   ) {
     //Insertar aquí las acciones a realizar.
-    if (formulario == 'victima') {
-      if (this.isValidForm('victima')) {
+    if (formulario == "victima") {
+      if (this.isValidForm("victima")) {
         this.showOnSubmitIsRequiredVictima = false;
         this.postActualizarInvolucradoVictima().subscribe({
           next: (success) => {
@@ -855,7 +852,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
   }
 
   cerrarActuaciones() {
-    if (this.isValidForm('agresor') && this.isValidForm('victima')) {
+    if (this.isValidForm("agresor") && this.isValidForm("victima")) {
       this.showOnSubmitIsRequiredVictima = false;
 
       this.postActualizarInvolucradoVictima().subscribe({
@@ -867,7 +864,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
                   this.cerrarTareaYCrearEvaluacionPsicologica();
                 } else {
                   this.modales.modalInformacion(
-                    'Error: No se capturó el idTarea'
+                    "Error: No se capturó el idTarea",
                   );
                 }
               },
@@ -895,7 +892,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
             })
             .subscribe((cerrar) => {
               if (cerrar.statusCode === CodigosRespuesta.OK) {
-                this.router.navigate(['/psicologia']);
+                this.router.navigate(["/psicologia"]);
               }
             });
         }
@@ -907,14 +904,14 @@ export class DatosInvolucradosComponent implements AfterViewInit {
    * @param formulario
    * @returns
    */
-  isValidForm(formulario: 'agresor' | 'victima'): boolean {
+  isValidForm(formulario: "agresor" | "victima"): boolean {
     let camposRequeridos: string[];
     let errorHijos = 0;
-    const form = formulario == 'agresor' ? this.formAgresor : this.formVictima;
+    const form = formulario == "agresor" ? this.formAgresor : this.formVictima;
     const formHijos =
-      formulario == 'agresor' ? this.formHijosAgresor : this.formHijosVictima;
+      formulario == "agresor" ? this.formHijosAgresor : this.formHijosVictima;
     camposRequeridos = SharedFunctions.findInvalidControls(form).concat(
-      this.validarCamposObligatorios(form)
+      this.validarCamposObligatorios(form),
     );
     formHijos.forEach((element) => {
       if (!element.valid) {
@@ -923,21 +920,21 @@ export class DatosInvolucradosComponent implements AfterViewInit {
     });
     if (errorHijos) {
       this.modales.modalInformacion(
-        'La información de los hijos está incompleta'
+        "La información de los hijos está incompleta",
       );
       return false;
     }
-    
+
     return this.formVictima.valid && !camposRequeridos.length && !errorHijos;
   }
 
   private validarFormulario(
     formInvolucrado: FormGroup,
-    esAgresor: boolean
+    esAgresor: boolean,
   ): boolean {
     let errorHijos = 0;
     const camposRequeridos: string[] = SharedFunctions.findInvalidControls(
-      formInvolucrado
+      formInvolucrado,
     ).concat(this.validarCamposObligatorios(formInvolucrado));
     this.formHijosAgresor.forEach((element) => {
       if (!element.valid) {
@@ -946,8 +943,8 @@ export class DatosInvolucradosComponent implements AfterViewInit {
     });
     if (errorHijos) {
       const mensajeModal: string = esAgresor
-        ? 'La información de los hijos del agresor está incompleta'
-        : 'La información de los hijos de la vícima está incompleta';
+        ? "La información de los hijos del agresor está incompleta"
+        : "La información de los hijos de la vícima está incompleta";
       this.modales.modalInformacion(mensajeModal);
       return false;
     }
@@ -958,9 +955,9 @@ export class DatosInvolucradosComponent implements AfterViewInit {
     let temp: string[] = [];
     this.camposObligatorios.forEach((name) => {
       if (this.isRequiredField(form, name, true)) {
-        if (name == 'ips' || name == 'eps') {
+        if (name == "ips" || name == "eps") {
           //dont push it
-          if (form.get('seguridad')?.value) {
+          if (form.get("seguridad")?.value) {
             //only push if 'seguridad' is true
             temp.push(name);
           }
