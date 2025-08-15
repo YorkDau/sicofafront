@@ -91,6 +91,7 @@ export class TrabajadorSocialService {
   public actualizarInvolucradoComplementaria(
     objInvolucrado: any
   ): Observable<ResponseInterface> {
+    console.log('objInvolucrado', objInvolucrado);
     return this.http.post<ResponseInterface>(
       `${this.api}/Compartido/ActualizarInvolucradoComplementaria`,
       objInvolucrado

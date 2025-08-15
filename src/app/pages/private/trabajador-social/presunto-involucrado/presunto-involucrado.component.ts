@@ -1,18 +1,26 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import {
-  InvolucradosPARD,
-  Mensajes,
-  Regex
-} from 'src/app/constants';
+import { InvolucradosPARD, Mensajes, Regex } from 'src/app/constants';
 import { DominioInterface } from 'src/app/interfaces/dominio.interface';
 import { SharedService } from 'src/app/services/shared.service';
 import { AppState } from 'src/app/store/app.reducer';
 import { TrabajadorSocialService } from '../services/trabajador-social.service';
 import { ValidarCampos } from '../validar-campos';
-import { DepartamentoInterface, MunicipioInterface, PaisInterface } from '../../interfaces/ciudadano.interface';
+import {
+  DepartamentoInterface,
+  MunicipioInterface,
+  PaisInterface,
+} from '../../interfaces/ciudadano.interface';
+import { SharedFunctions } from 'src/app/shared/functions';
 
 @Component({
   selector: 'app-presunto-involucrado',
@@ -20,7 +28,26 @@ import { DepartamentoInterface, MunicipioInterface, PaisInterface } from '../../
   styles: [],
 })
 export class PresuntoInvolucradoComponent implements OnInit, OnDestroy {
-  @Output() esValidoVictima = new EventEmitter<{ esVictima: boolean; esRepresentante: boolean }>();
+  @Output() esValidoVictima = new EventEmitter<{
+    esVictima: boolean;
+    esRepresentante: boolean;
+  }>();
+  @Input() listaEdad: DominioInterface[] = [
+    {
+      id_Dominio: 0,
+      nombre_Dominio: 'Años',
+      tipo_Dominio: '',
+      codigo: '',
+      tipo_Lista: '',
+    },
+    {
+      id_Dominio: 1,
+      nombre_Dominio: 'Meses',
+      tipo_Dominio: '',
+      codigo: '',
+      tipo_Lista: '',
+    },
+  ];
 
   public involucradoForm!: FormGroup;
   public mostrarValidaciones = false;
@@ -68,34 +95,39 @@ export class PresuntoInvolucradoComponent implements OnInit, OnDestroy {
     this.cargarFormEdicion();
 
     // Observa cambios en los campos
-    this.involucradoForm.get('esVictima')?.valueChanges.subscribe((esVictima) => {
-      const esRepresentante = this.involucradoForm.get('esRepresentante')?.value;
-      this.emitirCambios(esVictima, esRepresentante);
+    this.involucradoForm
+      .get('esVictima')
+      ?.valueChanges.subscribe((esVictima) => {
+        const esRepresentante =
+          this.involucradoForm.get('esRepresentante')?.value;
+        this.emitirCambios(esVictima, esRepresentante);
 
-      this.trabajadorSocialService.emitirAgresor(esVictima);
+        this.trabajadorSocialService.emitirAgresor(esVictima);
 
-      this.edadMaxima = esVictima
-        ? InvolucradosPARD.EDAD_MAXIMA_ACCIONANTE
-        : InvolucradosPARD.EDAD_MAXIMA_ACCIONADO;
-      this.mensajeEdad = esVictima
-        ? InvolucradosPARD.MSJ_EDAD_ACCIONANTE
-        : InvolucradosPARD.MSJ_EDAD_ACCIONADO;
+        this.edadMaxima = esVictima
+          ? InvolucradosPARD.EDAD_MAXIMA_ACCIONANTE
+          : InvolucradosPARD.EDAD_MAXIMA_ACCIONADO;
+        this.mensajeEdad = esVictima
+          ? InvolucradosPARD.MSJ_EDAD_ACCIONANTE
+          : InvolucradosPARD.MSJ_EDAD_ACCIONADO;
 
-      this.ajustarTiposDocumento(esVictima);
+        this.ajustarTiposDocumento(esVictima);
 
-      this.involucradoForm.controls['tipoDocumento'].setValue(0);
-      this.involucradoForm.controls['edad'].setValidators([
-        Validators.required,
-        Validators.min(0),
-        Validators.max(this.edadMaxima),
-      ]);
-      this.involucradoForm.controls['edad'].updateValueAndValidity();
-    });
+        this.involucradoForm.controls['tipoDocumento'].setValue(0);
+        this.involucradoForm.controls['edad'].setValidators([
+          Validators.required,
+          Validators.min(0),
+          Validators.max(this.edadMaxima),
+        ]);
+        this.involucradoForm.controls['edad'].updateValueAndValidity();
+      });
 
-    this.involucradoForm.get('esRepresentante')?.valueChanges.subscribe((valor) => {
-      const esVictima = this.involucradoForm.get('esVictima')?.value;
-      this.emitirCambios(esVictima, valor);
-    });
+    this.involucradoForm
+      .get('esRepresentante')
+      ?.valueChanges.subscribe((valor) => {
+        const esVictima = this.involucradoForm.get('esVictima')?.value;
+        this.emitirCambios(esVictima, valor);
+      });
   }
 
   private emitirCambios(esVictima: boolean, esRepresentante: boolean) {
@@ -130,16 +162,22 @@ export class PresuntoInvolucradoComponent implements OnInit, OnDestroy {
       datosAdicionales: '',
       registroExpedidoEn: 'Notaria',
       esRepresentante: false,
+      edadEn : [0],
       nombreEntidadExpedicion: '',
       edad: [
         0,
-        [Validators.required, Validators.min(0), Validators.max(this.edadMaxima)],
+        [
+          Validators.required,
+          Validators.min(0),
+          Validators.max(this.edadMaxima),
+        ],
       ],
     });
   }
 
   private cargarFormEdicion(): void {
     const obj = JSON.parse(sessionStorage.getItem('inv_pard')!);
+    console.log('obj', obj);
     if (obj) {
       this.trabajadorSocialService.emitirAgresor(
         ValidarCampos.validarBooleanos(obj.esVictima)
@@ -147,6 +185,7 @@ export class PresuntoInvolucradoComponent implements OnInit, OnDestroy {
 
       this.involucradoForm.patchValue({
         ...obj,
+         edadEn: ValidarCampos.validarNumber(obj.edadEn), // <-- agregarlo aquí
         tipoDocumento: ValidarCampos.validarNumber(obj.idTipoDocumento),
         segundoNombre: ValidarCampos.validarString(obj.segundoNombre),
         segundoApellido: ValidarCampos.validarString(obj.segundoApellido),
@@ -154,7 +193,9 @@ export class PresuntoInvolucradoComponent implements OnInit, OnDestroy {
         correoElectronico: ValidarCampos.validarString(obj.correoElectronico),
         datosAdicionales: ValidarCampos.validarString(obj.datosAdicionales),
         registroExpedidoEn: ValidarCampos.validarString(obj.registroExpedidoEn),
-        nombreEntidadExpedicion: ValidarCampos.validarString(obj.nombreEntidadExpedicion),
+        nombreEntidadExpedicion: ValidarCampos.validarString(
+          obj.nombreEntidadExpedicion
+        ),
       });
 
       this.ajustarEdicionValidacionesEdad(obj.esVictima);
@@ -208,20 +249,24 @@ export class PresuntoInvolucradoComponent implements OnInit, OnDestroy {
   }
 
   public cargaSelectDepartamento(event: any) {
-    this.sharedService.getDepartamentos(event.target.value).subscribe((departamentos) => {
-      if (departamentos.statusCode === 200) {
-        this.selectDepartamento = departamentos.data;
-      }
-    });
+    this.sharedService
+      .getDepartamentos(event.target.value)
+      .subscribe((departamentos) => {
+        if (departamentos.statusCode === 200) {
+          this.selectDepartamento = departamentos.data;
+        }
+      });
   }
 
   public cargaSelectMunicipio(event: any) {
     if (event.target.value != 0) {
-      this.sharedService.getCiudades(event.target.value).subscribe((municipio) => {
-        if (municipio.statusCode === 200) {
-          this.selectMunicipio = municipio.data;
-        }
-      });
+      this.sharedService
+        .getCiudades(event.target.value)
+        .subscribe((municipio) => {
+          if (municipio.statusCode === 200) {
+            this.selectMunicipio = municipio.data;
+          }
+        });
     }
   }
 }

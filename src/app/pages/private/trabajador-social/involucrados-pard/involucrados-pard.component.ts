@@ -89,6 +89,7 @@ export class InvolucradosPARDComponent implements OnInit {
         next: (data: ResponseInterface) => {
           if (data.statusCode === CodigosRespuesta.OK) {
             this.listadoPARD = data.data;
+            console.log('listadoPARD', this.listadoPARD);
             this.ajustarResultadoConsulta(data.data);
           } else {
             this.modalError();

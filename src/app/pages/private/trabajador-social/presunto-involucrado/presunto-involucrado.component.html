@@ -9,9 +9,14 @@
         placeholder="Primer nombre"
         maxlength="50"
         formControlName="primerNombre"
-        [ngClass]="{ 'input-req': isRequired('primerNombre') && mostrarValidaciones }"
+        [ngClass]="{
+          'input-req': isRequired('primerNombre') && mostrarValidaciones
+        }"
       />
-      <div *ngIf="isRequired('primerNombre') && mostrarValidaciones" class="msj-req">
+      <div
+        *ngIf="isRequired('primerNombre') && mostrarValidaciones"
+        class="msj-req"
+      >
         {{ msgObligatorio }}
       </div>
     </div>
@@ -37,9 +42,14 @@
         placeholder="Primer apellido"
         maxlength="50"
         formControlName="primerApellido"
-        [ngClass]="{ 'input-req': isRequired('primerApellido') && mostrarValidaciones }"
+        [ngClass]="{
+          'input-req': isRequired('primerApellido') && mostrarValidaciones
+        }"
       />
-      <div *ngIf="isRequired('primerApellido') && mostrarValidaciones" class="msj-req">
+      <div
+        *ngIf="isRequired('primerApellido') && mostrarValidaciones"
+        class="msj-req"
+      >
         {{ msgObligatorio }}
       </div>
     </div>
@@ -67,7 +77,10 @@
         (change)="isColombiano($event)"
       >
         <option [value]="0" disabled>Seleccione una opción</option>
-        <option *ngFor="let item of listaTipoDocumento" [value]="item.id_Dominio">
+        <option
+          *ngFor="let item of listaTipoDocumento"
+          [value]="item.id_Dominio"
+        >
           {{ item.nombre_Dominio }}
         </option>
       </select>
@@ -107,7 +120,10 @@
         (change)="cargaSelectMunicipio($event)"
       >
         <option disabled value="">Departamento de Expedición</option>
-        <option *ngFor="let departamento of selectDepartamento" [value]="departamento.departamentoID">
+        <option
+          *ngFor="let departamento of selectDepartamento"
+          [value]="departamento.departamentoID"
+        >
           {{ departamento.departamentoNombre }}
         </option>
       </select>
@@ -119,42 +135,40 @@
       <label class="form-label">Municipio de Expedición</label>
       <select class="form-select" formControlName="municipioExp">
         <option disabled value="">Municipio de Expedición</option>
-        <option *ngFor="let municipio of selectMunicipio" [value]="municipio.ciudmunID">
+        <option
+          *ngFor="let municipio of selectMunicipio"
+          [value]="municipio.ciudmunID"
+        >
           {{ municipio.nombCiudMun }}
         </option>
       </select>
     </div>
 
-<div class="col-lg-3 mb-3">
-  <label for="vicAgr" class="form-label">Tipo involucrado</label>
-  <select
-    id="vicAgr"
-    class="form-select"
-    formControlName="esVictima"
-  >
-    <option [ngValue]="true">Accionante (Victima/Rep. Legal)</option>
-    <option [ngValue]="false">Accionado</option>
-  </select>
-</div>
+    <div class="col-lg-3 mb-3">
+      <label for="vicAgr" class="form-label">Tipo involucrado</label>
+      <select id="vicAgr" class="form-select" formControlName="esVictima">
+        <option [ngValue]="true">Accionante (Victima/Rep. Legal)</option>
+        <option [ngValue]="false">Accionado</option>
+      </select>
+    </div>
 
-<!-- Mostrar solo si esVictima es true -->
-<div
-  class="col-lg-3 d-flex align-items-end justify-content-start mb-3"
-  *ngIf="involucradoForm.get('esVictima')?.value"
->
-  <div class="form-check">
-    <input
-      type="checkbox"
-      class="form-check-input"
-      id="esRepresentante"
-      formControlName="esRepresentante"
-    />
-    <label class="form-check-label ms-2" for="esRepresentante">
-      Es representante legal
-    </label>
-  </div>
-</div>
-
+    <!-- Mostrar solo si esVictima es true -->
+    <div
+      class="col-lg-3 d-flex align-items-end justify-content-start mb-3"
+      *ngIf="involucradoForm.get('esVictima')?.value"
+    >
+      <div class="form-check">
+        <input
+          type="checkbox"
+          class="form-check-input"
+          id="esRepresentante"
+          formControlName="esRepresentante"
+        />
+        <label class="form-check-label ms-2" for="esRepresentante">
+          Es representante legal
+        </label>
+      </div>
+    </div>
 
     <div class="col-lg-3"></div>
   </div>
@@ -183,12 +197,16 @@
           value="Registraduría auxiliar"
           formControlName="registroExpedidoEn"
         />
-        <label class="form-check-label" for="registraduria">Registraduría auxiliar</label>
+        <label class="form-check-label" for="registraduria"
+          >Registraduría auxiliar</label
+        >
       </div>
     </div>
 
     <div class="col-lg-6">
-      <label for="nomE" class="form-label">Nombre entidad de expedición del registro civil</label>
+      <label for="nomE" class="form-label"
+        >Nombre entidad de expedición del registro civil</label
+      >
       <input
         type="text"
         class="form-control"
@@ -223,14 +241,19 @@
         placeholder="Correo electrónico"
         maxlength="50"
         formControlName="correoElectronico"
-        [ngClass]="{ 'input-req': patternValid('correoElectronico') && mostrarValidaciones }"
+        [ngClass]="{
+          'input-req': patternValid('correoElectronico') && mostrarValidaciones
+        }"
       />
-      <div *ngIf="patternValid('correoElectronico') && mostrarValidaciones" class="msj-req">
+      <div
+        *ngIf="patternValid('correoElectronico') && mostrarValidaciones"
+        class="msj-req"
+      >
         {{ msgCorreoInv }}
       </div>
     </div>
 
-    <div class="col-lg-4 mb-3">
+    <div class="col-lg-2 mb-3">
       <label for="edad" class="form-label">Edad*</label>
       <input
         type="number"
@@ -241,15 +264,34 @@
         formControlName="edad"
         oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
         [ngClass]="{
-          'input-req': (isMin('edad') || isMax('edad') || isRequired('edad')) && mostrarValidaciones
+          'input-req':
+            (isMin('edad') || isMax('edad') || isRequired('edad')) &&
+            mostrarValidaciones
         }"
       />
-      <div *ngIf="(isMin('edad') || isMax('edad')) && mostrarValidaciones" class="msj-req">
+      <div
+        *ngIf="(isMin('edad') || isMax('edad')) && mostrarValidaciones"
+        class="msj-req"
+      >
         {{ mensajeEdad }}
       </div>
       <div *ngIf="isRequired('edad') && mostrarValidaciones" class="msj-req">
         {{ msgObligatorio }}
       </div>
+    </div>
+    <div class="form-group col-lg-2 mb-5">
+      <label class="form-label text-capitalize">edad en</label>
+      <select
+        type="text"
+        class="form-select"
+        [ngClass]="{ 'border-danger': false }"
+        formControlName="edadEn"
+        required
+      >
+        <option [value]="item.id_Dominio" *ngFor="let item of listaEdad">
+          {{ item.nombre_Dominio }}
+        </option>
+      </select>
     </div>
   </div>
 
