@@ -4,39 +4,39 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
-} from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { lastValueFrom, Subscription, map } from 'rxjs';
-import { AuthService } from 'src/app/auth/services/auth.service';
+} from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
+import { Router } from "@angular/router";
+import { lastValueFrom, Subscription, map } from "rxjs";
+import { AuthService } from "src/app/auth/services/auth.service";
 import {
   CodigosPerfil,
   CodigosRespuesta,
   ImagenesModal,
   Mensajes,
-} from 'src/app/constants';
+} from "src/app/constants";
 import {
   SeccionesInterface,
   TreeInterface,
-} from 'src/app/interfaces/auto.interface';
+} from "src/app/interfaces/auto.interface";
 
-import { ResponseInterface } from 'src/app/interfaces/response.interface';
-import { UserInterface } from 'src/app/interfaces/usuario.interface';
-import { AbogadoService } from 'src/app/pages/private/abogado/services/abogado.service';
-import { AutoService } from 'src/app/pages/private/abogado/services/auto.service';
-import { TextoAutoPipe } from 'src/app/pipes/texto-auto.pipe';
-import { Modales } from 'src/app/shared/modals';
-import { ReporteAutoPDF } from './report-pdf';
+import { ResponseInterface } from "src/app/interfaces/response.interface";
+import { UserInterface } from "src/app/interfaces/usuario.interface";
+import { AbogadoService } from "src/app/pages/private/abogado/services/abogado.service";
+import { AutoService } from "src/app/pages/private/abogado/services/auto.service";
+import { TextoAutoPipe } from "src/app/pipes/texto-auto.pipe";
+import { Modales } from "src/app/shared/modals";
+import { ReporteAutoPDF } from "./report-pdf";
 
 @Component({
-  selector: 'app-generar-auto',
-  templateUrl: './generar-auto.component.html',
-  styleUrls: ['./generar-auto.component.scss'],
+  selector: "app-generar-auto",
+  templateUrl: "./generar-auto.component.html",
+  styleUrls: ["./generar-auto.component.scss"],
   providers: [TextoAutoPipe],
 })
 export class GenerarAutoComponent implements OnInit, OnDestroy {
-  @ViewChild('textPadre') txtPadre!: ElementRef;
-  @ViewChild('textHijo') txtHijo!: ElementRef;
+  @ViewChild("textPadre") txtPadre!: ElementRef;
+  @ViewChild("textHijo") txtHijo!: ElementRef;
 
   private autoPadreSub!: Subscription;
   private objSol!: any;
@@ -44,13 +44,13 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
   public listaSecciones: SeccionesInterface[] = [];
 
   public objAutoPadre!: TreeInterface;
-  public comentarios: string = '';
+  public comentarios: string = "";
   public checkAprobacionComisario: boolean = false;
-  public tituloAuto: string = '';
+  public tituloAuto: string = "";
   public ABOGADO = CodigosPerfil.ABOGADO;
   public COMISARIO = CodigosPerfil.COMISARIO;
   public user!: UserInterface | undefined;
-  public titulo: string = '';
+  public titulo: string = "";
   public mostrarFallo: boolean = true;
 
   constructor(
@@ -59,8 +59,8 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
     private router: Router,
     private dialog: MatDialog,
     private abogadoService: AbogadoService,
-    private textoAuto: TextoAutoPipe
-  ) { }
+    private textoAuto: TextoAutoPipe,
+  ) {}
 
   ngOnDestroy(): void {
     if (this.autoPadreSub) {
@@ -73,7 +73,7 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.objSol = JSON.parse(sessionStorage.getItem('info')!);
+    this.objSol = JSON.parse(sessionStorage.getItem("info")!);
     this.user = this.authService.currentUserValue;
     this.asingarSuscripcion();
     this.asignarTitulo();
@@ -83,10 +83,10 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
    * @description asigna el título al formulario
    */
   private asignarTitulo() {
-    if (this.objSol.actividad === 'Crear auto con medidas') {
-      this.titulo = 'ADOPCIÓN DE MEDIDAS DE PROTECCIÓN';
+    if (this.objSol.actividad === "Crear auto con medidas") {
+      this.titulo = "ADOPCIÓN DE MEDIDAS DE PROTECCIÓN";
     } else {
-      this.titulo = 'GESTIÓN DE AUDIENCIA';
+      this.titulo = "GESTIÓN DE AUDIENCIA";
     }
   }
 
@@ -98,7 +98,7 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
       this.objAutoPadre = p;
     });
     this.listaSeccionesSub = this.autoService.seccionesLista$.subscribe(
-      (l) => (this.listaSecciones = l)
+      (l) => (this.listaSecciones = l),
     );
   }
 
@@ -109,7 +109,7 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
     Modales.modalConfirmacion(
       Mensajes.MENSAJE_CANCELAR_SOL,
       this.dialog,
-      ImagenesModal.EXCLAMACION
+      ImagenesModal.EXCLAMACION,
     ).subscribe((res) => {
       if (res) {
         this.redireccionar();
@@ -122,9 +122,9 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
    */
   private redireccionar() {
     if (this.user?.perfil === CodigosPerfil.ABOGADO) {
-      this.router.navigate(['../abogado/casos']);
+      this.router.navigate(["../abogado/casos"]);
     } else {
-      this.router.navigate(['../comisario/casos']);
+      this.router.navigate(["../comisario/casos"]);
     }
   }
 
@@ -138,7 +138,7 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
       Modales.modalInformacion(
         Mensajes.MENSAJE_CAMPO_OBSERVACIONES,
         this.dialog,
-        ImagenesModal.EXCLAMACION
+        ImagenesModal.EXCLAMACION,
       );
     }
   }
@@ -156,7 +156,7 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
             Modales.modalExito(
               Mensajes.MENSAJE_OK,
               ImagenesModal.OK,
-              this.dialog
+              this.dialog,
             );
           }
         } else {
@@ -187,7 +187,7 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
    */
   public ajustarArregloAutoPadre(secciones: SeccionesInterface): void {
     secciones.textoSeccion = this.textoAuto.transform(
-      this.txtPadre.nativeElement.value
+      this.txtPadre.nativeElement.value,
     );
   }
 
@@ -201,7 +201,7 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
           Modales.modalExito(
             Mensajes.MENSAJE_CERRAR_SOLICITUD,
             ImagenesModal.OK,
-            this.dialog
+            this.dialog,
           );
           this.redireccionar();
         } else {
@@ -218,7 +218,6 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
    * @description muestra modal cerrar actuación
    */
   public async modalConfirmaCerrarActuacion() {
-
     // if (this.objSol.actividad === 'Crear Auto Admisorio') {
     /**
      * objPlantilla -> los campos que están seleccionados
@@ -229,7 +228,7 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
      * secciones -> las secciones que estan seleccionadas en bd
      */
     const secciones: ResponseInterface = await lastValueFrom(
-      this.autoService.obtenerSecciones(this.objSol.idSolicitud)
+      this.autoService.obtenerSecciones(this.objSol.idSolicitud),
     );
 
     /**
@@ -241,14 +240,18 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
      * validacion -> que alguna de las secciones seleccionadas coincida con las medidas a validar
      */
 
-    let verMarcadas = objPlantilla.secciones.filter((marcadas: any) => marcadas.estadoSeccion);
-    const validacion = verMarcadas.find((valor: any) => medidasaValidar.includes(valor.idSolPSeccion));
+    let verMarcadas = objPlantilla.secciones.filter(
+      (marcadas: any) => marcadas.estadoSeccion,
+    );
+    const validacion = verMarcadas.find((valor: any) =>
+      medidasaValidar.includes(valor.idSolPSeccion),
+    );
 
     if (validacion == undefined && secciones.data.aplicaMedidas) {
       Modales.modalConfirmacion(
         Mensajes.MENSAJE_NO_MEDIDAS,
         this.dialog,
-        ImagenesModal.EXCLAMACION
+        ImagenesModal.EXCLAMACION,
       ).subscribe((res) => {
         if (res) {
           this.modalConfirmacionCerrarActuaciones();
@@ -264,7 +267,7 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
     Modales.modalConfirmacion(
       Mensajes.MENSAJE_CERRAR_ACT,
       this.dialog,
-      ImagenesModal.EXCLAMACION
+      ImagenesModal.EXCLAMACION,
     ).subscribe((res) => {
       if (res) this.validarAutoPrevioGuardar(true);
     });
@@ -285,8 +288,8 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
     return {
       tareaID: this.objSol.idTarea,
       userID: this.user?.userID,
-      perfilCod: '',
-      valorEtiqueta: this.checkAprobacionComisario ? '1' : '0',
+      perfilCod: "",
+      valorEtiqueta: this.checkAprobacionComisario ? "1" : "0",
     };
   }
 
@@ -311,7 +314,7 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
   private validarCampoObservaciones(): boolean {
     if (this.checkAprobacionComisario) {
       if (this.user?.perfil !== this.ABOGADO && this.mostrarFallo) {
-        if (this.comentarios && this.comentarios !== '') {
+        if (this.comentarios && this.comentarios !== "") {
           return true;
         } else {
           return false;
@@ -331,7 +334,7 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
     Modales.modalInformacion(
       Mensajes.MENSAJE_ERROR_G,
       this.dialog,
-      ImagenesModal.EXCLAMACION
+      ImagenesModal.EXCLAMACION,
     );
   }
 
@@ -348,6 +351,6 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
   public obtenerObservacion(observacion: string) {
     this.comentarios = observacion;
     this.checkAprobacionComisario =
-      observacion && observacion !== '' ? true : false;
+      observacion && observacion !== "" ? true : false;
   }
 }

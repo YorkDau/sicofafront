@@ -1,7 +1,11 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { MatDialog } from "@angular/material/dialog";
 import { Subscription } from "rxjs";
-import { Mensajes } from "src/app/constants";
+import { CodigosRespuesta, ImagenesModal, Mensajes } from "src/app/constants";
+import { ResponseInterface } from "src/app/interfaces/response.interface";
+import { SharedService } from "src/app/services/shared.service";
+import { Modales } from "src/app/shared/modals";
 import { TrabajadorSocialService } from "../services/trabajador-social.service";
 import { ValidarCampos } from "../validar-campos";
 
@@ -21,6 +25,8 @@ export class DerechosPrimeroComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private trabajadorSocial: TrabajadorSocialService,
+    private sharedService: SharedService,
+    private _dialog: MatDialog,
   ) {}
 
   ngOnDestroy(): void {
@@ -34,6 +40,37 @@ export class DerechosPrimeroComponent implements OnInit, OnDestroy {
     this.cargarForm();
     this.cambiosSalud();
     this.cargarFormEdicion();
+  }
+
+  descargarFormato() {
+    // Implementación del método descargarFormato()
+    const nombre: string = "CONSENTIMIENTO INFORMADO.pdf";
+
+    this.sharedService.descargarFormatos(nombre, "ss").subscribe({
+      next: (data: ResponseInterface) => {
+        if (data.statusCode === CodigosRespuesta.OK) {
+          const source = `data:application/pdf;base64,${data.data}`;
+          const link = document.createElement("a");
+          const fileName = nombre;
+          link.href = source;
+          link.download = `${fileName}.pdf`;
+          link.click();
+        } else {
+          this.msgError();
+        }
+      },
+      error: () => {
+        this.msgError();
+      },
+    });
+  }
+
+  private msgError() {
+    Modales.modalExito(
+      Mensajes.MENSAJE_ERROR_G,
+      ImagenesModal.EXCLAMACION,
+      this._dialog,
+    );
   }
 
   /**
@@ -87,13 +124,14 @@ export class DerechosPrimeroComponent implements OnInit, OnDestroy {
       vacunacionCompleta: true,
       noInformacion: false,
       observacionesSalud: "",
+      consentimiento: [""],
       adjunto: [""],
     });
   }
 
-  onBaseArchivo(base64: string) {
+  onBaseArchivo(base64: string, field: string) {
     this.derechosPrimero.patchValue({
-      adjunto: base64,
+      [field]: base64,
     });
   }
 

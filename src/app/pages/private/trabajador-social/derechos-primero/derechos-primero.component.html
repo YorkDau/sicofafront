@@ -1,5 +1,16 @@
 <form [formGroup]="derechosPrimero" autocomplete="off">
   <p class="form-label" style="font-size: 22px">Derechos</p>
+  <div>
+    <p>Consentimiento informado<p>
+    <div class="d-flex gap-1">
+       <button class="btn btn-secondary" (click)="descargarFormato()">Descargar Formato</button>
+       <app-carga-archivo
+         (baseArchivo)="onBaseArchivo($event, 'consentimiento')"
+         textoCargar='Cargar Adjunto'
+         matTooltip="Subir Archivo"
+       ></app-carga-archivo>
+    </div>
+  </div>
 
   <p class="form-label my-5">CUSTODIA</p>
 
@@ -329,7 +340,7 @@
 
     <div class='mt-4'>
       <app-carga-archivo
-        (baseArchivo)="onBaseArchivo($event)"
+        (baseArchivo)="onBaseArchivo($event, 'adjunto')"
         textoCargar='Cargar adjunto'
         matTooltip='Cargar adjunto'
       >
