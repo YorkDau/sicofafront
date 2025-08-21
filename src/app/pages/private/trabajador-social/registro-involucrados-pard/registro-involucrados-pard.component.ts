@@ -204,6 +204,7 @@ export class RegistroInvolucradosPardComponent implements OnInit, OnDestroy {
     obj.municipioExp = Number(obj.municipioExp);
     obj.esVictima = Boolean(obj.esVictima);
     obj.esRepresentante = Boolean(obj.esRepresentante);
+   obj.edadEn = Number(obj.edadEn);
     obj.telefono = String(obj.telefono);
 
     return obj;
