@@ -84,16 +84,15 @@ export class DecisionSeguimientoComponent implements OnInit {
     this.cargarTabla();
     this.dataSource.paginator = this.paginator;
   }
-    public imprimir() {
-      this.generarPDF();
+  public imprimir() {
+    this.generarPDF();
   }
 
   public generarPDF() {
-    PdfExport.generarPdfActa();        
+    PdfExport.generarPdfActa();
   }
 
   private getUsuarioLogueado() {
-
     const { userID } = JSON.parse(sessionStorage.getItem('USER_INFO')!);
     this.gestionUsuariosService.UsuarioEspecifico(userID).subscribe({
       next: (data: ResponseInterface) => {
@@ -107,7 +106,6 @@ export class DecisionSeguimientoComponent implements OnInit {
         this.msgError();
       },
     });
-
   }
 
   /**
@@ -182,6 +180,7 @@ export class DecisionSeguimientoComponent implements OnInit {
       rConclusion: ['Si', Validators.required],
       justificacion: [''],
       rIncumplimiento: [0, Validators.required],
+      acta_documento_cierre: ['', Validators.required],
     });
   }
 
@@ -338,7 +337,7 @@ export class DecisionSeguimientoComponent implements OnInit {
    * @description Carga la informacion de la tabla de los seguimientos disponibles
    */
 
-  private async cargarTabla() { 
+  private async cargarTabla() {
     const cargaID = await this.getListasMedidas();
     if (cargaID) {
       this.seguimientoService
@@ -567,6 +566,10 @@ export class DecisionSeguimientoComponent implements OnInit {
       medidasDeProteccionEntidad: this.medidasData!.medidasDeProteccionEntidad,
     };
   }
+  public async obtenerArchivo(base64: string) {
+    console.log('Archivo cargado:', base64);
+    this.myForm.controls['acta_documento_cierre'].setValue(base64);
+  }
 
   /**
    * @description devuelve a pagina anterior
@@ -579,45 +582,66 @@ export class DecisionSeguimientoComponent implements OnInit {
    * @description finaliza la actuacion y genera la siguiente
    */
 
-  public cerrarActuaciones() {
+  public async cerrarActuaciones() {
     if (this.myForm.invalid) {
       this.mostrarValidaciones = true;
-    } else {
-      this.mostrarValidaciones = false;
-      this.modales
-        .modalConfirmacion(Mensajes.MENSAJE_CERRAR_ACT)
-        .subscribe(async (cerrar) => {
-          if (cerrar) {
-            const isArchivosCargados = await this.guardarArchivosCargados();
-            if (isArchivosCargados) {
-              this.llenarMedidasAtencioResueltas();
-              this.llenarMedidasProteccionResueltas();
-              this.llenarMedidasEstabilizacionResueltas();
-              this.postGuardarMedidas(this.getMedidasResueltas).then(
-                (guardar) => {
-                  if (guardar) {
-                    this.modales
-                      .modalExito('Medidas guardadas exitosamente.')
-                      .subscribe(() => {
-                        this.sharedService
-                          .cerrarActuaciones({
-                            tareaID: this.objSol.idTarea,
-                            perfilCod: this.objUser.perfil!,
-                            userID: this.objUser.userID!,
-                            valorEtiqueta:
-                              this.myForm.get('rIncumplimiento')?.value,
-                          })
-                          .subscribe(() => {
-                            this.router.navigate(['/casos']);
-                          });
-                      });
-                  }
-                }
-              );
+      return;
+    }
+
+    this.mostrarValidaciones = false;
+
+    this.modales
+      .modalConfirmacion(Mensajes.MENSAJE_CERRAR_ACT)
+      .subscribe(async (cerrar) => {
+        if (!cerrar) return;
+
+        try {
+          
+          const archivoDto = {
+            entrada: this.myForm.get('acta_documento_cierre')?.value,
+            nombreArchivo: '',
+            tipoDocumento: TiposDocumentoCarga.ACTA_CIERRE_PARD,
+            idSolicitudServicio: this.objSol.idSolicitud,
+          };
+
+          const resArchivo = await lastValueFrom(
+            this.sharedService.guardarArchivo(archivoDto)
+          );
+          console.log('Archivo guardado en backend:', resArchivo);
+
+          const isArchivosCargados = await this.guardarArchivosCargados();
+
+          if (isArchivosCargados) {
+            this.llenarMedidasAtencioResueltas();
+            this.llenarMedidasProteccionResueltas();
+            this.llenarMedidasEstabilizacionResueltas();
+
+            const guardado = await this.postGuardarMedidas(
+              this.getMedidasResueltas
+            );
+
+            if (guardado) {
+              this.modales
+                .modalExito('Medidas y acta de cierre guardadas exitosamente.')
+                .subscribe(() => {
+                  this.sharedService
+                    .cerrarActuaciones({
+                      tareaID: this.objSol.idTarea,
+                      perfilCod: this.objUser.perfil!,
+                      userID: this.objUser.userID!,
+                      valorEtiqueta: this.myForm.get('rIncumplimiento')?.value,
+                    })
+                    .subscribe(() => {
+                      this.router.navigate(['/casos']);
+                    });
+                });
             }
           }
-        });
-    }
+        } catch (error) {
+          console.error('Error en cerrarActuaciones:', error);
+          this.msgError();
+        }
+      });
   }
 
   /**

@@ -1,4 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -6,7 +12,12 @@ import { ResponseInterface } from 'src/app/interfaces/response.interface';
 import { TablaRemisiones } from 'src/app/pages/private/interfaces/remision.interface';
 import { SeguimientoService } from 'src/app/services/seguimiento.service';
 import { lastValueFrom } from 'rxjs';
-import { CodigosRespuesta, ImagenesModal, Mensajes } from 'src/app/constants';
+import {
+  CodigosRespuesta,
+  ImagenesModal,
+  Mensajes,
+  TiposDocumentoCarga,
+} from 'src/app/constants';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { Modales } from '../modals';
 import { MatDialog } from '@angular/material/dialog';
@@ -22,6 +33,7 @@ import { SharedService } from 'src/app/services/shared.service';
   styleUrls: ['./seguimiento-pard.component.scss'],
 })
 export class SeguimientoPardComponent implements OnInit {
+  @Output() emitirArchivo = new EventEmitter<string>();
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   public displayedColumns: string[] = ['tipoFormato', 'fecha', 'acciones'];
   public displayedColumnsMedidas: string[] = ['nomMedida'];
@@ -66,6 +78,7 @@ export class SeguimientoPardComponent implements OnInit {
       justificacion: [''],
       rIncumplimiento: [0, Validators.required],
       medidas: this.fb.array([]),
+      acta_documento_cierre: ['', Validators.required],
     });
   }
 
@@ -78,6 +91,10 @@ export class SeguimientoPardComponent implements OnInit {
   }
   public generarPDF() {
     PdfExport.generarPdfActa();
+  }
+
+  public async obtenerArchivo(base64: string) {
+    this.myForm.controls['acta_documento_cierre'].setValue(base64);
   }
 
   private async cargarTabla() {
@@ -161,15 +178,15 @@ export class SeguimientoPardComponent implements OnInit {
     );
   }
 
-public onConclusionChange(value: string): void {
-  if (value === 'No') {
-    this.myForm.get('rIncumplimiento')?.enable(); 
-    this.myForm.get('rIncumplimiento')?.setValue(1); 
-  } else {
-    this.myForm.get('rIncumplimiento')?.setValue(0); 
-    this.myForm.get('rIncumplimiento')?.disable();
+  public onConclusionChange(value: string): void {
+    if (value === 'No') {
+      this.myForm.get('rIncumplimiento')?.enable();
+      this.myForm.get('rIncumplimiento')?.setValue(1);
+    } else {
+      this.myForm.get('rIncumplimiento')?.setValue(0);
+      this.myForm.get('rIncumplimiento')?.disable();
+    }
   }
-}
 
   public modalConfirmaCerrarActuacion() {
     if (this.myForm.invalid) {
@@ -201,108 +218,134 @@ public onConclusionChange(value: string): void {
     });
   }
 
-    public descargarArchivo(row: TablaRemisiones) {
-      this.sharedService
-        .ObtenerArchivoPorId(this.objSol.idSolicitud, row.idAnexo!)
-        .subscribe({
-          next: (data: ResponseInterface) => {
-            if (data.statusCode === CodigosRespuesta.OK) {
-              const source = `data:application/pdf;base64,${data.data}`;
-              const link = document.createElement('a');
-              const fileName = row.nombreRemision;
-              link.href = source;
-              link.download = `${fileName}`;
-              link.click();
-            } else {
-              this.msgError();
-            }
-          },
-          error: () => {
+  public descargarArchivo(row: TablaRemisiones) {
+    this.sharedService
+      .ObtenerArchivoPorId(this.objSol.idSolicitud, row.idAnexo!)
+      .subscribe({
+        next: (data: ResponseInterface) => {
+          if (data.statusCode === CodigosRespuesta.OK) {
+            const source = `data:application/pdf;base64,${data.data}`;
+            const link = document.createElement('a');
+            const fileName = row.nombreRemision;
+            link.href = source;
+            link.download = `${fileName}`;
+            link.click();
+          } else {
             this.msgError();
-          },
-        });
-    }
+          }
+        },
+        error: () => {
+          this.msgError();
+        },
+      });
+  }
   private async cerrarActuacion() {
-  const medidasResueltas = this.obtenerMedidasParaCierre();
+    try {
+      console.log('Iniciando cierre de actuación...');
 
-  const guardado = await this.guardarMedidasPard(medidasResueltas);
+      // 1. Obtener medidas para cierre
+      const medidasResueltas = this.obtenerMedidasParaCierre();
+      console.log('Medidas para cierre:', medidasResueltas);
 
-  if (guardado) {
-    this.modales.modalExito('Medidas guardadas exitosamente.').subscribe(() => {
-      this.procederCierreActuacion();
+      // 2. Guardar archivo en base64 (esperar si devuelve Promise)
+      const archivoBase64 = await this.sharedService.guardarArchivo({
+        entrada: this.myForm.get('acta_documento_cierre')?.value,
+        nombrearchivo: '',
+        tipoDocumento: TiposDocumentoCarga.ACTA_CIERRE_PARD,
+        idSolicitudServicio: this.objSol.idSolicitud,
+      });
+      console.log('Archivo base64:', archivoBase64);
+
+      // 3. Guardar medidas
+      const guardado = await this.guardarMedidasPard(medidasResueltas);
+      console.log('Resultado de guardar medidas:', guardado);
+
+      // 4. Validar resultados y proceder
+      if (guardado && archivoBase64) {
+        this.modales
+          .modalExito('Medidas y acta de cierre PARD guardadas exitosamente.')
+          .subscribe(() => {
+            this.procederCierreActuacion();
+          });
+      }
+    } catch (error) {
+      console.error('Error al cerrar actuación:', error);
+    }
+  }
+
+  private obtenerMedidasParaCierre(): MedidasInterface[] {
+    const medidasFormulario = this.myForm.value.medidas;
+    return this.dataSourceMedidas.data.map((medidaOriginal, index) => {
+      return {
+        idseguimientoMedidas: medidaOriginal.idseguimientoMedidas,
+        idMedida: medidaOriginal.idMedida,
+        estadoMedida: medidasFormulario[index].rCumplimiento,
+        prorroga: null,
+        justificacionProrroga: null,
+        nomMedida: medidaOriginal.nomMedida,
+        textoMedida: medidaOriginal.textoMedida,
+        tipoMedida: medidaOriginal.tipoMedida,
+        idAnexoProrroga: null,
+        nombreAnexoProrroga: null,
+      };
     });
   }
-}
-private obtenerMedidasParaCierre(): MedidasInterface[] {
-  const medidasFormulario = this.myForm.value.medidas;
-  return this.dataSourceMedidas.data.map((medidaOriginal, index) => {
-    return {
-      idseguimientoMedidas: medidaOriginal.idseguimientoMedidas,
-      idMedida: medidaOriginal.idMedida,
-      estadoMedida: medidasFormulario[index].rCumplimiento,
-      prorroga: null,
-      justificacionProrroga: null,
-      nomMedida: medidaOriginal.nomMedida,
-      textoMedida: medidaOriginal.textoMedida,
-      tipoMedida: medidaOriginal.tipoMedida,
-      idAnexoProrroga: null,
-      nombreAnexoProrroga: null,
-    };
-  });
-}
-
 
   private async guardarMedidasPard(medidas: MedidasInterface[]) {
-  try {
-    const obj: any = {
-      idTareaInstrumentros:  this.objSol.idTarea,
-      idSolicitudServicio: this.objSol.idSolicitud,
-      idSeguimiento: 0, 
-      idProgramacion: this.idProgramacion,
-      usuarioModifica: this.objUser?.userID,
-      comentario: this.myForm.get('justificacion')?.value,
-      medidasDeAtencion: [],
-      medidasDeEstabilizacion: [],
-      medidasDeProteccion: medidas,
-    };
-    const res: ResponseInterface = await lastValueFrom(
-      this.seguimientoService.guardarMedidasSeguimiento(obj)
-    );
+    try {
+      const obj: any = {
+        idTareaInstrumentros: this.objSol.idTarea,
+        idSolicitudServicio: this.objSol.idSolicitud,
+        idSeguimiento: 0,
+        idProgramacion: this.idProgramacion,
+        usuarioModifica: this.objUser?.userID,
+        comentario: this.myForm.get('justificacion')?.value,
+        medidasDeAtencion: [],
+        medidasDeEstabilizacion: [],
+        medidasDeProteccion: medidas,
+      };
+      const res: ResponseInterface = await lastValueFrom(
+        this.seguimientoService.guardarMedidasSeguimiento(obj)
+      );
 
-    return res.statusCode === CodigosRespuesta.OK;
-  } catch (error) {
-    this.msgError();
-    return false;
-  }
-}
-
-private procederCierreActuacion() {
-  const objCerrar = this.retornarObjCerrarActuacion();
-
-  this.seguimientoService.cerrarActuaciones(objCerrar).subscribe({
-    next: (data: ResponseInterface) => {
-      if (data.statusCode === CodigosRespuesta.OK) {
-        this.modales.modalExito('Actuación cerrada exitosamente.').subscribe(() => {
-          this.router.navigate(['/casos']);
-        });
-      } else {
-        this.msgError();
-      }
-    },
-    error: () => {
+      return res.statusCode === CodigosRespuesta.OK;
+    } catch (error) {
       this.msgError();
-    },
-  });
-}
+      return false;
+    }
+  }
 
-private retornarObjCerrarActuacion(): any {
-  return {
-    tareaID: this.objSol.idTarea,
-    userID: this.objUser?.userID,
-    perfilCod: this.objUser?.perfil,
-    valorEtiqueta: this.myForm.get('rIncumplimiento')?.value,
-  };
-}
+  private procederCierreActuacion() {
+    const objCerrar = this.retornarObjCerrarActuacion();
+    console.log('Objeto para cerrar actuación:', objCerrar);
+
+    this.seguimientoService.cerrarActuaciones(objCerrar).subscribe({
+      next: (data: ResponseInterface) => {
+        if (data.statusCode === CodigosRespuesta.OK) {
+          this.modales
+            .modalExito('Actuación cerrada exitosamente.')
+            .subscribe(() => {
+              this.router.navigate(['/casos']);
+            });
+        } else {
+          this.msgError();
+        }
+      },
+      error: () => {
+        this.msgError();
+      },
+    });
+  }
+
+  private retornarObjCerrarActuacion(): any {
+    return {
+      tareaID: this.objSol.idTarea,
+      userID: this.objUser?.userID,
+      perfilCod: this.objUser?.perfil,
+      valorEtiqueta: this.myForm.get('rIncumplimiento')?.value,
+      actaDocumentoCierre: this.myForm.get('acta_documento_cierre')?.value,
+    };
+  }
 
   public cancelar() {
     this.modales.modalCancelar('/casos');

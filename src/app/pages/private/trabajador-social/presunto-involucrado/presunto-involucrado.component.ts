@@ -104,12 +104,20 @@ export class PresuntoInvolucradoComponent implements OnInit, OnDestroy {
 
         this.trabajadorSocialService.emitirAgresor(esVictima);
 
-        this.edadMaxima = esVictima
-          ? InvolucradosPARD.EDAD_MAXIMA_ACCIONANTE
-          : InvolucradosPARD.EDAD_MAXIMA_ACCIONADO;
-        this.mensajeEdad = esVictima
-          ? InvolucradosPARD.MSJ_EDAD_ACCIONANTE
-          : InvolucradosPARD.MSJ_EDAD_ACCIONADO;
+
+        console.log('esVictima', esVictima);
+        console.log('esRepresentante', esRepresentante);
+
+        if (esVictima && esRepresentante) {
+          this.edadMaxima = InvolucradosPARD.EDAD_MAXIMA_REPRESENTANTE;
+          this.mensajeEdad = InvolucradosPARD.MSJ_EDAD_REPRESENTANTE;
+        } else if (esVictima) {
+          this.edadMaxima = InvolucradosPARD.EDAD_MAXIMA_ACCIONANTE;
+          this.mensajeEdad = InvolucradosPARD.MSJ_EDAD_ACCIONANTE;
+        } else {
+          this.edadMaxima = InvolucradosPARD.EDAD_MAXIMA_ACCIONADO;
+          this.mensajeEdad = InvolucradosPARD.MSJ_EDAD_ACCIONADO;
+        }
 
         this.ajustarTiposDocumento(esVictima);
 
@@ -162,7 +170,7 @@ export class PresuntoInvolucradoComponent implements OnInit, OnDestroy {
       datosAdicionales: '',
       registroExpedidoEn: 'Notaria',
       esRepresentante: false,
-      edadEn : [0],
+      edadEn: [0],
       nombreEntidadExpedicion: '',
       edad: [
         0,
@@ -185,7 +193,7 @@ export class PresuntoInvolucradoComponent implements OnInit, OnDestroy {
 
       this.involucradoForm.patchValue({
         ...obj,
-         edadEn: ValidarCampos.validarNumber(obj.edadEn), // <-- agregarlo aquí
+        edadEn: ValidarCampos.validarNumber(obj.edadEn), // <-- agregarlo aquí
         tipoDocumento: ValidarCampos.validarNumber(obj.idTipoDocumento),
         segundoNombre: ValidarCampos.validarString(obj.segundoNombre),
         segundoApellido: ValidarCampos.validarString(obj.segundoApellido),
