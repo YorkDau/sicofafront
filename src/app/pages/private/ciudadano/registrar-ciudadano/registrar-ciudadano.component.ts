@@ -178,17 +178,38 @@ export class RegistrarCiudadanoComponent implements OnInit {
               .getDepartamentos(ciudadano.data.idPaisNacimiento)
               .subscribe((departamentos) => {
                 if (departamentos.statusCode === CodigosRespuesta.OK) {
-                  this.selectDepartamento = departamentos.data;
+                  this.selectDepartamentoNacimiento = departamentos.data;
                 }
               });
             this.sharedService
               .getCiudades(ciudadano.data.idDepartamentoNacimiento)
               .subscribe((municipios) => {
                 if (municipios.statusCode === CodigosRespuesta.OK) {
+                  this.selectMunicipioNacimiento = municipios.data;
+                }
+              });
+            this.sharedService
+              .getLocalidadPorMunicipio(ciudadano.data.idMunicipioNacimiento)
+              .subscribe((localidades) => {
+                if (localidades.statusCode === CodigosRespuesta.OK) {
+                  this.selectLocalidad = localidades.data;
+                }
+              });
+            //Cargar Selects para la expedicion del documento
+            this.sharedService
+              .getDepartamentos(ciudadano.data.idPaisExpedicion)
+              .subscribe((departamentos) => {
+                if (departamentos.statusCode === CodigosRespuesta.OK) {
+                  this.selectDepartamento = departamentos.data;
+                }
+              });
+            this.sharedService
+              .getCiudades(ciudadano.data.idDepartamentoExpedicion)
+              .subscribe((municipios) => {
+                if (municipios.statusCode === CodigosRespuesta.OK) {
                   this.selectMunicipio = municipios.data;
                 }
               });
-
             this.sharedService
               .getLocalidadPorMunicipio(ciudadano.data.idMunicipioNacimiento)
               .subscribe((localidades) => {
@@ -197,6 +218,7 @@ export class RegistrarCiudadanoComponent implements OnInit {
                 }
               });
           }
+
           this.setDataPost(ciudadano.data);
         });
 
@@ -955,16 +977,18 @@ export class RegistrarCiudadanoComponent implements OnInit {
       ? this.myForm.get("municipioExp")?.setValue("")
       : this.myForm.get("municipioExp")?.setValue(resp.idMunicipioExpedicion);
     resp.idPaisNacimiento == 0
-      ? this.myForm.get("pais")?.setValue("")
-      : this.myForm.get("pais")?.setValue(resp.idPaisNacimiento);
+      ? this.myForm.get("paisNacimiento")?.setValue("")
+      : this.myForm.get("paisNacimiento")?.setValue(resp.idPaisNacimiento);
     resp.idDepartamentoNacimiento == 0
-      ? this.myForm.get("departamento")?.setValue("")
+      ? this.myForm.get("departamentoNacimiento")?.setValue("")
       : this.myForm
-          .get("departamento")
+          .get("departamentoNacimiento")
           ?.setValue(resp.idDepartamentoNacimiento);
     resp.idMunicipioNacimiento == 0
-      ? this.myForm.get("municipio")?.setValue("")
-      : this.myForm.get("municipio")?.setValue(resp.idMunicipioNacimiento);
+      ? this.myForm.get("municipioNacimiento")?.setValue("")
+      : this.myForm
+          .get("municipioNacimiento")
+          ?.setValue(resp.idMunicipioNacimiento);
     resp.idLocalidad == 0
       ? this.myForm.get("localidad")?.setValue("")
       : this.myForm.get("localidad")?.setValue(resp.idLocalidad);
