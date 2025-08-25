@@ -134,6 +134,8 @@ export class SeguimientoService {
   public guardarMedidasSeguimiento(
     objMedidas: listaMedidasInterface
   ): Observable<ResponseInterface>{
+    console.log('Guardando medidas de seguimiento:', objMedidas);
+
     return this.http.post<ResponseInterface>(
       `${this.api}/Seguimientos/GuardarMedidasSeguimiento`,
       objMedidas

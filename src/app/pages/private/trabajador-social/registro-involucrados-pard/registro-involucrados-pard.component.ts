@@ -85,19 +85,26 @@ export class RegistroInvolucradosPardComponent implements OnInit, OnDestroy {
     }
   }
 
-  private validarInvolucradosForm(): boolean {
-    let resultado = false;
-    if (this.presuntoInvolucrado) {
-      const form = this.presuntoInvolucrado.involucradoForm;
-      if (form.invalid) {
-        this.trabajadorSocialService.emitirInvolucrados(true);
-      } else {
-        this.trabajadorSocialService.emitirInvolucrados(false);
-        resultado = true;
-      }
+private validarInvolucradosForm(): boolean {
+  let resultado = false;
+  if (this.presuntoInvolucrado) {
+    const form = this.presuntoInvolucrado.involucradoForm;
+
+    // 🔹 Marca todos los campos como "tocados"
+    Object.values(form.controls).forEach((control) => {
+      control.markAsTouched();
+      control.updateValueAndValidity();
+    });
+
+    if (form.invalid) {
+      this.trabajadorSocialService.emitirInvolucrados(true);
+    } else {
+      this.trabajadorSocialService.emitirInvolucrados(false);
+      resultado = true;
     }
-    return resultado;
   }
+  return resultado;
+}
 
   private validarDerechosP1(): boolean {
     let resultado = false;

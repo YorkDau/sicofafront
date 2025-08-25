@@ -257,6 +257,7 @@ export class SharedService {
   public guardarArchivo(
     objetoArchivo: CargarArchivoInterface
   ): Observable<ResponseInterface> {
+    console.log('Guardando archivo:', objetoArchivo);
     return this.http.post<ResponseInterface>(
       `${PATH_SERVER}/File/CargaArchivo`,
       objetoArchivo
@@ -316,6 +317,7 @@ export class SharedService {
   public EliminarDocumentoPorID(
     body: EliminarArchivoInterface
   ): Observable<ResponseInterface> {
+    console.log('Eliminando archivo:', body);
     return this.http.post<ResponseInterface>(
       `${PATH_SERVER}/File/EliminarDocumentoPorID`,
       body

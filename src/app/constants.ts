@@ -157,6 +157,7 @@ export enum TiposDocumentoCarga {
   ACTA_VERIFICACION_DERECHOS = 'Acta_Verificacion_Derechos',
   DECRETAR_DESISTIR_PARD = 'Anexo_Decreto_Pard',
   NOTIFICAR_INVOLUCRADOS_PARD = 'Notificacion_Pard',
+  ACTA_CIERRE_PARD = 'Anexo_Acta_Cierre_Pard',
 }
 
 export enum EstadosNotificacionImplicado {
@@ -186,13 +187,16 @@ export enum DescargasExcel {
   EXTENSION = '.xlsx',
   INFORMES_SOLICITUDES = 'Informe solicitudes',
   NOMBRE_HOJA_INOFORME = 'Informe',
-  // ¡Añade esta línea!
-  REPORTE_PARD = 'Reporte_Solicitudes_PARD', // Nuevo miembro para el nombre del reporte PARD
+  REPORTE_PARD = 'Reporte_Solicitudes_PARD',
 }
 
 export const InvolucradosPARD = {
   EDAD_MAXIMA_ACCIONADO: 200,
   EDAD_MAXIMA_ACCIONANTE: 17,
+  EDAD_MAXIMA_REPRESENTANTE: 100,
+  MSJ_EDAD_REPRESENTANTE: 'Rango de edad entre 18 y 100',
   MSJ_EDAD_ACCIONADO: 'Edad inválida',
+  
   MSJ_EDAD_ACCIONANTE: 'Rango de edad entre 0 y 17',
+
 };

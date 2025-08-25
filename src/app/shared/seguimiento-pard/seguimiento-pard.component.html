@@ -123,12 +123,18 @@
           <h6>
             Formato de diligenciación de documento de cierre de seguimiento de
             medidas PARD:
-            <button class="btn button-new mt-2" (click)="imprimir()">
+          </h6>
+          <div class="d-flex align-items-center gap-2 mt-2">
+            <button class="btn button-new" (click)="imprimir()">
               Generar Acta
             </button>
-          </h6>
+            <app-carga-archivo
+              matTooltip="Cargar Acta de cierre"
+              [textoCargar]="'Cargar Acta de Cierre'"
+              (baseArchivo)="obtenerArchivo($event)"
+            ></app-carga-archivo>
+          </div>
         </div>
-
         <!-- Sección de medidas cuando la conclusión es NO -->
         <div
           class="mt-4"
@@ -224,30 +230,30 @@
             </div>
           </div>
 
-            <div class="mt-4">
+          <div class="mt-4">
             <p class="p-class">¿Se incumplió una o varias medidas PARD?</p>
             <div class="form-check form-check-inline">
               <input
-              class="form-check-input"
-              type="radio"
-              id="si-incumplimiento"
-              [value]="1"
-              formControlName="rIncumplimiento"
-              checked
+                class="form-check-input"
+                type="radio"
+                id="si-incumplimiento"
+                [value]="1"
+                formControlName="rIncumplimiento"
+                checked
               />
               <label for="si-incumplimiento" class="form-label"> SI</label>
             </div>
             <div class="form-check form-check-inline">
               <input
-              class="form-check-input"
-              type="radio"
-              id="no-incumplimiento"
-              [value]="0"
-              formControlName="rIncumplimiento"
+                class="form-check-input"
+                type="radio"
+                id="no-incumplimiento"
+                [value]="0"
+                formControlName="rIncumplimiento"
               />
               <label for="no-incumplimiento" class="form-label"> NO</label>
             </div>
-            </div>
+          </div>
         </div>
 
         <!-- Justificación
