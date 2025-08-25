@@ -180,7 +180,7 @@ export class DecisionSeguimientoComponent implements OnInit {
       rConclusion: ['Si', Validators.required],
       justificacion: [''],
       rIncumplimiento: [0, Validators.required],
-      acta_documento_cierre: ['', Validators.required],
+      acta_documento_cierre: [''],
     });
   }
 
