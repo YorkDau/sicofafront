@@ -52,9 +52,11 @@ export class DatosInvolucradosComponent implements AfterViewInit {
   public listaTipoDocumento!: DominioInterface[];
   public listaSexo!: DominioInterface[];
   public listaGenero!: DominioInterface[];
-  public selectPaises: PaisInterface[] = [];
-  public selectDepartamento: DepartamentoInterface[] = [];
-  public selectMunicipio: MunicipioInterface[] = [];
+
+  public paises: Record<string, PaisInterface[]> = {};
+  public departamentos: Record<string, DepartamentoInterface[]> = {};
+  public municipios: Record<string, MunicipioInterface[]> = {};
+
   public listaNivelAcademico!: DominioInterface[];
   public listaRegimen!: DominioInterface[];
   public listaDiscapacidad!: DominioInterface[];
@@ -161,11 +163,19 @@ export class DatosInvolucradosComponent implements AfterViewInit {
         ],
       ],
       seguridad: [false],
-      // lugarExpedicion: [{ value: '', disabled: false }, [Validators.required]],
       paisExp: [{ value: "", disabled: false }, [Validators.required]],
       departamentoExp: [{ value: "", disabled: false }, [Validators.required]],
       municipioExp: [{ value: "", disabled: false }, [Validators.required]],
       fechaExpedicion: [{ value: "", disabled: false }, [Validators.required]],
+      paisNacimiento: [{ value: "", disabled: false }, [Validators.required]],
+      departamentoNacimiento: [
+        { value: "", disabled: false },
+        [Validators.required],
+      ],
+      municipioNacimiento: [
+        { value: "", disabled: false },
+        [Validators.required],
+      ],
     });
   }
 
@@ -194,19 +204,19 @@ export class DatosInvolucradosComponent implements AfterViewInit {
         if (resultVictima && resultVictima.statusCode === CodigosRespuesta.OK) {
           this.victima = resultVictima.data;
           this.setFormDataVictima();
-          this.cargaSelectPaises(this.victima.tipoDocumento ?? 0);
+          this.cargaSelectPaisesVictima(this.victima.tipoDocumento ?? 0);
           this.sharedService
             .getDepartamentos(this.victima.paisExp ?? 0)
             .subscribe((departamentos) => {
               if (departamentos.statusCode === CodigosRespuesta.OK) {
-                this.selectDepartamento = departamentos.data;
+                this.departamentos["expedicion_victima"] = departamentos.data;
               }
             });
           this.sharedService
             .getCiudades(this.victima.departamentoExp ?? 0)
             .subscribe((municipios) => {
               if (municipios.statusCode === CodigosRespuesta.OK) {
-                this.selectMunicipio = municipios.data;
+                this.municipios["expedicion_victima"] = municipios.data;
               }
             });
           this.sharedService
@@ -231,19 +241,25 @@ export class DatosInvolucradosComponent implements AfterViewInit {
         if (resultAgresor && resultAgresor.statusCode === CodigosRespuesta.OK) {
           this.agresor = resultAgresor.data;
           this.setFormDataAgresor();
+          this.cargaSelectPaisesAgresor(this.agresor.tipoDocumento ?? 0);
+          this.sharedService
+            .getDepartamentos(this.victima.paisExp ?? 0)
+            .subscribe((departamentos) => {
+              if (departamentos.statusCode === CodigosRespuesta.OK) {
+                this.departamentos["expedicion_agresor"] = departamentos.data;
+              }
+            });
+          this.sharedService
+            .getCiudades(this.victima.departamentoExp ?? 0)
+            .subscribe((municipios) => {
+              if (municipios.statusCode === CodigosRespuesta.OK) {
+                this.municipios["expedicion_agresor"] = municipios.data;
+              }
+            });
         } else {
           this.modales.modalInformacion(Mensajes.MENSAJE_ERROR_G);
         }
       });
-  }
-
-  private setFormInvolucrados(form: FormGroup, involucrado: InvolucradoDTO) {
-    if (involucrado) {
-      form.setValue(involucrado);
-      if (this.victima.hijos) {
-        this.setHijosVictima(this.victima.hijos);
-      }
-    }
   }
 
   /**
@@ -619,6 +635,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
     ];
     return nombres.join(" ").trim();
   }
+
   changeHijosVictima() {
     let numHijos = this.formVictima.get("numeroHijos")?.value;
 
@@ -771,6 +788,78 @@ export class DatosInvolucradosComponent implements AfterViewInit {
       input.value = 0 + "";
     } else {
       input.value = value + "";
+    }
+  }
+
+  /**
+   * @description carga el select departamento dependiendo del pais
+   */
+  public cargaSelectDepartamentoNacimientoVictima(event: any) {
+    this.formVictima.get("departamentoNacimiento")?.setValue("");
+    this.formVictima.get("municipioNacimiento")?.setValue("");
+    this.formVictima.get("localidadNacimiento")?.setValue("");
+
+    if (event.target.value != 0) {
+      this.sharedService
+        .getDepartamentos(event.target.value)
+        .subscribe((departamentos) => {
+          if (departamentos.statusCode === CodigosRespuesta.OK) {
+            this.departamentos["nacimiento_victima"] = departamentos.data;
+          }
+        });
+    }
+  }
+
+  /**
+   * @description carga el select municipio dependiendo del departamento y del pais
+   */
+  public cargaSelectMunicipioNacimientoVictima(event: any) {
+    this.formVictima.get("municipioNacimiento")?.setValue("");
+
+    if (event.target.value != 0) {
+      this.sharedService
+        .getCiudades(event.target.value)
+        .subscribe((municipio) => {
+          if (municipio.statusCode === CodigosRespuesta.OK) {
+            this.municipios["nacimiento_victima"] = municipio.data;
+          }
+        });
+    }
+  }
+
+  /**
+   * @description carga el select departamento dependiendo del pais
+   */
+  public cargaSelectDepartamentoNacimientoAgresor(event: any) {
+    this.formVictima.get("departamentoNacimiento")?.setValue("");
+    this.formVictima.get("municipioNacimiento")?.setValue("");
+    this.formVictima.get("localidadNacimiento")?.setValue("");
+
+    if (event.target.value != 0) {
+      this.sharedService
+        .getDepartamentos(event.target.value)
+        .subscribe((departamentos) => {
+          if (departamentos.statusCode === CodigosRespuesta.OK) {
+            this.departamentos["nacimiento_agresor"] = departamentos.data;
+          }
+        });
+    }
+  }
+
+  /**
+   * @description carga el select municipio dependiendo del departamento y del pais
+   */
+  public cargaSelectMunicipioNacimientoAgresor(event: any) {
+    this.formVictima.get("municipioNacimiento")?.setValue("");
+
+    if (event.target.value != 0) {
+      this.sharedService
+        .getCiudades(event.target.value)
+        .subscribe((municipio) => {
+          if (municipio.statusCode === CodigosRespuesta.OK) {
+            this.municipios["nacimiento_agresor"] = municipio.data;
+          }
+        });
     }
   }
 
@@ -973,20 +1062,31 @@ export class DatosInvolucradosComponent implements AfterViewInit {
    * @description carga el select pais dependiendo si es colombiano y habilita el departamento y municipio
    */
   public isColombiano(event: any) {
-    // this.cColombiano = false;
-    // this.myForm.get('pais')?.setValue('');
     if (event.target.value != 0) {
-      this.cargaSelectPaises(event.target.value);
+      this.cargaSelectPaisesVictima(event.target.value);
     }
   }
 
   /**
    * @description carga el select de paises
    */
-  private cargaSelectPaises(idTipDoc: number) {
+  private cargaSelectPaisesVictima(idTipDoc: number) {
     this.sharedService.getPaisPorId(idTipDoc).subscribe((paises) => {
       if (paises.statusCode === CodigosRespuesta.OK) {
-        this.selectPaises = paises.data;
+        this.paises["expedicion_victima"] = paises.data;
+        this.paises["nacimiento_victima"] = paises.data;
+      }
+    });
+  }
+
+  /**
+   * @description carga el select de paises
+   */
+  private cargaSelectPaisesAgresor(idTipDoc: number) {
+    this.sharedService.getPaisPorId(idTipDoc).subscribe((paises) => {
+      if (paises.statusCode === CodigosRespuesta.OK) {
+        this.paises["expedicion_agresor"] = paises.data;
+        this.paises["nacimiento_agresor"] = paises.data;
       }
     });
   }
@@ -994,20 +1094,15 @@ export class DatosInvolucradosComponent implements AfterViewInit {
   /**
    * @description carga el select departamento dependiendo del pais
    */
-  public cargaSelectDepartamento(event: any) {
-    // this.myForm.get('departamento')?.setValue('');
-    // this.myForm.get('municipio')?.setValue('');
-    // this.myForm.get('localidad')?.setValue('');
-
-    // if (event.target.value == 1) {
-    //   this.cColombiano = true;
-    // }
+  public cargaSelectDepartamentoExpVictima(event: any) {
+    this.formVictima.get("departamento")?.setValue("");
+    this.formVictima.get("municipio")?.setValue("");
     if (event.target.value != 0) {
       this.sharedService
         .getDepartamentos(event.target.value)
         .subscribe((departamentos) => {
           if (departamentos.statusCode === CodigosRespuesta.OK) {
-            this.selectDepartamento = departamentos.data;
+            this.departamentos["expedicion_victima"] = departamentos.data;
           }
         });
     }
@@ -1016,16 +1111,51 @@ export class DatosInvolucradosComponent implements AfterViewInit {
   /**
    * @description carga el select municipio dependiendo del departamento y del pais
    */
-  public cargaSelectMunicipio(event: any) {
-    // this.myForm.get('municipio')?.setValue('');
-    // this.myForm.get('localidad')?.setValue('');
+  public cargaSelectMunicipioExpVictima(event: any) {
+    this.formVictima.get("municipio")?.setValue("");
+    this.formVictima.get("localidad")?.setValue("");
 
     if (event.target.value != 0) {
       this.sharedService
         .getCiudades(event.target.value)
         .subscribe((municipio) => {
           if (municipio.statusCode === CodigosRespuesta.OK) {
-            this.selectMunicipio = municipio.data;
+            this.municipios["expedicion_victima"] = municipio.data;
+          }
+        });
+    }
+  }
+
+  /**
+   * @description carga el select departamento dependiendo del pais
+   */
+  public cargaSelectDepartamentoExpAgresor(event: any) {
+    this.formAgresor.get("departamento")?.setValue("");
+    this.formAgresor.get("municipio")?.setValue("");
+    if (event.target.value != 0) {
+      this.sharedService
+        .getDepartamentos(event.target.value)
+        .subscribe((departamentos) => {
+          if (departamentos.statusCode === CodigosRespuesta.OK) {
+            this.departamentos["expedicion_agresor"] = departamentos.data;
+          }
+        });
+    }
+  }
+
+  /**
+   * @description carga el select municipio dependiendo del departamento y del pais
+   */
+  public cargaSelectMunicipioExpAgresor(event: any) {
+    this.formAgresor.get("municipio")?.setValue("");
+    this.formAgresor.get("localidad")?.setValue("");
+
+    if (event.target.value != 0) {
+      this.sharedService
+        .getCiudades(event.target.value)
+        .subscribe((municipio) => {
+          if (municipio.statusCode === CodigosRespuesta.OK) {
+            this.municipios["expedicion_agresor"] = municipio.data;
           }
         });
     }
