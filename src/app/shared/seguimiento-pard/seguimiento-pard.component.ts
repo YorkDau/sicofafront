@@ -78,7 +78,7 @@ export class SeguimientoPardComponent implements OnInit {
       justificacion: [''],
       rIncumplimiento: [0, Validators.required],
       medidas: this.fb.array([]),
-      acta_documento_cierre: ['', Validators.required],
+      acta_documento_cierre: [''],
     });
   }
 
@@ -241,26 +241,17 @@ export class SeguimientoPardComponent implements OnInit {
   }
   private async cerrarActuacion() {
     try {
-      console.log('Iniciando cierre de actuación...');
 
-      // 1. Obtener medidas para cierre
       const medidasResueltas = this.obtenerMedidasParaCierre();
-      console.log('Medidas para cierre:', medidasResueltas);
-
-      // 2. Guardar archivo en base64 (esperar si devuelve Promise)
       const archivoBase64 = await this.sharedService.guardarArchivo({
         entrada: this.myForm.get('acta_documento_cierre')?.value,
         nombrearchivo: '',
         tipoDocumento: TiposDocumentoCarga.ACTA_CIERRE_PARD,
         idSolicitudServicio: this.objSol.idSolicitud,
       });
-      console.log('Archivo base64:', archivoBase64);
 
-      // 3. Guardar medidas
       const guardado = await this.guardarMedidasPard(medidasResueltas);
-      console.log('Resultado de guardar medidas:', guardado);
 
-      // 4. Validar resultados y proceder
       if (guardado && archivoBase64) {
         this.modales
           .modalExito('Medidas y acta de cierre PARD guardadas exitosamente.')
