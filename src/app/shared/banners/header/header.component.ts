@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { CodigosPerfil, CodigosRespuesta } from 'src/app/constants';
@@ -21,7 +20,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private subModActual!: Subscription;
   private intervalo: any;
 
-  public nombreComisaria: string ='' ;
+  public nombreComisaria: string = '';
   public mostrarMenu: boolean = false;
   public rolSeleccionado: string = '';
   public totalNotificaciones: number = 0;
@@ -40,37 +39,49 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   constructor(
     private sharedService: SharedService,
-    private authService: AuthService,
+    private authService: AuthService
   ) {
     this.authService.loadPage$.subscribe((data) => {
       if (data) {
         this.loadMenu = true;
         this.authService.getselectComisariaValue(this.authService.id_comisaria);
-        this.nombreComisaria = Array.isArray(this.authService.comisariasList) && this.authService.comisariasList.length > 0
-          ? this.authService.comisariasList[0].nombreComisaria
-          : 'Comisaría de Familia';
+
+        // Obtener usuario actual
         this.currentUser = this.authService.currentUserValue;
         this.id_comisaria = this.currentUser?.idComisaria;
         this.rolSeleccionado = this.currentUser?.perfil!;
+
+        // Buscar la comisaría del usuario
+        if (this.id_comisaria && Array.isArray(this.authService.comisariasList)) {
+          const comisariaEncontrada = this.authService.comisariasList.find(
+            (c: any) => c.idComisaria === this.id_comisaria
+          );
+          this.nombreComisaria = comisariaEncontrada
+            ? comisariaEncontrada.nombreComisaria
+            : 'Comisaría de Familia';
+        } else {
+          this.nombreComisaria = 'Comisaría de Familia';
+        }
+
         this.obtenerPerfil(this.rolSeleccionado);
         this.cargaNotificaciones();
       }
     });
-    
   }
 
   ngOnInit(): void {
     this.subModActual = this.bsModuloActual.subscribe(
       (v) => (this.mostrarMenu = v)
     );
+
+    // Refrescar notificaciones cada 3 minutos
     this.intervalo = setInterval(() => {
       const user = this.authService.currentUserValue;
       if (user) {
         this.actualizarNotificaciones();
       }
-    }, 60000*3);    
+    }, 60000 * 3);
   }
-  
 
   ngOnDestroy(): void {
     if (this.subModActual) {
@@ -86,12 +97,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   cargaNotificaciones() {
-    this.sharedService.getSolicitudesComisaria(this.id_comisaria).subscribe((data) => {
-      if (data.statusCode === CodigosRespuesta.OK) {
-        this.preSolicitudes = data.data?.datosPaginados?.length || 0;
-        this.calcularTotalNotificaciones();
-      }
-    });
+    this.sharedService
+      .getSolicitudesComisaria(this.id_comisaria)
+      .subscribe((data) => {
+        if (data.statusCode === CodigosRespuesta.OK) {
+          this.preSolicitudes = data.data?.datosPaginados?.length || 0;
+          this.calcularTotalNotificaciones();
+        }
+      });
 
     this.sharedService.getCitasComisaria(this.id_comisaria).subscribe((data) => {
       if (data.statusCode === CodigosRespuesta.OK) {

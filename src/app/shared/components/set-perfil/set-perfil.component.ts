@@ -1,7 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-// import { environment } from '../../../../environments/environment'; // No se necesita aquí directamente
 import {
   AuthService,
   ComisariaAuth,
@@ -15,61 +14,60 @@ import {
 })
 export class SetPerfilComponent implements OnInit {
   public form: FormGroup = this.fb.group({
-    perfil: ['', Validators.required],
+    perfil: [null, Validators.required],
     comisaria: ['', Validators.required],
   });
   public mostrarValidaciones: boolean = false;
   public comisarias: ComisariaAuth[] = this.authService.comisariasList;
-  private allUserPerfiles: PerfilAuth[] = this.authService.perfilesList; // Renombrado para claridad
+  private allUserPerfiles: PerfilAuth[] = this.authService.perfilesList;
 
-  // AÑADIDO: Propiedad para los perfiles que se mostrarán en el dropdown según la comisaría
-  public perfilesDisponibles: PerfilAuth[] = []; // <--- AÑADIDO
+  public perfilesDisponibles: PerfilAuth[] = [];
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) private data: { perfiles: string[] }, // `data.perfiles` puede ser redundante si usas authService.perfilesList
+    @Inject(MAT_DIALOG_DATA) private data: { perfiles: string[] },
     private matDialogRef: MatDialogRef<SetPerfilComponent>,
     private fb: FormBuilder,
     private authService: AuthService
   ) {
-
-    // MODIFICADO: Suscribirse a cambios en la comisaría para actualizar perfiles disponibles
-    this.form.get('comisaria')!.valueChanges.subscribe(comisariaId => {
+    // Escuchar cambios de comisaria
+    this.form.get('comisaria')!.valueChanges.subscribe((comisariaId) => {
       this.filterProfilesByComisaria(comisariaId);
     });
 
-    // MODIFICADO: Intentar preseleccionar comisaría si ya hay una guardada o la primera
-    const currentSelectedComisariaId = this.authService.getselectComisariaValue(this.authService.id_comisaria);
+    // Preseleccionar comisaria actual o la primera
+    const currentSelectedComisariaId = this.authService.getselectComisariaValue(
+      this.authService.id_comisaria
+    );
 
-    if (currentSelectedComisariaId && this.comisarias.some(c => c.idComisaria === currentSelectedComisariaId)) {
-        this.form.get('comisaria')!.setValue(currentSelectedComisariaId);
+    if (
+      currentSelectedComisariaId &&
+      this.comisarias.some((c) => c.idComisaria === currentSelectedComisariaId)
+    ) {
+      this.form.get('comisaria')!.setValue(currentSelectedComisariaId);
     } else {
-        this.form.get('comisaria')!.setValue(this.primeraComisaria);
+      this.form.get('comisaria')!.setValue(this.primeraComisaria);
     }
   }
 
   get primeraComisaria() {
     return this.comisarias && this.comisarias.length > 0
       ? this.comisarias[0].idComisaria
-      : 0; 
+      : 0;
   }
-
-  // `perfilesFiltrados` no es tan dinámico como `perfilesDisponibles` con el .valueChanges
-  // Si lo usas en el HTML para el *ngFor de los <mat-option>, deberías usar `perfilesDisponibles`
-  // get perfilesFiltrados() {
-  //   return this.allUserPerfiles.filter(
-  //     (val) => val.idComisaria == this.form.get('comisaria')!.value
-  //   );
-  // }
 
   ngOnInit(): void {
     this.filterProfilesByComisaria(this.form.get('comisaria')!.value);
 
-    if (this.comisarias.length === 1 && this.allUserPerfiles.length === 1 && this.allUserPerfiles[0].idComisaria === this.comisarias[0].idComisaria) {
-        this.form.get('comisaria')!.setValue(this.comisarias[0].idComisaria);
-        this.filterProfilesByComisaria(this.comisarias[0].idComisaria);
-        this.form.get('perfil')!.setValue(this.allUserPerfiles[0].perfil);
-        this.guardar(); 
-        // Opcional: matDialogRef.disableClose = true; para evitar cierre manual
+    // Si solo hay una comisaria y un perfil, se selecciona automáticamente
+    if (
+      this.comisarias.length === 1 &&
+      this.allUserPerfiles.length === 1 &&
+      this.allUserPerfiles[0].idComisaria === this.comisarias[0].idComisaria
+    ) {
+      this.form.get('comisaria')!.setValue(this.comisarias[0].idComisaria);
+      this.filterProfilesByComisaria(this.comisarias[0].idComisaria);
+      this.form.get('perfil')!.setValue(this.allUserPerfiles[0].perfil);
+      this.guardar();
     }
   }
 
@@ -78,26 +76,26 @@ export class SetPerfilComponent implements OnInit {
       this.perfilesDisponibles = this.allUserPerfiles.filter(
         (p) => p.idComisaria === comisariaId
       );
-      if (this.perfilesDisponibles.length === 1) {
-        this.form.get('perfil')!.setValue(this.perfilesDisponibles[0].perfil);
-      } else {
-        this.form.get('perfil')!.setValue('');
-      }
+      // Reiniciar perfil a null -> siempre queda en "Seleccione perfil"
+      this.form.get('perfil')!.setValue(null);
     } else {
       this.perfilesDisponibles = [];
-      this.form.get('perfil')!.setValue('');
+      this.form.get('perfil')!.setValue(null);
     }
   }
 
   getNombrePerfilSeleccionado(): string | null {
     const selectedPerfilCode = this.form.get('perfil')!.value;
-    const selectedPerfil = this.perfilesDisponibles.find(p => p.perfil === selectedPerfilCode);
+    const selectedPerfil = this.perfilesDisponibles.find(
+      (p) => p.perfil === selectedPerfilCode
+    );
     return selectedPerfil ? selectedPerfil.nombrePerfil : null;
   }
 
   public cerrarModal() {
     this.matDialogRef.close(false);
   }
+
   public cerrarSesion() {
     this.cerrarModal();
     this.authService.cerrarSesion();
@@ -106,14 +104,17 @@ export class SetPerfilComponent implements OnInit {
   public guardar() {
     if (this.form.valid) {
       this.mostrarValidaciones = false;
-      const { perfil, comisaria } = this.form.value; 
-      
-      const nombreLegiblePerfil = this.getNombrePerfilSeleccionado(); 
+      const { perfil, comisaria } = this.form.value;
 
-      this.authService.setComisariaAndProfileSelection(comisaria, nombreLegiblePerfil); 
+      const nombreLegiblePerfil = this.getNombrePerfilSeleccionado();
+
+      this.authService.setComisariaAndProfileSelection(
+        comisaria,
+        nombreLegiblePerfil
+      );
 
       this.matDialogRef.close({
-        perfil, 
+        perfil,
         comisaria,
         nombrePerfil: nombreLegiblePerfil,
         refresh: true,
@@ -123,13 +124,12 @@ export class SetPerfilComponent implements OnInit {
     }
   }
 
-  /**
-   * @description valida que los campos sean obligatorios o requeridos
-   * @param campo variable para ingresar el campo requerido
-   */
   public isRequired(campo: string): boolean {
     if (this.form.controls[campo]) {
-      return this.form.controls[campo].hasError('required') && (this.form.controls[campo].touched || this.mostrarValidaciones);
+      return (
+        this.form.controls[campo].hasError('required') &&
+        (this.form.controls[campo].touched || this.mostrarValidaciones)
+      );
     } else {
       return false;
     }
