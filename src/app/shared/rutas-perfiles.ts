@@ -18,6 +18,10 @@ export const perfilAuxiliar: MenuInterface[] = [
         ruta: './ciudadano',
       },
       {
+        titulo: 'Consulta Involucrados',
+        ruta: './involucrado',
+      },
+      {
         titulo: 'Consulta General',
         ruta: './consulta/comisaria-general'
       }
@@ -52,6 +56,10 @@ export const perfilPsicologo: MenuInterface[] = [
       {
         titulo: 'Consulta Ciudadanos',
         ruta: './ciudadano',
+      },
+      {
+        titulo: 'Consulta Involucrados',
+        ruta: './involucrado',
       },
       {
         titulo: 'Seguimientos',
@@ -92,6 +100,10 @@ export const perfilAbogado: MenuInterface[] = [
       {
         titulo: 'Seguimientos',
         ruta: './abogado/seguimientos',
+      },
+      {
+        titulo: 'Consulta Involucrados',
+        ruta: './involucrado',
       },
       {
         titulo: 'Consulta General',
@@ -139,6 +151,10 @@ export const perfilComisario: MenuInterface[] = [
       {
         titulo: 'Consulta Ciudadanos',
         ruta: './ciudadano',
+      },
+      {
+        titulo: 'Consulta Involucrados',
+        ruta: './involucrado',
       },
       {
         titulo: 'Seguimientos',
@@ -206,6 +222,10 @@ export const perfilTrabajadorSocial: MenuInterface[] = [
       {
         titulo: 'Consulta Ciudadanos',
         ruta: './ciudadano',
+      },
+      {
+        titulo: 'Consulta Involucrados',
+        ruta: './involucrado',
       },
       {
         titulo: 'Seguimientos',

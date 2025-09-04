@@ -9,15 +9,15 @@ import { ResponseInterface } from "src/app/interfaces/response.interface";
 import { UserInterface } from "src/app/interfaces/usuario.interface";
 import { Modales } from "src/app/shared/modals";
 import { CiudadanoInterface } from "../interfaces/ciudadano.interface";
-import { CiudadanoService } from "./services/ciudadano.service";
 import { AuthService } from "src/app/auth/services/auth.service";
+import { InvolucradoService } from "./services/involucrado.service";
 
 @Component({
   selector: "app-ciudadano",
-  templateUrl: "./ciudadano.component.html",
-  styleUrls: ["./ciudadano.component.scss"],
+  templateUrl: "./involucrado.component.html",
+  styleUrls: ["./involucrado.component.scss"],
 })
-export class CiudadanoComponent implements OnInit {
+export class InvolucradoComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
 
   public columnas: string[] = [
@@ -27,7 +27,6 @@ export class CiudadanoComponent implements OnInit {
     "numero_documento",
     "numero_solicitudes",
     "fecha_ult_solicitud",
-    "accion",
   ];
   public dataSource = new MatTableDataSource<CiudadanoInterface>([]);
   public listaCiudadano: CiudadanoInterface[] = [];
@@ -39,7 +38,7 @@ export class CiudadanoComponent implements OnInit {
   currentUser!: UserInterface | undefined;
 
   constructor(
-    private ciudadanoService: CiudadanoService,
+    private involucradoService: InvolucradoService,
     private fb: FormBuilder,
     private dialog: MatDialog,
     private router: Router,
@@ -70,29 +69,26 @@ export class CiudadanoComponent implements OnInit {
 
     if (this.ciudadanoForm.valid) {
       this.formSubmitted = true;
-      this.ciudadanoService.getCiudadanos(this.ciudadanoForm.value).subscribe({
-        next: (data: ResponseInterface) => {
-          if (data.statusCode === CodigosRespuesta.OK) {
-            if (data.data.totalRegistros > 0) {
-              this.listaCiudadano = data.data.datosPaginados;
-              this.dataSource = new MatTableDataSource(this.listaCiudadano);
-              this.mostrarValidaciones = false;
-              this.dataSource.paginator = this.paginator;
-              this.ocultarPaginador = false;
-            } else {
-              this.limpiarRegistros();
+      this.involucradoService.getInvolucrados(this.ciudadanoForm.value)
+        .subscribe({
+          next: (data: ResponseInterface) => {
+            if (data.statusCode === CodigosRespuesta.OK) {
+              if (data.data.totalRegistros > 0) {
+                this.listaCiudadano = data.data.datosPaginados;
+                this.dataSource = new MatTableDataSource(this.listaCiudadano);
+                this.mostrarValidaciones = false;
+                this.dataSource.paginator = this.paginator;
+                this.ocultarPaginador = false;
+              } else {
+                this.limpiarRegistros();
+              }
             }
+          },
+          error: () => {
+            this.limpiarRegistros();
+            Modales.modalInformacion(Mensajes.MENSAJE_ERROR_G, this.dialog, 'assets/images/exclamacion.svg');
           }
-        },
-        error: () => {
-          this.limpiarRegistros();
-          Modales.modalInformacion(
-            Mensajes.MENSAJE_ERROR_G,
-            this.dialog,
-            "assets/images/exclamacion.svg",
-          );
-        },
-      });
+        });
     } else {
       this.mostrarValidaciones = true;
     }
