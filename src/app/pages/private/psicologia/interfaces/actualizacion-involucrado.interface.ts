@@ -40,5 +40,8 @@ export interface ActualizacionInvolucrado {
   departamentoExp?: number;
   municipioExp?: number;
   fechaExpedicion?: Date;
+  paisNacimiento?: number;
+  departamentoNacimiento?: number;
+  municipioNacimiento?: number;
   fechaNacimiento?: Date;
 }

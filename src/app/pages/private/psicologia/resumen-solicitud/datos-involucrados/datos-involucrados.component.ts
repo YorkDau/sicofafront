@@ -97,7 +97,6 @@ export class DatosInvolucradosComponent implements AfterViewInit {
       tipoDocumento: [{ value: "", disabled: false }],
       numeroDocumento: [{ value: "", disabled: false }],
       sexo: [{ value: "", disabled: false }, Validators.required],
-      //regimen: [{ value: '', disabled: false }, Validators.required],
       identidadGenero: [{ value: "", disabled: false }],
       idEscolaridad: [""],
       ocupacion: [""],
@@ -117,11 +116,19 @@ export class DatosInvolucradosComponent implements AfterViewInit {
       descripcionOrganizacionCriminal: [""],
       agresorOrganizacionCriminal: [false],
       edadAproximadaAgresor: [],
-      // lugarExpedicion: [{ value: '', disabled: false }, [Validators.required]],
       paisExp: [{ value: "", disabled: false }, [Validators.required]],
       departamentoExp: [{ value: "", disabled: false }, [Validators.required]],
       municipioExp: [{ value: "", disabled: false }, [Validators.required]],
       fechaExpedicion: [{ value: "", disabled: false }, [Validators.required]],
+      paisNacimiento: [{ value: "", disabled: false }, [Validators.required]],
+      departamentoNacimiento: [
+        { value: "", disabled: false },
+        [Validators.required],
+      ],
+      municipioNacimiento: [
+        { value: "", disabled: false },
+        [Validators.required],
+      ],
     });
 
     this.formVictima = this.formBuilder.group({
@@ -219,12 +226,19 @@ export class DatosInvolucradosComponent implements AfterViewInit {
                 this.municipios["expedicion_victima"] = municipios.data;
               }
             });
-          this.sharedService
-            .getLocalidadPorMunicipio(this.victima.municipioExp ?? 0)
-            .subscribe((localidades) => {
-              // if (localidades.statusCode === CodigosRespuesta.OK) {
-              //   this.selectLocalidad = localidades.data;
-              // }
+            this.sharedService
+            .getDepartamentos(this.victima.paisNacimiento ?? 0)
+            .subscribe((departamentos) => {
+              if (departamentos.statusCode === CodigosRespuesta.OK) {
+                this.departamentos["nacimiento_victima"] = departamentos.data;
+              }
+            }); 
+             this.sharedService
+            .getCiudades(this.victima.departamentoNacimiento ?? 0)
+            .subscribe((municipios) => {
+              if (municipios.statusCode === CodigosRespuesta.OK) {
+                this.municipios["nacimiento_victima"] = municipios.data;
+              }
             });
         } else {
           this.modales.modalInformacion(Mensajes.MENSAJE_ERROR_G);
@@ -254,6 +268,20 @@ export class DatosInvolucradosComponent implements AfterViewInit {
             .subscribe((municipios) => {
               if (municipios.statusCode === CodigosRespuesta.OK) {
                 this.municipios["expedicion_agresor"] = municipios.data;
+              }
+            });
+            this.sharedService
+            .getDepartamentos(this.victima.paisNacimiento ?? 0)
+            .subscribe((departamentos) => {
+              if (departamentos.statusCode === CodigosRespuesta.OK) {
+                this.departamentos["nacimiento_agresor"] = departamentos.data;
+              }
+            });
+          this.sharedService
+            .getCiudades(this.victima.departamentoNacimiento ?? 0)
+            .subscribe((municipios) => {
+              if (municipios.statusCode === CodigosRespuesta.OK) {
+                this.municipios["nacimiento_agresor"] = municipios.data;
               }
             });
         } else {
@@ -305,7 +333,6 @@ export class DatosInvolucradosComponent implements AfterViewInit {
    * @description Setea los datos del formulario con los datos del victima
    */
   private setFormDataVictima() {
-    console.log("victima -> ", this.victima);
     // Campos que no hacen parte del formulario pero si del dto
     const {
       id,
@@ -505,6 +532,9 @@ export class DatosInvolucradosComponent implements AfterViewInit {
       departamentoExp: formValueAgresor.departamentoExp,
       municipioExp: formValueAgresor.municipioExp,
       fechaExpedicion: formValueAgresor.fechaExpedicion,
+      paisNacimiento: formValueAgresor.paisNacimiento,
+      departamentoNacimiento: formValueAgresor.departamentoNacimiento,
+      municipioNacimiento: formValueAgresor.municipioNacimiento,
       idIdentidadGenero: formValueAgresor.identidadGenero,
       edadAproximadaAgresor: formValueAgresor.edadAproximadaAgresor
         ? formValueAgresor.edadAproximadaAgresor
@@ -586,6 +616,9 @@ export class DatosInvolucradosComponent implements AfterViewInit {
       departamentoExp: formValueVictima.departamentoExp,
       municipioExp: formValueVictima.municipioExp,
       fechaExpedicion: formValueVictima.fechaExpedicion,
+      paisNacimiento: formValueVictima.paisNacimiento,
+      departamentoNacimiento: formValueVictima.departamentoNacimiento,
+      municipioNacimiento: formValueVictima.municipioNacimiento,
       fechaNacimiento: formValueVictima.fechaNacimiento,
     };
     if (bodyVictima.informacionHijos?.length !== bodyVictima.numeroHijos) {
@@ -1015,29 +1048,6 @@ export class DatosInvolucradosComponent implements AfterViewInit {
     }
 
     return this.formVictima.valid && !camposRequeridos.length && !errorHijos;
-  }
-
-  private validarFormulario(
-    formInvolucrado: FormGroup,
-    esAgresor: boolean,
-  ): boolean {
-    let errorHijos = 0;
-    const camposRequeridos: string[] = SharedFunctions.findInvalidControls(
-      formInvolucrado,
-    ).concat(this.validarCamposObligatorios(formInvolucrado));
-    this.formHijosAgresor.forEach((element) => {
-      if (!element.valid) {
-        errorHijos++;
-      }
-    });
-    if (errorHijos) {
-      const mensajeModal: string = esAgresor
-        ? "La información de los hijos del agresor está incompleta"
-        : "La información de los hijos de la vícima está incompleta";
-      this.modales.modalInformacion(mensajeModal);
-      return false;
-    }
-    return formInvolucrado.valid && !camposRequeridos.length && !errorHijos;
   }
 
   private validarCamposObligatorios(form: FormGroup) {

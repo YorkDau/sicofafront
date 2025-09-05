@@ -1040,12 +1040,10 @@
             </option>
           </select>
         </div>
-
         <div class="form-group col-lg-4 mb-4">
           <label class="form-label text-capitalize"
             >Municipio de Expedición<span class="mx-1">*</span></label
           >
-
           <select class="form-select" formControlName="municipioExp">
             <option disabled value="">Municipio de Expedición</option>
             <option
@@ -1098,7 +1096,7 @@
 
                <select
                  class="form-select"
-                 formControlName="paisExp"
+                 formControlName="paisNacimiento"
                  (change)="cargaSelectDepartamentoNacimientoAgresor($event)"
                >
                  <option disabled value="">País de Nacimiento</option>
@@ -1109,13 +1107,10 @@
              </div>
 
              <div class="form-group col-lg-4 mb-4">
-               <label class="form-label text-capitalize"
-                 >Departamento de Expedición<span class="mx-1">*</span></label
-               >
-
+               <label class="form-label text-capitalize">Departamento de Expedición<span class="mx-1">*</span></label>
                <select
                  class="form-select"
-                 formControlName="departamentoExp"
+                 formControlName="departamentoNacimiento"
                  (change)="cargaSelectMunicipioNacimientoAgresor($event)"
                >
                  <option disabled value="">Departamento de Nacimiento</option>
@@ -1133,7 +1128,7 @@
                  >Municipio de Nacimiento<span class="mx-1">*</span></label
                >
 
-               <select class="form-select" formControlName="municipioExp">
+               <select class="form-select" formControlName="municipioNacimiento">
                  <option disabled value="">Municipio de Nacimiento</option>
                  <option
                    *ngFor="let municipio of municipios['nacimiento_agresor']"

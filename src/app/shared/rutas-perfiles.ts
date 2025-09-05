@@ -190,18 +190,6 @@ export const perfilComisario: MenuInterface[] = [
         titulo: 'Tablero General',
         ruta: './reportes/tablero1',
       },
-     /**  {
-        titulo: 'Tablero 2',
-        ruta: './reportes/formatos-vacios',
-      },
-      {
-        titulo: 'Tablero 3',
-        ruta: './reportes/formatos-vacios',
-      },
-      {
-        titulo: 'Tablero 4',
-        ruta: './reportes/formatos-vacios',
-      },**/
     ],
   },
 ];
@@ -280,24 +268,6 @@ export const perfilAdministrador: MenuInterface[] = [
         titulo: 'Tablero General',
         ruta: './reportes/tablero1',
       },
-     /**  {
-        titulo: 'Tablero 2',
-        ruta: './reportes/formatos-vacios',
-      },
-      {
-        titulo: 'Tablero 3',
-        ruta: './reportes/formatos-vacios',
-      },
-      {
-        titulo: 'Tablero 4',
-        ruta: './reportes/formatos-vacios',
-      },**/
     ],
   },
-  // {
-  //   titulo: 'Conversor de Archivos',
-  //   icon: './assets/images/document-white.svg',
-  //   ruta: '/conversor',
-  //   subRutas: []
-  // },
 ];
