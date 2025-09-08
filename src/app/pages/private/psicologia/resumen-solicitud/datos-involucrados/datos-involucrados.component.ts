@@ -864,9 +864,9 @@ export class DatosInvolucradosComponent implements AfterViewInit {
    * @description carga el select departamento dependiendo del pais
    */
   public cargaSelectDepartamentoNacimientoAgresor(event: any) {
-    this.formVictima.get("departamentoNacimiento")?.setValue("");
-    this.formVictima.get("municipioNacimiento")?.setValue("");
-    this.formVictima.get("localidadNacimiento")?.setValue("");
+    this.formAgresor.get("departamentoNacimiento")?.setValue("");
+    this.formAgresor.get("municipioNacimiento")?.setValue("");
+    this.formAgresor.get("localidadNacimiento")?.setValue("");
 
     if (event.target.value != 0) {
       this.sharedService
@@ -883,7 +883,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
    * @description carga el select municipio dependiendo del departamento y del pais
    */
   public cargaSelectMunicipioNacimientoAgresor(event: any) {
-    this.formVictima.get("municipioNacimiento")?.setValue("");
+    this.formAgresor.get("municipioNacimiento")?.setValue("");
 
     if (event.target.value != 0) {
       this.sharedService
@@ -974,6 +974,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
   }
 
   cerrarActuaciones() {
+    console.log({agresor: this.formAgresor, victima: this.formVictima});
     if (this.isValidForm("agresor") && this.isValidForm("victima")) {
       this.showOnSubmitIsRequiredVictima = false;
 
