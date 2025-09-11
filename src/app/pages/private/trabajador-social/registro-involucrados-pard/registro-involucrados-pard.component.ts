@@ -93,7 +93,7 @@ private validarInvolucradosForm(): boolean {
     // 🔹 Marca todos los campos como "tocados"
     Object.values(form.controls).forEach((control) => {
       control.markAsTouched();
-      control.updateValueAndValidity();
+      //control.updateValueAndValidity();
     });
 
     if (form.invalid) {
