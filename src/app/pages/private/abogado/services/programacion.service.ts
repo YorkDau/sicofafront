@@ -29,9 +29,9 @@ export class ProgramacionService {
    * @description obtiene la agenda general de todas las solicitudes que esten disponibles
    * @return obsrvable(AgendaDTO)
    */
-  public obtenerAgendaGeneral(): Observable<ResponseInterface> {
+  public obtenerAgendaGeneral(idComisaria: number): Observable<ResponseInterface> {
     return this.http.get<ResponseInterface>(
-      `${this.api}/Programacion/ObtenerAgendaGeneral`,
+      `${this.api}/Programacion/ObtenerAgendaGeneral/${idComisaria}`,
     );
   }
 

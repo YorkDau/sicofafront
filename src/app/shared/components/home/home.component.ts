@@ -73,7 +73,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private obtenerAudiencias() {
-    this.programacionService.obtenerAgendaGeneral().subscribe({
+    this.programacionService.obtenerAgendaGeneral(this.authService.id_comisaria).subscribe({
       next: (result) => {
         if (result && result.statusCode === CodigosRespuesta.OK) {
           this.listaProgramaciones = result.data || [];
