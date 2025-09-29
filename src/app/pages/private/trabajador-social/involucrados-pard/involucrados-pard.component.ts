@@ -1,4 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -34,6 +40,7 @@ export class InvolucradosPARDComponent implements OnInit {
   private listadoPARD: any[] = [];
   private user!: UserInterface | undefined;
   private objSol!: any;
+  @Output() isEditing = new EventEmitter<boolean>();
 
   constructor(
     private trabajadorSocialService: TrabajadorSocialService,
@@ -275,18 +282,26 @@ export class InvolucradosPARDComponent implements OnInit {
    * @param visualReporte true si es para visualizar reporte y cargarlo
    * @returns booleano
    */
-  public ocultarDescargarReporte(row: any, visualReporte?: boolean): boolean {
+  public ocultarDescargarReporte(
+    row: any,
+    visualReporte: boolean = false
+  ): boolean {
     const obj = this.obtenerFilaGrid(row);
 
+    // Si no encontramos el objeto, devolvemos false (deshabilitar)
+    if (!obj) return false;
+
+    // Si es representante, siempre deshabilitamos (no puede ver/descargar)
+    if (obj.esRepresentante) return false;
+
+    // Si es víctima, permitimos ver el reporte si visualReporte === true,
+    // o permitimos descargar solo si existe idAnexoSolicitud.
     if (obj.esVictima) {
       if (visualReporte) return true;
-      else {
-        if (obj.idAnexoSolicitud) {
-          return true;
-        } else {
-          return false;
-        }
-      }
-    } else return false;
+      return !!obj.idAnexoSolicitud;
+    }
+
+    // Si no es víctima, no permitimos (según tu lógica original)
+    return false;
   }
 }

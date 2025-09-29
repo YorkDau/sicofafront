@@ -130,17 +130,37 @@ export class PresuntoInvolucradoComponent implements OnInit, OnDestroy {
         this.involucradoForm.controls['edad'].updateValueAndValidity();
       });
 
-    this.involucradoForm
-      .get('esRepresentante')
-      ?.valueChanges.subscribe((valor) => {
-        const esVictima = this.involucradoForm.get('esVictima')?.value;
-        this.emitirCambios(esVictima, valor);
-      });
+this.involucradoForm
+  .get('esRepresentante')
+  ?.valueChanges.subscribe((valor) => {
+    const esVictima = this.involucradoForm.get('esVictima')?.value;
+    this.emitirCambios(esVictima, valor);
+
+    if (valor) {
+      this.involucradoForm.controls['edad'].setValidators([
+        Validators.required,
+        Validators.min(18), 
+        Validators.max(this.edadMaxima),
+      ]);
+    } else {
+      this.involucradoForm.controls['edad'].setValidators([
+        Validators.required,
+        Validators.min(0),
+        Validators.max(this.edadMaxima),
+      ]);
+    }
+
+    this.involucradoForm.controls['edad'].updateValueAndValidity();
+  });
   }
 
-  private emitirCambios(esVictima: boolean, esRepresentante: boolean) {
-    this.esValidoVictima.emit({ esVictima, esRepresentante });
-  }
+private emitirCambios(esVictima: boolean, esRepresentante: boolean) {
+  console.log('Emitiendo cambios - esVictima:', esVictima, 'esRepresentante:', esRepresentante);
+  this.esValidoVictima.emit({
+    esVictima,
+    esRepresentante,
+  });
+}
 
   private ajustarTiposDocumento(estado: boolean): void {
     this.tipoDocumentoSub = this.store
@@ -213,18 +233,37 @@ export class PresuntoInvolucradoComponent implements OnInit, OnDestroy {
     }
   }
 
-  private ajustarEdicionValidacionesEdad(esVictima: boolean): void {
-    if (!esVictima) {
-      this.edadMaxima = InvolucradosPARD.EDAD_MAXIMA_ACCIONADO;
-      this.mensajeEdad = InvolucradosPARD.MSJ_EDAD_ACCIONADO;
-      this.involucradoForm.controls['edad'].setValidators([
-        Validators.required,
-        Validators.min(0),
-        Validators.max(this.edadMaxima),
-      ]);
-      this.involucradoForm.controls['edad'].updateValueAndValidity();
-    }
+private ajustarEdicionValidacionesEdad(esVictima: boolean): void {
+  const esRepresentante = this.involucradoForm.get('esRepresentante')?.value;
+
+  if (esVictima && esRepresentante) {
+    this.edadMaxima = InvolucradosPARD.EDAD_MAXIMA_REPRESENTANTE;
+    this.mensajeEdad = InvolucradosPARD.MSJ_EDAD_REPRESENTANTE;
+    this.involucradoForm.controls['edad'].setValidators([
+      Validators.required,
+      Validators.min(18), // 👈 obligatorio ser mayor de edad
+      Validators.max(this.edadMaxima),
+    ]);
+  } else if (esVictima) {
+    this.edadMaxima = InvolucradosPARD.EDAD_MAXIMA_ACCIONANTE;
+    this.mensajeEdad = InvolucradosPARD.MSJ_EDAD_ACCIONANTE;
+    this.involucradoForm.controls['edad'].setValidators([
+      Validators.required,
+      Validators.min(0),
+      Validators.max(this.edadMaxima),
+    ]);
+  } else {
+    this.edadMaxima = InvolucradosPARD.EDAD_MAXIMA_ACCIONADO;
+    this.mensajeEdad = InvolucradosPARD.MSJ_EDAD_ACCIONADO;
+    this.involucradoForm.controls['edad'].setValidators([
+      Validators.required,
+      Validators.min(0),
+      Validators.max(this.edadMaxima),
+    ]);
   }
+
+  this.involucradoForm.controls['edad'].updateValueAndValidity();
+}
 
   public isRequired(campo: string): boolean {
     return this.involucradoForm.controls[campo]?.hasError('required') ?? false;

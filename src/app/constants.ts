@@ -194,7 +194,7 @@ export const InvolucradosPARD = {
   EDAD_MAXIMA_ACCIONADO: 200,
   EDAD_MAXIMA_ACCIONANTE: 17,
   EDAD_MAXIMA_REPRESENTANTE: 100,
-  MSJ_EDAD_REPRESENTANTE: 'Rango de edad entre 18 y 100',
+  MSJ_EDAD_REPRESENTANTE: 'Debe ser mayor de edad',
   MSJ_EDAD_ACCIONADO: 'Edad inválida',
   
   MSJ_EDAD_ACCIONANTE: 'Rango de edad entre 0 y 17',

@@ -1,18 +1,18 @@
-import { Component, ViewChild, OnInit, OnDestroy } from "@angular/core";
-import { MatDialog } from "@angular/material/dialog";
-import { Router } from "@angular/router";
-import { Subscription } from "rxjs";
-import { CodigosRespuesta, ImagenesModal, Mensajes } from "src/app/constants";
-import { ResponseInterface } from "src/app/interfaces/response.interface";
-import { Modales } from "src/app/shared/modals";
-import { DerechosPrimeroComponent } from "../derechos-primero/derechos-primero.component";
-import { DerechosSegundoComponent } from "../derechos-segundo/derechos-segundo.component";
-import { PresuntoInvolucradoComponent } from "../presunto-involucrado/presunto-involucrado.component";
-import { TrabajadorSocialService } from "../services/trabajador-social.service";
+import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { CodigosRespuesta, ImagenesModal, Mensajes } from 'src/app/constants';
+import { ResponseInterface } from 'src/app/interfaces/response.interface';
+import { Modales } from 'src/app/shared/modals';
+import { DerechosPrimeroComponent } from '../derechos-primero/derechos-primero.component';
+import { DerechosSegundoComponent } from '../derechos-segundo/derechos-segundo.component';
+import { PresuntoInvolucradoComponent } from '../presunto-involucrado/presunto-involucrado.component';
+import { TrabajadorSocialService } from '../services/trabajador-social.service';
 
 @Component({
-  selector: "app-registro-involucrados-pard",
-  templateUrl: "./registro-involucrados-pard.component.html",
+  selector: 'app-registro-involucrados-pard',
+  templateUrl: './registro-involucrados-pard.component.html',
   styles: [],
 })
 export class RegistroInvolucradosPardComponent implements OnInit, OnDestroy {
@@ -41,18 +41,28 @@ export class RegistroInvolucradosPardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.objInvolucrado = JSON.parse(sessionStorage.getItem("inv_pard")!);
+    const inv = JSON.parse(sessionStorage.getItem('inv_pard') || '{}');
+
+    if (inv && inv.esRepresentante) {
+      this.mostrarTodoForm = false;
+    }
+
+    if (inv && inv.idInvolucrado) {
+      this.objInvolucrado = inv;
+      console.log('Editando involucrado:', this.objInvolucrado);
+    } else {
+      this.objInvolucrado = null;
+      console.log('Creando nuevo involucrado');
+    }
   }
 
   /**
    * Escucha cambios desde el hijo para decidir si mostrar formularios hijos
    */
-  public evaluarFormularioHijo(event: {
-    esVictima: boolean;
-    esRepresentante: boolean;
-  }): void {
-    this.mostrarTodoForm = event.esVictima && !event.esRepresentante;
-  }
+public evaluarFormularioHijo(event: { esVictima: boolean; esRepresentante: boolean }): void {
+  // 👇 Solo mostrar formularios si es víctima y NO es representante
+  this.mostrarTodoForm = event.esVictima && !event.esRepresentante;
+}
 
   public cancelar(): void {
     Modales.modalConfirmacion(
@@ -62,13 +72,13 @@ export class RegistroInvolucradosPardComponent implements OnInit, OnDestroy {
     ).subscribe((res) => {
       if (res) {
         this.redireccionar();
-        sessionStorage.removeItem("inv_pard");
+        sessionStorage.removeItem('inv_pard');
       }
     });
   }
 
   private redireccionar(): void {
-    this.router.navigate(["../trabajador-social/involucrados-pard"]);
+    this.router.navigate(['../trabajador-social/involucrados-pard']);
   }
 
   public validarFormularios(): void {
@@ -85,26 +95,26 @@ export class RegistroInvolucradosPardComponent implements OnInit, OnDestroy {
     }
   }
 
-private validarInvolucradosForm(): boolean {
-  let resultado = false;
-  if (this.presuntoInvolucrado) {
-    const form = this.presuntoInvolucrado.involucradoForm;
+  private validarInvolucradosForm(): boolean {
+    let resultado = false;
+    if (this.presuntoInvolucrado) {
+      const form = this.presuntoInvolucrado.involucradoForm;
 
-    // 🔹 Marca todos los campos como "tocados"
-    Object.values(form.controls).forEach((control) => {
-      control.markAsTouched();
-      //control.updateValueAndValidity();
-    });
+      // 🔹 Marca todos los campos como "tocados"
+      Object.values(form.controls).forEach((control) => {
+        control.markAsTouched();
+        //control.updateValueAndValidity();
+      });
 
-    if (form.invalid) {
-      this.trabajadorSocialService.emitirInvolucrados(true);
-    } else {
-      this.trabajadorSocialService.emitirInvolucrados(false);
-      resultado = true;
+      if (form.invalid) {
+        this.trabajadorSocialService.emitirInvolucrados(true);
+      } else {
+        this.trabajadorSocialService.emitirInvolucrados(false);
+        resultado = true;
+      }
     }
+    return resultado;
   }
-  return resultado;
-}
 
   private validarDerechosP1(): boolean {
     let resultado = false;
@@ -143,7 +153,7 @@ private validarInvolucradosForm(): boolean {
 
     let obj = {
       ...principal,
-      eps: "",
+      eps: '',
       infoAdicional: {
         idInvolucrado,
         registroExpedidoEn,
@@ -211,7 +221,7 @@ private validarInvolucradosForm(): boolean {
     obj.municipioExp = Number(obj.municipioExp);
     obj.esVictima = Boolean(obj.esVictima);
     obj.esRepresentante = Boolean(obj.esRepresentante);
-   obj.edadEn = Number(obj.edadEn);
+    obj.edadEn = Number(obj.edadEn);
     obj.telefono = String(obj.telefono);
 
     return obj;
