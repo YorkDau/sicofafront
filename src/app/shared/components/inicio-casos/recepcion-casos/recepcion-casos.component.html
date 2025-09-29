@@ -166,6 +166,12 @@
         <div class="box-legend__no__dot"></div>
         Riesgo no Identificado
       </div>
+      <div class="box-legend__remision">
+        <div class="box-legend__remision__dot">
+          <mat-icon class="icono-remision">published_with_changes</mat-icon>
+        </div>
+        <span style="margin-left: 6px;">Remitido otra comisaría</span>
+      </div>
     </div>
     <mat-table [dataSource]="dataSource" id="table-private">
       <ng-container matColumnDef="codsolicitud">
@@ -212,7 +218,7 @@
       <ng-container matColumnDef="sexoAfectado">
         <mat-header-cell *matHeaderCellDef> Sexo afectado </mat-header-cell>
         <mat-cell *matCellDef="let row">
-          {{ transformarSexo(row.sexoAfectado ?? 'NA') }}
+          {{ transformarSexo(row.sexoAfectado ?? "NA") }}
         </mat-cell>
       </ng-container>
       <ng-container matColumnDef="numeroDocumento">
