@@ -576,7 +576,6 @@ export class DecisionSeguimientoComponent implements OnInit {
     };
   }
   public async obtenerArchivo(base64: string) {
-    console.log('Archivo cargado:', base64);
     this.myForm.controls['acta_documento_cierre'].setValue(base64);
   }
 

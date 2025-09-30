@@ -38,6 +38,23 @@
           </app-carga-archivo>
         </ng-container>
       </fieldset>
+            <div class="col-lg-2">
+        <label for="sexoAfectado" class="form-label">
+        Comisarias
+        </label>
+        <select
+          id="sexoAfectado"
+          formControlName="sexoAfectado"
+          class="form-select"
+        >
+          <option
+            [ngValue]="null"
+            disabled
+            >Seleccione una comisaria</option>
+            
+        </select>
+      </div>
+
     </div>
   </div>
   <div class="row mt-4" *ngIf="datosFirma && datosFirma.mostrarPreguntaRecurso">

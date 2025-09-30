@@ -30,6 +30,7 @@ export interface SolicitudCiudadanoInterface {
   esVictima: boolean;
   id_tipo_entidad: string;
   adjunto: string;
+  archivoTraslado?: string;
   conviveConAgresor: boolean;
   relacionParentescoAgresor: number;
   esCompetenciaComisaria: boolean;
