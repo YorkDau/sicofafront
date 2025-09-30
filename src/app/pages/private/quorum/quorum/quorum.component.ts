@@ -258,7 +258,7 @@ export class QuorumComponent {
   }
 
   public descargarDocumento(): void {
-    const nombre: string = "FORMATO NO ASISTENCIA.pdf";
+    const nombre: string = "CONSTANCIA DE NO ASISTENCIA A SEGUIMIENTO.pdf";
 
     this.sharedService.descargarFormatos(nombre, 'ss').subscribe({
       next: (data: ResponseInterface) => {
@@ -267,7 +267,7 @@ export class QuorumComponent {
           const link = document.createElement('a');
           const fileName = nombre;
           link.href = source;
-          link.download = `${fileName}.pdf`;
+          link.download = `${fileName}`;
           link.click();
         } else {
           this.msgError();

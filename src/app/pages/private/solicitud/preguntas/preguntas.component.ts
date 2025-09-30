@@ -6,30 +6,30 @@ import {
   OnInit,
   Output,
   SimpleChanges,
-} from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import * as validaciones from "src/app/pages/private/solicitud/preguntas/validators";
+} from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import * as validaciones from 'src/app/pages/private/solicitud/preguntas/validators';
 import {
   CodigosRespuesta,
   ImagenesModal,
   Mensajes,
   Regex,
-} from "src/app/constants";
-import { ModalRemisionComponent } from "../modal-remision/modal-remision.component";
-import { MatDialog } from "@angular/material/dialog";
-import * as interfaces from "src/app/pages/private/interfaces/ciudadano.interface";
-import { Router } from "@angular/router";
-import { ResponseInterface } from "../../../../interfaces/response.interface";
-import { Modales } from "src/app/shared/modals";
-import { DatePipe } from "@angular/common";
-import { MatDatepickerInputEvent } from "@angular/material/datepicker";
-import { SharedService } from "src/app/services/shared.service";
-import { SolicitudCiudadanoInterface } from "../../interfaces/solicitud.interface";
-import { SolicitudService } from "../services/solicitud.service";
-import { UserInterface } from "src/app/interfaces/usuario.interface";
-import { AuthService } from "src/app/auth/services/auth.service";
-import { Store } from "@ngrx/store";
-import { AppState } from "src/app/store/app.reducer";
+} from 'src/app/constants';
+import { ModalRemisionComponent } from '../modal-remision/modal-remision.component';
+import { MatDialog } from '@angular/material/dialog';
+import * as interfaces from 'src/app/pages/private/interfaces/ciudadano.interface';
+import { Router } from '@angular/router';
+import { ResponseInterface } from '../../../../interfaces/response.interface';
+import { Modales } from 'src/app/shared/modals';
+import { DatePipe } from '@angular/common';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { SharedService } from 'src/app/services/shared.service';
+import { SolicitudCiudadanoInterface } from '../../interfaces/solicitud.interface';
+import { SolicitudService } from '../services/solicitud.service';
+import { UserInterface } from 'src/app/interfaces/usuario.interface';
+import { AuthService } from 'src/app/auth/services/auth.service';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/store/app.reducer';
 
 export enum UseModalRemision {
   Familia = 1,
@@ -37,16 +37,16 @@ export enum UseModalRemision {
 }
 
 export const SexosAfectados = [
-  { code: "HOMBRE", nombre: "Masculino" },
-  { code: "MUJER", nombre: "Femenino" },
-  { code: "NNA", nombre: "NNA(Niñas, Niños y Adolescentes)" },
-  { code: "NA", nombre: "No aplica" },
+  { code: 'HOMBRE', nombre: 'Masculino' },
+  { code: 'MUJER', nombre: 'Femenino' },
+  { code: 'NNA', nombre: 'NNA(Niñas, Niños y Adolescentes)' },
+  { code: 'NA', nombre: 'No aplica' },
 ];
 
 @Component({
-  selector: "app-preguntas",
-  templateUrl: "./preguntas.component.html",
-  styleUrls: ["./preguntas.component.scss"],
+  selector: 'app-preguntas',
+  templateUrl: './preguntas.component.html',
+  styleUrls: ['./preguntas.component.scss'],
 })
 export class PreguntasComponent implements OnInit, OnChanges {
   @Output() passTap2 = new EventEmitter<number>();
@@ -81,15 +81,15 @@ export class PreguntasComponent implements OnInit, OnChanges {
     private authService: AuthService,
     private router: Router,
     private store: Store<AppState>,
-    private datePipe: DatePipe,
+    private datePipe: DatePipe
   ) {
     this.myForm = this.fb.group({
-      esNecesarioRemitir: [""],
+      esNecesarioRemitir: [''],
     });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes["idSolicitud"] && this.idSolicitud > 0) {
+    if (changes['idSolicitud'] && this.idSolicitud > 0) {
       this.obtenerSolicitudDetalle();
       this.validaGuardarOactualizar = false;
       //consultar respuestas de la solicitud
@@ -98,8 +98,8 @@ export class PreguntasComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.user = this.authService.currentUserValue!;
-    if (sessionStorage.getItem("ciudadano")) {
-      const ciudadano = JSON.parse(sessionStorage.getItem("ciudadano")!);
+    if (sessionStorage.getItem('ciudadano')) {
+      const ciudadano = JSON.parse(sessionStorage.getItem('ciudadano')!);
       this.id_ciudadano = ciudadano.idCiudadano;
     }
 
@@ -109,42 +109,42 @@ export class PreguntasComponent implements OnInit, OnChanges {
     this.cargaSelectRelacion();
     this.cargaSelectTramite();
     this.cargaSelectContexto();
-    this.myForm.get("esNecesarioRemitir")?.valueChanges.subscribe((value) => {
-      this.mostrarBotonDescargar = value === "si";
+    this.myForm.get('esNecesarioRemitir')?.valueChanges.subscribe((value) => {
+      this.mostrarBotonDescargar = value === 'no';
     });
 
     this.myForm
-      .get("esCompetenciaComisaria")
+      .get('esCompetenciaComisaria')
       ?.valueChanges.subscribe((resp) => {
-        this.myForm.get("noCompetenciaDescripcion")?.setValue("");
-        this.myForm.get("esNecesarioRemitir")?.setValue("no");
-        this.myForm.get("idtipoTramite")?.setValue("");
-        this.myForm.get("idContextofamiliar")?.setValue("");
+        this.myForm.get('noCompetenciaDescripcion')?.setValue('');
+        this.myForm.get('esNecesarioRemitir')?.setValue('no');
+        this.myForm.get('idtipoTramite')?.setValue('');
+        this.myForm.get('idContextofamiliar')?.setValue('');
       });
 
-    this.myForm.controls["idtipoTramite"].valueChanges.subscribe((resp) => {
+    this.myForm.controls['idtipoTramite'].valueChanges.subscribe((resp) => {
       console.log(resp);
       const idtipoTramite = resp as number;
       if (idtipoTramite != 91) {
-        this.myForm.controls["sexoAfectado"].setValue("NA");
-        this.myForm.get("sexoAfectado")?.disable();
+        this.myForm.controls['sexoAfectado'].setValue('NA');
+        this.myForm.get('sexoAfectado')?.disable();
       } else {
-        this.myForm.get("sexoAfectado")?.enable();
-        this.myForm.patchValue({ sexoAfectado: "MUJER" });
+        this.myForm.get('sexoAfectado')?.enable();
+        this.myForm.patchValue({ sexoAfectado: 'MUJER' });
       }
     });
 
-    this.store.select("tipo_entidad").subscribe(({ tipo_entidad }) => {
+    this.store.select('tipo_entidad').subscribe(({ tipo_entidad }) => {
       this.listaTipoEntidad = tipo_entidad;
     });
 
-    this.myForm.controls["esVictima"].valueChanges.subscribe((value) => {
-      this.myForm.controls["id_tipo_entidad"].setValue("");
-      if (value === "no") {
-        this.myForm.controls["id_tipo_entidad"].enable();
-        this.myForm.controls["adjunto"].setValue("");
+    this.myForm.controls['esVictima'].valueChanges.subscribe((value) => {
+      this.myForm.controls['id_tipo_entidad'].setValue('');
+      if (value === 'no') {
+        this.myForm.controls['id_tipo_entidad'].enable();
+        this.myForm.controls['adjunto'].setValue('');
       } else {
-        this.myForm.controls["id_tipo_entidad"].disable();
+        this.myForm.controls['id_tipo_entidad'].disable();
       }
     });
   }
@@ -158,7 +158,7 @@ export class PreguntasComponent implements OnInit, OnChanges {
     this.maxDate = new Date(
       currentYear,
       new Date().getMonth(),
-      new Date().getDate(),
+      new Date().getDate()
     );
   }
 
@@ -168,24 +168,25 @@ export class PreguntasComponent implements OnInit, OnChanges {
   public cargarForm(): void {
     this.myForm = this.fb.group(
       {
-        fechaSolicitud: ["", [Validators.required]],
+        fechaSolicitud: ['', [Validators.required]],
         horaSolicitud: [
           this.fechaActual.toLocaleTimeString(),
           [Validators.required],
         ],
-        fechaHechoViolento: ["", [Validators.required]],
-        descripcionHechos: ["", [Validators.required]],
-        esVictima: ["no", [Validators.required]],
-        id_tipo_entidad: ["", [Validators.required]],
-        relacionParentescoAgresor: ["", [Validators.required]],
-        adjunto: ["", []],
-        conviveConAgresor: ["no", []],
-        esCompetenciaComisaria: ["no", [Validators.required]],
-        idtipoTramite: "",
-        idContextofamiliar: "",
-        esNecesarioRemitir: "no",
-        noCompetenciaDescripcion: "",
-        sexoAfectado: ["MUJER", []],
+        fechaHechoViolento: ['', [Validators.required]],
+        descripcionHechos: ['', [Validators.required]],
+        esVictima: ['no', [Validators.required]],
+        id_tipo_entidad: ['', [Validators.required]],
+        relacionParentescoAgresor: ['', [Validators.required]],
+        adjunto: ['', []],
+        adjuntoTraslado: ['', []],
+        conviveConAgresor: ['no', []],
+        esCompetenciaComisaria: ['no', [Validators.required]],
+        idtipoTramite: '',
+        idContextofamiliar: '',
+        esNecesarioRemitir: 'no',
+        noCompetenciaDescripcion: '',
+        sexoAfectado: ['MUJER', []],
       },
       {
         validators: [
@@ -194,14 +195,14 @@ export class PreguntasComponent implements OnInit, OnChanges {
           validaciones.validarJustifique,
           validaciones.validarAdjunto,
         ],
-      },
+      }
     );
 
-    this.myForm.get("fechaSolicitud")?.disable();
-    this.myForm.controls["fechaSolicitud"].setValue(
-      `${new Date().toLocaleDateString()}`,
+    this.myForm.get('fechaSolicitud')?.disable();
+    this.myForm.controls['fechaSolicitud'].setValue(
+      `${new Date().toLocaleDateString()}`
     );
-    this.myForm.get("horaSolicitud")?.disable();
+    this.myForm.get('horaSolicitud')?.disable();
   }
 
   /**
@@ -216,7 +217,7 @@ export class PreguntasComponent implements OnInit, OnChanges {
    */
   private cargaSelectRelacion() {
     this.sharedService
-      .getDominio("Tipo_Relacion")
+      .getDominio('Tipo_Relacion')
       .subscribe((tipo_Relacion: ResponseInterface) => {
         if (tipo_Relacion.statusCode === CodigosRespuesta.OK) {
           this.selectRelacion = tipo_Relacion.data;
@@ -231,44 +232,44 @@ export class PreguntasComponent implements OnInit, OnChanges {
     this.sharedService
       .ObtenerSolicitudDetalle(this.idSolicitud)
       .subscribe((resp) => {
-        this.myForm.controls["fechaSolicitud"].setValue(
-          resp.data.fecha_solicitud,
+        this.myForm.controls['fechaSolicitud'].setValue(
+          resp.data.fecha_solicitud
         );
-        this.myForm.controls["horaSolicitud"].setValue(
-          resp.data.hora_solicitud,
+        this.myForm.controls['horaSolicitud'].setValue(
+          resp.data.hora_solicitud
         );
-        this.myForm.controls["descripcionHechos"].setValue(
-          resp.data.descripcion_de_hechos,
+        this.myForm.controls['descripcionHechos'].setValue(
+          resp.data.descripcion_de_hechos
         );
-        this.myForm.controls["esVictima"].setValue(
-          resp.data.es_victima == true ? "si" : "no",
+        this.myForm.controls['esVictima'].setValue(
+          resp.data.es_victima == true ? 'si' : 'no'
         );
-        this.myForm.controls["id_tipo_entidad"].setValue(
-          resp.data.descripcion_de_hechos,
+        this.myForm.controls['id_tipo_entidad'].setValue(
+          resp.data.descripcion_de_hechos
         );
-        this.myForm.controls["relacionParentescoAgresor"].setValue(
-          resp.data.relacionParentescoAgresor,
+        this.myForm.controls['relacionParentescoAgresor'].setValue(
+          resp.data.relacionParentescoAgresor
         );
-        this.myForm.controls["conviveConAgresor"].setValue(
-          resp.data.conviveConAgresor == true ? "si" : "no",
+        this.myForm.controls['conviveConAgresor'].setValue(
+          resp.data.conviveConAgresor == true ? 'si' : 'no'
         );
-        this.myForm.controls["esCompetenciaComisaria"].setValue(
-          resp.data.esCompetenciaComisaria == true ? "si" : "no",
+        this.myForm.controls['esCompetenciaComisaria'].setValue(
+          resp.data.esCompetenciaComisaria == true ? 'si' : 'no'
         );
-        this.myForm.controls["idtipoTramite"].setValue(
-          resp.data.idtipoTramite ?? 0,
+        this.myForm.controls['idtipoTramite'].setValue(
+          resp.data.idtipoTramite ?? 0
         );
-        this.myForm.controls["idContextofamiliar"].setValue(
-          resp.data.idContextofamiliar ?? "",
+        this.myForm.controls['idContextofamiliar'].setValue(
+          resp.data.idContextofamiliar ?? ''
         );
-        this.myForm.controls["esNecesarioRemitir"].setValue(
-          resp.data.esNecesarioRemitir == true ? "si" : "no",
+        this.myForm.controls['esNecesarioRemitir'].setValue(
+          resp.data.esNecesarioRemitir == true ? 'si' : 'no'
         );
-        this.myForm.controls["noCompetenciaDescripcion"].setValue(
-          resp.data.noCompetenciaDescripcion,
+        this.myForm.controls['noCompetenciaDescripcion'].setValue(
+          resp.data.noCompetenciaDescripcion
         );
         this.myForm.patchValue({
-          sexoAfectado: resp.data.sexoAfectado ?? "NA",
+          sexoAfectado: resp.data.sexoAfectado ?? 'NA',
         });
       });
   }
@@ -276,13 +277,17 @@ export class PreguntasComponent implements OnInit, OnChanges {
   public cargarAdjunto(base64: string) {
     this.myForm.patchValue({ adjunto: base64 });
   }
+  public cargarAdjuntoTraslado(base64: string) {
+    // Guardamos en el control específico
+    this.myForm.patchValue({ adjuntoTraslado: base64 });
+  }
 
   /**
    * @description carga el select de Tipo Relacion
    */
   private cargaSelectTramite() {
     this.sharedService
-      .getDominio("Tipo_Tramite")
+      .getDominio('Tipo_Tramite')
       .subscribe((tipo_Tramite: ResponseInterface) => {
         if (tipo_Tramite.statusCode === CodigosRespuesta.OK) {
           this.selectTipo_Tramite = tipo_Tramite.data;
@@ -295,7 +300,7 @@ export class PreguntasComponent implements OnInit, OnChanges {
    */
   private cargaSelectContexto() {
     this.sharedService
-      .getDominio("Contexto_Familiar")
+      .getDominio('Contexto_Familiar')
       .subscribe((contexto_Familiar: ResponseInterface) => {
         if (contexto_Familiar.statusCode === CodigosRespuesta.OK) {
           this.selectContextoFamiliar = contexto_Familiar.data;
@@ -307,7 +312,7 @@ export class PreguntasComponent implements OnInit, OnChanges {
     const fechaSeleccionada = event.target.value as Date;
     var diaEnMils = 1000 * 60 * 60 * 24;
     var resultado = Math.round(
-      (new Date().getTime() - fechaSeleccionada.getTime()) / diaEnMils,
+      (new Date().getTime() - fechaSeleccionada.getTime()) / diaEnMils
     );
     this.mostrarMensajeDias = false;
     this.mostrarMensajeDias = resultado > 30;
@@ -318,7 +323,7 @@ export class PreguntasComponent implements OnInit, OnChanges {
    * * @param campo variable para ingresar el campo requerido
    */
   public isRequired(campo: string): boolean {
-    return this.myForm.controls[campo].hasError("required");
+    return this.myForm.controls[campo].hasError('required');
   }
 
   /**
@@ -326,7 +331,7 @@ export class PreguntasComponent implements OnInit, OnChanges {
    * hace validacion personal en validators.ts
    */
   public isRequiredClasifiqueTramite(): boolean {
-    return this.myForm.hasError("requiredTramite");
+    return this.myForm.hasError('requiredTramite');
   }
 
   /**
@@ -334,7 +339,7 @@ export class PreguntasComponent implements OnInit, OnChanges {
    * hace validacion personal en validators.ts
    */
   public isRequiredContextoFamiliar(): boolean {
-    return this.myForm.hasError("requiredContextoFamiliar");
+    return this.myForm.hasError('requiredContextoFamiliar');
   }
 
   /**
@@ -342,11 +347,11 @@ export class PreguntasComponent implements OnInit, OnChanges {
    * hace validacion personal en validators.ts
    */
   public isRequiredJustifique(): boolean {
-    return this.myForm.hasError("requiredJustifique");
+    return this.myForm.hasError('requiredJustifique');
   }
 
   public isRequiredAdjunto(): boolean {
-    return this.myForm.hasError("requiredAdjunto");
+    return this.myForm.hasError('requiredAdjunto');
   }
 
   /**
@@ -354,9 +359,9 @@ export class PreguntasComponent implements OnInit, OnChanges {
    */
   public habilitarCampos() {
     this.myForm
-      .get("esCompetenciaComisaria")
+      .get('esCompetenciaComisaria')
       ?.valueChanges.subscribe((resp) => {
-        if (resp === "si") {
+        if (resp === 'si') {
           this.cComisariaFamilia = true;
         } else {
           this.cComisariaFamilia = false;
@@ -364,8 +369,8 @@ export class PreguntasComponent implements OnInit, OnChanges {
       });
   }
   public habilitarBoton() {
-    this.myForm.get("mostrarBotonDescargar")?.valueChanges.subscribe((resp) => {
-      if (resp === "si") {
+    this.myForm.get('mostrarBotonDescargar')?.valueChanges.subscribe((resp) => {
+      if (resp === 'si') {
         this.mostrarBotonDescargar = true;
       } else {
         this.mostrarBotonDescargar = false;
@@ -379,23 +384,36 @@ export class PreguntasComponent implements OnInit, OnChanges {
    */
   public registrar(): void {
     this.mostrarValidaciones = false;
+      // Si el caso NO es competencia de comisaría (cComisariaFamilia === false)
+  // entonces debe existir el archivo de formato traslado (adjuntoTraslado)
+  if (!this.cComisariaFamilia) {
+    const adjTraslado = this.myForm.get("adjuntoTraslado")?.value;
+    // Si no hay archivo y mostramos validaciones, impedimos enviar
+    if (!adjTraslado || adjTraslado === "") {
+      this.mostrarValidaciones = true;
+      Modales.modalExito(
+        "Por favor cargue el Formato Traslado antes de continuar.",
+        ImagenesModal.EXCLAMACION,
+        this._dialog,
+      );
+      return; // evita que prosiga el guardado
+    }
+  }
 
     if (this.myForm.invalid) {
       this.mostrarValidaciones = true;
     } else {
-      /* todo ok*/
-
-      if (this.myForm.get("esCompetenciaComisaria")?.value == "si") {
-        if (this.myForm.get("esNecesarioRemitir")?.value == "si") {
+      if (this.myForm.get('esCompetenciaComisaria')?.value == 'si') {
+        if (this.myForm.get('esNecesarioRemitir')?.value == 'si') {
           const dialogRef = this._dialog.open(ModalRemisionComponent, {
-            panelClass: ["dialog-responsive", "fondoModal"],
+            panelClass: ['dialog-responsive', 'fondoModal'],
             disableClose: true,
-            width: "500px",
-            height: "550px",
+            width: '500px',
+            height: '550px',
             data: {
               Titulo: UseModalRemision.Familia,
-              nroSolicitud: "",
-              infoBrindada: this.myForm.get("descripcionHechos")?.value,
+              nroSolicitud: '',
+              infoBrindada: this.myForm.get('descripcionHechos')?.value,
             },
           });
 
@@ -418,14 +436,14 @@ export class PreguntasComponent implements OnInit, OnChanges {
       } else {
         /** guarda y abre HU7 enitdad externa */
         const dialogRef = this._dialog.open(ModalRemisionComponent, {
-          panelClass: ["dialog-responsive", "fondoModal"],
+          panelClass: ['dialog-responsive', 'fondoModal'],
           disableClose: true,
-          width: "500px",
-          height: "550px",
+          width: '500px',
+          height: '550px',
           data: {
             Titulo: UseModalRemision.Externa,
-            nroSolicitud: "",
-            infoBrindada: this.myForm.get("descripcionHechos")?.value,
+            nroSolicitud: '',
+            infoBrindada: this.myForm.get('descripcionHechos')?.value,
           },
         });
 
@@ -438,20 +456,20 @@ export class PreguntasComponent implements OnInit, OnChanges {
               this.justificacion = resp.justificacion;
             }
             this.guardar(true);
-            this.router.navigate(["/historial-ciudadano", this.id_ciudadano]);
+            this.router.navigate(['/historial-ciudadano', this.id_ciudadano]);
           }
         });
       }
     }
   }
   public descargarDocumento(): void {
-    const nombre: string = "FORMATO TRASLADO CASO.pdf";
+    const nombre: string = 'FORMATO TRASLADO CASO.pdf';
 
-    this.sharedService.descargarFormatos(nombre, "ss").subscribe({
+    this.sharedService.descargarFormatos(nombre, 'ss').subscribe({
       next: (data: ResponseInterface) => {
         if (data.statusCode === CodigosRespuesta.OK) {
           const source = `data:application/pdf;base64,${data.data}`;
-          const link = document.createElement("a");
+          const link = document.createElement('a');
           const fileName = nombre;
           link.href = source;
           link.download = `${fileName}.pdf`;
@@ -469,7 +487,7 @@ export class PreguntasComponent implements OnInit, OnChanges {
     Modales.modalExito(
       Mensajes.MENSAJE_ERROR_G,
       ImagenesModal.EXCLAMACION,
-      this._dialog,
+      this._dialog
     );
   }
 
@@ -484,7 +502,7 @@ export class PreguntasComponent implements OnInit, OnChanges {
         .subscribe({
           next: (resp: ResponseInterface) => {
             if (resp.statusCode === CodigosRespuesta.OK) {
-              sessionStorage.setItem("idC", resp.data);
+              sessionStorage.setItem('idC', resp.data);
               if (mostrarMensaje) {
                 this.modalInfo(false);
               }
@@ -500,7 +518,7 @@ export class PreguntasComponent implements OnInit, OnChanges {
         .subscribe({
           next: (resp: ResponseInterface) => {
             if (resp.statusCode === CodigosRespuesta.OK) {
-              sessionStorage.setItem("idC", resp.data);
+              sessionStorage.setItem('idC', resp.data);
               if (mostrarMensaje) {
                 this.modalInfo(false);
               }
@@ -517,62 +535,67 @@ export class PreguntasComponent implements OnInit, OnChanges {
     if (error) {
       Modales.modalExito(
         Mensajes.MENSAJE_ERROR,
-        "assets/images/exclamacion.svg",
-        this._dialog,
+        'assets/images/exclamacion.svg',
+        this._dialog
       );
     } else {
       Modales.modalExito(
         Mensajes.MENSAJE_SOL_EXITO,
-        "assets/images/check.svg",
-        this._dialog,
+        'assets/images/check.svg',
+        this._dialog
       );
     }
   }
 
-  private get getDataPost(): SolicitudCiudadanoInterface {
-    console.log("value -> ", this.myForm.value);
-    return {
-      idCiudadano: this.id_ciudadano,
-      idComisaria: this.user.idComisaria,
-      fechaSolicitud: this.datePipe.transform(
-        this.fechaActual,
-        "dd/MM/yyyy HH:mm:ss",
-      )!,
-      horaSolicitud: this.datePipe.transform(
-        this.fechaActual,
-        "dd/MM/yyyy HH:mm:ss",
-      )!,
-      fechaHechoViolento: this.datePipe.transform(
-        this.myForm.get("fechaHechoViolento")?.value,
-        "dd/MM/yyyy HH:mm:ss",
-      )!,
-      descripcionHechos: this.myForm.get("descripcionHechos")?.value,
-      adjunto: this.myForm.get("adjunto")?.value,
-      esVictima: this.myForm.get("esVictima")?.value == "si" ? true : false,
-      id_tipo_entidad: this.myForm.get("id_tipo_entidad")?.value,
-      conviveConAgresor:
-        this.myForm.get("conviveConAgresor")?.value == "si" ? true : false,
-      relacionParentescoAgresor: this.myForm.get("relacionParentescoAgresor")
-        ?.value,
-      esCompetenciaComisaria:
-        this.myForm.get("esCompetenciaComisaria")?.value == "si" ? true : false,
-      noCompetenciaDescripcion: this.myForm.get("noCompetenciaDescripcion")
-        ?.value,
-      idtipoTramite: this.myForm.get("idtipoTramite")?.value
-        ? 0
-        : this.myForm.get("idtipoTramite")?.value,
-      idContextofamiliar:
-        this.myForm.get("idContextofamiliar")?.value == ""
-          ? 0
-          : this.myForm.get("idContextofamiliar")?.value,
-      esNecesarioRemitir:
-        this.myForm.get("esNecesarioRemitir")?.value == "si" ? true : false,
-      idEntidadExterna: this.entidad,
-      idComisariaRemision: this.comisaria,
-      justificacionRemision: this.justificacion,
-      idUsuarioSistema: this.user.userID,
-      idSolicitud: this.idSolicitud,
-      sexoAfectado: this.myForm.value["sexoAfectado"] ?? "NA",
-    };
-  }
+private get getDataPost(): SolicitudCiudadanoInterface {
+  console.log('value -> ', this.myForm.value);
+
+  return {
+    idCiudadano: this.id_ciudadano,
+    idComisaria: this.user.idComisaria,
+    fechaSolicitud: this.datePipe.transform(
+      this.fechaActual,
+      'dd/MM/yyyy HH:mm:ss'
+    )!,
+    horaSolicitud: this.datePipe.transform(
+      this.fechaActual,
+      'dd/MM/yyyy HH:mm:ss'
+    )!,
+    fechaHechoViolento: this.datePipe.transform(
+      this.myForm.get('fechaHechoViolento')?.value,
+      'dd/MM/yyyy HH:mm:ss'
+    )!,
+    descripcionHechos: this.myForm.get('descripcionHechos')?.value,
+    adjunto: this.myForm.get('adjunto')?.value,
+    archivoTraslado: this.myForm.get('adjuntoTraslado')?.value,
+    esVictima: this.myForm.get('esVictima')?.value === 'si',
+    id_tipo_entidad: this.myForm.get('id_tipo_entidad')?.value,
+    conviveConAgresor: this.myForm.get('conviveConAgresor')?.value === 'si',
+    relacionParentescoAgresor: this.myForm.get('relacionParentescoAgresor')
+      ?.value,
+    esCompetenciaComisaria:
+      this.myForm.get('esCompetenciaComisaria')?.value === 'si',
+    noCompetenciaDescripcion: this.myForm.get('noCompetenciaDescripcion')
+      ?.value,
+
+    // ✅ corregido: si hay valor lo enviamos, si no, 0
+    idtipoTramite: this.myForm.get('idtipoTramite')?.value
+      ? this.myForm.get('idtipoTramite')?.value
+      : 0,
+
+    // también corregido para evitar mandar string vacío
+    idContextofamiliar: this.myForm.get('idContextofamiliar')?.value
+      ? this.myForm.get('idContextofamiliar')?.value
+      : 0,
+
+    esNecesarioRemitir: this.myForm.get('esNecesarioRemitir')?.value === 'si',
+    idEntidadExterna: this.entidad,
+    idComisariaRemision: this.comisaria,
+    justificacionRemision: this.justificacion,
+    idUsuarioSistema: this.user.userID,
+    idSolicitud: this.idSolicitud,
+    sexoAfectado: this.myForm.value['sexoAfectado'] ?? 'NA',
+  };
+}
+
 }
