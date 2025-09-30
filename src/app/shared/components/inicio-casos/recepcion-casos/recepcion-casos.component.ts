@@ -343,13 +343,6 @@ export class RecepcionCasosComponent implements OnInit {
           "Caso de Violencia Familiar-Identificación del Riesgo"
       ) {
         this.router.navigate([objSolicitud.path, objSolicitud.idSolicitud, 2]);
-      } else if (
-        objSolicitud.sexoAfectado === "NNA" &&
-        objSolicitud.path === "../psicologia/identificacion-riesgo" &&
-        objSolicitud.tipoProceso ===
-          "Caso de Violencia Familiar-Identificación del Riesgo"
-      ) {
-        this.router.navigate([objSolicitud.path, objSolicitud.idSolicitud, 2]);
       } else {
         this.router.navigate([objSolicitud.path, objSolicitud.idSolicitud]);
       }

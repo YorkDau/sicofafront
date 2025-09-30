@@ -39,7 +39,6 @@ export enum UseModalRemision {
 export const SexosAfectados = [
   { code: "HOMBRE", nombre: "Masculino" },
   { code: "MUJER", nombre: "Femenino" },
-  { code: "NNA", nombre: "NNA(Niñas, Niños y Adolescentes)" },
   { code: "NA", nombre: "No aplica" },
 ];
 
