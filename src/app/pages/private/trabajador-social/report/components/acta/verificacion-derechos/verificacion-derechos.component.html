@@ -103,25 +103,22 @@
       }}
     </td>
   </tr>
-  <tr>
-    <td class="border border-dark p-2">REP. LEGAL</td>
-    <td class="border border-dark p-2">
-      El niño, niña o adolescente se encuentra representado legalmente por
-      {{
-        datosReporte.esRepresentante === true
-          ? (
-              datosReporte.primerNombre +
-              " " +
-              datosReporte.segundoNombre +
-              " " +
-              datosReporte.primerApellido +
-              " " +
-              datosReporte.segundoApellido
-            ).toUpperCase()
-          : "___________________"
-      }}
-    </td>
-  </tr>
+<tr>
+  <td class="border border-dark p-2">REP. LEGAL</td>
+  <td class="border border-dark p-2">
+    El niño, niña o adolescente se encuentra representado legalmente por: 
+    <span *ngIf="datosReporte.listadoPARD && datosReporte.listadoPARD.length > 0">
+      <span *ngFor="let rep of datosReporte.listadoPARD; let i = index">
+        {{ (rep.primerNombre + ' ' + rep.segundoNombre + ' ' + rep.primerApellido + ' ' + rep.segundoApellido).toUpperCase() }}
+        <span *ngIf="i < datosReporte.listadoPARD.length - 1">, </span>
+      </span>
+    </span>
+    <span *ngIf="!datosReporte.listadoPARD || datosReporte.listadoPARD.length === 0">
+      ___________________
+    </span>
+  </td>
+</tr>
+
   <tr>
     <td class="border border-dark p-2">VINCULACIÓN AL SISTEMA DE SALUD</td>
     <td class="border border-dark p-2">

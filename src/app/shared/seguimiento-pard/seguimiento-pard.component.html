@@ -125,12 +125,12 @@
             medidas PARD:
           </h6>
           <div class="d-flex align-items-center gap-2 mt-2">
-            <button class="btn button-new" (click)="imprimir()">
-              Generar Acta
+            <button class="btn button-new" (click)="descargarDocumento()">
+              Descargar Formato Auto Cierre
             </button>
             <app-carga-archivo
-              matTooltip="Cargar Acta de cierre"
-              [textoCargar]="'Cargar Acta de Cierre'"
+              matTooltip="Cargar Auto Cierre"
+              [textoCargar]="'Cargar Auto Cierre'"
               (baseArchivo)="obtenerArchivo($event)"
             ></app-carga-archivo>
           </div>

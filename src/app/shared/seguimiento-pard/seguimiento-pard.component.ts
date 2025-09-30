@@ -37,18 +37,13 @@ export class SeguimientoPardComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   public displayedColumns: string[] = ['tipoFormato', 'fecha', 'acciones'];
   public displayedColumnsMedidas: string[] = ['nomMedida'];
-
   public dataSource = new MatTableDataSource<TablaRemisiones>([]);
   public dataSourceMedidas = new MatTableDataSource<MedidasInterface>([]);
-
   public objSol = JSON.parse(sessionStorage.getItem('info')!);
   public idTareaInstrumentos!: number;
   public idProgramacion!: number;
   public usuarioLogueado: string = '';
-
   private objUser!: any;
-
-  // Variables para el formulario de conclusión
   public myForm!: FormGroup;
   public mostrarValidaciones: boolean = false;
   public msgObligatorio: string = Mensajes.CAMPO_OBLIGATORIO;
@@ -86,11 +81,26 @@ export class SeguimientoPardComponent implements OnInit {
     return this.myForm.get('medidas') as FormArray;
   }
 
-  public imprimir() {
-    this.generarPDF();
-  }
-  public generarPDF() {
-    PdfExport.generarPdfActa();
+  public descargarDocumento(): void {
+    const nombre: string = 'AUTO CIERRE SEGUIMIENTO PSICOSOCIAL.pdf';
+
+    this.sharedService.descargarFormatos(nombre, 'ss').subscribe({
+      next: (data: ResponseInterface) => {
+        if (data.statusCode === CodigosRespuesta.OK) {
+          const source = `data:application/pdf;base64,${data.data}`;
+          const link = document.createElement('a');
+          const fileName = nombre;
+          link.href = source;
+          link.download = `${fileName}`;
+          link.click();
+        } else {
+          this.msgError();
+        }
+      },
+      error: () => {
+        this.msgError();
+      },
+    });
   }
 
   public async obtenerArchivo(base64: string) {
@@ -241,7 +251,6 @@ export class SeguimientoPardComponent implements OnInit {
   }
   private async cerrarActuacion() {
     try {
-
       const medidasResueltas = this.obtenerMedidasParaCierre();
       const archivoBase64 = await this.sharedService.guardarArchivo({
         entrada: this.myForm.get('acta_documento_cierre')?.value,
