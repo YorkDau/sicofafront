@@ -128,7 +128,24 @@
       <mat-cell *matCellDef="let row">
         {{ row.fecha_ult_solicitud }}
       </mat-cell>
+
     </ng-container>
+    <ng-container matColumnDef="accion">
+          <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <button
+              mat-icon-button
+              matTooltip="Visualizar"
+              matTooltipPosition="right"
+              matTooltipHideDelay="500"
+              matTooltipClass="background-tooltip"
+              aria-label="Button that displays a tooltip when focused or hovered over"
+              (click)="verHistorialCiudadano(row)"
+            >
+              <img src="assets/images/eye.svg" alt="detail" class="img-fluid" />
+            </button>
+          </mat-cell>
+        </ng-container>
     <mat-header-row mat-header-row *matHeaderRowDef="columnas"></mat-header-row>
     <mat-row *matRowDef="let row; columns: columnas"></mat-row>
   </mat-table>

@@ -27,6 +27,7 @@ export class InvolucradoComponent implements OnInit {
     "numero_documento",
     "numero_solicitudes",
     "fecha_ult_solicitud",
+    "accion",
   ];
   public dataSource = new MatTableDataSource<CiudadanoInterface>([]);
   public listaCiudadano: CiudadanoInterface[] = [];
@@ -133,8 +134,8 @@ export class InvolucradoComponent implements OnInit {
    * @description envía a form historial del ciudadano
    * @param idCiudadano id del ciudadano
    */
-  verHistorialCiudadano(ciudadano: CiudadanoInterface) {
-    sessionStorage.setItem("ciudadano", JSON.stringify(ciudadano));
-    this.router.navigate(["/historial-ciudadano", ciudadano.idCiudadano]);
+  verHistorialCiudadano(involucrado: any) {
+    sessionStorage.setItem("involucrado", JSON.stringify(involucrado));
+    this.router.navigate(["/historial-involucrado", involucrado.idInvolucrado]);
   }
 }

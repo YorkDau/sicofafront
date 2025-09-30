@@ -1,0 +1,19 @@
+.texto-pequeno {
+  color: var(--endeavour);
+  font-size: var(--font-14);
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.fondo-img-edit {
+  background-color: #0168b3;
+  border-radius: 6px;
+  width: 29px;
+  height: 29px;
+  align-items: center;
+  img {
+    margin-left: 6px;
+  }
+}

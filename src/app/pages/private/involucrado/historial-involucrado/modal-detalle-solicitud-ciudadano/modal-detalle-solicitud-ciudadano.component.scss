@@ -1,0 +1,9 @@
+.overflow {
+  box-sizing: border-box;
+  overflow-y: auto !important;
+  max-height: calc(90vh - 90px);
+}
+
+.subtitulo {
+  color: #0168b3;
+}
