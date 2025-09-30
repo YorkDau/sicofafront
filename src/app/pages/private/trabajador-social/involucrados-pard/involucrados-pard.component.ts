@@ -159,6 +159,10 @@ export class InvolucradosPARDComponent implements OnInit {
    */
   public generarReporte(row: any) {
     this.datosReportes = this.obtenerFilaGrid(row);
+    this.datosReportes = {
+      ...this.datosReportes,
+      listadoPARD: this.listadoPARD.filter((v) => v.esRepresentante === true),
+    };
     setTimeout(() => {
       ReporteTrabajadorSocialPDF.actaVerificacionDerechos();
     }, 400);

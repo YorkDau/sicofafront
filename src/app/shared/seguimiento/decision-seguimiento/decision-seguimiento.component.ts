@@ -84,14 +84,27 @@ export class DecisionSeguimientoComponent implements OnInit {
     this.cargarTabla();
     this.dataSource.paginator = this.paginator;
   }
-  public imprimir() {
-    this.generarPDF();
-  }
+  public descargarDocumento(): void {
+    const nombre: string = 'AUTO CIERRE SEGUIMIENTO PSICOSOCIAL.pdf';
 
-  public generarPDF() {
-    PdfExport.generarPdfActa();
+    this.sharedService.descargarFormatos(nombre, 'ss').subscribe({
+      next: (data: ResponseInterface) => {
+        if (data.statusCode === CodigosRespuesta.OK) {
+          const source = `data:application/pdf;base64,${data.data}`;
+          const link = document.createElement('a');
+          const fileName = nombre;
+          link.href = source;
+          link.download = `${fileName}`;
+          link.click();
+        } else {
+          this.msgError();
+        }
+      },
+      error: () => {
+        this.msgError();
+      },
+    });
   }
-
   private getUsuarioLogueado() {
     const { userID } = JSON.parse(sessionStorage.getItem('USER_INFO')!);
     this.gestionUsuariosService.UsuarioEspecifico(userID).subscribe({
@@ -107,10 +120,6 @@ export class DecisionSeguimientoComponent implements OnInit {
       },
     });
   }
-
-  /**
-   * d@description Carga las listas de medias de atención, protección y estabilización
-   */
 
   private async getListasMedidas() {
     try {
@@ -596,7 +605,6 @@ export class DecisionSeguimientoComponent implements OnInit {
         if (!cerrar) return;
 
         try {
-          
           const archivoDto = {
             entrada: this.myForm.get('acta_documento_cierre')?.value,
             nombreArchivo: '',
