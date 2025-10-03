@@ -60,8 +60,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.authService.selectedComisaria$
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
-        console.log("HomeComponent LOG: selectedComisaria$ emitió.");
         this.checkIfAuxiliarProfileIsSelected();
+        this.obtenerAudiencias();
       });
     this.obtenerAudiencias();
     this.checkIfAuxiliarProfileIsSelected();
