@@ -10,35 +10,44 @@ import { UserInterface } from 'src/app/interfaces/usuario.interface';
 })
 export class ObservacionesAutoComponent implements OnInit {
 
+  // 🔹 Entradas
+  @Input() observaciones: string = '';
+  @Input() mostrarObservaciones: boolean = false; // por defecto en "NO"
+
+  // 🔹 Salidas
   @Output() comentarios = new EventEmitter<string>();
   @Output() checkComisario = new EventEmitter<boolean>();
-  @Input() observaciones: string = '';
-  @Input() mostrarObservaciones!: boolean;
-  
+  @Output() cambioRemision = new EventEmitter<boolean>();
+
+  // 🔹 Propiedades internas
+  public esNecesarioRemitir: boolean = false; // por defecto "NO"
   public user!: UserInterface | undefined;
   public COMISARIO = CodigosPerfil.COMISARIO;
 
-  constructor(
-    private authService: AuthService
-  ) { }
+  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
     this.user = this.authService.currentUserValue;
   }
 
   /**
-   * @description emite el texto escrito
+   * @description Emite el texto de las observaciones
    */
-  emitirObservaciones() {
+  emitirObservaciones(): void {
     this.comentarios.emit(this.observaciones);
   }
 
-
   /**
-   * @description emite la selección del check
+   * @description Emite si requiere ajuste adicional
    */
-  emitircheckComisario() {
+  emitirCheckComisario(): void {
     this.checkComisario.emit(this.mostrarObservaciones);
   }
 
+  /**
+   * @description Emite si es necesario remitir
+   */
+  emitirRemision(): void {
+    this.cambioRemision.emit(this.esNecesarioRemitir);
+  }
 }

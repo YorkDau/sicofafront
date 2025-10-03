@@ -153,6 +153,7 @@ export enum TiposDocumentoCarga {
   PRUEBA_JUEZ = 'prueba_juez',
   INCUMPLIMIENTO_MEDIDAS_PROTECCION = 'Incumplimiento_medidas_proteccion',
   AUTO_MEDIDAS_PROTECCION = 'AUTO_MEDIDAS_PROTECCION',
+  AUTO_REMITE_COMISARIA = 'AUTO_QUE_ADMITE_REMITE_COMISARIA',
   Prorroga_De_Medida = 'Prorroga_De_Medida',
   ACTA_VERIFICACION_DERECHOS = 'Acta_Verificacion_Derechos',
   DECRETAR_DESISTIR_PARD = 'Anexo_Decreto_Pard',

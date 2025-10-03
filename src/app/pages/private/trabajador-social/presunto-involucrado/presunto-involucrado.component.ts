@@ -241,7 +241,7 @@ private ajustarEdicionValidacionesEdad(esVictima: boolean): void {
     this.mensajeEdad = InvolucradosPARD.MSJ_EDAD_REPRESENTANTE;
     this.involucradoForm.controls['edad'].setValidators([
       Validators.required,
-      Validators.min(18), // 👈 obligatorio ser mayor de edad
+      Validators.min(18),
       Validators.max(this.edadMaxima),
     ]);
   } else if (esVictima) {

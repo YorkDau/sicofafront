@@ -1,34 +1,70 @@
 <div class="w-100 mt-4" *ngIf="user?.perfil === COMISARIO">
-  <p class="form-label">¿El documento requiere algún ajuste adicional?</p>
-  <div class="form-check form-check-inline">
-    <input
-      class="form-check-input"
-      type="radio"
-      name="reqdoc"
-      id="reqdocSi"
-      [(ngModel)]="mostrarObservaciones"
-      [value]="true"
-      [checked]="mostrarObservaciones"
-      (change)="emitircheckComisario()"
-    />
-    <label for="reqdocSi" class="form-label"> SI </label>
-  </div>
-  <div class="form-check form-check-inline">
-    <input
-      class="form-check-input"
-      type="radio"
-      name="reqdoc"
-      id="reqdocNo"
-      [(ngModel)]="mostrarObservaciones"
-      [checked]="!mostrarObservaciones"
-      [value]="false"
-      (change)="emitircheckComisario()"
-    />
-    <label for="reqdocNo" class="form-label"> NO </label>
+  <div class="row">
+    <!-- Columna 1: Ajuste adicional -->
+    <div class="col-lg-6">
+      <p class="form-label">¿El documento requiere algún ajuste adicional?</p>
+      <div class="form-check form-check-inline">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="reqdoc"
+          id="reqdocSi"
+          [(ngModel)]="mostrarObservaciones"
+          [value]="true"
+          (change)="emitirCheckComisario()"
+        />
+        <label for="reqdocSi" class="form-label"> SI </label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="reqdoc"
+          id="reqdocNo"
+          [(ngModel)]="mostrarObservaciones"
+          [value]="false"
+          (change)="emitirCheckComisario()"
+        />
+        <label for="reqdocNo" class="form-label"> NO </label>
+      </div>
+    </div>
+
+    <!-- Columna 2: Remitir comisaría -->
+    <div class="col-lg-6">
+      <p class="form-label">
+        ¿Es necesario remitir el caso a otra comisaría por competencia
+        territorial?*
+      </p>
+      <div class="form-check form-check-inline">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="esNecesarioRemitir"
+          id="remitirNo"
+          [(ngModel)]="esNecesarioRemitir"
+          [value]="false"
+          (change)="emitirRemision()"
+        />
+        <label class="form-check-label form-label" for="remitirNo"> NO </label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="esNecesarioRemitir"
+          id="remitirSi"
+          [(ngModel)]="esNecesarioRemitir"
+          [value]="true"
+          (change)="emitirRemision()"
+        />
+        <label class="form-check-label form-label" for="remitirSi"> SI </label>
+      </div>
+    </div>
   </div>
 
+  <!-- Observaciones -->
   <textarea
-    class="form-control"
+    class="form-control mt-2"
     id="sectionFils"
     rows="6"
     style="resize: none"
