@@ -29,6 +29,7 @@ export interface RespuestaEntrevistaRedes {
 
 export interface Respuesta {
   idDominio: number;
+  nombreDominio?: string;
   respuesta: boolean;
 }
 

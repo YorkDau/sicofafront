@@ -113,6 +113,7 @@ export const DominiosEvaluacionOrientacion = {
   relato: 'Relato de los hechos',
   metodologia: 'metodología',
   antecedente: 'Antecedentes importantes y situación actual',
+  informacion_menores: 'Informacion menores',
 };
 
 export enum TipoReportePdf {
