@@ -65,6 +65,9 @@ export interface DatosIdentificacionEntrevista {
   telefonoContacto?: string;
   direccionContacto?: string;
   eps?: string;
+  hayMenores?: boolean;
+  valoracionPsicologica?: string;
+  valoracionEntorno?: string;
 }
 
 export interface RespuestaEntrevistaAB {
