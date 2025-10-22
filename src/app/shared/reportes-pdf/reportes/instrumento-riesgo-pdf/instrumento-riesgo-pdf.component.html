@@ -1,16 +1,5 @@
-<article
-*ngIf="valoresCargados"
-  hidden
-  id="reporte-riesgo"
-  class="bg-white p-3"
-  style="font-size: 14px"
->
-  <table
-    hidden
-    class="table-bordered"
-    id="encabezado"
-    aria-describedby="encabezado"
-  >
+<article *ngIf="valoresCargados" hidden id="reporte-riesgo" class="bg-white p-3" style="font-size: 14px">
+  <table hidden class="table-bordered" id="encabezado" aria-describedby="encabezado">
     <tr>
       <td rowspan="2" class="logo">Minjusticia</td>
       <td class="text-center">FORMATO</td>
@@ -26,12 +15,7 @@
     <tr></tr>
   </table>
 
-  <table
-    hidden
-    class="table-bordered"
-    id="instrumento-riesgo"
-    aria-describedby="instrumento-riesgo"
-  >
+  <table hidden class="table-bordered" id="instrumento-riesgo" aria-describedby="instrumento-riesgo">
     <tr>
       <th colspan="4" class="btn-primary">I. DATOS INSTITUCIONALES</th>
     </tr>
@@ -39,9 +23,9 @@
       <th>Comisaría de familia:</th>
       <td>
         {{
-          datosInstitucionales && datosInstitucionales.comisaria
-            ? datosInstitucionales && datosInstitucionales.comisaria
-            : ""
+        datosInstitucionales && datosInstitucionales.comisaria
+        ? datosInstitucionales && datosInstitucionales.comisaria
+        : ""
         }}
       </td>
       <th>Fecha de diligenciamiento:</th>
@@ -53,17 +37,17 @@
       <th>Departamento:</th>
       <td>
         {{
-          datosInstitucionales && datosInstitucionales.departamentoComisaria
-            ? datosInstitucionales && datosInstitucionales.departamentoComisaria
-            : ""
+        datosInstitucionales && datosInstitucionales.departamentoComisaria
+        ? datosInstitucionales && datosInstitucionales.departamentoComisaria
+        : ""
         }}
       </td>
       <th>Municipio:</th>
       <td>
         {{
-          datosInstitucionales && datosInstitucionales.municipioComisaria
-            ? datosInstitucionales && datosInstitucionales.municipioComisaria
-            : ""
+        datosInstitucionales && datosInstitucionales.municipioComisaria
+        ? datosInstitucionales && datosInstitucionales.municipioComisaria
+        : ""
         }}
       </td>
     </tr>
@@ -71,9 +55,9 @@
       <th colspan="2">Expediente número:</th>
       <td colspan="2">
         {{
-          datosInstitucionales && datosInstitucionales.numeroExpediente
-            ? datosInstitucionales && datosInstitucionales.numeroExpediente
-            : ""
+        datosInstitucionales && datosInstitucionales.numeroExpediente
+        ? datosInstitucionales && datosInstitucionales.numeroExpediente
+        : ""
         }}
       </td>
     </tr>
@@ -163,22 +147,15 @@
       <th>2. Fecha de nacimiento:</th>
       <td>
         {{
-          victima && victima.fechaNacimiento
-            ? (victima.fechaNacimiento | date : "dd/MM/yyyy")
-            : ""
+        victima && victima.fechaNacimiento
+        ? (victima.fechaNacimiento | date : "dd/MM/yyyy")
+        : ""
         }}
       </td>
       <th>3. Identificacion:</th>
       <td>
-        <div
-          *ngIf="!victima || !victima.tipoDocumento"
-          class="d-flex flex-column"
-          style="gap: 1rem"
-        >
-          <div
-            *ngFor="let item of listarDominios('Tipo_identificacion')"
-            class="d-flex align-items-center"
-          >
+        <div *ngIf="!victima || !victima.tipoDocumento" class="d-flex flex-column" style="gap: 1rem">
+          <div *ngFor="let item of listarDominios('Tipo_identificacion')" class="d-flex align-items-center">
             <span>[ ]{{ item }}</span>
             <br />
           </div>
@@ -187,52 +164,38 @@
         <ng-container *ngIf="victima && victima.tipoDocumento">
           <span>{{
             buscarDominio("Tipo_identificacion", victima.tipoDocumento, true)
-          }}</span>
+            }}</span>
           No.
           <span>{{
             victima && victima.numeroDocumento ? victima.numeroDocumento : ""
-          }}</span>
+            }}</span>
         </ng-container>
       </td>
     </tr>
     <tr>
       <th>4. Sexo:</th>
       <td>
-        <div
-          *ngIf="!victima || !victima.sexo"
-          class="d-flex flex-column"
-          style="gap: 1rem"
-        >
-          <div
-            *ngFor="let item of listarDominios('Sexo')"
-            class="d-flex align-items-center"
-          >
+        <div *ngIf="!victima || !victima.sexo" class="d-flex flex-column" style="gap: 1rem">
+          <div *ngFor="let item of listarDominios('Sexo')" class="d-flex align-items-center">
             <span>[ ]{{ item }}</span>
             <br />
           </div>
         </div>
         <span *ngIf="victima && victima.sexo">{{
           buscarDominio("Sexo", victima.sexo)
-        }}</span>
+          }}</span>
       </td>
       <th>5. Identidad de género:</th>
       <td>
-        <div
-          *ngIf="!victima || !victima.identidadGenero"
-          class="d-flex flex-column"
-          style="gap: 1rem"
-        >
-          <div
-            *ngFor="let item of listarDominios('Genero')"
-            class="d-flex align-items-center"
-          >
+        <div *ngIf="!victima || !victima.identidadGenero" class="d-flex flex-column" style="gap: 1rem">
+          <div *ngFor="let item of listarDominios('Genero')" class="d-flex align-items-center">
             <span>[ ]{{ item }}</span>
             <br />
           </div>
         </div>
         <span *ngIf="victima && victima.identidadGenero">{{
           buscarDominio("Genero", victima.identidadGenero)
-        }}</span>
+          }}</span>
       </td>
     </tr>
     <tr>
@@ -240,22 +203,15 @@
       <td>{{ victima && victima.ocupacion ? victima.ocupacion : "" }}</td>
       <th>7. Escolaridad:</th>
       <td>
-        <div
-          *ngIf="!victima || !victima.idEscolaridad"
-          class="d-flex flex-column"
-          style="gap: 1rem"
-        >
-          <div
-            *ngFor="let item of listarDominios('Nivel_Academico')"
-            class="d-flex align-items-center"
-          >
+        <div *ngIf="!victima || !victima.idEscolaridad" class="d-flex flex-column" style="gap: 1rem">
+          <div *ngFor="let item of listarDominios('Nivel_Academico')" class="d-flex align-items-center">
             <span>[ ]{{ item }}</span>
             <br />
           </div>
         </div>
         <span *ngIf="victima && victima.idEscolaridad">{{
           buscarDominio("Nivel_Academico", victima.idEscolaridad)
-        }}</span>
+          }}</span>
       </td>
     </tr>
     <tr>
@@ -275,76 +231,48 @@
         <td>Hijo #{{ i + 1 }}</td>
         <td>{{ hijo.edad ? hijo.edad : "Menos de 1 año" }}</td>
         <td>
-          <div
-            *ngIf="!hijo || !hijo.sexo"
-            class="d-flex flex-column"
-            style="gap: 1rem"
-          >
-            <div
-              *ngFor="let item of listarDominios('Sexo')"
-              class="d-flex align-items-center"
-            >
+          <div *ngIf="!hijo || !hijo.sexo" class="d-flex flex-column" style="gap: 1rem">
+            <div *ngFor="let item of listarDominios('Sexo')" class="d-flex align-items-center">
               <span>[ ]{{ item }}</span>
               <br />
             </div>
           </div>
           <span *ngIf="hijo && hijo.sexo">{{
             buscarDominio("Sexo", hijo.sexo)
-          }}</span>
+            }}</span>
         </td>
         <td>
-          <div
-            *ngIf="!hijo || !hijo.custodia"
-            class="d-flex flex-column"
-            style="gap: 1rem"
-          >
-            <div
-              *ngFor="let item of listarDominios('Tipo_Relacion')"
-              class="d-flex align-items-center"
-            >
+          <div *ngIf="!hijo || !hijo.custodia" class="d-flex flex-column" style="gap: 1rem">
+            <div *ngFor="let item of listarDominios('Tipo_Relacion')" class="d-flex align-items-center">
               <span>[ ]{{ item }}</span>
               <br />
             </div>
           </div>
           <span *ngIf="hijo && hijo.custodia">{{
             buscarDominio("Tipo_Relacion", hijo.custodia)
-          }}</span>
+            }}</span>
         </td>
       </tr>
     </ng-container>
     <tr>
       <th>9. Estado Civil:</th>
       <td>
-        <div
-          *ngIf="!victima || !victima.relacionPareja"
-          class="d-flex flex-column"
-          style="gap: 1rem"
-        >
-          <div
-            *ngFor="let item of listarDominios('Estado_Civil')"
-            class="d-flex align-items-center"
-          >
+        <div *ngIf="!victima || !victima.relacionPareja" class="d-flex flex-column" style="gap: 1rem">
+          <div *ngFor="let item of listarDominios('Estado_Civil')" class="d-flex align-items-center">
             <span>[ ]{{ item }}</span>
             <br />
           </div>
         </div>
         <span *ngIf="victima && victima.relacionPareja">{{
           buscarDominio("Estado_Civil", victima.relacionPareja)
-        }}</span>
+          }}</span>
       </td>
       <th>
         10. Se reconoce como perteneciente a alguno de estos grupos étnicos:
       </th>
       <td>
-        <div
-          *ngIf="!victima || !victima.cultura"
-          class="d-flex flex-column"
-          style="gap: 1rem"
-        >
-          <div
-            *ngFor="let item of listarDominios('Tipo_Cultura')"
-            class="d-flex align-items-center"
-          >
+        <div *ngIf="!victima || !victima.cultura" class="d-flex flex-column" style="gap: 1rem">
+          <div *ngFor="let item of listarDominios('Tipo_Cultura')" class="d-flex align-items-center">
             <span>[ ]{{ item }}</span>
             <br />
           </div>
@@ -352,21 +280,14 @@
         </div>
         <span *ngIf="victima && victima.cultura">{{
           buscarDominio("Tipo_Cultura", victima.cultura)
-        }}</span>
+          }}</span>
       </td>
     </tr>
     <tr>
       <th>11. Relación con el agresor:</th>
       <td>
-        <div
-          *ngIf="!victima || !victima.relacionAgresor"
-          class="d-flex flex-column"
-          style="gap: 1rem"
-        >
-          <div
-            *ngFor="let item of listarDominios('Tipo_Relacion')"
-            class="d-flex align-items-center"
-          >
+        <div *ngIf="!victima || !victima.relacionAgresor" class="d-flex flex-column" style="gap: 1rem">
+          <div *ngFor="let item of listarDominios('Tipo_Relacion')" class="d-flex align-items-center">
             <span>[ ]{{ item }}</span>
             <br />
           </div>
@@ -374,22 +295,15 @@
         </div>
         <span *ngIf="victima && victima.relacionAgresor">{{
           buscarDominio("Tipo_Relacion", victima.relacionAgresor)
-        }}</span>
+          }}</span>
         <span *ngIf="victima && victima.descripcionRelacionAgresor">
           Otra: {{ victima.descripcionRelacionAgresor }}
         </span>
       </td>
       <th>12. ¿Tiene usted alguna discapacidad?</th>
       <td>
-        <div
-          *ngIf="!victima || !victima.relacionAgresor"
-          class="d-flex flex-column"
-          style="gap: 1rem"
-        >
-          <div
-            *ngFor="let item of listarDominios('Discapacidad')"
-            class="d-flex align-items-center"
-          >
+        <div *ngIf="!victima || !victima.relacionAgresor" class="d-flex flex-column" style="gap: 1rem">
+          <div *ngFor="let item of listarDominios('Discapacidad')" class="d-flex align-items-center">
             <span>[ ]{{ item }}</span>
             <br />
           </div>
@@ -397,7 +311,7 @@
         </div>
         <span *ngIf="victima && victima.idDiscapacidad">{{
           buscarDominio("Discapacidad", victima.idDiscapacidad)
-        }}</span>
+          }}</span>
       </td>
     </tr>
     <tr>
@@ -406,14 +320,12 @@
         <span *ngIf="victima && victima.embarazo">
           {{ victima.embarazo ? victima.embarazo : "SI__ NO__ NS__ NA__" }}
         </span>
-        <span
-          *ngIf="
+        <span *ngIf="
             victima &&
             victima.embarazo &&
             victima.embarazo.toLowerCase() == 'si' &&
             victima.mesesEmbarazo
-          "
-        >
+          ">
           - Meses:
           {{ victima.mesesEmbarazo ? victima.mesesEmbarazo : "Menos de 1 mes" }}
         </span>
@@ -453,22 +365,15 @@
       <th>2. Fecha de nacimiento:</th>
       <td>
         {{
-          agresor && agresor.fechaNacimiento
-            ? (agresor.fechaNacimiento | date : "dd/MM/yyyy")
-            : ""
+        agresor && agresor.fechaNacimiento
+        ? (agresor.fechaNacimiento | date : "dd/MM/yyyy")
+        : ""
         }}
       </td>
       <th>3. Identificacion:</th>
       <td>
-        <div
-          *ngIf="!agresor || !agresor.tipoDocumento"
-          class="d-flex flex-column"
-          style="gap: 1rem"
-        >
-          <div
-            *ngFor="let item of listarDominios('Tipo_identificacion')"
-            class="d-flex align-items-center"
-          >
+        <div *ngIf="!agresor || !agresor.tipoDocumento" class="d-flex flex-column" style="gap: 1rem">
+          <div *ngFor="let item of listarDominios('Tipo_identificacion')" class="d-flex align-items-center">
             <span>[ ]{{ item }}</span>
             <br />
           </div>
@@ -477,52 +382,38 @@
         <ng-container *ngIf="agresor && agresor.tipoDocumento">
           <span>{{
             buscarDominio("Tipo_identificacion", agresor.tipoDocumento, true)
-          }}</span>
+            }}</span>
           No.
           <span>{{
             agresor && agresor.numeroDocumento ? agresor.numeroDocumento : ""
-          }}</span>
+            }}</span>
         </ng-container>
       </td>
     </tr>
     <tr>
       <th>4. Sexo:</th>
       <td>
-        <div
-          *ngIf="!agresor || !agresor.sexo"
-          class="d-flex flex-column"
-          style="gap: 1rem"
-        >
-          <div
-            *ngFor="let item of listarDominios('Sexo')"
-            class="d-flex align-items-center"
-          >
+        <div *ngIf="!agresor || !agresor.sexo" class="d-flex flex-column" style="gap: 1rem">
+          <div *ngFor="let item of listarDominios('Sexo')" class="d-flex align-items-center">
             <span>[ ]{{ item }}</span>
             <br />
           </div>
         </div>
         <span *ngIf="agresor && agresor.sexo">{{
           buscarDominio("Sexo", agresor.sexo)
-        }}</span>
+          }}</span>
       </td>
       <th>5. Identidad de género:</th>
       <td>
-        <div
-          *ngIf="!agresor || !agresor.identidadGenero"
-          class="d-flex flex-column"
-          style="gap: 1rem"
-        >
-          <div
-            *ngFor="let item of listarDominios('Genero')"
-            class="d-flex align-items-center"
-          >
+        <div *ngIf="!agresor || !agresor.identidadGenero" class="d-flex flex-column" style="gap: 1rem">
+          <div *ngFor="let item of listarDominios('Genero')" class="d-flex align-items-center">
             <span>[ ]{{ item }}</span>
             <br />
           </div>
         </div>
         <span *ngIf="agresor && agresor.identidadGenero">{{
           buscarDominio("Genero", agresor.identidadGenero)
-        }}</span>
+          }}</span>
       </td>
     </tr>
     <tr>
@@ -530,22 +421,15 @@
       <td>{{ agresor && agresor.ocupacion ? agresor.ocupacion : "" }}</td>
       <th>7. Escolaridad:</th>
       <td>
-        <div
-          *ngIf="!agresor || !agresor.idEscolaridad"
-          class="d-flex flex-column"
-          style="gap: 1rem"
-        >
-          <div
-            *ngFor="let item of listarDominios('Nivel_Academico')"
-            class="d-flex align-items-center"
-          >
+        <div *ngIf="!agresor || !agresor.idEscolaridad" class="d-flex flex-column" style="gap: 1rem">
+          <div *ngFor="let item of listarDominios('Nivel_Academico')" class="d-flex align-items-center">
             <span>[ ]{{ item }}</span>
             <br />
           </div>
         </div>
         <span *ngIf="agresor && agresor.idEscolaridad">{{
           buscarDominio("Nivel_Academico", agresor.idEscolaridad)
-        }}</span>
+          }}</span>
       </td>
     </tr>
     <tr>
@@ -565,39 +449,25 @@
         <td>Hijo #{{ i + 1 }}</td>
         <td>{{ hijo.edad ? hijo.edad : "Menos de 1 año" }}</td>
         <td>
-          <div
-            *ngIf="!hijo || !hijo.sexo"
-            class="d-flex flex-column"
-            style="gap: 1rem"
-          >
-            <div
-              *ngFor="let item of listarDominios('Sexo')"
-              class="d-flex align-items-center"
-            >
+          <div *ngIf="!hijo || !hijo.sexo" class="d-flex flex-column" style="gap: 1rem">
+            <div *ngFor="let item of listarDominios('Sexo')" class="d-flex align-items-center">
               <span>[ ]{{ item }}</span>
               <br />
             </div>
           </div>
           <span *ngIf="hijo && hijo.sexo">{{
             buscarDominio("Sexo", hijo.sexo)
-          }}</span>
+            }}</span>
         </td>
         <td>
-          <div
-            *ngIf="!hijo || !hijo.custodia"
-            class="d-flex flex-column"
-            style="gap: 1rem"
-          >
-            <div
-              *ngFor="let item of listarDominios('Tipo_Relacion')"
-              class="d-flex align-items-center"
-            >
+          <div *ngIf="!hijo || !hijo.custodia" class="d-flex flex-column" style="gap: 1rem">
+            <div *ngFor="let item of listarDominios('Tipo_Relacion')" class="d-flex align-items-center">
               <span>[ ]{{ item }}</span>
             </div>
           </div>
           <span *ngIf="hijo && hijo.custodia">{{
             buscarDominio("Tipo_Relacion", hijo.custodia)
-          }}</span>
+            }}</span>
         </td>
       </tr>
     </ng-container>
@@ -606,15 +476,8 @@
         9. Se reconoce como perteneciente a alguno de estos grupos étnicos:
       </th>
       <td>
-        <div
-          *ngIf="!agresor || !agresor.cultura"
-          class="d-flex flex-column"
-          style="gap: 1rem"
-        >
-          <div
-            *ngFor="let item of listarDominios('Tipo_Cultura')"
-            class="d-flex align-items-center"
-          >
+        <div *ngIf="!agresor || !agresor.cultura" class="d-flex flex-column" style="gap: 1rem">
+          <div *ngFor="let item of listarDominios('Tipo_Cultura')" class="d-flex align-items-center">
             <span>[ ]{{ item }}</span>
             <br />
           </div>
@@ -622,7 +485,7 @@
         </div>
         <span *ngIf="agresor && agresor.cultura">{{
           buscarDominio("Tipo_Cultura", agresor.cultura)
-        }}</span>
+          }}</span>
       </td>
       <th>
         10. Sabe usted sí el agresor pertenece aun grupo organizado al margen
@@ -631,20 +494,43 @@
       <td>
         <span>
           {{
-            agresor && agresor.agresorConflicto ? "Si" : !agresor ? "" : "No"
-          }}</span
-        >
+          agresor && agresor.agresorConflicto ? "Si" : !agresor ? "" : "No"
+          }}</span>
         <span>
           {{
-            agresor &&
-            agresor.agresorConflicto &&
-            agresor.agresorconflictoDescripcion
-              ? agresor.agresorconflictoDescripcion
-              : ""
-          }}</span
-        >
+          agresor &&
+          agresor.agresorConflicto &&
+          agresor.agresorconflictoDescripcion
+          ? agresor.agresorconflictoDescripcion
+          : ""
+          }}</span>
       </td>
     </tr>
+    <tr>
+      <th colspan="4" class="btn-light">C. Información del menor</th>
+    </tr>
+    <tr>
+      <th colspan="2">1. ¿ Es Menor de Edad ? </th>
+      <td colspan="2">{{agresor && esMenorDeEdad(aggresor.fechaNacimiento) ? "SI" : "NO"}}</td>
+    </tr>
+    <ng-container *ngIf="agresor && esMenorDeEdad(agresor.fechaNacimiento)">
+    <tr>
+      <th colspan="2">¿Está vinculado al sistema de salud?</th>
+      <td colspan="2">{{ agresor && agresor.tieneSalud ? "SI" : "NO"}}</td>
+    </tr>
+    <tr>
+      <th>¿Está vinculado al sistema de educación?</th>
+      <td>{{agresor && agresor.tieneEducacion ? "SI" : "NO"}}</td>
+      <ng-containr *ngIf="agresor && agresor.tieneEducacion">
+        <th>Lugar donde estudia: </th>
+        <td>{{agresor && agresor.lugarEstudio}}</td>
+      </ng-containr>
+    </tr>
+    <tr>
+      <th colspan="2">¿Tiene esquema de vacunación completa?</th>
+      <td colspan="2">{{agresor && agresor.vacunacionCompleta ? "SI" : "NO"}}</td>
+    </tr>
+</ng-container>
     <tr>
       <th colspan="4" class="btn-primary">III. DESCRIPCIÓN DE LOS HECHOS</th>
     </tr>
@@ -652,26 +538,26 @@
       <th>Fecha y hora</th>
       <td>
         {{
-          descripcionHechos && descripcionHechos.fecha
-            ? (descripcionHechos.fecha | date : "dd/MM/yyyy hh:mm a")
-            : ""
+        descripcionHechos && descripcionHechos.fecha
+        ? (descripcionHechos.fecha | date : "dd/MM/yyyy hh:mm a")
+        : ""
         }}
       </td>
       <th>Lugar</th>
       <td>
         {{
-          descripcionHechos && descripcionHechos.lugarHechos
-            ? descripcionHechos.lugarHechos
-            : ""
+        descripcionHechos && descripcionHechos.lugarHechos
+        ? descripcionHechos.lugarHechos
+        : ""
         }}
       </td>
     </tr>
     <tr style="height: 200px">
       <td colspan="4" name="descripcionHechos" id="descripcionHechos">
         {{
-          descripcionHechos && descripcionHechos.descripcionHechos
-            ? descripcionHechos.descripcionHechos
-            : ""
+        descripcionHechos && descripcionHechos.descripcionHechos
+        ? descripcionHechos.descripcionHechos
+        : ""
         }}
       </td>
     </tr>
@@ -693,22 +579,22 @@
       </td>
       <td>
         {{
-          pregunta.puntuacionPrevio
-            ? "Si"
-            : pregunta.puntuacionPrevio == null
-            ? "Si___ No___"
-            : "No"
+        pregunta.puntuacionPrevio
+        ? "Si"
+        : pregunta.puntuacionPrevio == null
+        ? "Si___ No___"
+        : "No"
         }}
       </td>
       <td>
         {{
-          !pregunta.puntuacionPrevio && pregunta.puntuacionPrevio != null
-            ? "No aplica"
-            : pregunta.puntuacionPrevio == null || pregunta.mesPrevio == null
-            ? "Menos de un mes___  Mas de un mes___"
-            : pregunta.mesPrevio
-            ? "Menos de un mes"
-            : "Mas de un mes"
+        !pregunta.puntuacionPrevio && pregunta.puntuacionPrevio != null
+        ? "No aplica"
+        : pregunta.puntuacionPrevio == null || pregunta.mesPrevio == null
+        ? "Menos de un mes___ Mas de un mes___"
+        : pregunta.mesPrevio
+        ? "Menos de un mes"
+        : "Mas de un mes"
         }}
       </td>
     </tr>
@@ -727,22 +613,22 @@
       </td>
       <td>
         {{
-          pregunta.puntuacionPrevio
-            ? "Si"
-            : pregunta.puntuacionPrevio == null
-            ? "Si___ No___"
-            : "No"
+        pregunta.puntuacionPrevio
+        ? "Si"
+        : pregunta.puntuacionPrevio == null
+        ? "Si___ No___"
+        : "No"
         }}
       </td>
       <td>
         {{
-          !pregunta.puntuacionPrevio && pregunta.puntuacionPrevio != null
-            ? "No aplica"
-            : pregunta.puntuacionPrevio == null || pregunta.mesPrevio == null
-            ? "Menos de un mes___  Mas de un mes___"
-            : pregunta.mesPrevio
-            ? "Menos de un mes"
-            : "Mas de un mes"
+        !pregunta.puntuacionPrevio && pregunta.puntuacionPrevio != null
+        ? "No aplica"
+        : pregunta.puntuacionPrevio == null || pregunta.mesPrevio == null
+        ? "Menos de un mes___ Mas de un mes___"
+        : pregunta.mesPrevio
+        ? "Menos de un mes"
+        : "Mas de un mes"
         }}
       </td>
     </tr>
@@ -761,22 +647,22 @@
       </td>
       <td>
         {{
-          pregunta.puntuacionPrevio
-            ? "Si"
-            : pregunta.puntuacionPrevio == null
-            ? "Si___ No___"
-            : "No"
+        pregunta.puntuacionPrevio
+        ? "Si"
+        : pregunta.puntuacionPrevio == null
+        ? "Si___ No___"
+        : "No"
         }}
       </td>
       <td>
         {{
-          !pregunta.puntuacionPrevio && pregunta.puntuacionPrevio != null
-            ? "No aplica"
-            : pregunta.puntuacionPrevio == null || pregunta.mesPrevio == null
-            ? "Menos de un mes___  Mas de un mes___"
-            : pregunta.mesPrevio
-            ? "Menos de un mes"
-            : "Mas de un mes"
+        !pregunta.puntuacionPrevio && pregunta.puntuacionPrevio != null
+        ? "No aplica"
+        : pregunta.puntuacionPrevio == null || pregunta.mesPrevio == null
+        ? "Menos de un mes___ Mas de un mes___"
+        : pregunta.mesPrevio
+        ? "Menos de un mes"
+        : "Mas de un mes"
         }}
       </td>
     </tr>
@@ -788,34 +674,32 @@
       <th>Respuesta</th>
       <th>Hace cuanto</th>
     </tr>
-    <tr
-      *ngFor="
+    <tr *ngFor="
         let pregunta of listarPreguntas('Coerción o Amenazas');
         let i = index
-      "
-    >
+      ">
       <td colspan="2">
         {{ i + 17 }}.
         {{ pregunta.descripcion }}
       </td>
       <td>
         {{
-          pregunta.puntuacionPrevio
-            ? "Si"
-            : pregunta.puntuacionPrevio == null
-            ? "Si___ No___"
-            : "No"
+        pregunta.puntuacionPrevio
+        ? "Si"
+        : pregunta.puntuacionPrevio == null
+        ? "Si___ No___"
+        : "No"
         }}
       </td>
       <td>
         {{
-          !pregunta.puntuacionPrevio && pregunta.puntuacionPrevio != null
-            ? "No aplica"
-            : pregunta.puntuacionPrevio == null || pregunta.mesPrevio == null
-            ? "Menos de un mes___  Mas de un mes___"
-            : pregunta.mesPrevio
-            ? "Menos de un mes"
-            : "Mas de un mes"
+        !pregunta.puntuacionPrevio && pregunta.puntuacionPrevio != null
+        ? "No aplica"
+        : pregunta.puntuacionPrevio == null || pregunta.mesPrevio == null
+        ? "Menos de un mes___ Mas de un mes___"
+        : pregunta.mesPrevio
+        ? "Menos de un mes"
+        : "Mas de un mes"
         }}
       </td>
     </tr>
@@ -834,22 +718,22 @@
       </td>
       <td>
         {{
-          pregunta.puntuacionPrevio
-            ? "Si"
-            : pregunta.puntuacionPrevio == null
-            ? "Si___ No___"
-            : "No"
+        pregunta.puntuacionPrevio
+        ? "Si"
+        : pregunta.puntuacionPrevio == null
+        ? "Si___ No___"
+        : "No"
         }}
       </td>
       <td>
         {{
-          !pregunta.puntuacionPrevio && pregunta.puntuacionPrevio != null
-            ? "No aplica"
-            : pregunta.puntuacionPrevio == null || pregunta.mesPrevio == null
-            ? "Menos de un mes___  Mas de un mes___"
-            : pregunta.mesPrevio
-            ? "Menos de un mes"
-            : "Mas de un mes"
+        !pregunta.puntuacionPrevio && pregunta.puntuacionPrevio != null
+        ? "No aplica"
+        : pregunta.puntuacionPrevio == null || pregunta.mesPrevio == null
+        ? "Menos de un mes___ Mas de un mes___"
+        : pregunta.mesPrevio
+        ? "Menos de un mes"
+        : "Mas de un mes"
         }}
       </td>
     </tr>
@@ -868,22 +752,22 @@
       </td>
       <td>
         {{
-          pregunta.puntuacionPrevio
-            ? "Si"
-            : pregunta.puntuacionPrevio == null
-            ? "Si___ No___"
-            : "No"
+        pregunta.puntuacionPrevio
+        ? "Si"
+        : pregunta.puntuacionPrevio == null
+        ? "Si___ No___"
+        : "No"
         }}
       </td>
       <td>
         {{
-          !pregunta.puntuacionPrevio && pregunta.puntuacionPrevio != null
-            ? "No aplica"
-            : pregunta.puntuacionPrevio == null || pregunta.mesPrevio == null
-            ? "Menos de un mes___  Mas de un mes___"
-            : pregunta.mesPrevio
-            ? "Menos de un mes"
-            : "Mas de un mes"
+        !pregunta.puntuacionPrevio && pregunta.puntuacionPrevio != null
+        ? "No aplica"
+        : pregunta.puntuacionPrevio == null || pregunta.mesPrevio == null
+        ? "Menos de un mes___ Mas de un mes___"
+        : pregunta.mesPrevio
+        ? "Menos de un mes"
+        : "Mas de un mes"
         }}
       </td>
     </tr>
@@ -897,23 +781,21 @@
       <th colspan="3">Pregunta</th>
       <th>Respuesta</th>
     </tr>
-    <tr
-      *ngFor="
+    <tr *ngFor="
         let pregunta of listarPreguntas('Circunstancias agravantes');
         let i = index
-      "
-    >
+      ">
       <td colspan="3">
         {{ i + 37 }}.
         {{ pregunta.descripcion }}
       </td>
       <td>
         {{
-          pregunta.puntuacionPrevio
-            ? "Si"
-            : pregunta.puntuacionPrevio == null
-            ? "Si___ No___"
-            : "No"
+        pregunta.puntuacionPrevio
+        ? "Si"
+        : pregunta.puntuacionPrevio == null
+        ? "Si___ No___"
+        : "No"
         }}
       </td>
     </tr>
@@ -926,25 +808,23 @@
       <th colspan="3">Pregunta</th>
       <th>Respuesta</th>
     </tr>
-    <tr
-      *ngFor="
+    <tr *ngFor="
         let pregunta of listarPreguntas(
           'Percepción de la víctima frente al riesgo de la violencia'
         );
         let i = index
-      "
-    >
+      ">
       <td colspan="3">
         {{ i + 37 }}.
         {{ pregunta.descripcion }}
       </td>
       <td>
         {{
-          pregunta.puntuacionPrevio
-            ? "Si"
-            : pregunta.puntuacionPrevio == null
-            ? "Si___ No___"
-            : "No"
+        pregunta.puntuacionPrevio
+        ? "Si"
+        : pregunta.puntuacionPrevio == null
+        ? "Si___ No___"
+        : "No"
         }}
       </td>
     </tr>
@@ -964,16 +844,16 @@
       <td>
         <span *ngIf="idSolicitud > 1">{{
           valoracion && valoracion.puntuacion ? valoracion.puntuacion * 10 : 0
-        }}</span>
+          }}</span>
         <span *ngIf="idSolicitud == 0">_________</span>
       </td>
       <th>Tipo de riesgo</th>
       <td>
         <span *ngIf="idSolicitud > 1">{{
           valoracion && valoracion.indicadorRiesgo
-            ? valoracion.indicadorRiesgo
-            : ""
-        }}</span>
+          ? valoracion.indicadorRiesgo
+          : ""
+          }}</span>
         <span *ngIf="idSolicitud == 0">______________________</span>
       </td>
     </tr>
@@ -999,7 +879,7 @@
       <th>Nombre:</th>
       <td class="text-capitalize">
         {{
-          reporte && reporte.nombre_psicologo ? reporte.nombre_psicologo : ""
+        reporte && reporte.nombre_psicologo ? reporte.nombre_psicologo : ""
         }}
       </td>
     </tr>
@@ -1012,11 +892,11 @@
         <ng-container *ngIf="victima && victima.tipoDocumento">
           <span>{{
             buscarDominio("Tipo_identificacion", victima.tipoDocumento, true)
-          }}</span>
+            }}</span>
           No.
           <span>{{
             victima && victima.numeroDocumento ? victima.numeroDocumento : ""
-          }}</span>
+            }}</span>
         </ng-container>
       </td>
 
@@ -1030,9 +910,9 @@
       <th>Dirección de residencia:</th>
       <td>
         {{
-          victima && victima.direccionRecidencia
-            ? victima.direccionRecidencia
-            : ""
+        victima && victima.direccionRecidencia
+        ? victima.direccionRecidencia
+        : ""
         }}
       </td>
       <th>TP:</th>
