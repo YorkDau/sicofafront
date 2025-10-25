@@ -127,7 +127,7 @@ export const MARGENES_REPORTE = [40, 60, 40, 60];
 
 export enum TipoRemisiones {
   'Oficio Remisorio Medicina legal',
-  'emisión secretaría de la Mujer u otro órgano',
+  'Remisión Secretaría de Bienestar Social u otro órgano',
   'Remisión Proceso Psicología Externa',
   'Remisión Apoyo Policivo Víctima Mujer',
   'Remisión Proceso Psicología Externa-',

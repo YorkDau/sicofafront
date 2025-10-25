@@ -114,7 +114,7 @@ export class PdfExport {
   }
 
   /**
-   * @description Genera PDF de OFICIO REMISORIO SECRETARÍA DE LA MUJER U ORGANO QUE HAGA SUS FUNCIONES A NIVEL DEPARTAMENTAL Y/O MUNICIPAL
+   * @description Genera PDF de OFICIO REMISORIO SSECRETARÍA DE BIENESTAR SOCIAL U ORGANO QUE HAGA SUS FUNCIONES A NIVEL DEPARTAMENTAL Y/O MUNICIPAL
    */
   static generarPdfOficioSecretariaMujer(dataReporte: DataReporteInterface, dataReporteByID: DataReporteByID) {
     let nombreVictima = dataReporte.nombreVictima
@@ -132,7 +132,7 @@ export class PdfExport {
     const anio = formatDate(new Date(), 'yyyy', 'es');
 
     const nombreReporte =
-      'OFICIO REMISORIO SECRETARÍA DE LA MUJER U ORGANO QUE HAGA SUS FUNCIONES A NIVEL DEPARTAMENTAL Y/O MUNICIPAL';
+      'OFICIO REMISORIO SECRETARÍA DE BIENESTAR SOCIAL U ORGANO QUE HAGA SUS FUNCIONES A NIVEL DEPARTAMENTAL Y/O MUNICIPAL';
     this.crearEncabezado(nombreReporte, 47);
 
     /**Ciudad, fecha */
@@ -145,7 +145,7 @@ export class PdfExport {
 
     /**Datos destinatario */
     this.pdf.text(
-      'SECRETARÍA DE LA MUJER U ORGANO QUE HAGA SUS FUNCIONES A NIVEL ',
+      'SECRETARÍA DE BIENESTAR SOCIAL U ORGANO QUE HAGA SUS FUNCIONES A NIVEL ',
       100,
       230
     );
