@@ -81,6 +81,7 @@ export class RecepcionPreSolicitudComponent implements OnInit {
     this.config.notFoundText = 'No se encontraron coincidencias';
     this.user = this.authService.currentUserValue!;
     this.perfil = this.user.perfil!;
+    console.log("0USUARIO LOGUEADO",this.user);
   }
 
   get f() {
@@ -436,6 +437,7 @@ export class RecepcionPreSolicitudComponent implements OnInit {
 
     if (this.form.valid) {
       let date = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+      console.log()
 
       const obj = {
         tipo_entidad_denunciante: this.f.id_tipo_entidad.value,
@@ -460,6 +462,7 @@ export class RecepcionPreSolicitudComponent implements OnInit {
         idSolicitudRelacionado: this.f.id_caso_asociado.value,
         idCiudadano: (this.infoVictima && this.infoVictima?.idCiudadano) ? this.infoVictima?.idCiudadano : null,
         fecha_solicitud: date,
+        id_comisaria: this.user?.idComisaria! 
       };
 
       this.preSolicitudService.crearPresolicitud(obj).subscribe({

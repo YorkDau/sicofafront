@@ -242,6 +242,8 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
       userID: this.user?.userID,
       perfilCod: "",
       valorEtiqueta: this.checkAprobacionComisario ? "1" : "0",
+      esNecesarioRemitir: this.esNecesarioRemitir, // SI/NO remitir comisaría
+
     };
   }
 
