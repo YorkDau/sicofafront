@@ -621,7 +621,7 @@ export class PdfExport {
     const mes = formatDate(new Date(), 'MMMM', 'es');
     const anio = formatDate(new Date(), 'yyyy', 'es');
     const nombreReporte =
-      'FORMATO FALLO CUANDO NO COMPARECE EL ACCIONADO A LA AUDIENCIA Y SE IMPONEN MEDIDAS DE PROTECCIÓN';
+      'REMISIÓN FORMATO TRATAMIENTO TERAPÉUTICO';
     this.crearEncabezado(nombreReporte, 47);
 
     /**Ciudad, fecha */
@@ -718,7 +718,7 @@ export class PdfExport {
     const anio = formatDate(new Date(), 'yyyy', 'es');
 
     const nombreReporte =
-      'FORMATO FALLO CUANDO NO COMPARECE EL ACCIONADO A LA AUDIENCIA Y SE IMPONEN MEDIDAS DE PROTECCIÓN';
+      'SOLICITUD PROTOCOLO DE RIESGO';
     this.crearEncabezado(nombreReporte, 47);
 
     /**Ciudad, fecha */
@@ -815,7 +815,7 @@ export class PdfExport {
       this.pdf.internal.pageSize.width || this.pdf.internal.pageSize.getWidth();
     this.pdf.setFontSize(10);
 
-    const nombreReporte = 'SOLICITUD HISTORIA CLÍNICA';
+    const nombreReporte = 'SOLICITUD EVALUACIÓN DEL RIESGO REMISIONES NNA';
     this.crearEncabezado(nombreReporte, 45);
     const fecha = formatDate(new Date(), 'dd/MM/yyyy', 'es');
 
@@ -932,7 +932,7 @@ export class PdfExport {
     const mes = formatDate(new Date(), 'MMMM', 'es');
     const anio = formatDate(new Date(), 'yyyy', 'es');
     const nombreReporte =
-      'FORMATO FALLO CUANDO NO COMPARECE EL ACCIONADO A LA AUDIENCIA Y SE IMPONEN MEDIDAS DE PROTECCIÓN';
+      'REMISIÓN FORMATO PERSONERÍA';
     this.crearEncabezado(nombreReporte, 47);
 
     /**Ciudad, fecha */

@@ -81,6 +81,7 @@ export class InformacionMenoresComponent {
     }
 
     guardar(evento: 'Siguiente' | 'Anterior') {
+        console.log('Guardar y continuar...', evento, this.form.value);
         //this.showOnSubmitIsRequired = false;
         this.siguientePaso.emit(evento);
         this.actualizar().subscribe((result) => {

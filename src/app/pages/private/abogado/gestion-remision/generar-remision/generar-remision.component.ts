@@ -215,6 +215,7 @@ export class GenerarRemisionComponent implements OnInit {
 
   public enviarArchivo(e: string) {
     this.archivo = e;
+    console.log("ARCHVIVO NOMBRE",this.archivo);
   }
 
   /**
@@ -287,7 +288,7 @@ export class GenerarRemisionComponent implements OnInit {
       case 'Oficio_Remisorio_Medicina_legal':
         PdfExport.generarPdfOficioMedicinaLegal(this.dataReporte, this.dataReporteByID);
         break;
-      case 'Remision_secretaria_de_la_Mujer_u_otro_organo':
+      case 'Remision_secretaria_de_Bienestar_u_otro_organo':
         PdfExport.generarPdfOficioSecretariaMujer(this.dataReporte, this.dataReporteByID);
         break;
       case 'Remision_Proceso_Psicologia_Externa':
