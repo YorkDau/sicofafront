@@ -460,7 +460,9 @@ export class RecepcionPreSolicitudComponent implements OnInit {
         idSolicitudRelacionado: this.f.id_caso_asociado.value,
         idCiudadano: (this.infoVictima && this.infoVictima?.idCiudadano) ? this.infoVictima?.idCiudadano : null,
         fecha_solicitud: date,
+        id_comisaria:this.user?.idComisaria??null
       };
+      console.log(this.user)
 
       this.preSolicitudService.crearPresolicitud(obj).subscribe({
         next: (data: ResponseInterface) => {

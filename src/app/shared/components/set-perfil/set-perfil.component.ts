@@ -34,7 +34,7 @@ export class SetPerfilComponent implements OnInit {
 
     // MODIFICADO: Suscribirse a cambios en la comisaría para actualizar perfiles disponibles
     this.form.get('comisaria')!.valueChanges.subscribe(comisariaId => {
-      this.filterProfilesByComisaria(comisariaId);
+      this.filterProfilesByComisaria(!isNaN(comisariaId) ? parseInt(comisariaId) : comisariaId);
     });
 
     // MODIFICADO: Intentar preseleccionar comisaría si ya hay una guardada o la primera
