@@ -201,7 +201,7 @@ export class VerificacionPreSolicitudComponent implements OnInit {
               } else if (this.tipoPresolicitud == "DEN" && this.esPARD && this.f.continuaDenuncia.value) {
                 this.modales
                   .modalExito(
-                    `Se ha continuado con el proceso de Reestablecimiento de Derechos`
+                    `Se ha continuado con el proceso de Verificación de Derechos`
                   )
                   .subscribe(() => {
                     this.router.navigate(['/psicologia/casos']);

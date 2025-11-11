@@ -1,0 +1,182 @@
+<div class="p-3 position-relative">
+  <div  class="d-flex justify-content-between align-items-center">
+    <h4 class="pr-5 titulo mb-3 ">DETALLE SOLICITUD DEL CIUDADANO</h4>
+    <button mat-icon-button class="close-button position-absolute top-0 end-0 ">
+    <mat-icon class="close-icon" color="warn" (click)="cerrarModal()">close</mat-icon>
+  </button>
+  </div>
+
+
+  <div *ngIf="!cargando; else loading" class="row overflow">
+    <div class="col-12">
+      <h5 class="pr-5 subtitulo mb-3">
+        PREVISUALIZACIÓN SOLICITUD DE SERVICIO #{{detalleSolicitud?.codigo_solicitud || 'Sin dato'}}
+      </h5>
+
+      <div class="d-flex align-items-center mb-3" style="gap: 1rem;">
+        <strong class="text-uppercase m-0">{{printNombreCiudadano()}}</strong>
+        <img src="assets/images/Usuario.svg" height="17px" width="17px" alt="person" />
+      </div>
+    </div>
+
+    <div class="form-group mb-3 col-lg-4">
+      <label class="form-label">Fecha Solicitud</label>
+      <div class="input-group">
+        <input disabled class="form-control shadow-none border-end-0 text-sm"
+          [value]="(detalleSolicitud?.fecha_solicitud | date:'dd/MM/yyyy') || 'Sin dato'" />
+        <span class="input-group-text border-start-0">
+          <mat-icon class="icon-date">event</mat-icon>
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group mb-3 col-lg-4">
+      <label class="form-label">Hora Solicitud</label>
+      <input type="text" disabled class="form-control shadow-none text-sm"
+        [value]="(detalleSolicitud?.hora_solicitud | date:'HH:mm') || 'Sin dato'" />
+    </div>
+
+    <div class="form-group mb-3 col-lg-4">
+      <label class="form-label">Fecha Hecho Violento</label>
+      <div class="input-group">
+        <input disabled class="form-control shadow-none border-end-0 text-sm"
+          [value]="(detalleSolicitud?.fecha_hecho_violento | date:'dd/MM/yyyy') || 'Sin dato'" />
+        <span class="input-group-text border-start-0">
+          <mat-icon class="icon-date">event</mat-icon>
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group mb-3">
+      <label class="form-label">Descripción de los hechos</label>
+      <textarea class="form-control text-sm" rows="2" disabled>
+        {{detalleSolicitud?.descripcion_de_hechos || 'Sin dato'}}
+      </textarea>
+    </div>
+
+    <div class="form-group mb-3">
+      <label class="form-label">¿Es la víctima quien pone los hechos en conocimiento?</label>
+      <div class="d-flex">
+        <div class="form-check">
+          <input class="form-check-input" type="radio" disabled [checked]="detalleSolicitud?.es_victima">
+          <label class="form-check-label text-sm">Sí</label>
+        </div>
+        <div class="form-check ms-4">
+          <input class="form-check-input" type="radio" disabled [checked]="!detalleSolicitud?.es_victima">
+          <label class="form-check-label text-sm">No</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group mb-3">
+      <label for="id_tipo_entidad" class="form-label">
+        Tipo de entidad que pone en conocimiento los hechos
+      </label>
+      <select
+        id="id_tipo_entidad"
+        class="form-select"
+        [(ngModel)]="detalleSolicitud.id_tipo_entidad"
+        disabled
+      >
+        <option [value]="null">N/A</option>
+        <option
+          *ngFor="let entidad of listaTipoEntidad"
+          [value]="entidad.id_Dominio"
+        >
+          {{ entidad.nombre_Dominio }}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group mb-3 col-lg-12">
+      <label class="form-label">Número de víctimas</label>
+      <input type="text" disabled class="form-control shadow-none text-sm"
+        [value]="detalleSolicitud?.numero_victimas || 'Sin dato'" />
+    </div>
+<div class="col-12 mt-4">
+  <h6 class="subtitulo mb-2 text-center">INFORMACION  DEL ACCIONADO </h6>
+
+  <div *ngIf="detalleSolicitud?.involucrados?.length > 0; else noInvolucrados">
+    <div class="estilo-tabla">
+      <table class="table table-sm table-hover align-middle">
+        <thead class="table-light text-center">
+          <tr>
+            <th style="width: 40%">Nombre completo</th>
+            <th style="width: 30%">Número de documento</th>
+            <th style="width: 30%">Relación con la victima</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let inv of detalleSolicitud.involucrados" class="text-center text-sm">
+            <td>{{ inv.nombre_completo || 'SIN NOMBRE' }}</td>
+            <td>{{ inv.numero_documento || 'SIN DOCUMENTO' }}</td>
+            <td>{{ inv.parentesco || 'NO TIENE ASIGNADO' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <ng-template #noInvolucrados>
+    <div class="alert alert-warning mt-2 text-sm text-center">
+      <mat-icon>info</mat-icon> No se encontraron involucrados registrados en esta solicitud.
+    </div>
+  </ng-template>
+</div>
+<div class="col-12 mt-3">
+      <h6 class="subtitulo mb-2 text-center">DOCUMENTOS ANEXOS</h6>
+      <div *ngIf="anexos?.length > 0; else noAnexos">
+        <div class="estilo-tabla">
+          <table class="table table-sm table-hover align-middle">
+            <thead class="table-light text-center">
+              <tr>
+                <th style="width: 35%">Nombre del Archivo</th>
+                <th style="width: 25%">Nombre del Documento</th>
+                <th style="width: 10%">Fecha</th>
+                <th style="width: 3%">Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let anexo of paginatedAnexos" class="text-center " >
+                <td class="text-truncate" title="{{anexo.nombreArchivo}}">
+                  {{ anexo.nombreArchivo || 'Sin nombre' }}
+                </td>
+                <td class="text-truncate" title="{{anexo.nombreDocumento}}">
+                  {{ anexo.nombreDocumento || 'Sin nombre' }}
+                </td>
+                <td>
+                  {{ (anexo.fechaCreacion | date:'dd/MM/yyyy') || 'Sin fecha' }}
+                </td>
+                <td>
+                  <button mat-icon-button color="primary" 
+                          (click)="descargarArchivo(anexo)" matTooltip="Descargar adjunto">
+                    <mat-icon class="material-icons-outlined">file_download</mat-icon>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <mat-paginator class="mt-2"
+                      [length]="anexos.length"
+                      [pageSize]="pageSize"
+                      [pageSizeOptions]="pageSizeOptions"
+                      (page)="onPageChange($event)">
+        </mat-paginator>
+      </div>
+
+      <ng-template #noAnexos>
+        <div class="alert alert-info mt-3 text-sm">
+          <mat-icon>info</mat-icon> No se encontraron documentos adjuntos para esta solicitud.
+        </div>
+      </ng-template>
+    </div>
+  </div>
+
+  <ng-template #loading>
+    <div class="d-flex justify-content-center align-items-center" style="height: 200px;">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+  </ng-template>
+</div>

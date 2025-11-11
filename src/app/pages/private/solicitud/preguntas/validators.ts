@@ -1,36 +1,50 @@
-import { FormGroup, ValidationErrors } from '@angular/forms';
+import { FormGroup, ValidationErrors } from "@angular/forms";
 
 export const validarClasifiqueTramite = (
-  control: FormGroup
+  control: FormGroup,
 ): ValidationErrors | null => {
-  const esCompetenciaComisaria = control.get('esCompetenciaComisaria')?.value as string;
-  const idtipoTramite = control.get('idtipoTramite')?.value as string;
+  const esCompetenciaComisaria = control.get("esCompetenciaComisaria")
+    ?.value as string;
+  const idtipoTramite = control.get("idtipoTramite")?.value as string;
 
-  if (esCompetenciaComisaria === 'si' && idtipoTramite === '') {
+  if (esCompetenciaComisaria === "si" && idtipoTramite === "") {
     return { requiredTramite: true };
   }
   return null;
 };
 
 export const validarContextoFamiliar = (
-  control: FormGroup
+  control: FormGroup,
 ): ValidationErrors | null => {
-  const esCompetenciaComisaria = control.get('esCompetenciaComisaria')?.value as string;
-  const idContextofamiliar = control.get('idContextofamiliar')?.value as string;
+  const esCompetenciaComisaria = control.get("esCompetenciaComisaria")
+    ?.value as string;
+  const idContextofamiliar = control.get("idContextofamiliar")?.value as string;
 
-  if (esCompetenciaComisaria === 'si' && idContextofamiliar === '') {
+  if (esCompetenciaComisaria === "si" && idContextofamiliar === "") {
     return { requiredContextoFamiliar: true };
   }
   return null;
 };
 
-export const validarJustifique = (
-  control: FormGroup
-): ValidationErrors | null => {
-  const esCompetenciaComisaria = control.get('esCompetenciaComisaria')?.value as string;
-  const noCompetenciaDescripcion = control.get('noCompetenciaDescripcion')?.value as string;
+export const validarAdjunto = (control: FormGroup): ValidationErrors | null => {
+  const esVictima = control.get("esVictima")?.value as string;
+  const adjunto = control.get("adjunto")?.value as string;
 
-  if (esCompetenciaComisaria === 'no' && noCompetenciaDescripcion === '') {
+  if (esVictima === "no" && adjunto === "") {
+    return { requiredAdjunto: true };
+  }
+  return null;
+};
+
+export const validarJustifique = (
+  control: FormGroup,
+): ValidationErrors | null => {
+  const esCompetenciaComisaria = control.get("esCompetenciaComisaria")
+    ?.value as string;
+  const noCompetenciaDescripcion = control.get("noCompetenciaDescripcion")
+    ?.value as string;
+
+  if (esCompetenciaComisaria === "no" && noCompetenciaDescripcion === "") {
     return { requiredJustifique: true };
   }
   return null;

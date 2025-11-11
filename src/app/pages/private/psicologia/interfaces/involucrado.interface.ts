@@ -37,6 +37,9 @@
   paisExp?: number;
   departamentoExp?: number;
   municipioExp?: number;
+  paisNacimiento?: number;
+  departamentoNacimiento?: number;
+  municipioNacimiento?: number;
   fechaExpedicion?: Date;
   nombres?: string;
   apellidos?: string;

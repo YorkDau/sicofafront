@@ -203,20 +203,6 @@
         </div>
       </div>
 
-      <!-- <div class="col-4 p-3">
-        <label>Lugar de Expedición</label>
-
-        <select class="form-select" formControlName="lugarExp">
-          <option disabled value="">Lugar de Expedición</option>
-          <option
-            *ngFor="let lugar_expedicion of selectLugarExpedicion"
-            [value]="lugar_expedicion.ciudmunID"
-          >
-            {{ lugar_expedicion.nombCiudMun }}
-          </option>
-        </select>
-      </div> -->
-
       <div class="col-4 p-3">
         <label>País de Expedición</label>
 
@@ -263,17 +249,16 @@
           </option>
         </select>
       </div>
-      <!-- 
       <div class="col-4 p-3">
         <label>País de Nacimiento</label>
 
         <select
           class="form-select"
-          formControlName="pais"
-          (change)="cargaSelectDepartamento($event)"
+          formControlName="paisNacimiento"
+          (change)="cargaSelectDepartamentoNacimiento($event)"
         >
           <option disabled value="">País de Nacimiento</option>
-          <option *ngFor="let pais of selectPaises" [value]="pais.paisID">
+          <option *ngFor="let pais of selectPaisesNacimiento" [value]="pais.paisID">
             {{ pais.nombrePais }}
           </option>
         </select>
@@ -284,12 +269,12 @@
 
         <select
           class="form-select"
-          formControlName="departamento"
-          (change)="cargaSelectMunicipio($event)"
+          formControlName="departamentoNacimiento"
+          (change)="cargaSelectMunicipioNacimiento($event)"
         >
           <option disabled value="">Departamento de Nacimiento</option>
           <option
-            *ngFor="let departamento of selectDepartamento"
+            *ngFor="let departamento of selectDepartamentoNacimiento"
             [value]="departamento.departamentoID"
           >
             {{ departamento.departamentoNombre }}
@@ -302,12 +287,11 @@
 
         <select
           class="form-select"
-          formControlName="municipio"
-          (change)="cargaSelectLocalidad($event)"
+          formControlName="municipioNacimiento"
         >
           <option disabled value="">Municipio de Nacimiento</option>
           <option
-            *ngFor="let municipio of selectMunicipio"
+            *ngFor="let municipio of selectMunicipioNacimiento"
             [value]="municipio.ciudmunID"
           >
             {{ municipio.nombCiudMun }}
@@ -327,7 +311,7 @@
             {{ localidad.localidadNombre }}
           </option>
         </select>
-      </div> -->
+      </div>
 
       <div class="col-4 p-3">
         <label>Localidad/Comuna</label>

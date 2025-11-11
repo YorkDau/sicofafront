@@ -63,13 +63,12 @@ export class SolicitudService {
   }
 
 
-            /**
+  /**
    * @description llama a un servicio para actualizar al ciudadano sin finalizar
    * @param solicitud
    * @returns observable
    */
     public actualizarSolicitudCiudadano(solicitud: SolicitudCiudadanoInterface): Observable<ResponseInterface> {
-      return this.http.post<ResponseInterface>(
-        `${this.api}ActualizarSolicitudCiudadano`,solicitud);
+      return this.http.post<ResponseInterface>(`${this.api}ActualizarSolicitudCiudadano`,solicitud);
     }
 }

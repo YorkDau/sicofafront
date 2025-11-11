@@ -1,7 +1,7 @@
 <div class="header">
   <h5>BIENVENIDO , has seleccionado el perfil: {{ selectedProfileDisplayName || 'Cargando perfil...' }}</h5>
 </div>
-<div class="cards-grid-container">
+<div class="flex flex-col gap-2">
   <div class="cards-grid-container"> <ng-container *ngFor="let card of cards">
       <div
         *ngIf="card.visible"
@@ -22,5 +22,8 @@
         </a>
       </div>
     </ng-container>
+  </div>
+  <div class='cards-grid-container'>
+    <app-calendario [events]="eventosCalendario"></app-calendario>
   </div>
 </div>

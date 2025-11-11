@@ -113,6 +113,7 @@ export const DominiosEvaluacionOrientacion = {
   relato: 'Relato de los hechos',
   metodologia: 'metodología',
   antecedente: 'Antecedentes importantes y situación actual',
+  informacion_menores: 'Informacion menores',
 };
 
 export enum TipoReportePdf {
@@ -126,7 +127,7 @@ export const MARGENES_REPORTE = [40, 60, 40, 60];
 
 export enum TipoRemisiones {
   'Oficio Remisorio Medicina legal',
-  'emisión secretaría de la Mujer u otro órgano',
+  'Remisión Secretaría de Bienestar Social u otro órgano',
   'Remisión Proceso Psicología Externa',
   'Remisión Apoyo Policivo Víctima Mujer',
   'Remisión Proceso Psicología Externa-',
@@ -153,10 +154,12 @@ export enum TiposDocumentoCarga {
   PRUEBA_JUEZ = 'prueba_juez',
   INCUMPLIMIENTO_MEDIDAS_PROTECCION = 'Incumplimiento_medidas_proteccion',
   AUTO_MEDIDAS_PROTECCION = 'AUTO_MEDIDAS_PROTECCION',
+  AUTO_REMITE_COMISARIA = 'AUTO_QUE_ADMITE_REMITE_COMISARIA',
   Prorroga_De_Medida = 'Prorroga_De_Medida',
   ACTA_VERIFICACION_DERECHOS = 'Acta_Verificacion_Derechos',
   DECRETAR_DESISTIR_PARD = 'Anexo_Decreto_Pard',
   NOTIFICAR_INVOLUCRADOS_PARD = 'Notificacion_Pard',
+  ACTA_CIERRE_PARD = 'Anexo_Acta_Cierre_Pard',
 }
 
 export enum EstadosNotificacionImplicado {
@@ -186,11 +189,16 @@ export enum DescargasExcel {
   EXTENSION = '.xlsx',
   INFORMES_SOLICITUDES = 'Informe solicitudes',
   NOMBRE_HOJA_INOFORME = 'Informe',
+  REPORTE_PARD = 'Reporte_Solicitudes_PARD',
 }
 
 export const InvolucradosPARD = {
   EDAD_MAXIMA_ACCIONADO: 200,
   EDAD_MAXIMA_ACCIONANTE: 17,
+  EDAD_MAXIMA_REPRESENTANTE: 100,
+  MSJ_EDAD_REPRESENTANTE: 'Debe ser mayor de edad',
   MSJ_EDAD_ACCIONADO: 'Edad inválida',
+  
   MSJ_EDAD_ACCIONANTE: 'Rango de edad entre 0 y 17',
+
 };

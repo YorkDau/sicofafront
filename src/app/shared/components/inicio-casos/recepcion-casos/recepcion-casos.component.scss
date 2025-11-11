@@ -5,7 +5,9 @@
   font-size: var(--font-14);
   opacity: 1;
   min-height: 37px;
-  width: 570px;
+  flex-wrap: nowrap;   /* 🔒 Fuerza todo en una sola fila */
+  width: auto;         /* 🔥 Deja que se ajuste al contenido */
+  max-width: 100%;     /* Opcional: asegura que no se desborde */
   .box-legend__alto {
     letter-spacing: 0px;
     color: #be0c4d;
@@ -82,6 +84,24 @@
 .boton-interrogacion {
   padding-left: 10px;
   padding-top: 5px;
+}
+.box-legend__remision {
+  letter-spacing: 0px;
+  color: #138496; /* azul institucional */
+  opacity: 1;
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.box-legend__remision__dot {
+  height: 13px;
+  width: 13px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 5px;
 }
 
 .icono-remision {

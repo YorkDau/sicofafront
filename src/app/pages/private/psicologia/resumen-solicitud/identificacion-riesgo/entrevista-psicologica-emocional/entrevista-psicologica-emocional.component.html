@@ -87,17 +87,29 @@
       >
       </app-percepcion-victima-entrevista>
     </mat-step>
+     <mat-step>
+      <ng-template matStepLabel class="text-capitalize"
+        >Información menores</ng-template
+      >
+      <app-informacion-menores
+        *ngIf="stepper.selectedIndex == 7"
+        (siguientePaso)="cambiarPasoIdentificacionDelRiesgo($event)"
+        (siguienteTab)="siguienteTab.emit($event)"
+      >
+      </app-informacion-menores>
+    </mat-step>
     <mat-step>
       <ng-template matStepLabel class="text-capitalize"
         >Conclusión y Recomendaciones</ng-template
       >
       <app-conclusion-recomendaciones
-        *ngIf="stepper.selectedIndex == 7"
+        *ngIf="stepper.selectedIndex == 8"
         (siguientePaso)="cambiarPasoIdentificacionDelRiesgo($event)"
         (siguienteTab)="siguienteTab.emit($event)"
         (imprimirPDFCompleto)="imprimirPDFCompleto()"
       >
       </app-conclusion-recomendaciones>
     </mat-step>
+    
   </mat-stepper>
 </section>

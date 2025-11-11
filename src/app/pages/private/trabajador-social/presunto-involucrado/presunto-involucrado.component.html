@@ -1,28 +1,27 @@
 <form [formGroup]="involucradoForm" autocomplete="off">
   <div class="row">
-    <div class="col-lg-3">
-      <div class="mb-3">
-        <label for="primerN" class="form-label">Primer nombre*</label>
-        <input
-          type="text"
-          class="form-control"
-          id="primerN"
-          placeholder="Primer nombre"
-          maxlength="50"
-          formControlName="primerNombre"
-          [ngClass]="{
-            'input-req': isRequired('primerNombre') && mostrarValidaciones
-          }"
-        />
-        <div
-          *ngIf="isRequired('primerNombre') && mostrarValidaciones"
-          class="msj-req"
-        >
-          {{ msgObligatorio }}
-        </div>
+    <div class="col-lg-3 mb-3">
+      <label for="primerN" class="form-label">Primer nombre*</label>
+      <input
+        type="text"
+        class="form-control"
+        id="primerN"
+        placeholder="Primer nombre"
+        maxlength="50"
+        formControlName="primerNombre"
+        [ngClass]="{
+          'input-req': isRequired('primerNombre') && mostrarValidaciones
+        }"
+      />
+      <div
+        *ngIf="isRequired('primerNombre') && mostrarValidaciones"
+        class="msj-req"
+      >
+        {{ msgObligatorio }}
       </div>
     </div>
-    <div class="col-lg-3">
+
+    <div class="col-lg-3 mb-3">
       <label for="segundoN" class="form-label">Segundo nombre</label>
       <input
         type="text"
@@ -33,7 +32,8 @@
         formControlName="segundoNombre"
       />
     </div>
-    <div class="col-lg-3">
+
+    <div class="col-lg-3 mb-3">
       <label for="primerA" class="form-label">Primer apellido*</label>
       <input
         type="text"
@@ -53,7 +53,8 @@
         {{ msgObligatorio }}
       </div>
     </div>
-    <div class="col-lg-3">
+
+    <div class="col-lg-3 mb-3">
       <label for="segundoA" class="form-label">Segundo apellido</label>
       <input
         type="text"
@@ -66,27 +67,26 @@
     </div>
   </div>
 
-  <div class="row mt-4">
-    <div class="col-lg-3">
-      <div class="mb-3">
-        <label for="tipoD" class="form-label">Tipo de documento</label>
-        <select
-          id="tipoD"
-          class="form-select"
-          formControlName="tipoDocumento"
-          (change)="isColombiano($event)"
+  <div class="row">
+    <div class="col-lg-3 mb-3">
+      <label for="tipoD" class="form-label">Tipo de documento</label>
+      <select
+        id="tipoD"
+        class="form-select"
+        formControlName="tipoDocumento"
+        (change)="isColombiano($event)"
+      >
+        <option [value]="0" disabled>Seleccione una opción</option>
+        <option
+          *ngFor="let item of listaTipoDocumento"
+          [value]="item.id_Dominio"
         >
-          <option [value]="0" disabled>Seleccione una opción</option>
-          <option
-            [value]="item.id_Dominio"
-            *ngFor="let item of listaTipoDocumento"
-          >
-            {{ item.nombre_Dominio }}
-          </option>
-        </select>
-      </div>
+          {{ item.nombre_Dominio }}
+        </option>
+      </select>
     </div>
-    <div class="col-lg-3">
+
+    <div class="col-lg-3 mb-3">
       <label for="numDoc" class="form-label">Número de documento</label>
       <input
         type="text"
@@ -98,38 +98,8 @@
       />
     </div>
 
-    <div class="col-lg-3"></div>
-    <div class="col-lg-3"></div>
-  </div>
-
-  <div class="row mt-5">
-
-    <!-- <div class="col-lg-3">
-      <label for="lugarE" class="form-label">Lugar expedición*</label>
-      <select
-        class="form-select"
-        id="lugarE"
-        formControlName="idLugarExpedicion"
-        [ngClass]="{
-          'input-req': isMin('idLugarExpedicion') && mostrarValidaciones
-        }"
-      >
-        <option disabled [value]="0">Lugar de Expedición</option>
-        <option *ngFor="let item of listaLugarExp" [value]="item.ciudmunID">
-          {{ item.nombCiudMun }}
-        </option>
-      </select>
-      <div
-        *ngIf="isMin('idLugarExpedicion') && mostrarValidaciones"
-        class="msj-req"
-      >
-        {{ msgObligatorio }}
-      </div>
-    </div> -->
-
-    <div class="col-lg-3">
+    <div class="col-lg-3 mb-3">
       <label class="form-label">País de Expedición</label>
-
       <select
         class="form-select"
         formControlName="paisExp"
@@ -142,9 +112,8 @@
       </select>
     </div>
 
-    <div class="col-lg-3">
+    <div class="col-lg-3 mb-3">
       <label class="form-label">Departamento de Expedición</label>
-
       <select
         class="form-select"
         formControlName="departamentoExp"
@@ -159,10 +128,11 @@
         </option>
       </select>
     </div>
+  </div>
 
-    <div class="col-lg-3">
+  <div class="row">
+    <div class="col-lg-3 mb-3">
       <label class="form-label">Municipio de Expedición</label>
-
       <select class="form-select" formControlName="municipioExp">
         <option disabled value="">Municipio de Expedición</option>
         <option
@@ -174,26 +144,39 @@
       </select>
     </div>
 
-    <div class="col-lg-3">
+    <div class="col-lg-3 mb-3">
       <label for="vicAgr" class="form-label">Tipo involucrado</label>
-      <select
-        id="vicAgr"
-        class="form-select"
-        formControlName="esVictima"
-        (change)="cambioInvolucrado($event.target.value)"
-      >
-        <option [value]="true">Accionante (Victima/Rep. Legal)</option>
-        <option [value]="false">Accionado</option>
-        <!-- <option [value]="false">Victima</option>
-        <option [value]="false">Representante Legal</option>
-        <option [value]="false">Otro</option>         -->
+      <select id="vicAgr" class="form-select" formControlName="esVictima">
+        <option [ngValue]="true">Accionante (Victima/Rep. Legal)</option>
+        <option [ngValue]="false">Accionado</option>
       </select>
     </div>
+
+    <!-- Mostrar solo si esVictima es true -->
+    <div
+      class="col-lg-3 d-flex align-items-end justify-content-start mb-3"
+      *ngIf="involucradoForm.get('esVictima')?.value"
+    >
+      <div class="form-check">
+        <input
+          type="checkbox"
+          class="form-check-input"
+          id="esRepresentante"
+          formControlName="esRepresentante"
+        />
+        <label class="form-check-label ms-2" for="esRepresentante">
+          Es representante legal
+        </label>
+      </div>
+    </div>
+
+    <div class="col-lg-3"></div>
   </div>
 
-  <div class="row mt-5">
+  <!-- Registro civil y nombre entidad en línea -->
+  <div class="row align-items-center mb-3">
     <div class="col-lg-6">
-      <p class="form-label">Registro civil fue expedido en:</p>
+      <p class="form-label mb-2">Registro civil fue expedido en:</p>
       <div class="form-check form-check-inline">
         <input
           class="form-check-input"
@@ -202,7 +185,6 @@
           name="registroExpedidoEn"
           value="Notaria"
           formControlName="registroExpedidoEn"
-          [checked]="true"
         />
         <label class="form-check-label" for="notaria">Notaria</label>
       </div>
@@ -215,15 +197,16 @@
           value="Registraduría auxiliar"
           formControlName="registroExpedidoEn"
         />
-        <label class="form-check-label" for="registraduria">
-          Registraduría auxiliar
-        </label>
+        <label class="form-check-label" for="registraduria"
+          >Registraduría auxiliar</label
+        >
       </div>
     </div>
+
     <div class="col-lg-6">
-      <label for="nomE" class="form-label">
-        Nombre entidad de expedición del registro civil
-      </label>
+      <label for="nomE" class="form-label"
+        >Nombre entidad de expedición del registro civil</label
+      >
       <input
         type="text"
         class="form-control"
@@ -235,20 +218,21 @@
     </div>
   </div>
 
-  <div class="row mt-5">
-    <div class="col-lg-4">
+  <div class="row">
+    <div class="col-lg-4 mb-3">
       <label for="celular" class="form-label">Celular</label>
       <input
         class="form-control"
         id="celular"
         placeholder="Celular"
-        oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
         type="number"
         maxlength="10"
         formControlName="telefono"
+        oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
       />
     </div>
-    <div class="col-lg-4">
+
+    <div class="col-lg-4 mb-3">
       <label for="email" class="form-label">Correo electrónico</label>
       <input
         type="email"
@@ -268,7 +252,8 @@
         {{ msgCorreoInv }}
       </div>
     </div>
-    <div class="col-lg-4">
+
+    <div class="col-lg-2 mb-3">
       <label for="edad" class="form-label">Edad*</label>
       <input
         type="number"
@@ -277,7 +262,7 @@
         placeholder="Edad"
         maxlength="3"
         formControlName="edad"
-        oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+        oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
         [ngClass]="{
           'input-req':
             (isMin('edad') || isMax('edad') || isRequired('edad')) &&
@@ -294,9 +279,23 @@
         {{ msgObligatorio }}
       </div>
     </div>
+    <div class="form-group col-lg-2 mb-5">
+      <label class="form-label text-capitalize">edad en</label>
+      <select
+        type="text"
+        class="form-select"
+        [ngClass]="{ 'border-danger': false }"
+        formControlName="edadEn"
+        required
+      >
+        <option [value]="item.id_Dominio" *ngFor="let item of listaEdad">
+          {{ item.nombre_Dominio }}
+        </option>
+      </select>
+    </div>
   </div>
 
-  <div class="mt-5 w-100">
+  <div class="mb-5 w-100">
     <label for="relato" class="form-label">Datos Adicionales:</label>
     <textarea
       id="relato"

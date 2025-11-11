@@ -388,7 +388,7 @@
           <!-- primera parte -->
           <div class="row">
             <div class="col-lg-4 mb-3">
-              <label for="pnombrea" class="form-label"> Primer nombre*</label>
+              <label for="pnombrea" class="form-label"> Primer nombres*</label>
               <input
                 type="text"
                 class="form-control"
@@ -693,7 +693,63 @@
                 maxlength="50"
               />
             </div>
-          </div>
+            <div *ngIf="esMenorDeEdad(agresor.controls['edad']?.value)" class="d-flex flex-column">
+
+                <div class="mb-3">
+                  <label class="form-label">¿Está vinculado al sistema de salud?</label>
+                  <div class="d-flex gap-3">
+                    <div class="form-check">
+                      <input id="saludSi" type="radio" class="form-check-input" [value]="true" name="tieneSalud" formControlName="tieneSalud" />
+                      <label for="saludSi" class="form-check-label">Sí</label>
+                    </div>
+                    <div class="form-check">
+                      <input id="saludNo" type="radio" class="form-check-input" [value]="false" name="tieneSalud" formControlName="tieneSalud" />
+                      <label for="saludNo" class="form-check-label">No</label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mb-3 row align-items-end">
+                  <div class="col-lg-4">
+                      <label class="form-label">¿Está vinculado al sistema de educación?</label>
+                      <div class="d-flex gap-3">
+                        <div class="form-check">
+                          <input id="educacionSi" type="radio" class="form-check-input" [value]="true"  name="tieneEducacion" formControlName="tieneEducacion" />
+                          <label for="educacionSi" class="form-check-label">Sí</label>
+                        </div>
+                        <div class="form-check">
+                          <input id="educacionNo" type="radio" class="form-check-input" [value]="false" name="tieneEducacion" formControlName="tieneEducacion"/>
+                          <label for="educacionNo" class="form-check-label">No</label>
+                        </div>
+                      </div>
+                  </div>
+                  <div *ngIf="agresor.controls['tieneEducacion']?.value" class="col-lg-4">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="lugar"
+                        placeholder="Escriba lugar donde estudia"
+                        formControlName="lugarEstudio"
+                        maxlength="50"
+                      />
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">¿Tiene esquema de vacunación completa?</label>
+                  <div class="d-flex gap-3">
+                    <div class="form-check">
+                      <input id="vacunacionSi" type="radio" class="form-check-input" [value]="true" name="vacunacionCompleta" formControlName="vacunacionCompleta" />
+                      <label for="vacunacionSi" class="form-check-label">Sí</label>
+                    </div>
+                    <div class="form-check">
+                      <input id="vacunacionNo" type="radio" class="form-check-input" [value]="false" name="vacunacionCompleta" formControlName="vacunacionCompleta" />
+                      <label for="vacunacionNo" class="form-check-label">No</label>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            </div>
         </ng-container>
       </div>
     </form>

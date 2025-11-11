@@ -14,7 +14,7 @@
             (click)="setStep(i + 1)"
           >
             <div class="item-img">
-              <img [src]="item.icon" width="15px" height="15px" alt="home" />
+              <img [src]="item.icon" width="15px" height="15px" [alt]="item.titulo" />
               <span *ngIf="openDrawer">{{ item.titulo }}</span>
             </div>
           </mat-list-option>
@@ -34,7 +34,7 @@
                       [src]="item.icon"
                       width="15px"
                       height="15px"
-                      alt="comisaria"
+                      [alt]="item.titulo"
                     />
                     <span *ngIf="openDrawer">{{ item.titulo }}</span>
                   </div>

@@ -81,6 +81,7 @@ export class RecepcionPreSolicitudComponent implements OnInit {
     this.config.notFoundText = 'No se encontraron coincidencias';
     this.user = this.authService.currentUserValue!;
     this.perfil = this.user.perfil!;
+    console.log("0USUARIO LOGUEADO",this.user);
   }
 
   get f() {
@@ -139,6 +140,7 @@ export class RecepcionPreSolicitudComponent implements OnInit {
       telefono_victima: [{value: '', disabled: this.perfil !== 'AUX'}],
       correo_electronico_victima: [{value: '', disabled: this.perfil !== 'AUX'}, Validators.pattern(Regex.EMAIL)],
       id_caso_asociado: [{value: null, disabled: this.perfil !== 'AUX'}],
+      fecha_nacimiento_victima:[{value: null, disabled: this.perfil !== 'AUX'}],
       datos_adicionales_victima: [
         {value: '', disabled: this.perfil !== 'AUX'},
         Validators.compose([Validators.maxLength(3000)]),
@@ -235,6 +237,9 @@ export class RecepcionPreSolicitudComponent implements OnInit {
         { value: this.infoInicial.correo_electronico_victima, disabled: true },
         Validators.pattern(Regex.EMAIL),
       ],
+      fecha_nacimiento_victima: {
+        value: this.infoInicial.fecha_nacimiento_victima,
+      },
       id_caso_asociado: [{ value: this.infoInicial.idSolicitudRelacionado, disabled: true }],
       datos_adicionales_victima: [
         { value: this.infoInicial.datos_adicionales_victima, disabled: true },
@@ -330,7 +335,7 @@ export class RecepcionPreSolicitudComponent implements OnInit {
     if (
       info &&
       info.solicitudesCiudadano.length <= 0 &&
-      this.f.tipo_presolicitud.value !== 'DEN'
+      !['DEN','DENAM'].includes(this.f.tipo_presolicitud.value)
     ) {
       Modales.modalInformacion(
         Mensajes.MENSAJE_NO_INFO_CASOS_VICTIMA,
@@ -346,12 +351,13 @@ export class RecepcionPreSolicitudComponent implements OnInit {
       this.f.direccion_victima.setValue(info.direccion);
       this.f.telefono_victima.setValue(info.telefono);
       this.f.correo_electronico_victima.setValue(info.correoElectronico);
+      this.f.fecha_nacimiento_victima.setValue(info.fechaNacimiento)
       this.f.direccion_victima.enable();
       this.f.telefono_victima.enable();
       this.f.correo_electronico_victima.enable();
       this.f.id_caso_asociado.enable();
       this.listaCasosAsociados = [...info.solicitudesCiudadano];
-    } else if (!info && this.f.tipo_presolicitud.value !== 'DEN') {
+    } else if (!info && !['DEN','DENAM'].includes(this.f.tipo_presolicitud.value)) {
       Modales.modalInformacion(
         Mensajes.MENSAJE_NO_INFO_VICTIMA,
         this.dialog,
@@ -370,7 +376,7 @@ export class RecepcionPreSolicitudComponent implements OnInit {
     if (
       info &&
       info.solicitudesCiudadano.length > 0 &&
-      this.f.tipo_presolicitud.value === 'DEN'
+      (['DEN','DENAM'].includes(this.f.tipo_presolicitud.value))
     ) {
       this.mostrarAlertaCasos = true;
     } else {
@@ -420,7 +426,7 @@ export class RecepcionPreSolicitudComponent implements OnInit {
   }
 
   changeTipoPresolicitud(e: any) {
-    if (e.target.value === 'DEN') {
+    if (['DEN','DENAM'].includes(e.target.value) ) {
       this.mostrarCasos = false;
       this.f.correo_electronico.disable();
     } else {
@@ -436,6 +442,7 @@ export class RecepcionPreSolicitudComponent implements OnInit {
 
     if (this.form.valid) {
       let date = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+      console.log()
 
       const obj = {
         tipo_entidad_denunciante: this.f.id_tipo_entidad.value,
@@ -460,17 +467,18 @@ export class RecepcionPreSolicitudComponent implements OnInit {
         idSolicitudRelacionado: this.f.id_caso_asociado.value,
         idCiudadano: (this.infoVictima && this.infoVictima?.idCiudadano) ? this.infoVictima?.idCiudadano : null,
         fecha_solicitud: date,
-        id_comisaria:this.user?.idComisaria??null
+        id_comisaria: this.user?.idComisaria! 
       };
       console.log(this.user)
 
       this.preSolicitudService.crearPresolicitud(obj).subscribe({
         next: (data: ResponseInterface) => {
           if (data.statusCode === CodigosRespuesta.OK) {
+            // 
             this.modales
               .modalExito(
                 `Se ha registrado la Pre-Solicitud de servicio remitida desde una entidad externa.
-              El caso ha sido enviado al área legal, para la determinación de su competencia.`
+              ${data.message ?? 'El caso ha sido enviado al área legal, para la determinación de su competencia.'}`
               )
               .subscribe(() => {
                 this.router.navigate(['/recepcion-auxiliar']);

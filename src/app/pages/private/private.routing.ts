@@ -22,11 +22,14 @@ import { Tablero1Component } from 'src/app/shared/components/informes/informes-d
 import { ConsultaApelacionesComponent } from 'src/app/shared/components/informes/consulta-apelaciones/consulta-apelaciones.component';
 import { ObservacionApelacionComponent } from 'src/app/shared/components/informes/observacion-apelacion/observacion-apelacion.component';
 import { ConsultaComisariaGeneralComponent } from 'src/app/shared/components/informes/consulta-general/consulta-general.component';
+import { InvolucradoComponent } from './involucrado/involucrado.component';
+import { HistorialInvolucradoComponent } from './involucrado/historial-involucrado/historial-involucrado.component';
 
 export const mainRoutes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'recepcion-auxiliar', component: RecepcionComponent },
   { path: 'ciudadano', component: CiudadanoComponent },
+  { path: 'involucrado', component: InvolucradoComponent },
   { path: 'solicitud', component: SolicitudComponent },
   { path: 'solicitud/:id', component: SolicitudComponent },
   { path: 'usuario', component: UsuarioComponent },
@@ -91,6 +94,11 @@ export const mainRoutes: Routes = [
     path: 'historial-ciudadano/:id_ciudadano',
     component: HistorialCiudadanoComponent,
   },
+  {
+    path: 'historial-involucrado/:id_involucrado',
+    component: HistorialInvolucradoComponent,
+  },
+
   {
     path: 'psicologia',
     loadChildren: () =>

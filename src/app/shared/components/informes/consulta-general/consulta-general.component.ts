@@ -184,7 +184,6 @@ public coonsultarSolicitudesGeneralesFiltro() {
       this.form.value;
   }
   verHistorialCiudadano(objSolicitud: any) {
-    console.log(objSolicitud)
     let redirreccion = '';
     sessionStorage.setItem('info', JSON.stringify(objSolicitud));
     if (this.perfil === 'ABO') {
@@ -196,7 +195,6 @@ public coonsultarSolicitudesGeneralesFiltro() {
     } else if (this.perfil === 'TSO') {
       redirreccion = 'trabajador-social';
     }
-    console.log(redirreccion)
     this.router.navigate([`${redirreccion}/observacion/apelaciones`, objSolicitud.id_solicitud_servicio]);
   }
 

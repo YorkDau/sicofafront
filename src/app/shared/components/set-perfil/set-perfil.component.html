@@ -10,6 +10,7 @@
             Seleccionar Perfil
           </legend>
           <div class="w-90">
+            <!-- COMISARIA -->
             <div class="form-group mb-3">
               <label for="comisaria" class="form-label">Comisaría</label>
               <select
@@ -19,10 +20,7 @@
                   'input-req': isRequired('comisaria') && mostrarValidaciones
                 }"
               >
-                <option
-                  *ngFor="let comisaria of comisarias"
-                  [value]="comisaria.idComisaria"
-                >
+                <option *ngFor="let comisaria of comisarias" [ngValue]="comisaria.idComisaria">
                   {{ comisaria.nombreComisaria }}
                 </option>
               </select>
@@ -33,6 +31,8 @@
                 Debe seleccionar una comisaría
               </div>
             </div>
+
+            <!-- PERFIL -->
             <div class="form-group mb-3">
               <label for="perfil" class="form-label">Perfil</label>
               <select
@@ -42,11 +42,8 @@
                   'input-req': isRequired('perfil') && mostrarValidaciones
                 }"
               >
-                <option value="" disabled>Seleccione perfil</option>
-                <option
-                  *ngFor="let perfil of perfilesDisponibles"
-                  [value]="perfil.perfil"
-                >
+                <option [ngValue]="null" disabled>Seleccione perfil</option>
+                <option *ngFor="let perfil of perfilesDisponibles" [ngValue]="perfil.perfil">
                   {{ perfil.nombrePerfil }}
                 </option>
               </select>

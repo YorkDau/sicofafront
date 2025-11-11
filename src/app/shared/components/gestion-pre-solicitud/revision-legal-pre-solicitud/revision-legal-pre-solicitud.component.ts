@@ -129,7 +129,7 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
             this.modales
               .modalExito(
                 `Se ha registrado la competencia de la Pre-Solicitud de servicio.
-              El caso ha sido enviado al equipo psicosocial para la verificacion de la denuncia.`
+              ${data.message??'El caso ha sido enviado al equipo psicosocial para la verificacion de la denuncia.'}`
               )
               .subscribe(() => {
                 this.router.navigate(['/abogado/casos']);
@@ -239,6 +239,18 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
    */
   public isRequired(campo: string): boolean {
     return this.form.controls[campo].hasError('required');
+  }
+
+  
+  /**
+   * @description valida que los campos sean obligatorios o requeridos
+   * * @param campo variable para ingresar el campo requerido
+   */
+  public esMenorEdad(): boolean {
+    if (this.info.tipo_presolicitud === 'DENAM') {
+      return false;
+    }
+    return true;
   }
 
 }

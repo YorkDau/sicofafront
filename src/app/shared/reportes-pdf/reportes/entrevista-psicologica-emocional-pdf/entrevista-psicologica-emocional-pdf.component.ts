@@ -135,6 +135,7 @@ export class EntrevistaPsicologicaEmocionalPdfComponent
         this.checksTiposRedesApoyo = this.reporte.redesApoyo3;
         this.relatoDeLosHechos = this.reporte.relatoDeLosHechos;
       }
+      
     } else {
       this.checksRedesApoyo = await this.cargarChecks(
         DominiosEvaluacionOrientacion.Red_apoyo

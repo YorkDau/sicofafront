@@ -1,36 +1,37 @@
-import { MenuInterface } from '../interfaces/menu.interface';
+import { MenuInterface } from "../interfaces/menu.interface";
 
 export const perfilAuxiliar: MenuInterface[] = [
   {
-    titulo: 'Inicio Recepción',
-    icon: './assets/images/home-free-icon-font.svg',
-    ruta: '/recepcion-auxiliar',
+    titulo: "Inicio Recepción",
+    icon: "./assets/images/home-free-icon-font.svg",
+    ruta: "/recepcion-auxiliar",
     subRutas: [],
-    inicioTitulo: 'Auxiliar',
+    inicioTitulo: "Auxiliar",
   },
   {
-    titulo: 'Comisaría',
-    icon: './assets/images/documento-firmado.svg',
+    titulo: "Comisaría",
+    icon: "./assets/images/documento-firmado.svg",
     ruta: null,
     subRutas: [
       {
-        titulo: 'Consulta Ciudadanos',
-        ruta: './ciudadano',
+        titulo: "Consulta Ciudadanos",
+        ruta: "./ciudadano",
       },
+
       {
-        titulo: 'Consulta General',
-        ruta: './consulta/comisaria-general'
-      }
+        titulo: "Consulta General",
+        ruta: "./consulta/comisaria-general",
+      },
     ],
   },
   {
-    titulo: 'Reportes',
-    icon: './assets/images/grafico-histograma.svg',
+    titulo: "Reportes",
+    icon: "./assets/images/grafico-histograma.svg",
     ruta: null,
     subRutas: [
       {
-        titulo: 'Formatos Vacios',
-        ruta: './reportes/formatos-vacios',
+        titulo: "Formatos Vacios",
+        ruta: "./reportes/formatos-vacios",
       },
     ],
   },
@@ -38,39 +39,40 @@ export const perfilAuxiliar: MenuInterface[] = [
 
 export const perfilPsicologo: MenuInterface[] = [
   {
-    titulo: 'Inicio Psicología',
-    icon: './assets/images/home-free-icon-font.svg',
-    ruta: './psicologia',
+    titulo: "Inicio Psicología",
+    icon: "./assets/images/home-free-icon-font.svg",
+    ruta: "./psicologia",
     subRutas: [],
-    inicioTitulo: 'Psicologia',
+    inicioTitulo: "Psicologia",
   },
   {
-    titulo: 'Comisaría',
-    icon: './assets/images/documento-firmado.svg',
+    titulo: "Comisaría",
+    icon: "./assets/images/documento-firmado.svg",
     ruta: null,
     subRutas: [
       {
-        titulo: 'Consulta Ciudadanos',
-        ruta: './ciudadano',
+        titulo: "Consulta Ciudadanos",
+        ruta: "./ciudadano",
+      },
+
+      {
+        titulo: "Seguimientos",
+        ruta: "./psicologia/seguimientos",
       },
       {
-        titulo: 'Seguimientos',
-        ruta: './psicologia/seguimientos',
+        titulo: "Consulta General",
+        ruta: "./consulta/comisaria-general",
       },
-      {
-        titulo: 'Consulta General',
-        ruta: './consulta/comisaria-general'
-      }
     ],
   },
   {
-    titulo: 'Reportes',
-    icon: './assets/images/grafico-histograma.svg',
+    titulo: "Reportes",
+    icon: "./assets/images/grafico-histograma.svg",
     ruta: null,
     subRutas: [
       {
-        titulo: 'Formatos Vacios',
-        ruta: './reportes/formatos-vacios',
+        titulo: "Formatos Vacios",
+        ruta: "./reportes/formatos-vacios",
       },
     ],
   },
@@ -78,46 +80,47 @@ export const perfilPsicologo: MenuInterface[] = [
 
 export const perfilAbogado: MenuInterface[] = [
   {
-    titulo: 'Inicio Revisión Legal',
-    icon: './assets/images/home-free-icon-font.svg',
-    ruta: './abogado/casos',
+    titulo: "Inicio Revisión Legal",
+    icon: "./assets/images/home-free-icon-font.svg",
+    ruta: "./abogado/casos",
     subRutas: [],
-    inicioTitulo: 'Abogado',
+    inicioTitulo: "Abogado",
   },
   {
-    titulo: 'Comisaría',
-    icon: './assets/images/documento-firmado.svg',
+    titulo: "Comisaría",
+    icon: "./assets/images/documento-firmado.svg",
     ruta: null,
     subRutas: [
       {
-        titulo: 'Seguimientos',
-        ruta: './abogado/seguimientos',
+        titulo: "Seguimientos",
+        ruta: "./abogado/seguimientos",
       },
+
       {
-        titulo: 'Consulta General',
-        ruta: './consulta/comisaria-general'
-      }
-    ],
-  },
-  {
-    titulo: 'Reportes',
-    icon: './assets/images/grafico-histograma.svg',
-    ruta: null,
-    subRutas: [
-      {
-        titulo: 'Formatos Vacios',
-        ruta: './reportes/formatos-vacios',
+        titulo: "Consulta General",
+        ruta: "./consulta/comisaria-general",
       },
     ],
   },
   {
-    titulo: 'Consultas',
-    icon: './assets/images/grafico-histograma.svg',
+    titulo: "Reportes",
+    icon: "./assets/images/grafico-histograma.svg",
     ruta: null,
     subRutas: [
       {
-        titulo: 'Apelaciones',
-        ruta: './consulta/apelaciones',
+        titulo: "Formatos Vacios",
+        ruta: "./reportes/formatos-vacios",
+      },
+    ],
+  },
+  {
+    titulo: "Consultas",
+    icon: "./assets/images/grafico-histograma.svg",
+    ruta: null,
+    subRutas: [
+      {
+        titulo: "Apelaciones",
+        ruta: "./consulta/apelaciones",
       },
     ],
   },
@@ -125,159 +128,131 @@ export const perfilAbogado: MenuInterface[] = [
 
 export const perfilComisario: MenuInterface[] = [
   {
-    titulo: 'Inicio Comisario',
-    icon: './assets/images/home-free-icon-font.svg',
-    ruta: './comisario/casos',
+    titulo: "Inicio Comisario",
+    icon: "./assets/images/home-free-icon-font.svg",
+    ruta: "./comisario/casos",
     subRutas: [],
-    inicioTitulo: 'Comisario',
+    inicioTitulo: "Comisario",
   },
   {
-    titulo: 'Comisaría',
-    icon: './assets/images/documento-firmado.svg',
+    titulo: "Comisaría",
+    icon: "./assets/images/documento-firmado.svg",
     ruta: null,
     subRutas: [
       {
-        titulo: 'Consulta Ciudadanos',
-        ruta: './ciudadano',
+        titulo: "Consulta Ciudadanos",
+        ruta: "./ciudadano",
+      },
+
+      {
+        titulo: "Seguimientos",
+        ruta: "./comisario/seguimientos",
       },
       {
-        titulo: 'Seguimientos',
-        ruta: './comisario/seguimientos',
-      },
-      {
-        titulo: 'Consulta General',
-        ruta: './consulta/comisaria-general'
-      }
-    ],
-  },
-  {
-    titulo: 'Administracion',
-    icon: './assets/images/resistente-a-los-neumaticos.svg',
-    ruta: null,
-    subRutas: [
-      {
-        titulo: 'Gestión de Usuarios',
-        ruta: './comisario/gestion-usuarios',
-      },
-      {
-        titulo: 'Actualizar Comisaría',
-        ruta: './comisario/actualizar-comisaria',
+        titulo: "Consulta General",
+        ruta: "./consulta/comisaria-general",
       },
     ],
   },
   {
-    titulo: 'Tableros de Control',
-    icon: './assets/images/grafico-histograma.svg',
+    titulo: "Administracion",
+    icon: "./assets/images/resistente-a-los-neumaticos.svg",
     ruta: null,
     subRutas: [
       {
-        titulo: 'Tablero General',
-        ruta: './reportes/tablero1',
-      },
-     /**  {
-        titulo: 'Tablero 2',
-        ruta: './reportes/formatos-vacios',
+        titulo: "Gestión de Usuarios",
+        ruta: "./comisario/gestion-usuarios",
       },
       {
-        titulo: 'Tablero 3',
-        ruta: './reportes/formatos-vacios',
+        titulo: "Actualizar Comisaría",
+        ruta: "./comisario/actualizar-comisaria",
       },
+    ],
+  },
+  {
+    titulo: "Tableros de Control",
+    icon: "./assets/images/grafico-histograma.svg",
+    ruta: null,
+    subRutas: [
       {
-        titulo: 'Tablero 4',
-        ruta: './reportes/formatos-vacios',
-      },**/
+        titulo: "Tablero General",
+        ruta: "./reportes/tablero1",
+      },
     ],
   },
 ];
 
 export const perfilTrabajadorSocial: MenuInterface[] = [
   {
-    titulo: 'Inicio Trabajador Social',
-    icon: './assets/images/home-free-icon-font.svg',
-    ruta: './trabajador-social/casos',
+    titulo: "Inicio Trabajador Social",
+    icon: "./assets/images/home-free-icon-font.svg",
+    ruta: "./trabajador-social/casos",
     subRutas: [],
-    inicioTitulo: 'Trabajador Social',
+    inicioTitulo: "Trabajador Social",
   },
   {
-    titulo: 'Comisaría',
-    icon: './assets/images/documento-firmado.svg',
+    titulo: "Comisaría",
+    icon: "./assets/images/documento-firmado.svg",
     ruta: null,
     subRutas: [
       {
-        titulo: 'Consulta Ciudadanos',
-        ruta: './ciudadano',
+        titulo: "Consulta Ciudadanos",
+        ruta: "./ciudadano",
+      },
+
+      {
+        titulo: "Seguimientos",
+        ruta: "./psicologia/seguimientos",
       },
       {
-        titulo: 'Seguimientos',
-        ruta: './psicologia/seguimientos',
+        titulo: "Consulta General",
+        ruta: "./consulta/comisaria-general",
       },
-      {
-        titulo: 'Consulta General',
-        ruta: './consulta/comisaria-general'
-      }
     ],
-  }
+  },
 ];
 
 export const perfilAdministrador: MenuInterface[] = [
   {
-    titulo: 'Administración',
-    icon: './assets/images/resistente-a-los-neumaticos.svg',
+    titulo: "Administración",
+    icon: "./assets/images/resistente-a-los-neumaticos.svg",
     ruta: null,
     subRutas: [
       {
-        titulo: 'Comisarias',
-        ruta: './administrador/listado-comisarias',
+        titulo: "Comisarias",
+        ruta: "./administrador/listado-comisarias",
       },
       {
-        titulo: 'Gestión de Dominios',
-        ruta: './comisario/gestion-dominios',
+        titulo: "Gestión de Dominios",
+        ruta: "./comisario/gestion-dominios",
       },
     ],
-    inicioTitulo: 'Administrador',
+    inicioTitulo: "Administrador",
   },
   {
-    titulo: 'Reportes',
-    icon: './assets/images/grafico-histograma.svg',
+    titulo: "Reportes",
+    icon: "./assets/images/grafico-histograma.svg",
     ruta: null,
     subRutas: [
       {
-        titulo: 'Generar Reportes',
-        ruta: './reportes/generar-reportes',
+        titulo: "Generar Reportes",
+        ruta: "./reportes/generar-reportes",
       },
       {
-        titulo: 'Formatos Vacios',
-        ruta: './reportes/formatos-vacios',
+        titulo: "Formatos Vacios",
+        ruta: "./reportes/formatos-vacios",
       },
     ],
   },
-{
-    titulo: 'Tableros de Control',
-    icon: './assets/images/grafico-histograma.svg',
+  {
+    titulo: "Tableros de Control",
+    icon: "./assets/images/grafico-histograma.svg",
     ruta: null,
     subRutas: [
       {
-        titulo: 'Tablero General',
-        ruta: './reportes/tablero1',
+        titulo: "Tablero General",
+        ruta: "./reportes/tablero1",
       },
-     /**  {
-        titulo: 'Tablero 2',
-        ruta: './reportes/formatos-vacios',
-      },
-      {
-        titulo: 'Tablero 3',
-        ruta: './reportes/formatos-vacios',
-      },
-      {
-        titulo: 'Tablero 4',
-        ruta: './reportes/formatos-vacios',
-      },**/
     ],
   },
-  // {
-  //   titulo: 'Conversor de Archivos',
-  //   icon: './assets/images/document-white.svg',
-  //   ruta: '/conversor',
-  //   subRutas: []
-  // },
 ];

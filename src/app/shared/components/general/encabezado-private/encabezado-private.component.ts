@@ -30,12 +30,10 @@ export class EncabezadoPrivateComponent implements OnInit {
   ngOnInit(): void {
     this.objSol = JSON.parse(sessionStorage.getItem('info')!);
     if (this.objSol) {
-      console.log("ObjetoSolicitud",this.objSol)
       this.resumenService
         .getDetallesCiudadanoAccionante(this.objSol.idSolicitud)
         .subscribe({
           next: (data: ResponseInterface) => {
-            console.log("ERROR",data);
             if (data.statusCode === CodigosRespuesta.OK) {
               this.accionante = data.data;
             } else {

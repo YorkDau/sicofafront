@@ -1,28 +1,28 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { ActivatedRoute, Router } from '@angular/router';
-import { DatePipe } from '@angular/common';
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { MatDialog } from "@angular/material/dialog";
+import { MatDatepickerInputEvent } from "@angular/material/datepicker";
+import { ActivatedRoute, Router } from "@angular/router";
+import { DatePipe } from "@angular/common";
 
-import { switchMap } from 'rxjs';
+import { switchMap } from "rxjs";
 
-import { CodigosRespuesta, Mensajes, Regex } from 'src/app/constants';
-import { CiudadanoService } from '../services/ciudadano.service';
-import * as validaciones from './validators';
-import { ModalInfoComponent } from 'src/app/shared/modal-info/modal-info.component';
-import { Modales } from '../../../../shared/modals';
+import { CodigosRespuesta, Mensajes, Regex } from "src/app/constants";
+import { CiudadanoService } from "../services/ciudadano.service";
+import * as validaciones from "./validators";
+import { ModalInfoComponent } from "src/app/shared/modal-info/modal-info.component";
+import { Modales } from "../../../../shared/modals";
 
-import { SharedService } from '../../../../services/shared.service';
-import * as interfaces from '../../interfaces/ciudadano.interface';
-import { CiudadanoCompletoInterface } from '../../interfaces/ciudadano.interface';
-import { ResponseInterface } from '../../../../interfaces/response.interface';
-import { SharedFunctions } from 'src/app/shared/functions';
+import { SharedService } from "../../../../services/shared.service";
+import * as interfaces from "../../interfaces/ciudadano.interface";
+import { CiudadanoCompletoInterface } from "../../interfaces/ciudadano.interface";
+import { ResponseInterface } from "../../../../interfaces/response.interface";
+import { SharedFunctions } from "src/app/shared/functions";
 
 @Component({
-  selector: 'app-registrar-ciudadano',
-  templateUrl: './registrar-ciudadano.component.html',
-  styleUrls: ['./registrar-ciudadano.component.scss'],
+  selector: "app-registrar-ciudadano",
+  templateUrl: "./registrar-ciudadano.component.html",
+  styleUrls: ["./registrar-ciudadano.component.scss"],
   providers: [DatePipe],
 })
 export class RegistrarCiudadanoComponent implements OnInit {
@@ -37,10 +37,17 @@ export class RegistrarCiudadanoComponent implements OnInit {
   public existe: boolean = false;
   public selectTipoDocumento: interfaces.DominioInterface[] = [];
   public selectLugarExpedicion: interfaces.LugarExpedicionInterface[] = [];
+
   public selectPaises: interfaces.PaisInterface[] = [];
   public selectDepartamento: interfaces.DepartamentoInterface[] = [];
   public selectMunicipio: interfaces.MunicipioInterface[] = [];
   public selectLocalidad: interfaces.DominioInterface[] = [];
+
+  public selectPaisesNacimiento: interfaces.PaisInterface[] = [];
+  public selectDepartamentoNacimiento: interfaces.DepartamentoInterface[] = [];
+  public selectMunicipioNacimiento: interfaces.MunicipioInterface[] = [];
+  public selectLocalidadNacimiento: interfaces.DominioInterface[] = [];
+
   public selectSexo: interfaces.DominioInterface[] = [];
   public selectGenero: interfaces.DominioInterface[] = [];
   public selectOrientacion: interfaces.DominioInterface[] = [];
@@ -55,13 +62,13 @@ export class RegistrarCiudadanoComponent implements OnInit {
   public cAfiliado: boolean = false;
   public ciudadano!: interfaces.CiudadanoInterface;
   public idCiudadano!: number;
-  public titulo: string = 'REGISTRO DE NUEVO CIUDADANO';
+  public titulo: string = "REGISTRO DE NUEVO CIUDADANO";
 
   /**
    * @description valida si viene en modo editar
    */
   private get isUpdate(): boolean {
-    return this.activedRoute.snapshot.params['id_ciudadano'] !== undefined;
+    return this.activedRoute.snapshot.params["id_ciudadano"] !== undefined;
   }
 
   constructor(
@@ -71,7 +78,7 @@ export class RegistrarCiudadanoComponent implements OnInit {
     private sharedService: SharedService,
     private ciudadanoService: CiudadanoService,
     private activedRoute: ActivatedRoute,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
   ) {}
 
   ngOnInit(): void {
@@ -89,42 +96,42 @@ export class RegistrarCiudadanoComponent implements OnInit {
   private cargarForm() {
     this.myForm = this.fb.group(
       {
-        pnombre: ['', [Validators.required, Validators.pattern(Regex.ALFA)]],
-        snombre: ['', [Validators.pattern(Regex.ALFA)]],
-        papellidos: ['', [Validators.required, Validators.pattern(Regex.ALFA)]],
-        sapellidos: ['', [Validators.pattern(Regex.ALFA)]],
-        tipDoc: ['', [Validators.required]],
-        nroDoc: ['', [Validators.required, Validators.pattern(Regex.ALFA)]],
-        fechaExp: '',
-        fechaNac: '',
-        edad: ['', [Validators.required]],
-        paisExp: '',
-        departamentoExp: '',
-        municipioExp: '',
-        pais: '',
-        departamento: '',
-        municipio: '',
-        localidad: '',
-        barrio: ['', [Validators.pattern(Regex.ALFA)]],
-        sexo: '',
-        idGenero: '',
-        orientacionSexual: '',
-        nivAcademico: '',
-        estrato: '',
-        localidadComuna: '',
-        estadoAcademico: '',
-        telefono: ['', [Validators.pattern(Regex.ALFA)]],
-        celular: ['', [Validators.pattern(Regex.ALFA)]],
-        correoElectronico: '',
-        dirResidencia: '',
-        rDiscapacidad: ['no', [Validators.required]],
-        discapacidad: '',
-        rEmbarazo: ['no', [Validators.required]],
-        embarazo: '',
-        rAfiliado: ['no', [Validators.required]],
-        rMujerFamilia: ['no'],
-        eps: '',
-        ips: '',
+        pnombre: ["", [Validators.required, Validators.pattern(Regex.ALFA)]],
+        snombre: ["", [Validators.pattern(Regex.ALFA)]],
+        papellidos: ["", [Validators.required, Validators.pattern(Regex.ALFA)]],
+        sapellidos: ["", [Validators.pattern(Regex.ALFA)]],
+        tipDoc: ["", [Validators.required]],
+        nroDoc: ["", [Validators.required, Validators.pattern(Regex.ALFA)]],
+        fechaExp: "",
+        fechaNac: "",
+        edad: ["", [Validators.required]],
+        paisExp: "",
+        departamentoExp: "",
+        municipioExp: "",
+        paisNacimiento: "",
+        departamentoNacimiento: "",
+        municipioNacimiento: "",
+        localidadNacimiento: "",
+        barrio: ["", [Validators.pattern(Regex.ALFA)]],
+        sexo: "",
+        idGenero: "",
+        orientacionSexual: "",
+        nivAcademico: "",
+        estrato: "",
+        localidadComuna: "",
+        estadoAcademico: "",
+        telefono: ["", [Validators.pattern(Regex.ALFA)]],
+        celular: ["", [Validators.pattern(Regex.ALFA)]],
+        correoElectronico: "",
+        dirResidencia: "",
+        rDiscapacidad: ["no", [Validators.required]],
+        discapacidad: "",
+        rEmbarazo: ["no", [Validators.required]],
+        embarazo: "",
+        rAfiliado: ["no", [Validators.required]],
+        rMujerFamilia: ["no"],
+        eps: "",
+        ips: "",
         chkLGBTI: false,
         chkAdultoMayor: false,
         chkMujerEmbarazada: false,
@@ -134,7 +141,7 @@ export class RegistrarCiudadanoComponent implements OnInit {
         chkPerLideresa: false,
         chkPerHabitalidad: false,
         chkIndigena: false,
-        indigena: '',
+        indigena: "",
         aceptaTratamiento: [false, [Validators.requiredTrue]],
       },
       {
@@ -145,7 +152,7 @@ export class RegistrarCiudadanoComponent implements OnInit {
           validaciones.validarEmbarazo,
           validaciones.validarIndigena,
         ],
-      }
+      },
     );
   }
 
@@ -154,14 +161,14 @@ export class RegistrarCiudadanoComponent implements OnInit {
    */
   private cargarFormEdit() {
     if (this.isUpdate) {
-      this.titulo = 'COMPLETAR REGISTRO CIUDADANO';
+      this.titulo = "COMPLETAR REGISTRO CIUDADANO";
       this.activedRoute.params
         .pipe(
           switchMap((_) =>
             this.ciudadanoService.cargarEditCiudadano(
-              this.activedRoute.snapshot.params['id_ciudadano']
-            )
-          )
+              this.activedRoute.snapshot.params["id_ciudadano"],
+            ),
+          ),
         )
         .subscribe((ciudadano) => {
           this.cargaSelectPaises(ciudadano.data.idTipoDocumento);
@@ -171,17 +178,38 @@ export class RegistrarCiudadanoComponent implements OnInit {
               .getDepartamentos(ciudadano.data.idPaisNacimiento)
               .subscribe((departamentos) => {
                 if (departamentos.statusCode === CodigosRespuesta.OK) {
-                  this.selectDepartamento = departamentos.data;
+                  this.selectDepartamentoNacimiento = departamentos.data;
                 }
               });
             this.sharedService
               .getCiudades(ciudadano.data.idDepartamentoNacimiento)
               .subscribe((municipios) => {
                 if (municipios.statusCode === CodigosRespuesta.OK) {
+                  this.selectMunicipioNacimiento = municipios.data;
+                }
+              });
+            this.sharedService
+              .getLocalidadPorMunicipio(ciudadano.data.idMunicipioNacimiento)
+              .subscribe((localidades) => {
+                if (localidades.statusCode === CodigosRespuesta.OK) {
+                  this.selectLocalidad = localidades.data;
+                }
+              });
+            //Cargar Selects para la expedicion del documento
+            this.sharedService
+              .getDepartamentos(ciudadano.data.idPaisExpedicion)
+              .subscribe((departamentos) => {
+                if (departamentos.statusCode === CodigosRespuesta.OK) {
+                  this.selectDepartamento = departamentos.data;
+                }
+              });
+            this.sharedService
+              .getCiudades(ciudadano.data.idDepartamentoExpedicion)
+              .subscribe((municipios) => {
+                if (municipios.statusCode === CodigosRespuesta.OK) {
                   this.selectMunicipio = municipios.data;
                 }
               });
-
             this.sharedService
               .getLocalidadPorMunicipio(ciudadano.data.idMunicipioNacimiento)
               .subscribe((localidades) => {
@@ -190,11 +218,12 @@ export class RegistrarCiudadanoComponent implements OnInit {
                 }
               });
           }
+
           this.setDataPost(ciudadano.data);
         });
 
-      this.myForm.get('tipDoc')?.disable();
-      this.myForm.get('nroDoc')?.disable();
+      this.myForm.get("tipDoc")?.disable();
+      this.myForm.get("nroDoc")?.disable();
     }
   }
 
@@ -207,7 +236,7 @@ export class RegistrarCiudadanoComponent implements OnInit {
     this.maxDate = new Date(
       currentYear,
       new Date().getMonth(),
-      new Date().getDate()
+      new Date().getDate(),
     );
   }
 
@@ -215,22 +244,22 @@ export class RegistrarCiudadanoComponent implements OnInit {
    * @description deja en estado inicial los campos abajo mencionado en el metodo
    */
   private resetValueChange() {
-    this.myForm.get('tipDoc')?.valueChanges.subscribe((resp) => {
+    this.myForm.get("tipDoc")?.valueChanges.subscribe((resp) => {
       this.yaExisteCiudadano();
     });
-    this.myForm.get('rDiscapacidad')?.valueChanges.subscribe((resp) => {
-      this.myForm.get('discapacidad')?.setValue('');
+    this.myForm.get("rDiscapacidad")?.valueChanges.subscribe((resp) => {
+      this.myForm.get("discapacidad")?.setValue("");
     });
-    this.myForm.get('rEmbarazo')?.valueChanges.subscribe((resp) => {
-      this.myForm.get('embarazo')?.setValue('');
+    this.myForm.get("rEmbarazo")?.valueChanges.subscribe((resp) => {
+      this.myForm.get("embarazo")?.setValue("");
     });
-    this.myForm.get('rAfiliado')?.valueChanges.subscribe((resp) => {
-      this.myForm.get('ips')?.setValue('');
-      this.myForm.get('eps')?.setValue('');
+    this.myForm.get("rAfiliado")?.valueChanges.subscribe((resp) => {
+      this.myForm.get("ips")?.setValue("");
+      this.myForm.get("eps")?.setValue("");
     });
 
-    this.myForm.get('chkIndigena')?.valueChanges.subscribe((resp) => {
-      this.myForm.get('indigena')?.setValue('');
+    this.myForm.get("chkIndigena")?.valueChanges.subscribe((resp) => {
+      this.myForm.get("indigena")?.setValue("");
     });
   }
 
@@ -256,7 +285,7 @@ export class RegistrarCiudadanoComponent implements OnInit {
    */
   private cargaSelectTipoDocumento() {
     this.sharedService
-      .getDominio('Tipo_identificacion')
+      .getDominio("Tipo_identificacion")
       .subscribe((TipoDocumento) => {
         if (TipoDocumento.statusCode === CodigosRespuesta.OK) {
           this.selectTipoDocumento = TipoDocumento.data;
@@ -264,14 +293,14 @@ export class RegistrarCiudadanoComponent implements OnInit {
       });
   }
   private cargaSelectLocalidadComuna() {
-    this.sharedService.getDominio('LocalidadComuna').subscribe((localidad) => {
+    this.sharedService.getDominio("LocalidadComuna").subscribe((localidad) => {
       if (localidad.statusCode === CodigosRespuesta.OK) {
         this.selectLocalidadComuna = localidad.data;
       }
     });
   }
   private cargaSelectEstrato() {
-    this.sharedService.getDominio('Estrato').subscribe((estrato) => {
+    this.sharedService.getDominio("Estrato").subscribe((estrato) => {
       if (estrato.statusCode === CodigosRespuesta.OK) {
         this.selectEstrato = estrato.data;
       }
@@ -293,7 +322,7 @@ export class RegistrarCiudadanoComponent implements OnInit {
    * @description carga el select de sexo
    */
   private cargaSelectSexo() {
-    this.sharedService.getDominio('Sexo').subscribe((sexo) => {
+    this.sharedService.getDominio("Sexo").subscribe((sexo) => {
       if (sexo.statusCode === CodigosRespuesta.OK) {
         this.selectSexo = sexo.data;
       }
@@ -304,7 +333,7 @@ export class RegistrarCiudadanoComponent implements OnInit {
    * @description carga el select de Identidad Genero
    */
   private cargaSelectIdentidadGenero() {
-    this.sharedService.getDominio('Genero').subscribe((genero) => {
+    this.sharedService.getDominio("Genero").subscribe((genero) => {
       if (genero.statusCode === CodigosRespuesta.OK) {
         this.selectGenero = genero.data;
       }
@@ -315,7 +344,7 @@ export class RegistrarCiudadanoComponent implements OnInit {
    * @description carga el select de Orientacion Sexual
    */
   private cargaSelectOrientacionSexual() {
-    this.sharedService.getDominio('Orientacion').subscribe((orientacion) => {
+    this.sharedService.getDominio("Orientacion").subscribe((orientacion) => {
       if (orientacion.statusCode === CodigosRespuesta.OK) {
         this.selectOrientacion = orientacion.data;
       }
@@ -327,7 +356,7 @@ export class RegistrarCiudadanoComponent implements OnInit {
    */
   private cargaSelectNivel_Academico() {
     this.sharedService
-      .getDominio('Nivel_Academico')
+      .getDominio("Nivel_Academico")
       .subscribe((nivel_Academico) => {
         if (nivel_Academico.statusCode === CodigosRespuesta.OK) {
           this.selectNivel_Academico = nivel_Academico.data;
@@ -336,7 +365,7 @@ export class RegistrarCiudadanoComponent implements OnInit {
   }
   private cargaSelectEstado_Academico() {
     this.sharedService
-      .getDominio('Estado_Academico')
+      .getDominio("Estado_Academico")
       .subscribe((estado_Academico) => {
         if (estado_Academico.statusCode === CodigosRespuesta.OK) {
           this.selectEstado_Academico = estado_Academico.data;
@@ -348,7 +377,7 @@ export class RegistrarCiudadanoComponent implements OnInit {
    * @description carga el select de discapacidad
    */
   private cargaSelectDiscapacidad() {
-    this.sharedService.getDominio('Discapacidad').subscribe((discapacidad) => {
+    this.sharedService.getDominio("Discapacidad").subscribe((discapacidad) => {
       if (discapacidad.statusCode === CodigosRespuesta.OK) {
         this.selectDiscapacidad = discapacidad.data;
       }
@@ -360,8 +389,7 @@ export class RegistrarCiudadanoComponent implements OnInit {
    */
   public isColombiano(event: any) {
     this.cColombiano = false;
-    console.log('ES COLOMBIANO: ', event.target.value);
-    this.myForm.get('pais')?.setValue('');
+    this.myForm.get("pais")?.setValue("");
     if (event.target.value != 0) {
       this.cargaSelectPaises(event.target.value);
     }
@@ -374,6 +402,7 @@ export class RegistrarCiudadanoComponent implements OnInit {
     this.sharedService.getPaisPorId(idTipDoc).subscribe((paises) => {
       if (paises.statusCode === CodigosRespuesta.OK) {
         this.selectPaises = paises.data;
+        this.selectPaisesNacimiento = paises.data;
       }
     });
   }
@@ -382,9 +411,9 @@ export class RegistrarCiudadanoComponent implements OnInit {
    * @description carga el select departamento dependiendo del pais
    */
   public cargaSelectDepartamento(event: any) {
-    this.myForm.get('departamento')?.setValue('');
-    this.myForm.get('municipio')?.setValue('');
-    this.myForm.get('localidad')?.setValue('');
+    this.myForm.get("departamentoExp")?.setValue("");
+    this.myForm.get("municipioExp")?.setValue("");
+    this.myForm.get("localidadExp")?.setValue("");
 
     if (event.target.value == 1) {
       this.cColombiano = true;
@@ -401,11 +430,33 @@ export class RegistrarCiudadanoComponent implements OnInit {
   }
 
   /**
+   * @description carga el select departamento dependiendo del pais
+   */
+  public cargaSelectDepartamentoNacimiento(event: any) {
+    this.myForm.get("departamentoNacimiento")?.setValue("");
+    this.myForm.get("municipioNacimiento")?.setValue("");
+    this.myForm.get("localidadNacimiento")?.setValue("");
+
+    if (event.target.value == 1) {
+      this.cColombiano = true;
+    }
+    if (event.target.value != 0) {
+      this.sharedService
+        .getDepartamentos(event.target.value)
+        .subscribe((departamentos) => {
+          if (departamentos.statusCode === CodigosRespuesta.OK) {
+            this.selectDepartamentoNacimiento = departamentos.data;
+          }
+        });
+    }
+  }
+
+  /**
    * @description carga el select municipio dependiendo del departamento y del pais
    */
   public cargaSelectMunicipio(event: any) {
-    this.myForm.get('municipio')?.setValue('');
-    this.myForm.get('localidad')?.setValue('');
+    this.myForm.get("municipioExp")?.setValue("");
+    this.myForm.get("localidadExp")?.setValue("");
 
     if (event.target.value != 0) {
       this.sharedService
@@ -419,16 +470,34 @@ export class RegistrarCiudadanoComponent implements OnInit {
   }
 
   /**
+   * @description carga el select municipio dependiendo del departamento y del pais
+   */
+  public cargaSelectMunicipioNacimiento(event: any) {
+    this.myForm.get("municipioNacimiento")?.setValue("");
+    this.myForm.get("localidadNacimiento")?.setValue("");
+
+    if (event.target.value != 0) {
+      this.sharedService
+        .getCiudades(event.target.value)
+        .subscribe((municipio) => {
+          if (municipio.statusCode === CodigosRespuesta.OK) {
+            this.selectMunicipioNacimiento = municipio.data;
+          }
+        });
+    }
+  }
+
+  /**
    * @description carga el select localidad dependiendo del municipio
    */
   public cargaSelectLocalidad(event: any) {
-    this.myForm.get('localidad')?.setValue('');
+    this.myForm.get("localidad")?.setValue("");
     const municipioSeleccionado = event.target.selectedOptions[0]
       .text as string;
 
     if (
-      municipioSeleccionado.toLowerCase() === 'bogotá' ||
-      municipioSeleccionado.toLowerCase() === 'bogota'
+      municipioSeleccionado.toLowerCase() === "bogotá" ||
+      municipioSeleccionado.toLowerCase() === "bogota"
     ) {
       this.sharedService
         .getLocalidadPorMunicipio(event.target.value)
@@ -441,27 +510,49 @@ export class RegistrarCiudadanoComponent implements OnInit {
   }
 
   /**
+   * @description carga el select localidad de nacimiento dependiendo del municipio
+   */
+  public cargaSelectLocalidadNacimiento(event: any) {
+    this.myForm.get("localidadNacimiento")?.setValue("");
+    const municipioSeleccionado = event.target.selectedOptions[0]
+      .text as string;
+
+    if (
+      municipioSeleccionado.toLowerCase() === "bogotá" ||
+      municipioSeleccionado.toLowerCase() === "bogota"
+    ) {
+      this.sharedService
+        .getLocalidadPorMunicipio(event.target.value)
+        .subscribe((localidades) => {
+          if (localidades.statusCode === CodigosRespuesta.OK) {
+            this.selectLocalidadNacimiento = localidades.data;
+          }
+        });
+    }
+  }
+
+  /**
    * @description habilita los campos (Discapacidad, Embarazo, Afiliado salud) dependiendo de lo seleccionado
    */
   public habilitarCampos() {
-    this.myForm.get('rDiscapacidad')?.valueChanges.subscribe((resp) => {
-      if (resp === 'si') {
+    this.myForm.get("rDiscapacidad")?.valueChanges.subscribe((resp) => {
+      if (resp === "si") {
         this.cDiscapacidad = true;
       } else {
         this.cDiscapacidad = false;
       }
     });
 
-    this.myForm.get('rEmbarazo')?.valueChanges.subscribe((resp) => {
-      if (resp === 'si') {
+    this.myForm.get("rEmbarazo")?.valueChanges.subscribe((resp) => {
+      if (resp === "si") {
         this.cEmbarazo = true;
       } else {
         this.cEmbarazo = false;
       }
     });
 
-    this.myForm.get('rAfiliado')?.valueChanges.subscribe((resp) => {
-      if (resp === 'si') {
+    this.myForm.get("rAfiliado")?.valueChanges.subscribe((resp) => {
+      if (resp === "si") {
         this.cAfiliado = true;
       } else {
         this.cAfiliado = false;
@@ -482,7 +573,7 @@ export class RegistrarCiudadanoComponent implements OnInit {
    * * @param campo variable para ingresar el campo requerido
    */
   public isRequired(campo: string): boolean {
-    return this.myForm.controls[campo].hasError('required');
+    return this.myForm.controls[campo].hasError("required");
   }
 
   /**
@@ -490,7 +581,7 @@ export class RegistrarCiudadanoComponent implements OnInit {
    * hace validacion personal en validators.ts
    */
   public isRequiredDiscapacidad(): boolean {
-    return this.myForm.hasError('requiredDiscapacidad');
+    return this.myForm.hasError("requiredDiscapacidad");
   }
 
   /**
@@ -498,7 +589,7 @@ export class RegistrarCiudadanoComponent implements OnInit {
    * hace validacion personal en validators.ts
    */
   public isRequiredDatosContacto(): boolean {
-    return this.myForm.hasError('requiredDatosContacto');
+    return this.myForm.hasError("requiredDatosContacto");
   }
 
   /**
@@ -506,7 +597,7 @@ export class RegistrarCiudadanoComponent implements OnInit {
    * hace validacion personal en validators.ts
    */
   public isRequiredIndigena(): boolean {
-    return this.myForm.hasError('requiredIndigena');
+    return this.myForm.hasError("requiredIndigena");
   }
 
   /**
@@ -514,7 +605,7 @@ export class RegistrarCiudadanoComponent implements OnInit {
    * hace validacion personal en validators.ts
    */
   public isRequiredEmbarazo(): boolean {
-    return this.myForm.hasError('requiredEmbarazo');
+    return this.myForm.hasError("requiredEmbarazo");
   }
 
   /**
@@ -522,42 +613,42 @@ export class RegistrarCiudadanoComponent implements OnInit {
    * hace validacion personal en validators.ts
    */
   public isRequiredAfiliado(): boolean {
-    return this.myForm.hasError('requiredAfiliado');
+    return this.myForm.hasError("requiredAfiliado");
   }
 
   /**
    * @description campo Localidad se habilita cuando marquen "Bogota" en municipio
    */
   public isBogota(): boolean {
-    return this.myForm.controls['municipio'].value == 46 ? true : false;
+    return this.myForm.controls["municipioExp"].value == 46 ? true : false;
   }
 
   /**
    * @description valida que el campo localidad sea requerido cuando marquen "Bogota" en municipio
    */
   public isRequiredBogota(): boolean {
-    return this.myForm.hasError('requiredlocalidad');
+    return this.myForm.hasError("requiredlocalidad");
   }
 
   /**
    * @description valida que el campo departamento sea requerido cuando marquen "Colombia" en pais
    */
   public isRequiredDepartamento(): boolean {
-    return this.myForm.hasError('requiredDepartamento');
+    return this.myForm.hasError("requiredDepartamento");
   }
 
   /**
    * @description valida que el campo Municipio sea requerido cuando marquen "Colombia" en pais
    */
   public isRequiredMunicipio(): boolean {
-    return this.myForm.hasError('requiredMunicipio');
+    return this.myForm.hasError("requiredMunicipio");
   }
 
   /**
    * @description valida que el campo correo sea requerido con el formato ejemplo@aus.com
    */
   public isRequiredCorreo(): boolean {
-    return this.myForm.hasError('requiredFormatoCorreo');
+    return this.myForm.hasError("requiredFormatoCorreo");
   }
 
   /**
@@ -565,7 +656,7 @@ export class RegistrarCiudadanoComponent implements OnInit {
    * @param input entrada
    */
   public formatInput(input: HTMLInputElement) {
-    input.value = input.value.replace(Regex.NUMERO_G, '');
+    input.value = input.value.replace(Regex.NUMERO_G, "");
   }
 
   /**
@@ -573,17 +664,17 @@ export class RegistrarCiudadanoComponent implements OnInit {
    */
   public modalConfirmacion() {
     Modales.modalConfirmacion(
-      '¿Esta seguro que desea cancelar la creación del ciudadano?',
+      "¿Esta seguro que desea cancelar la creación del ciudadano?",
       this.dialog,
-      'assets/images/exclamacion.svg'
+      "assets/images/exclamacion.svg",
     ).subscribe((resp) => {
       if (resp) {
-        let tipoDocumento = this.myForm.get('tipDoc')?.value;
-        let nroDocumento = this.myForm.get('nroDoc')?.value;
+        let tipoDocumento = this.myForm.get("tipDoc")?.value;
+        let nroDocumento = this.myForm.get("nroDoc")?.value;
         this.myForm.reset();
-        this.myForm.get('tipDoc')?.setValue(tipoDocumento);
-        this.myForm.get('nroDoc')?.setValue(nroDocumento);
-        this.router.navigate(['../ciudadano']);
+        this.myForm.get("tipDoc")?.setValue(tipoDocumento);
+        this.myForm.get("nroDoc")?.setValue(nroDocumento);
+        this.router.navigate(["../ciudadano"]);
       }
     });
   }
@@ -597,9 +688,9 @@ export class RegistrarCiudadanoComponent implements OnInit {
       const edad = Math.floor(
         Math.abs(Date.now() - <any>new Date(event.value)) /
           (1000 * 3600 * 24) /
-          365
+          365,
       );
-      this.myForm.controls['edad'].setValue(edad);
+      this.myForm.controls["edad"].setValue(edad);
       return edad;
     }
     return 0;
@@ -612,12 +703,12 @@ export class RegistrarCiudadanoComponent implements OnInit {
     this.existe = false;
     if (!this.isUpdate) {
       if (
-        this.myForm.controls['tipDoc'].value != 0 &&
-        this.myForm.controls['nroDoc'].value !== ''
+        this.myForm.controls["tipDoc"].value != 0 &&
+        this.myForm.controls["nroDoc"].value !== ""
       ) {
         const parametros = {
-          numeroDocumento: this.myForm.controls['nroDoc'].value,
-          idtipoDocumento: this.myForm.controls['tipDoc'].value,
+          numeroDocumento: this.myForm.controls["nroDoc"].value,
+          idtipoDocumento: this.myForm.controls["tipDoc"].value,
         };
         this.ciudadanoService.validCiudadano(parametros).subscribe((resp) => {
           if (resp.statusCode === CodigosRespuesta.OK) {
@@ -635,17 +726,17 @@ export class RegistrarCiudadanoComponent implements OnInit {
    */
   private modalInformacion() {
     const dialogResp = this.dialog.open(ModalInfoComponent, {
-      panelClass: 'modal-info',
+      panelClass: "modal-info",
       data: {
         mensaje: `El ciudadano que intenta crear ya existe`,
-        image: 'assets/images/exclamacion.svg',
+        image: "assets/images/exclamacion.svg",
       },
     });
 
     dialogResp.afterClosed().subscribe((resp) => {
       if (!resp) {
-        this.myForm.controls['tipDoc'].reset('');
-        this.myForm.controls['nroDoc'].reset('');
+        this.myForm.controls["tipDoc"].reset("");
+        this.myForm.controls["nroDoc"].reset("");
       }
     });
   }
@@ -655,8 +746,8 @@ export class RegistrarCiudadanoComponent implements OnInit {
    * @param ciudadano info del ciudadano
    */
   historialCiudadano(ciudadano: interfaces.CiudadanoInterface) {
-    sessionStorage.setItem('ciudadano', JSON.stringify(ciudadano));
-    this.router.navigate(['/historial-ciudadano', ciudadano.idCiudadano]);
+    sessionStorage.setItem("ciudadano", JSON.stringify(ciudadano));
+    this.router.navigate(["/historial-ciudadano", ciudadano.idCiudadano]);
   }
 
   /**
@@ -680,13 +771,12 @@ export class RegistrarCiudadanoComponent implements OnInit {
    * @description Solo permite ingresar numeros
    */
   public soloNumero(campo: string) {
-    console.log(campo);
     SharedFunctions.soloNumero(campo, this.myForm);
   }
   public filtraDocumentoSegunTipo(campo: string, campoSelect: string) {
     const tipoDocumento = this.myForm.get(campoSelect)?.value;
 
-    if (tipoDocumento == '11') {
+    if (tipoDocumento == "11") {
       SharedFunctions.soloAlfanumerico(campo, this.myForm);
     } else {
       SharedFunctions.soloNumero(campo, this.myForm);
@@ -702,8 +792,8 @@ export class RegistrarCiudadanoComponent implements OnInit {
         if (resp.statusCode === CodigosRespuesta.OK) {
           Modales.modalExito(
             Mensajes.MENSAJE_EXITO_CIUDADANO,
-            'assets/images/check.svg',
-            this.dialog
+            "assets/images/check.svg",
+            this.dialog,
           );
           this.historialCiudadano(resp.data.datosPaginados);
         }
@@ -711,8 +801,8 @@ export class RegistrarCiudadanoComponent implements OnInit {
       error: () => {
         Modales.modalExito(
           Mensajes.MENSAJE_ERROR,
-          'assets/images/exclamacion.svg',
-          this.dialog
+          "assets/images/exclamacion.svg",
+          this.dialog,
         );
       },
     });
@@ -722,14 +812,14 @@ export class RegistrarCiudadanoComponent implements OnInit {
    * @description actualiza el ciudadano
    */
   private actualizarCiudadano() {
-    this.idCiudadano = this.activedRoute.snapshot.params['id_ciudadano'];
+    this.idCiudadano = this.activedRoute.snapshot.params["id_ciudadano"];
     this.ciudadanoService.editCiudadano(this.getDataPost).subscribe({
       next: (resp: ResponseInterface) => {
         if (resp.statusCode === CodigosRespuesta.OK) {
           Modales.modalExito(
             Mensajes.MENSAJE_EXITO_CIUDADANO,
-            'assets/images/check.svg',
-            this.dialog
+            "assets/images/check.svg",
+            this.dialog,
           );
           this.historialCiudadano(resp.data.datosPaginados);
         }
@@ -737,8 +827,8 @@ export class RegistrarCiudadanoComponent implements OnInit {
       error: () => {
         Modales.modalExito(
           Mensajes.MENSAJE_ERROR,
-          'assets/images/exclamacion.svg',
-          this.dialog
+          "assets/images/exclamacion.svg",
+          this.dialog,
         );
       },
     });
@@ -750,109 +840,109 @@ export class RegistrarCiudadanoComponent implements OnInit {
   private get getDataPost(): CiudadanoCompletoInterface {
     return {
       idCiudadano: this.isUpdate ? this.idCiudadano : 0,
-      primerNombre: this.myForm.get('pnombre')?.value,
-      segundoNombre: this.myForm.get('snombre')?.value,
-      primerApellido: this.myForm.get('papellidos')?.value,
-      segundoApellido: this.myForm.get('sapellidos')?.value,
-      idTipoDocumento: this.myForm.get('tipDoc')?.value,
-      numeroDocumento: this.myForm.get('nroDoc')?.value,
+      primerNombre: this.myForm.get("pnombre")?.value,
+      segundoNombre: this.myForm.get("snombre")?.value,
+      primerApellido: this.myForm.get("papellidos")?.value,
+      segundoApellido: this.myForm.get("sapellidos")?.value,
+      idTipoDocumento: this.myForm.get("tipDoc")?.value,
+      numeroDocumento: this.myForm.get("nroDoc")?.value,
       fechaExpedicion: this.datePipe.transform(
-        this.myForm.get('fechaExp')?.value,
-        'dd/MM/yyyy HH:mm:ss'
+        this.myForm.get("fechaExp")?.value,
+        "dd/MM/yyyy HH:mm:ss",
       )!,
       fechaNacimiento: this.datePipe.transform(
-        this.myForm.get('fechaNac')?.value,
-        'dd/MM/yyyy HH:mm:ss'
+        this.myForm.get("fechaNac")?.value,
+        "dd/MM/yyyy HH:mm:ss",
       )!,
-      edad: this.myForm.get('edad')?.value,
+      edad: this.myForm.get("edad")?.value,
       idPaisExpedicion:
-        this.myForm.get('paisExp')?.value == ''
+        this.myForm.get("paisExp")?.value == ""
           ? 0
-          : this.myForm.get('paisExp')?.value,
+          : this.myForm.get("paisExp")?.value,
       idDepartamentoExpedicion:
-        this.myForm.get('departamentoExp')?.value == ''
+        this.myForm.get("departamentoExp")?.value == ""
           ? 0
-          : this.myForm.get('departamentoExp')?.value,
+          : this.myForm.get("departamentoExp")?.value,
       idMunicipioExpedicion:
-        this.myForm.get('municipioExp')?.value == ''
+        this.myForm.get("municipioExp")?.value == ""
           ? 0
-          : this.myForm.get('municipioExp')?.value,
+          : this.myForm.get("municipioExp")?.value,
       idPaisNacimiento:
-        this.myForm.get('pais')?.value == ''
+        this.myForm.get("paisNacimiento")?.value == ""
           ? 0
-          : this.myForm.get('pais')?.value,
+          : this.myForm.get("paisNacimiento")?.value,
       idDepartamentoNacimiento:
-        this.myForm.get('departamento')?.value == ''
+        this.myForm.get("departamentoNacimiento")?.value == ""
           ? 0
-          : this.myForm.get('departamento')?.value,
+          : this.myForm.get("departamentoNacimiento")?.value,
       idMunicipioNacimiento:
-        this.myForm.get('municipio')?.value == ''
+        this.myForm.get("municipioNacimiento")?.value == ""
           ? 0
-          : this.myForm.get('municipio')?.value,
+          : this.myForm.get("municipioNacimiento")?.value,
       idSexo:
-        this.myForm.get('sexo')?.value == ''
+        this.myForm.get("sexo")?.value == ""
           ? 0
-          : this.myForm.get('sexo')?.value,
+          : this.myForm.get("sexo")?.value,
       idIdentidadGenero:
-        this.myForm.get('idGenero')?.value == ''
+        this.myForm.get("idGenero")?.value == ""
           ? 0
-          : this.myForm.get('idGenero')?.value,
+          : this.myForm.get("idGenero")?.value,
       idOrientacionSexual:
-        this.myForm.get('orientacionSexual')?.value == ''
+        this.myForm.get("orientacionSexual")?.value == ""
           ? 0
-          : this.myForm.get('orientacionSexual')?.value,
+          : this.myForm.get("orientacionSexual")?.value,
       idNivelAcademico:
-        this.myForm.get('nivAcademico')?.value == ''
+        this.myForm.get("nivAcademico")?.value == ""
           ? 0
-          : this.myForm.get('nivAcademico')?.value,
+          : this.myForm.get("nivAcademico")?.value,
       idEstadoAcademico:
-        this.myForm.get('estadoAcademico')?.value == ''
+        this.myForm.get("estadoAcademico")?.value == ""
           ? 0
-          : this.myForm.get('estadoAcademico')?.value,
+          : this.myForm.get("estadoAcademico")?.value,
       idEstrato:
-        this.myForm.get('estrato')?.value == ''
+        this.myForm.get("estrato")?.value == ""
           ? 0
-          : this.myForm.get('estrato')?.value,
+          : this.myForm.get("estrato")?.value,
       idLocalidadComuna:
-        this.myForm.get('localidadComuna')?.value == ''
+        this.myForm.get("localidadComuna")?.value == ""
           ? 0
-          : this.myForm.get('localidadComuna')?.value,
-      direccionResidencia: this.myForm.get('dirResidencia')?.value,
+          : this.myForm.get("localidadComuna")?.value,
+      direccionResidencia: this.myForm.get("dirResidencia")?.value,
       idLocalidad:
-        this.myForm.get('localidad')?.value == ''
+        this.myForm.get("localidad")?.value == ""
           ? 0
-          : this.myForm.get('localidad')?.value,
-      barrio: this.myForm.get('barrio')?.value,
-      telefono: this.myForm.get('telefono')?.value,
-      celular: this.myForm.get('celular')?.value,
-      correoElectronico: this.myForm.get('correoElectronico')?.value,
+          : this.myForm.get("localidad")?.value,
+      barrio: this.myForm.get("barrio")?.value,
+      telefono: this.myForm.get("telefono")?.value,
+      celular: this.myForm.get("celular")?.value,
+      correoElectronico: this.myForm.get("correoElectronico")?.value,
       idDiscapasidad:
-        this.myForm.get('discapacidad')?.value == ''
+        this.myForm.get("discapacidad")?.value == ""
           ? 0
-          : this.myForm.get('discapacidad')?.value,
+          : this.myForm.get("discapacidad")?.value,
       estadoEmbarazo: {
-        estadoEmbarazo: this.myForm.get('rEmbarazo')?.value,
+        estadoEmbarazo: this.myForm.get("rEmbarazo")?.value,
         mesesEmbarazo:
-          this.myForm.get('embarazo')?.value == ''
+          this.myForm.get("embarazo")?.value == ""
             ? 0
-            : this.myForm.get('embarazo')?.value,
+            : this.myForm.get("embarazo")?.value,
       },
       afiliadoSeguridadSocial: {
-        estaAfiliado: this.myForm.get('rAfiliado')?.value,
-        eps: this.myForm.get('eps')?.value,
-        ips: this.myForm.get('ips')?.value,
+        estaAfiliado: this.myForm.get("rAfiliado")?.value,
+        eps: this.myForm.get("eps")?.value,
+        ips: this.myForm.get("ips")?.value,
       },
 
-      mujerFamilia: this.myForm.get('rMujerFamilia')?.value,
-      poblacionLgtbi: this.myForm.get('chkLGBTI')?.value,
-      adultoMayor: this.myForm.get('chkAdultoMayor')?.value,
-      mujerEmbarazada: this.myForm.get('chkMujerEmbarazada')?.value,
-      ninoNinaAdolocente: this.myForm.get('chkNinoAdolecente')?.value,
-      migrante: this.myForm.get('chkMigrante')?.value,
-      victimaConflictoArmado: this.myForm.get('chkVictimaComArm')?.value,
-      personasLideresDefensorasDH: this.myForm.get('chkPerLideresa')?.value,
-      personasHabitalidadCalle: this.myForm.get('chkPerHabitalidad')?.value,
-      puebloIndigena: this.myForm.get('indigena')?.value,
+      mujerFamilia: this.myForm.get("rMujerFamilia")?.value,
+      poblacionLgtbi: this.myForm.get("chkLGBTI")?.value,
+      adultoMayor: this.myForm.get("chkAdultoMayor")?.value,
+      mujerEmbarazada: this.myForm.get("chkMujerEmbarazada")?.value,
+      ninoNinaAdolocente: this.myForm.get("chkNinoAdolecente")?.value,
+      migrante: this.myForm.get("chkMigrante")?.value,
+      victimaConflictoArmado: this.myForm.get("chkVictimaComArm")?.value,
+      personasLideresDefensorasDH: this.myForm.get("chkPerLideresa")?.value,
+      personasHabitalidadCalle: this.myForm.get("chkPerHabitalidad")?.value,
+      puebloIndigena: this.myForm.get("indigena")?.value,
     };
   }
 
@@ -860,110 +950,112 @@ export class RegistrarCiudadanoComponent implements OnInit {
    * @description setea los valores del formulario
    */
   private setDataPost(resp: any) {
-    this.myForm.get('pnombre')?.setValue(resp.primerNombre);
-    this.myForm.get('snombre')?.setValue(resp.segundoNombre);
-    this.myForm.get('papellidos')?.setValue(resp.primerApellido);
-    this.myForm.get('sapellidos')?.setValue(resp.segundoApellido);
-    this.myForm.get('tipDoc')?.setValue(resp.idTipoDocumento);
-    this.myForm.get('nroDoc')?.setValue(resp.numeroDocumento);
-    resp.fechaExpedicion == '01/01/0001'
-      ? this.myForm.get('fechaExp')?.setValue('')
-      : this.myForm.get('fechaExp')?.setValue(new Date(resp.fechaExpedicion));
-    resp.fechaNacimiento == '01/01/0001'
-      ? this.myForm.get('fechaNac')?.setValue('')
-      : this.myForm.get('fechaNac')?.setValue(new Date(resp.fechaNacimiento));
+    this.myForm.get("pnombre")?.setValue(resp.primerNombre);
+    this.myForm.get("snombre")?.setValue(resp.segundoNombre);
+    this.myForm.get("papellidos")?.setValue(resp.primerApellido);
+    this.myForm.get("sapellidos")?.setValue(resp.segundoApellido);
+    this.myForm.get("tipDoc")?.setValue(resp.idTipoDocumento);
+    this.myForm.get("nroDoc")?.setValue(resp.numeroDocumento);
+    resp.fechaExpedicion == "01/01/0001"
+      ? this.myForm.get("fechaExp")?.setValue("")
+      : this.myForm.get("fechaExp")?.setValue(new Date(resp.fechaExpedicion));
+    resp.fechaNacimiento == "01/01/0001"
+      ? this.myForm.get("fechaNac")?.setValue("")
+      : this.myForm.get("fechaNac")?.setValue(new Date(resp.fechaNacimiento));
     resp.edad != 0
-      ? this.myForm.get('edad')?.setValue(resp.edad)
-      : this.myForm.get('edad')?.setValue('');
+      ? this.myForm.get("edad")?.setValue(resp.edad)
+      : this.myForm.get("edad")?.setValue("");
     resp.idPaisExpedicion == 0
-      ? this.myForm.get('paisExp')?.setValue('')
-      : this.myForm.get('paisExp')?.setValue(resp.idPaisExpedicion);
+      ? this.myForm.get("paisExp")?.setValue("")
+      : this.myForm.get("paisExp")?.setValue(resp.idPaisExpedicion);
     resp.idDepartamentoExpedicion == 0
-      ? this.myForm.get('departamentoExp')?.setValue('')
+      ? this.myForm.get("departamentoExp")?.setValue("")
       : this.myForm
-          .get('departamentoExp')
+          .get("departamentoExp")
           ?.setValue(resp.idDepartamentoExpedicion);
     resp.idMunicipioExpedicion == 0
-      ? this.myForm.get('municipioExp')?.setValue('')
-      : this.myForm.get('municipioExp')?.setValue(resp.idMunicipioExpedicion);
+      ? this.myForm.get("municipioExp")?.setValue("")
+      : this.myForm.get("municipioExp")?.setValue(resp.idMunicipioExpedicion);
     resp.idPaisNacimiento == 0
-      ? this.myForm.get('pais')?.setValue('')
-      : this.myForm.get('pais')?.setValue(resp.idPaisNacimiento);
+      ? this.myForm.get("paisNacimiento")?.setValue("")
+      : this.myForm.get("paisNacimiento")?.setValue(resp.idPaisNacimiento);
     resp.idDepartamentoNacimiento == 0
-      ? this.myForm.get('departamento')?.setValue('')
+      ? this.myForm.get("departamentoNacimiento")?.setValue("")
       : this.myForm
-          .get('departamento')
+          .get("departamentoNacimiento")
           ?.setValue(resp.idDepartamentoNacimiento);
     resp.idMunicipioNacimiento == 0
-      ? this.myForm.get('municipio')?.setValue('')
-      : this.myForm.get('municipio')?.setValue(resp.idMunicipioNacimiento);
-    resp.idLocalidad == 0
-      ? this.myForm.get('localidad')?.setValue('')
-      : this.myForm.get('localidad')?.setValue(resp.idLocalidad);
-    resp.idSexo == 0
-      ? this.myForm.get('sexo')?.setValue('')
-      : this.myForm.get('sexo')?.setValue(resp.idSexo);
-    resp.idIdentidadGenero == 0
-      ? this.myForm.get('idGenero')?.setValue('')
-      : this.myForm.get('idGenero')?.setValue(resp.idIdentidadGenero);
-    resp.idOrientacionSexual == 0
-      ? this.myForm.get('orientacionSexual')?.setValue('')
+      ? this.myForm.get("municipioNacimiento")?.setValue("")
       : this.myForm
-          .get('orientacionSexual')
+          .get("municipioNacimiento")
+          ?.setValue(resp.idMunicipioNacimiento);
+    resp.idLocalidad == 0
+      ? this.myForm.get("localidad")?.setValue("")
+      : this.myForm.get("localidad")?.setValue(resp.idLocalidad);
+    resp.idSexo == 0
+      ? this.myForm.get("sexo")?.setValue("")
+      : this.myForm.get("sexo")?.setValue(resp.idSexo);
+    resp.idIdentidadGenero == 0
+      ? this.myForm.get("idGenero")?.setValue("")
+      : this.myForm.get("idGenero")?.setValue(resp.idIdentidadGenero);
+    resp.idOrientacionSexual == 0
+      ? this.myForm.get("orientacionSexual")?.setValue("")
+      : this.myForm
+          .get("orientacionSexual")
           ?.setValue(resp.idOrientacionSexual);
     resp.idNivelAcademico == 0
-      ? this.myForm.get('nivAcademico')?.setValue('')
-      : this.myForm.get('nivAcademico')?.setValue(resp.idNivelAcademico);
+      ? this.myForm.get("nivAcademico")?.setValue("")
+      : this.myForm.get("nivAcademico")?.setValue(resp.idNivelAcademico);
     resp.idEstrato == 0
-      ? this.myForm.get('estrato')?.setValue('')
-      : this.myForm.get('estrato')?.setValue(resp.idEstrato);
+      ? this.myForm.get("estrato")?.setValue("")
+      : this.myForm.get("estrato")?.setValue(resp.idEstrato);
     resp.idLocalidadComuna == 0
-      ? this.myForm.get('localidadComuna')?.setValue('')
-      : this.myForm.get('localidadComuna')?.setValue(resp.idLocalidadComuna);
+      ? this.myForm.get("localidadComuna")?.setValue("")
+      : this.myForm.get("localidadComuna")?.setValue(resp.idLocalidadComuna);
     resp.idEstadoAcademico == 0
-      ? this.myForm.get('estadoAcademico')?.setValue('')
-      : this.myForm.get('estadoAcademico')?.setValue(resp.idEstadoAcademico);
-    this.myForm.get('dirResidencia')?.setValue(resp.direccionResidencia);
-    this.myForm.get('barrio')?.setValue(resp.barrio);
-    this.myForm.get('telefono')?.setValue(resp.telefono);
-    this.myForm.get('celular')?.setValue(resp.celular);
-    this.myForm.get('correoElectronico')?.setValue(resp.correoElectronico);
+      ? this.myForm.get("estadoAcademico")?.setValue("")
+      : this.myForm.get("estadoAcademico")?.setValue(resp.idEstadoAcademico);
+    this.myForm.get("dirResidencia")?.setValue(resp.direccionResidencia);
+    this.myForm.get("barrio")?.setValue(resp.barrio);
+    this.myForm.get("telefono")?.setValue(resp.telefono);
+    this.myForm.get("celular")?.setValue(resp.celular);
+    this.myForm.get("correoElectronico")?.setValue(resp.correoElectronico);
     if (resp.idDiscapasidad != 0) {
-      this.myForm.get('rDiscapacidad')?.setValue('si');
-      this.myForm.get('discapacidad')?.setValue(resp.idDiscapasidad);
+      this.myForm.get("rDiscapacidad")?.setValue("si");
+      this.myForm.get("discapacidad")?.setValue(resp.idDiscapasidad);
     }
     resp.estadoEmbarazo.estadoEmbarazo == null
-      ? this.myForm.get('rEmbarazo')?.setValue('no')
+      ? this.myForm.get("rEmbarazo")?.setValue("no")
       : this.myForm
-          .get('rEmbarazo')
+          .get("rEmbarazo")
           ?.setValue(resp.estadoEmbarazo.estadoEmbarazo);
-    this.myForm.get('embarazo')?.setValue(resp.estadoEmbarazo.mesesEmbarazo);
+    this.myForm.get("embarazo")?.setValue(resp.estadoEmbarazo.mesesEmbarazo);
     resp.afiliadoSeguridadSocial.estaAfiliado == null
-      ? this.myForm.get('rAfiliado')?.setValue('no')
+      ? this.myForm.get("rAfiliado")?.setValue("no")
       : this.myForm
-          .get('rAfiliado')
+          .get("rAfiliado")
           ?.setValue(resp.afiliadoSeguridadSocial.estaAfiliado);
-    this.myForm.get('eps')?.setValue(resp.afiliadoSeguridadSocial.eps);
-    this.myForm.get('ips')?.setValue(resp.afiliadoSeguridadSocial.ips);
+    this.myForm.get("eps")?.setValue(resp.afiliadoSeguridadSocial.eps);
+    this.myForm.get("ips")?.setValue(resp.afiliadoSeguridadSocial.ips);
     this.myForm
-      .get('rMujerFamilia')
-      ?.setValue(resp.rMujerFamilia?.toLowerCase() === 'si' ? 'si' : 'no');
+      .get("rMujerFamilia")
+      ?.setValue(resp.rMujerFamilia?.toLowerCase() === "si" ? "si" : "no");
 
-    this.myForm.get('chkLGBTI')?.setValue(resp.poblacionLgtbi);
-    this.myForm.get('chkAdultoMayor')?.setValue(resp.adultoMayor);
-    this.myForm.get('chkMujerEmbarazada')?.setValue(resp.mujerEmbarazada);
-    this.myForm.get('chkNinoAdolecente')?.setValue(resp.ninoNinaAdolocente);
-    this.myForm.get('chkMigrante')?.setValue(resp.migrante);
-    this.myForm.get('chkVictimaComArm')?.setValue(resp.victimaConflictoArmado);
+    this.myForm.get("chkLGBTI")?.setValue(resp.poblacionLgtbi);
+    this.myForm.get("chkAdultoMayor")?.setValue(resp.adultoMayor);
+    this.myForm.get("chkMujerEmbarazada")?.setValue(resp.mujerEmbarazada);
+    this.myForm.get("chkNinoAdolecente")?.setValue(resp.ninoNinaAdolocente);
+    this.myForm.get("chkMigrante")?.setValue(resp.migrante);
+    this.myForm.get("chkVictimaComArm")?.setValue(resp.victimaConflictoArmado);
     this.myForm
-      .get('chkPerLideresa')
+      .get("chkPerLideresa")
       ?.setValue(resp.personasLideresDefensorasDH);
     this.myForm
-      .get('chkPerHabitalidad')
+      .get("chkPerHabitalidad")
       ?.setValue(resp.personasHabitalidadCalle);
-    if (resp.puebloIndigena != '') {
-      this.myForm.get('chkIndigena')?.setValue(true);
-      this.myForm.get('indigena')?.setValue(resp.puebloIndigena);
+    if (resp.puebloIndigena != "") {
+      this.myForm.get("chkIndigena")?.setValue(true);
+      this.myForm.get("indigena")?.setValue(resp.puebloIndigena);
     }
   }
 }

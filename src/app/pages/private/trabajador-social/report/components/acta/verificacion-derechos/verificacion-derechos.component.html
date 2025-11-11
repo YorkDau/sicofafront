@@ -17,9 +17,9 @@
   </tr>
   <tr>
     <td class="text-justify" colspan="2">
-      A los {{ fechaActual | date: "dd" }} días del mes de
-      {{ fechaActual | date: "MMMM" }} del año
-      {{ fechaActual | date: "yyyy" }} hace presencia en la comisaría de
+      A los {{ fechaActual | date : "dd" }} días del mes de
+      {{ fechaActual | date : "MMMM" }} del año
+      {{ fechaActual | date : "yyyy" }} hace presencia en la comisaría de
       familia, el(la) señor(a) o entidad
       {{
         datosReporte.nombreDenunciante
@@ -32,8 +32,8 @@
           ? datosReporte.numeroDocumentoDen
           : " ___________________"
       }}
-      expedida en __________________, en calidad de: ciudadano/entidad denunciante del niño,
-      niña o adolescente
+      expedida en __________________, en calidad de: ciudadano/entidad
+      denunciante del niño, niña o adolescente
       {{ nombreCompleto ? nombreCompleto : "________________________" }}
       identificado con T.I.
       {{
@@ -103,6 +103,22 @@
       }}
     </td>
   </tr>
+<tr>
+  <td class="border border-dark p-2">REP. LEGAL</td>
+  <td class="border border-dark p-2">
+    El niño, niña o adolescente se encuentra representado legalmente por: 
+    <span *ngIf="datosReporte.listadoPARD && datosReporte.listadoPARD.length > 0">
+      <span *ngFor="let rep of datosReporte.listadoPARD; let i = index">
+        {{ (rep.primerNombre + ' ' + rep.segundoNombre + ' ' + rep.primerApellido + ' ' + rep.segundoApellido).toUpperCase() }}
+        <span *ngIf="i < datosReporte.listadoPARD.length - 1">, </span>
+      </span>
+    </span>
+    <span *ngIf="!datosReporte.listadoPARD || datosReporte.listadoPARD.length === 0">
+      ___________________
+    </span>
+  </td>
+</tr>
+
   <tr>
     <td class="border border-dark p-2">VINCULACIÓN AL SISTEMA DE SALUD</td>
     <td class="border border-dark p-2">
@@ -161,30 +177,23 @@
   <tr>
     <td class="border border-dark p-2">VINCULACIÓN AL SISTEMA EDUCATIVO</td>
     <td class="border border-dark p-2">
-    
-        ¿Es escolarizado?
-        <br />
-        {{ datosReporte.escolarizado ? "SI" : "NO" }} 
-        <br />
-        Matriculado en el colegio -
-        {{
-          datosReporte.matriculadoEnElColegio
-        ? datosReporte.matriculadoEnElColegio
-        : "N/A"
-        }}
-        <br />
-        Grado que cursa -
-        {{
-          datosReporte.gradoCursa ? datosReporte.gradoCursa : "N/A"
-        }}
-        <br />
-        Jornada -
-        {{
-          datosReporte.jornadaEstudio
-        ? datosReporte.jornadaEstudio
-        : "N/A" 
-        }}
-        <br />
+      ¿Es escolarizado?
+      <br />
+      {{ datosReporte.escolarizado ? "SI" : "NO" }}
+      <br />
+      Matriculado en el colegio -
+      {{
+        datosReporte.matriculadoEnElColegio
+          ? datosReporte.matriculadoEnElColegio
+          : "N/A"
+      }}
+      <br />
+      Grado que cursa -
+      {{ datosReporte.gradoCursa ? datosReporte.gradoCursa : "N/A" }}
+      <br />
+      Jornada -
+      {{ datosReporte.jornadaEstudio ? datosReporte.jornadaEstudio : "N/A" }}
+      <br />
     </td>
   </tr>
   <tr>
@@ -260,22 +269,22 @@
       {{ nombreCompleto ? nombreCompleto : "______________" }}
     </td>
   </tr>
-    <tr>
+  <tr>
     <td class="border border-dark p-2">CONCEPTO TÉCNICO PSICOLOGIA</td>
     <td class="border border-dark p-2">
-     {{
+      {{
         datosReporte.observacionesPsicologia
-          ? datosReporte.observacionesPsicologia 
+          ? datosReporte.observacionesPsicologia
           : "Sin observaciones psicologicas"
       }}
     </td>
   </tr>
-      <tr>
+  <tr>
     <td class="border border-dark p-2">CONCEPTO TÉCNICO TRABAJADOR SOCIAL</td>
     <td class="border border-dark p-2">
-     {{
+      {{
         datosReporte.observacionesTrabajoSocial
-          ? datosReporte.observacionesTrabajoSocial 
+          ? datosReporte.observacionesTrabajoSocial
           : "Sin observaciones trabajador social"
       }}
     </td>

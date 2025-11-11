@@ -16,6 +16,8 @@ import { ReporteAbogadoPDF } from '../report/report-pdf';
 import { AbogadoService } from '../services/abogado.service';
 import { AutoService } from '../services/auto.service';
 import { SharedService } from 'src/app/services/shared.service';
+import { SolicitudService } from '../../services/solicitud.service';
+import { ComisariaInterface } from '../../interfaces/solicitud.interface';
 
 interface DatosFirma {
   tituloReporte: string;
@@ -33,21 +35,27 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
   private objSol!: any;
   private user!: UserInterface | undefined;
   private archivo!: string | null;
+  private archivoRemision!: string | null;
 
   public radioPregunta: boolean = false;
   public datosFirma!: DatosFirma;
   public delete: boolean = true;
   public nuevoArchivo: boolean = true;
+  public nuevoArchivoRemision: boolean = true;
+  public selectComisaria: ComisariaInterface[] = [];
 
   constructor(
     private autoService: AutoService,
     private router: Router,
+    private solicitudService: SolicitudService,
     private dialog: MatDialog,
     private modales: Modales,
     private abogadoService: AbogadoService,
     private authService: AuthService,
-    private sharedService: SharedService,
-  ) {}
+    private sharedService: SharedService
+  ) {
+    this.cargaSelectComisaria();
+  }
 
   ngOnDestroy(): void {
     this.autoService.emitirAuto(null);
@@ -57,10 +65,26 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
     if (sessionStorage.getItem('info')) {
       this.objSol = JSON.parse(sessionStorage.getItem('info')!);
       this.user = this.authService.currentUserValue;
+      console.log("USUARIO", this.user); 
+      console.log("OBJETO SOLICITUD", this.objSol);
+      console.log("COMISARIA", this.selectComisaria); 
       this.cargarListadoSecciones();
     } else this.redireccionar();
   }
 
+  /**
+   * @description carga el select de comisaria
+   */
+  private cargaSelectComisaria() {
+   const idComisaria = this.authService.currentUserValue?.idComisaria;
+    this.solicitudService
+      .getComisariaTraslado(idComisaria)
+      .subscribe((comisaria) => {
+        if (comisaria.statusCode === CodigosRespuesta.OK) {
+          this.selectComisaria = comisaria.data;
+        }
+      });
+  }
   /**
    * @description carga el auto para mostrar el reporte
    */
@@ -127,7 +151,7 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
   }
 
   public descargarDocumento(): void {
-    const nombre: string = "FORMATO TRASLADO CASO.pdf";
+    const nombre: string = 'FORMATO TRASLADO CASO.pdf';
 
     this.sharedService.descargarFormatos(nombre, 'ss').subscribe({
       next: (data: ResponseInterface) => {
@@ -136,7 +160,7 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
           const link = document.createElement('a');
           const fileName = nombre;
           link.href = source;
-          link.download = `${fileName}.pdf`;
+          link.download = `${fileName}`;
           link.click();
         } else {
           this.msgError();
@@ -144,9 +168,32 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
       },
       error: () => {
         this.msgError();
-      }
+      },
     });
   }
+    public descargarDocumentoRemision(): void {
+    const nombre: string = 'AUTO QUE ADMITE Y REMITE A OTRA COMISARIA.pdf';
+
+    this.sharedService.descargarFormatos(nombre, 'ss').subscribe({
+      next: (data: ResponseInterface) => {
+        if (data.statusCode === CodigosRespuesta.OK) {
+          const source = `data:application/pdf;base64,${data.data}`;
+          const link = document.createElement('a');
+          const fileName = nombre;
+          link.href = source;
+          link.download = `${fileName}`;
+          link.click();
+        } else {
+          this.msgError();
+        }
+      },
+      error: () => {
+        this.msgError();
+      },
+    });
+  }
+
+
 
   /**
    * @description muestra modal error
@@ -165,6 +212,14 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
     } else {
       this.archivo = '';
       this.nuevoArchivo = true;
+    }
+  }
+    public enviarArchivoRemision(archivoRemision: string): void {
+    if (archivoRemision && archivoRemision !== '') {
+      this.archivoRemision = archivoRemision;
+    } else {
+      this.archivoRemision = '';
+      this.nuevoArchivoRemision = true;
     }
   }
 
@@ -227,26 +282,25 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
    */
   public cargarAdjuntoFirma(cierre: boolean): void {
     if (this.archivo && this.archivo !== '') {
-      if(this.nuevoArchivo) {
+      if (this.nuevoArchivo) {
         this.abogadoService
-        .cargarAdjuntoFirma(this.crearObjGuardarAdjunto())
-        .subscribe({
-          next: (data: ResponseInterface) => {
-            if (data.statusCode === CodigosRespuesta.OK) {
-              this.datosFirma.idAnexo = data.data;
-              this.firmarPlantilla(cierre);
-            } else {
+          .cargarAdjuntoFirma(this.crearObjGuardarAdjunto())
+          .subscribe({
+            next: (data: ResponseInterface) => {
+              if (data.statusCode === CodigosRespuesta.OK) {
+                this.datosFirma.idAnexo = data.data;
+                this.firmarPlantilla(cierre);
+              } else {
+                this.msgError();
+              }
+            },
+            error: () => {
               this.msgError();
-            }
-          },
-          error: () => {
-            this.msgError();
-          },
-        });
+            },
+          });
       } else {
         this.firmarPlantilla(cierre);
       }
-      
     } else {
       this.mensajeModalSinArchivo();
     }

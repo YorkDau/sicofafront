@@ -22,6 +22,7 @@ import { RedesApoyoComponent } from './resumen-solicitud/identificacion-riesgo/e
 import { ConclusionRecomendacionesComponent } from './resumen-solicitud/identificacion-riesgo/entrevista-psicologica-emocional/conclusion-recomendaciones/conclusion-recomendaciones.component';
 import { HijosInvolucradosComponent } from './resumen-solicitud/datos-involucrados/hijos-involucrados/hijos-involucrados.component';
 import { PercepcionVictimaEntrevistaComponent } from './resumen-solicitud/identificacion-riesgo/entrevista-psicologica-emocional/percepcion-victima/percepcion-victima-entrevista.component';
+import { InformacionMenoresComponent } from './resumen-solicitud/identificacion-riesgo/entrevista-psicologica-emocional/informacion-menores/informacion-menores.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { PercepcionVictimaEntrevistaComponent } from './resumen-solicitud/identi
     RedesApoyoComponent,
     ConclusionRecomendacionesComponent,
     HijosInvolucradosComponent,
-    PercepcionVictimaEntrevistaComponent
+    PercepcionVictimaEntrevistaComponent,
+    InformacionMenoresComponent,
   ],
   imports: [
     CommonModule,

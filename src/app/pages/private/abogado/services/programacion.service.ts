@@ -1,15 +1,15 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { PATH_SERVER } from 'src/app/constants';
-import { ResponseInterface } from 'src/app/interfaces/response.interface';
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
+import { PATH_SERVER } from "src/app/constants";
+import { ResponseInterface } from "src/app/interfaces/response.interface";
 import {
   GuardarProgramacionInterface,
   ProgramacionInterface,
-} from '../../../../interfaces/programacion.interface';
+} from "../../../../interfaces/programacion.interface";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class ProgramacionService {
   private api = PATH_SERVER;
@@ -22,7 +22,16 @@ export class ProgramacionService {
    */
   public obtenerProgramacion(idTarea: number): Observable<ResponseInterface> {
     return this.http.get<ResponseInterface>(
-      `${this.api}/Programacion/ObtenerProgramacion?idTarea=${idTarea}`
+      `${this.api}/Programacion/ObtenerProgramacion?idTarea=${idTarea}`,
+    );
+  }
+  /**
+   * @description obtiene la agenda general de todas las solicitudes que esten disponibles
+   * @return obsrvable(AgendaDTO)
+   */
+  public obtenerAgendaGeneral(idComisaria: number): Observable<ResponseInterface> {
+    return this.http.get<ResponseInterface>(
+      `${this.api}/Programacion/ObtenerAgendaGeneral/${idComisaria}`,
     );
   }
 
@@ -31,12 +40,12 @@ export class ProgramacionService {
    * @returns observable
    */
   public actualizarProgramacion(
-    body: GuardarProgramacionInterface
+    body: GuardarProgramacionInterface,
   ): Observable<ResponseInterface> {
     return this.http.post<ResponseInterface>(
       `${this.api}/Programacion/ActualizarProgramacion`,
 
-      body
+      body,
     );
   }
 }

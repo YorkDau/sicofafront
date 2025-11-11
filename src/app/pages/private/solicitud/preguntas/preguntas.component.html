@@ -4,47 +4,87 @@
   <div class="row mb-4">
     <div class="col-lg-4">
       <label for="fecha" class="form-label">Fecha solicitud*</label>
-      <div class="input-group sombraCampoIzq" [ngClass]="{
+      <div
+        class="input-group sombraCampoIzq"
+        [ngClass]="{
           'input-req': isRequired('fechaSolicitud') && mostrarValidaciones
-        }">
-        <input matInput readonly placeholder="DD/MM/AAAA"
-          class="form-control form-control-date-Picker deshabilitadoCampo" formControlName="fechaSolicitud"
-          id="fecha" />
+        }"
+      >
+        <input
+          matInput
+          readonly
+          placeholder="DD/MM/AAAA"
+          class="form-control form-control-date-Picker deshabilitadoCampo"
+          formControlName="fechaSolicitud"
+          id="fecha"
+        />
         <span class="input-group-text deshabilitadoCampo">
           <mat-datepicker-toggle matSuffix></mat-datepicker-toggle>
           <mat-datepicker></mat-datepicker>
         </span>
       </div>
-      <div class="msj-req" *ngIf="isRequired('fechaSolicitud') && mostrarValidaciones">
+      <div
+        class="msj-req"
+        *ngIf="isRequired('fechaSolicitud') && mostrarValidaciones"
+      >
         {{ msgObligatorio }}
       </div>
     </div>
     <div class="col-lg-4">
       <label for="hora_inicio" class="form-label">Hora solicitud*</label>
-      <div [ngClass]="{
+      <div
+        [ngClass]="{
           'input-req': isRequired('horaSolicitud') && mostrarValidaciones
-        }">
-        <input class="form-control tamanioIgual" type="text" formControlName="horaSolicitud" id="hora_inicio"
-          name="appt" />
+        }"
+      >
+        <input
+          class="form-control tamanioIgual"
+          type="text"
+          formControlName="horaSolicitud"
+          id="hora_inicio"
+          name="appt"
+        />
       </div>
-      <div class="msj-req" *ngIf="isRequired('horaSolicitud') && mostrarValidaciones">
+      <div
+        class="msj-req"
+        *ngIf="isRequired('horaSolicitud') && mostrarValidaciones"
+      >
         {{ msgObligatorio }}
       </div>
     </div>
     <div class="col-lg-4">
       <label for="fecha" class="form-label">Fecha hecho violento*</label>
-      <div class="input-group " [ngClass]="{
+      <div
+        class="input-group"
+        [ngClass]="{
           'input-req': isRequired('fechaHechoViolento') && mostrarValidaciones
-        }">
-        <input matInput readonly (click)="picker2.open()" (dateChange)="addEvent($event)" placeholder="DD/MM/AAAA"
-          class="form-control form-control-date-Picker sinborde-DatePicker" [matDatepicker]="picker2"
-          formControlName="fechaHechoViolento" id="fecha" [min]="minDate" [max]="maxDate" />
+        }"
+      >
+        <input
+          matInput
+          readonly
+          (click)="picker2.open()"
+          (dateChange)="addEvent($event)"
+          placeholder="DD/MM/AAAA"
+          class="form-control form-control-date-Picker sinborde-DatePicker"
+          [matDatepicker]="picker2"
+          formControlName="fechaHechoViolento"
+          id="fecha"
+          [min]="minDate"
+          [max]="maxDate"
+        />
         <span class="input-group-text sinfondo-DatePicker">
-          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker2"
+          ></mat-datepicker-toggle>
           <mat-datepicker #picker2></mat-datepicker>
         </span>
       </div>
-      <div class="msj-req" *ngIf="isRequired('fechaHechoViolento') && mostrarValidaciones">
+      <div
+        class="msj-req"
+        *ngIf="isRequired('fechaHechoViolento') && mostrarValidaciones"
+      >
         {{ msgObligatorio }}
       </div>
     </div>
@@ -52,7 +92,9 @@
 
   <div class="row mb-3" *ngIf="mostrarMensajeDias">
     <div class="col-lg-12 d-flex justify-content-center">
-      <app-no-data mensaje="El hecho violento supera los 30 días, evalúe si es competencia de la comisaria de familia.">
+      <app-no-data
+        mensaje="El hecho violento supera los 30 días, evalúe si es competencia de la comisaria de familia."
+      >
       </app-no-data>
     </div>
   </div>
@@ -62,35 +104,62 @@
       <label for="descripcion" class="form-label">
         Descripción de los hechos*
       </label>
-      <textarea type="text" class="form-control" id="descripcion" placeholder="Digite la descripción"
-        formControlName="descripcionHechos" maxlength="10000" [ngClass]="{
+      <textarea
+        type="text"
+        class="form-control"
+        id="descripcion"
+        placeholder="Digite la descripción"
+        formControlName="descripcionHechos"
+        maxlength="10000"
+        [ngClass]="{
           'input-req': isRequired('descripcionHechos') && mostrarValidaciones
-        }" rows="6"></textarea>
-      <div class="msj-req" *ngIf="isRequired('descripcionHechos') && mostrarValidaciones">
+        }"
+        rows="6"
+      ></textarea>
+      <div
+        class="msj-req"
+        *ngIf="isRequired('descripcionHechos') && mostrarValidaciones"
+      >
         {{ msgObligatorio }}
       </div>
     </div>
   </div>
 
   <div class="form-label mb-4">
-    ¿Es la víctima quien pone los hechos en conocimiento de la Comisaría de Familia?*
+    ¿Es la víctima quien pone los hechos en conocimiento de la Comisaría de
+    Familia?*
   </div>
 
   <div class="row mb-2">
     <div class="col-lg-12">
       <div class="form-check form-check-inline">
-        <input class="form-check-input" formControlName="esVictima" type="radio" name="esVictima" id="no" value="no" />
+        <input
+          class="form-check-input"
+          formControlName="esVictima"
+          type="radio"
+          name="esVictima"
+          id="no"
+          value="no"
+        />
         <label class="form-check-label form-label" for="no"> NO </label>
       </div>
       <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" checked name="esVictima" formControlName="esVictima" id="si"
-          value="si" />
+        <input
+          class="form-check-input"
+          type="radio"
+          checked
+          name="esVictima"
+          formControlName="esVictima"
+          id="si"
+          value="si"
+        />
         <label class="form-check-label form-label" for="si"> SI </label>
       </div>
     </div>
 
-    <div class="row mt-3">
-      <div class="col-lg-4 my-3">
+    <div>
+    <div class="row flex items-end mt-3 col-lg-4">
+      <div class="my-3">
         <label for="id_tipo_entidad" class="form-label">
           Tipo de entidad que pone en conocimiento los hechos
         </label>
@@ -109,22 +178,44 @@
           </option>
         </select>
       </div>
+      <div *ngIf="myForm.value.esVictima === 'no'">
+        <app-carga-archivo
+          (baseArchivo)="cargarAdjunto($event)"
+          [textoCargar]="'Cargar adjunto'"
+          matTooltip="Cargar adjunto"
+        ></app-carga-archivo>
+        <div class="msj-req" *ngIf="isRequiredAdjunto() && mostrarValidaciones">
+          {{ msgObligatorio }}
+        </div>
+      </div>
+    </div>
     </div>
 
-    <div class="row mt-3">
-      <div class="col-lg-4 my-3">
+    <div class="row mt-3 col-lg-4">
+      <div>
         <label class="form-label">
           Relación o Parentesco con el Agresor*
         </label>
-        <select class="form-select" [ngClass]="{
-            'input-req': isRequired('relacionParentescoAgresor') && mostrarValidaciones
-          }" formControlName="relacionParentescoAgresor">
+        <select
+          class="form-select"
+          [ngClass]="{
+            'input-req':
+              isRequired('relacionParentescoAgresor') && mostrarValidaciones
+          }"
+          formControlName="relacionParentescoAgresor"
+        >
           <option disabled value="">Seleccione</option>
-          <option *ngFor="let relacion of selectRelacion" [value]="relacion.id_Dominio">
+          <option
+            *ngFor="let relacion of selectRelacion"
+            [value]="relacion.id_Dominio"
+          >
             {{ relacion.nombre_Dominio }}
           </option>
         </select>
-        <div class="msj-req" *ngIf="isRequired('relacionParentescoAgresor') && mostrarValidaciones">
+        <div
+          class="msj-req"
+          *ngIf="isRequired('relacionParentescoAgresor') && mostrarValidaciones"
+        >
           {{ msgObligatorio }}
         </div>
       </div>
@@ -134,19 +225,39 @@
       <div class="form-label">¿ Convive con el agresor ?*</div>
       <div class="col-lg-6 mb-3">
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="conviveConAgresor" id="non"
-            formControlName="conviveConAgresor" value="no" />
+          <input
+            class="form-check-input"
+            type="radio"
+            name="conviveConAgresor"
+            id="non"
+            formControlName="conviveConAgresor"
+            value="no"
+          />
           <label class="form-check-label form-label" for="non"> NO </label>
         </div>
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="conviveConAgresor" id="sin"
-            formControlName="conviveConAgresor" value="si" />
+          <input
+            class="form-check-input"
+            type="radio"
+            name="conviveConAgresor"
+            id="sin"
+            formControlName="conviveConAgresor"
+            value="si"
+          />
           <label class="form-check-label form-label" for="sin"> SI </label>
         </div>
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="conviveConAgresor" id="noInfo"
-            formControlName="conviveConAgresor" [value]="null" />
-          <label class="form-check-label form-label" for="noInfo"> No se aporta información en el momento </label>
+          <input
+            class="form-check-input"
+            type="radio"
+            name="conviveConAgresor"
+            id="noInfo"
+            formControlName="conviveConAgresor"
+            [value]="null"
+          />
+          <label class="form-check-label form-label" for="noInfo">
+            No se aporta información en el momento
+          </label>
         </div>
       </div>
     </div>
@@ -162,13 +273,25 @@
     <div class="row mb-4">
       <div class="col-lg-12">
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="esCompetenciaComisaria" id="noc"
-            formControlName="esCompetenciaComisaria" value="no" />
+          <input
+            class="form-check-input"
+            type="radio"
+            name="esCompetenciaComisaria"
+            id="noc"
+            formControlName="esCompetenciaComisaria"
+            value="no"
+          />
           <label class="form-check-label form-label" for="noc"> NO </label>
         </div>
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="esCompetenciaComisaria" id="sic"
-            formControlName="esCompetenciaComisaria" value="si" />
+          <input
+            class="form-check-input"
+            type="radio"
+            name="esCompetenciaComisaria"
+            id="sic"
+            formControlName="esCompetenciaComisaria"
+            value="si"
+          />
           <label class="form-check-label form-label" for="sic"> SI </label>
         </div>
       </div>
@@ -180,11 +303,21 @@
           Justifique la no competencia del caso e Indique la atención brindada
           al ciudadano.*
         </label>
-        <input type="text" class="form-control" id="noCompetenciaDescripcion" placeholder="Justifique"
-          formControlName="noCompetenciaDescripcion" maxlength="10000" [ngClass]="{
+        <input
+          type="text"
+          class="form-control"
+          id="noCompetenciaDescripcion"
+          placeholder="Justifique"
+          formControlName="noCompetenciaDescripcion"
+          maxlength="10000"
+          [ngClass]="{
             'input-req': isRequiredJustifique() && mostrarValidaciones
-          }" />
-        <div class="msj-req" *ngIf="isRequiredJustifique() && mostrarValidaciones">
+          }"
+        />
+        <div
+          class="msj-req"
+          *ngIf="isRequiredJustifique() && mostrarValidaciones"
+        >
           {{ msgObligatorio }}
         </div>
       </div>
@@ -195,44 +328,76 @@
         <label for="idtipoTramite" class="form-label">
           Clasifique el trámite del caso*
         </label>
-        <select id="idtipoTramite" formControlName="idtipoTramite" class="form-select" [ngClass]="{
+        <select
+          id="idtipoTramite"
+          name="idtipoTramite"
+          formControlName="idtipoTramite"
+          class="form-select"
+          [ngClass]="{
             'input-req': isRequiredClasifiqueTramite() && mostrarValidaciones
-          }">
+          }"
+        >
           <option disabled value="">Seleccione</option>
-          <option *ngFor="let tramite of selectTipo_Tramite" [value]="tramite.id_Dominio">
+          <option
+            *ngFor="let tramite of selectTipo_Tramite"
+            [value]="tramite.id_Dominio"
+          >
             {{ tramite.nombre_Dominio }}
           </option>
         </select>
-        <div class="msj-req" *ngIf="isRequiredClasifiqueTramite() && mostrarValidaciones">
+        <div
+          class="msj-req"
+          *ngIf="isRequiredClasifiqueTramite() && mostrarValidaciones"
+        >
           {{ msgObligatorio }}
         </div>
       </div>
 
-      <div class="col-lg-4">
+      <div class="col-lg-4" *ngIf="cComisariaFamilia">
         <label for="sexoAfectado" class="form-label">
           Afectado en el contexto familiar
         </label>
-        <select id="sexoAfectado" formControlName="sexoAfectado" class="form-select">
-          <option *ngFor="let afectado of selectAfectados" [value]="afectado.code">
+        <select
+          id="sexoAfectado"
+          formControlName="sexoAfectado"
+          class="form-select"
+        >
+          <option
+            *ngFor="let afectado of selectAfectados"
+            [value]="afectado.code"
+          >
             {{ afectado.nombre }}
           </option>
         </select>
       </div>
 
       <div class="col-lg-4" *ngIf="cComisariaFamilia">
-        <label for="idContextofamiliar" class="form-label"> Contexto familiar* </label>
-        <select id="idContextofamiliar" formControlName="idContextofamiliar" class="form-select" [ngClass]="{
+        <label for="idContextofamiliar" class="form-label">
+          Contexto familiar*
+        </label>
+        <select
+          id="idContextofamiliar"
+          formControlName="idContextofamiliar"
+          class="form-select"
+          [ngClass]="{
             'input-req': isRequiredContextoFamiliar() && mostrarValidaciones
-          }">
+          }"
+        >
           <option disabled value="">Seleccione</option>
-            <!-- <option *ngFor="let contexto of selectContextoFamiliar" [value]="contexto.id_Dominio">
+          <!-- <option *ngFor="let contexto of selectContextoFamiliar" [value]="contexto.id_Dominio">
             {{ contexto.nombre_Dominio }}
             </option> -->
-          <option *ngFor="let relacion of selectRelacion" [value]="relacion.id_Dominio">
+          <option
+            *ngFor="let relacion of selectRelacion"
+            [value]="relacion.id_Dominio"
+          >
             {{ relacion.nombre_Dominio }}
           </option>
         </select>
-        <div class="msj-req" *ngIf="isRequiredContextoFamiliar() && mostrarValidaciones">
+        <div
+          class="msj-req"
+          *ngIf="isRequiredContextoFamiliar() && mostrarValidaciones"
+        >
           {{ msgObligatorio }}
         </div>
       </div>
@@ -246,39 +411,50 @@
     <div class="row mb-4" *ngIf="cComisariaFamilia">
       <div class="col-lg-12">
         <div class="form-check form-check-inline">
-          <input 
-            class="form-check-input" 
-            type="radio" 
-            name="esNecesarioRemitir" 
+          <input
+            class="form-check-input"
+            type="radio"
+            name="esNecesarioRemitir"
             id="nor"
-            formControlName="esNecesarioRemitir" 
+            formControlName="esNecesarioRemitir"
             [value]="'no'"
           />
           <label class="form-check-label form-label" for="nor"> NO </label>
         </div>
         <div class="form-check form-check-inline">
-          <input 
-            class="form-check-input" 
-            type="radio" 
-            name="esNecesarioRemitir" 
+          <input
+            class="form-check-input"
+            type="radio"
+            name="esNecesarioRemitir"
             id="sir"
-            formControlName="esNecesarioRemitir" 
+            formControlName="esNecesarioRemitir"
             [value]="'si'"
           />
           <label class="form-check-label form-label" for="sir"> SI </label>
         </div>
       </div>
     </div>
-    
-    <div class="row mb-4" *ngIf="mostrarBotonDescargar">
-      <div class="col-lg-12">
-        <button class="btn btn-secondary" (click)="descargarDocumento()">Descargar Formato Traslado</button>
+
+    <div class="row mb-4" *ngIf="!cComisariaFamilia">
+      <div class="d-flex align-items-center gap-2 mt-2">
+        <button class="btn button-new" (click)="descargarDocumento()">
+          Descargar Formato Traslado
+        </button>
+        <app-carga-archivo
+          matTooltip="Cargar formato traslado"
+          [textoCargar]="'Cargar formato traslado'"
+          (baseArchivo)="cargarAdjuntoTraslado($event)"
+        ></app-carga-archivo>
       </div>
     </div>
-    
 
     <div class="d-flex justify-content-lg-end w-100 mb-4">
-      <button class="btn btn-danger me-5 px-5" [routerLink]="['/historial-ciudadano', id_ciudadano]">Cancelar</button>
+      <button
+        class="btn btn-danger me-5 px-5"
+        [routerLink]="['/historial-ciudadano', id_ciudadano]"
+      >
+        Cancelar
+      </button>
       <button class="btn btn-primary px-5" (click)="registrar()">
         Continuar
       </button>

@@ -4,8 +4,8 @@ export interface ProgramacionInterface {
   idTarea: number;
   etiqueta: string;
   razon: string;
-  fechaHoraInicial:  string;
-  fechaHoraFinal:  string;
+  fechaHoraInicial: string;
+  fechaHoraFinal: string;
   idTipoAudiencia: number;
 }
 
@@ -13,7 +13,7 @@ export interface GuardarProgramacionInterface {
   idProgramacion: number | null;
   idSolicitudServicio: number;
   idTarea: number;
-  fechaHoraInicial: string ;
+  fechaHoraInicial: string;
   fechaHoraFinal: string;
   idTipoAudiencia: number | null;
 }
@@ -29,4 +29,5 @@ export interface ItemProgramacionInterface {
   fechaHoraInicial: string;
   fechaHoraFinal: string;
   esAgendaTarea: boolean;
+  audiencia?: string;
 }

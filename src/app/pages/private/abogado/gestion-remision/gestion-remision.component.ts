@@ -1,34 +1,34 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import { TablaRemisiones } from '../../interfaces/remision.interface';
-import { Modales } from '../../../../shared/modals';
-import { MatDialog } from '@angular/material/dialog';
-import { RemisionService } from '../services/remision.service';
+import { AfterViewInit, Component, ViewChild } from "@angular/core";
+import { TablaRemisiones } from "../../interfaces/remision.interface";
+import { Modales } from "../../../../shared/modals";
+import { MatDialog } from "@angular/material/dialog";
+import { RemisionService } from "../services/remision.service";
 import {
   CodigosRespuesta,
   ImagenesModal,
   LIMITE_CARGA,
   Mensajes,
-} from 'src/app/constants';
-import { ResponseInterface } from 'src/app/interfaces/response.interface';
-import { SharedService } from '../../../../services/shared.service';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-import { EditarArvhivoRemision } from '../../interfaces/tipo-remision.interface';
-import { Router } from '@angular/router';
+} from "src/app/constants";
+import { ResponseInterface } from "src/app/interfaces/response.interface";
+import { SharedService } from "../../../../services/shared.service";
+import { MatPaginator } from "@angular/material/paginator";
+import { MatTableDataSource } from "@angular/material/table";
+import { EditarArvhivoRemision } from "../../interfaces/tipo-remision.interface";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'app-gestion-remision',
-  templateUrl: './gestion-remision.component.html',
-  styleUrls: ['./gestion-remision.component.scss'],
+  selector: "app-gestion-remision",
+  templateUrl: "./gestion-remision.component.html",
+  styleUrls: ["./gestion-remision.component.scss"],
 })
 export class GestionRemisionComponent implements AfterViewInit {
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   public displayedColumns: string[] = [
-    'nombreRemision',
-    'nombreInvolucrado',
-    'fecha',
-    'nombreUsuario',
-    'actions',
+    "nombreRemision",
+    "nombreInvolucrado",
+    "fecha",
+    "nombreUsuario",
+    "actions",
   ];
   public dataSource = new MatTableDataSource<TablaRemisiones>([]);
   public dataSourceList: TablaRemisiones[] = [];
@@ -42,9 +42,10 @@ export class GestionRemisionComponent implements AfterViewInit {
     private _dialog: MatDialog,
     private remisionService: RemisionService,
     private sharedService: SharedService,
-    private router: Router
+    private router: Router,
   ) {
-    this.objSol = JSON.parse(sessionStorage.getItem('info')!);
+    console.log("object -> ", this.objSol);
+    this.objSol = JSON.parse(sessionStorage.getItem("info")!);
   }
 
   ngAfterViewInit() {
@@ -78,9 +79,9 @@ export class GestionRemisionComponent implements AfterViewInit {
   private validarDataSource(): boolean {
     if (this.dataSourceList.length <= 0) {
       Modales.modalExito(
-        'Debe registrar una remisión',
-        'assets/images/exclamacion.svg',
-        this._dialog
+        "Debe registrar una remisión",
+        "assets/images/exclamacion.svg",
+        this._dialog,
       );
       return false;
     }
@@ -95,7 +96,7 @@ export class GestionRemisionComponent implements AfterViewInit {
       Modales.modalConfirmacion(
         Mensajes.MENSAJE_CERRAR_ACT,
         this._dialog,
-        ImagenesModal.EXCLAMACION
+        ImagenesModal.EXCLAMACION,
       ).subscribe((res) => {
         if (res) this.cerrarActuaciones();
       });
@@ -109,7 +110,7 @@ export class GestionRemisionComponent implements AfterViewInit {
     const obj = {
       tareaID: this.objSol.idTarea,
       userID: 0, ///TODO: cambiar por dinamico
-      perfilCod: '',
+      perfilCod: "",
     };
 
     this.sharedService.cerrarActuaciones(obj).subscribe({
@@ -130,7 +131,7 @@ export class GestionRemisionComponent implements AfterViewInit {
    * @description redirecciona a la ruta casos
    */
   redireccionar() {
-    this.router.navigate(['../abogado/casos']);
+    this.router.navigate(["../abogado/casos"]);
   }
 
   /**
@@ -141,7 +142,7 @@ export class GestionRemisionComponent implements AfterViewInit {
 
     if (this.file && this.validacionesArchivo(this.file)) {
       this.retornarArchivoBase64().then((d: any) => {
-        const archivo = d.split(',');
+        const archivo = d.split(",");
         this.archivo = archivo[1];
         this.editarDocumento({
           entrada: archivo[1],
@@ -174,7 +175,7 @@ export class GestionRemisionComponent implements AfterViewInit {
    */
   validarExtensionArchivo(fileName: string) {
     let resultado = false;
-    const allowedFiles = '.pdf';
+    const allowedFiles = ".pdf";
     const regex = /(?:\.([^.]+))?$/;
     const extension = regex.exec(fileName);
     if (undefined !== extension && null !== extension) {
@@ -225,7 +226,7 @@ export class GestionRemisionComponent implements AfterViewInit {
         next: (data: ResponseInterface) => {
           if (data.statusCode === CodigosRespuesta.OK) {
             const source = `data:application/pdf;base64,${data.data}`;
-            const link = document.createElement('a');
+            const link = document.createElement("a");
             const fileName = row.nombreRemision;
             link.href = source;
             link.download = `${fileName}.pdf`;
@@ -253,9 +254,9 @@ export class GestionRemisionComponent implements AfterViewInit {
         next: (data: ResponseInterface) => {
           if (data.statusCode === CodigosRespuesta.OK) {
             Modales.modalExito(
-              'Remisión eliminada satisfactoriamente',
+              "Remisión eliminada satisfactoriamente",
               ImagenesModal.OK,
-              this._dialog
+              this._dialog,
             );
             this.cargarDatosTabla();
           } else {
@@ -279,7 +280,7 @@ export class GestionRemisionComponent implements AfterViewInit {
       `El documento ${row.nombreRemision}
     está a punto de ser eliminado. ¿Está seguro que desea continuar?`,
       this._dialog,
-      ImagenesModal.EXCLAMACION
+      ImagenesModal.EXCLAMACION,
     ).subscribe((resp: boolean) => {
       if (resp) {
         this.eliminarArchivo(row);
@@ -299,7 +300,7 @@ export class GestionRemisionComponent implements AfterViewInit {
           Modales.modalExito(
             Mensajes.MENSAJE_EDITAR_ARCHIVO,
             ImagenesModal.OK,
-            this._dialog
+            this._dialog,
           );
         } else {
           this.msgError();
@@ -318,7 +319,7 @@ export class GestionRemisionComponent implements AfterViewInit {
     Modales.modalConfirmacion(
       Mensajes.MENSAJE_CANCELAR_SOL,
       this._dialog,
-      ImagenesModal.EXCLAMACION
+      ImagenesModal.EXCLAMACION,
     ).subscribe((res) => {
       if (res) {
         this.redireccionar();
@@ -330,7 +331,7 @@ export class GestionRemisionComponent implements AfterViewInit {
     Modales.modalExito(
       Mensajes.MENSAJE_ERROR_G,
       ImagenesModal.EXCLAMACION,
-      this._dialog
+      this._dialog,
     );
   }
 }

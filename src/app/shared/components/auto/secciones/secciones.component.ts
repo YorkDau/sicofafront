@@ -46,7 +46,10 @@ export class SeccionesComponent implements OnInit {
       .obtenerSecciones(this.objSol.idSolicitud)
       .subscribe((result: ResponseInterface) => {
         if (result.statusCode === CodigosRespuesta.OK) {
+
+          console.log("DATA", result.data);
           this.listadoSecciones = result.data.tree;
+      
           this.dataSource.data = this.listadoSecciones;
           this.listaSeccion = result.data.secciones;
           this.autoService.emitirArregloSecciones(this.listaSeccion);
@@ -54,6 +57,8 @@ export class SeccionesComponent implements OnInit {
           this.aplicaRevision.emit(result.data.aplicaRevision || false);
           if (result.data.observacion)
             this.emitirObservaciones(result.data.observacion);
+          if (result.data.esNecesarioRemitir)
+            this.emitirObservaciones(result.data.esNecesarioRemitir);
         }
       });
   }

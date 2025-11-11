@@ -88,6 +88,10 @@ export class InvolucradosComponent implements OnInit, OnChanges {
     return this.agresoresForm.controls['sections'] as FormArray;
   }
 
+  public esMenorDeEdad(edad: number): boolean {
+    return edad < 18;
+  }
+
   /**
    * @description Solo permite ingresar numeros
    */
@@ -192,6 +196,10 @@ export class InvolucradosComponent implements OnInit, OnChanges {
           direccion: '',
           tipoinvolucrado: false,
           principal: false,
+          tieneSalud: [false, Validators.required],
+          tieneEducacion: [false, Validators.required],
+          vacunacionCompleta: [false, Validators.required],
+          lugarEstudio: [""],
         },
         { updateOn: 'change' }
       )

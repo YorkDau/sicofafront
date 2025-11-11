@@ -130,10 +130,10 @@
           <select
             class="form-select"
             formControlName="paisExp"
-            (change)="cargaSelectDepartamento($event)"
+            (change)="cargaSelectDepartamentoExpVictima($event)"
           >
             <option disabled value="">País de Expedición</option>
-            <option *ngFor="let pais of selectPaises" [value]="pais.paisID">
+            <option *ngFor="let pais of paises['expedicion_victima']" [value]="pais.paisID">
               {{ pais.nombrePais }}
             </option>
           </select>
@@ -147,11 +147,11 @@
           <select
             class="form-select"
             formControlName="departamentoExp"
-            (change)="cargaSelectMunicipio($event)"
+            (change)="cargaSelectMunicipioExpVictima($event)"
           >
             <option disabled value="">Departamento de Expedición</option>
             <option
-              *ngFor="let departamento of selectDepartamento"
+              *ngFor="let departamento of departamentos['expedicion_victima']"
               [value]="departamento.departamentoID"
             >
               {{ departamento.departamentoNombre }}
@@ -167,7 +167,7 @@
           <select class="form-select" formControlName="municipioExp">
             <option disabled value="">Municipio de Expedición</option>
             <option
-              *ngFor="let municipio of selectMunicipio"
+              *ngFor="let municipio of municipios['expedicion_victima'] || []"
               [value]="municipio.ciudmunID"
             >
               {{ municipio.nombCiudMun }}
@@ -176,73 +176,91 @@
         </div>
 
         <div class="form-group col-lg-4 mb-4">
-          <label class="form-label text-capitalize"
-            >fecha de expedición<span class="mx-1">*</span></label
-          >
-          <div class="input-group" style="max-height: 38px">
-            <input
-              readonly
-              (click)="pickerExp1.open()"
-              placeholder="DD/MM/YYYY"
-              class="form-control border-end-0 bg-white"
-              [matDatepicker]="pickerExp1"
-              formControlName="fechaExpedicion"
-              [max]="dateMax"
-              [min]="dateMin"
-            />
-            <span
-              class="input-group-text border-start-0 p-0 bg-white"
-              style="max-height: 38px"
-            >
-              <mat-datepicker-toggle
-                matSuffix
-                [for]="pickerExp1"
-              ></mat-datepicker-toggle>
-              <mat-datepicker #pickerExp1></mat-datepicker>
-            </span>
-          </div>
-          <span
-            class="text-danger"
-            [ngClass]="{
-              'opacity-0': !isRequiredField(formVictima, 'fechaExpedicion')
-            }"
-            >Campo requerido</span
-          >
-        </div>
+              <label class="form-label text-capitalize"
+                >fecha de expedición<span class="mx-1">*</span></label
+              >
+              <div class="input-group" style="max-height: 38px">
+                <input
+                  readonly
+                  (click)="pickerExp1.open()"
+                  placeholder="DD/MM/YYYY"
+                  class="form-control border-end-0 bg-white"
+                  [matDatepicker]="pickerExp1"
+                  formControlName="fechaExpedicion"
+                  [max]="dateMax"
+                  [min]="dateMin"
+                />
+                <span
+                  class="input-group-text border-start-0 p-0 bg-white"
+                  style="max-height: 38px"
+                >
+                  <mat-datepicker-toggle
+                    matSuffix
+                    [for]="pickerExp1"
+                  ></mat-datepicker-toggle>
+                  <mat-datepicker #pickerExp1></mat-datepicker>
+                </span>
+              </div>
+              <span
+                class="text-danger"
+                [ngClass]="{
+                  'opacity-0': !isRequiredField(formVictima, 'fechaExpedicion')
+                }"
+                >Campo requerido</span
+              >
+            </div>
 
-        <!-- <div class="form-group col-lg-4">
-          <label class="form-label text-capitalize"
-            >Lugar de expedición<span class="mx-1">*</span></label
-          >
+        <div class="form-group col-4 p-3">
+          <label>País de Nacimiento</label>
+
           <select
-            formControlName="lugarExpedicion"
             class="form-select"
-            [ngClass]="{
-              'border-danger': isRequiredField(formVictima, 'lugarExpedicion')
-            }"
+            formControlName="paisNacimiento"
+            (change)="cargaSelectDepartamentoNacimientoVictima($event)"
           >
-            <option value="">Lugar de expedición</option>
-            <option
-              [value]="item.ciudmunID"
-              *ngFor="let item of listaLugarExpedicion"
-            >
-              {{ item.nombCiudMun }}
+            <option disabled value="">País de Nacimiento</option>
+            <option *ngFor="let pais of paises['nacimiento_victima']" [value]="pais.paisID">
+              {{ pais.nombrePais }}
             </option>
           </select>
+        </div>
 
-          <span
-            class="text-danger"
-            [ngClass]="{
-              'opacity-0': !isRequiredField(formVictima, 'lugarExpedicion')
-            }"
-            >Campo requerido</span
+        <div class="col-4 p-3">
+          <label>Departamento de Nacimiento</label>
+
+          <select
+            class="form-select"
+            formControlName="departamentoNacimiento"
+            (change)="cargaSelectMunicipioNacimientoVictima($event)"
           >
-        </div> -->
+            <option disabled value="">Departamento de Nacimiento</option>
+            <option
+              *ngFor="let departamento of departamentos['nacimiento_victima']"
+              [value]="departamento.departamentoID"
+            >
+              {{ departamento.departamentoNombre }}
+            </option>
+          </select>
+        </div>
+
+        <div class="col-4 p-3">
+          <label>Municipio de Nacimiento</label>
+          <select
+            class="form-select"
+            formControlName="municipioNacimiento"
+          >
+            <option disabled value="">Municipio de Nacimiento</option>
+            <option
+              *ngFor="let municipio of municipios['nacimiento_victima']"
+              [value]="municipio.ciudmunID"
+            >
+              {{ municipio.nombCiudMun }}
+            </option>
+          </select>
+        </div>
 
         <div class="form-group col-lg-4 mb-4">
-          <label class="form-label text-capitalize"
-            >fecha nacimiento<span class="mx-1">*</span></label
-          >
+          <label class="form-label text-capitalize">fecha nacimiento<span class="mx-1">*</span></label >
           <div class="input-group" style="max-height: 38px">
             <input
               readonly
@@ -327,16 +345,6 @@
             Campo requerido
           </small>
         </div>
-        <!-- <div class="form-group col-lg-4 mb-4">
-          <label class="form-label text-capitalize"> ¿Cómo te gustaría que te llamemos desde la Comisaría?</label>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Escribe aquí"
-            maxlength="50"
-          />
-        </div> -->
-
         <div class="form-group col-lg-4">
           <label class="form-label text-capitalize"
             >ocupación<span class="mx-1">*</span></label
@@ -946,9 +954,9 @@
             class="form-text text-danger"
             [ngClass]="{
               'opacity-0': !isRequiredField(formAgresor, 'primerApellido')
-            }"
-            >Campo requerido</small
-          >
+            }">
+            Campo requerido
+          </small>
         </div>
 
         <div class="form-group col-lg-4">
@@ -981,18 +989,6 @@
               {{ item.nombre_Dominio }}
             </option>
           </select>
-          <!-- 
-            [ngClass]="{
-              'border-danger': isRequiredField(formAgresor, 'tipoDocumento')
-            }"
-            <small
-            class="form-text text-danger"
-            [ngClass]="{
-              'opacity-0': !isRequiredField(formAgresor, 'tipoDocumento')
-            }"
-          >
-            Campo requerido
-          </small> -->
         </div>
 
         <div class="form-group col-lg-4">
@@ -1006,17 +1002,6 @@
             formControlName="numeroDocumento"
             maxlength="20"
           />
-          <!-- [ngClass]="{
-            'border-danger': isRequiredField(formAgresor, 'numeroDocumento')
-          }"
-          <small
-            class="form-text text-danger"
-            [ngClass]="{
-              'opacity-0': !isRequiredField(formAgresor, 'numeroDocumento')
-            }"
-          >
-            Campo requerido
-          </small> -->
         </div>
 
         <div class="form-group col-lg-4 mb-4">
@@ -1027,10 +1012,10 @@
           <select
             class="form-select"
             formControlName="paisExp"
-            (change)="cargaSelectDepartamento($event)"
+            (change)="cargaSelectDepartamentoExpAgresor($event)"
           >
             <option disabled value="">País de Expedición</option>
-            <option *ngFor="let pais of selectPaises" [value]="pais.paisID">
+            <option *ngFor="let pais of paises['expedicion_agresor']" [value]="pais.paisID">
               {{ pais.nombrePais }}
             </option>
           </select>
@@ -1044,97 +1029,115 @@
           <select
             class="form-select"
             formControlName="departamentoExp"
-            (change)="cargaSelectMunicipio($event)"
+            (change)="cargaSelectMunicipioExpAgresor($event)"
           >
             <option disabled value="">Departamento de Expedición</option>
             <option
-              *ngFor="let departamento of selectDepartamento"
+              *ngFor="let departamento of departamentos['expedicion_agresor']"
               [value]="departamento.departamentoID"
             >
               {{ departamento.departamentoNombre }}
             </option>
           </select>
         </div>
-
         <div class="form-group col-lg-4 mb-4">
           <label class="form-label text-capitalize"
             >Municipio de Expedición<span class="mx-1">*</span></label
           >
-
           <select class="form-select" formControlName="municipioExp">
             <option disabled value="">Municipio de Expedición</option>
             <option
-              *ngFor="let municipio of selectMunicipio"
+              *ngFor="let municipio of municipios['expedicion_agresor']"
               [value]="municipio.ciudmunID"
             >
               {{ municipio.nombCiudMun }}
             </option>
           </select>
         </div>
-
         <div class="form-group col-lg-4">
-          <label class="form-label text-capitalize"
-            >fecha de expedición<span class="mx-1">*</span></label
-          >
-          <div class="input-group" style="max-height: 38px">
-            <input
-              readonly
-              (click)="pickerExp2.open()"
-              placeholder="DD/MM/YYYY"
-              class="form-control border-end-0 bg-white"
-              [matDatepicker]="pickerExp2"
-              formControlName="fechaExpedicion"
-              [max]="dateMax"
-              [min]="dateMin"
-            />
-            <span
-              class="input-group-text border-start-0 p-0 bg-white"
-              style="max-height: 38px"
-            >
-              <mat-datepicker-toggle
-                matSuffix
-                [for]="pickerExp2"
-              ></mat-datepicker-toggle>
-              <mat-datepicker #pickerExp2></mat-datepicker>
-            </span>
-          </div>
-          <span
-            class="text-danger"
-            [ngClass]="{
-              'opacity-0': !isRequiredField(formAgresor, 'fechaExpedicion')
-            }"
-            >Campo requerido</span
-          >
-        </div>
+               <label class="form-label text-capitalize"
+                 >fecha de expedición<span class="mx-1">*</span></label
+               >
+               <div class="input-group" style="max-height: 38px">
+                 <input
+                   readonly
+                   (click)="pickerExp2.open()"
+                   placeholder="DD/MM/YYYY"
+                   class="form-control border-end-0 bg-white"
+                   [matDatepicker]="pickerExp2"
+                   formControlName="fechaExpedicion"
+                   [max]="dateMax"
+                   [min]="dateMin"
+                 />
+                 <span
+                   class="input-group-text border-start-0 p-0 bg-white"
+                   style="max-height: 38px"
+                 >
+                   <mat-datepicker-toggle
+                     matSuffix
+                     [for]="pickerExp2"
+                   ></mat-datepicker-toggle>
+                   <mat-datepicker #pickerExp2></mat-datepicker>
+                 </span>
+               </div>
+               <span
+                 class="text-danger"
+                 [ngClass]="{
+                   'opacity-0': !isRequiredField(formAgresor, 'fechaExpedicion')
+                 }"
+                 >Campo requerido</span
+               >
+             </div>
 
-        <!-- <div class="form-group col-lg-4">
-          <label class="form-label text-capitalize"
-            >Lugar de expedición<span class="mx-1">*</span></label
-          >
-          <select
-            formControlName="lugarExpedicion"
-            class="form-select"
-            [ngClass]="{
-              'border-danger': isRequiredField(formAgresor, 'lugarExpedicion')
-            }"
-          >
-            <option value="">Lugar de expedición</option>
-            <option
-              [value]="item.ciudmunID"
-              *ngFor="let item of listaLugarExpedicion"
-            >
-              {{ item.nombCiudMun }}
-            </option>
-          </select>
+        <div class="form-group col-lg-4 mb-4">
+               <label class="form-label text-capitalize">
+                  País de Nacimiento<span class="mx-1">*</span>
+               </label>
+               <select
+                 class="form-select"
+                 formControlName="paisNacimiento"
+                 (change)="cargaSelectDepartamentoNacimientoAgresor($event)"
+               >
+                 <option disabled value="">País de Nacimiento</option>
+                 <option *ngFor="let pais of paises['nacimiento_agresor']" [value]="pais.paisID">
+                   {{ pais.nombrePais }}
+                 </option>
+               </select>
+             </div>
 
-          <span
-            class="text-danger"
-            [ngClass]="{
-              'opacity-0': !isRequiredField(formAgresor, 'lugarExpedicion')
-            }"
-            >Campo requerido</span
-          >
-        </div> -->
+             <div class="form-group col-lg-4 mb-4">
+               <label class="form-label text-capitalize">Departamento de Expedición<span class="mx-1">*</span></label>
+               <select
+                 class="form-select"
+                 formControlName="departamentoNacimiento"
+                 (change)="cargaSelectMunicipioNacimientoAgresor($event)"
+               >
+                 <option disabled value="">Departamento de Nacimiento</option>
+                 <option
+                   *ngFor="let departamento of departamentos['nacimiento_agresor']"
+                   [value]="departamento.departamentoID"
+                 >
+                   {{ departamento.departamentoNombre }}
+                 </option>
+               </select>
+             </div>
+
+             <div class="form-group col-lg-4 mb-4">
+               <label class="form-label text-capitalize"
+                 >Municipio de Nacimiento<span class="mx-1">*</span></label
+               >
+
+               <select class="form-select" formControlName="municipioNacimiento">
+                 <option disabled value="">Municipio de Nacimiento</option>
+                 <option
+                   *ngFor="let municipio of municipios['nacimiento_agresor']"
+                   [value]="municipio.ciudmunID"
+                 >
+                   {{ municipio.nombCiudMun }}
+                 </option>
+               </select>
+             </div>
+
 
         <div class="form-group col-lg-4">
           <label for="cuantos" class="form-label">Edad Aproximada</label>
@@ -1149,7 +1152,6 @@
             placeholder="Edad Aproximada"
           />
         </div>
-
         <div class="form-group col-lg-4">
           <label class="form-label text-capitalize"
             >sexo<span class="mx-1">*</span></label
@@ -1190,16 +1192,6 @@
             </option>
           </select>
         </div>
-        <!-- <div class="form-group col-lg-4 mb-4">
-          <label class="form-label text-capitalize"> ¿Cómo te gustaría que te llamemos desde la Comisaría?</label>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Escribe aquí"
-            maxlength="50"
-          />
-        </div> -->
-
         <div class="form-group col-lg-4">
           <label class="form-label text-capitalize">ocupación</label>
           <input
@@ -1210,7 +1202,6 @@
             maxlength="50"
           />
         </div>
-
         <div class="form-group col-lg-4">
           <label class="form-label text-capitalize">escolaridad</label>
           <select class="form-select" formControlName="idEscolaridad">
@@ -1238,7 +1229,6 @@
             </option>
           </select>
         </div>
-
         <div class="form-group col-lg-4">
           <label class="form-label text-capitalize">número de hijos</label>
           <input
@@ -1340,15 +1330,6 @@
         >
           Anterior
         </button>
-       
-       <!-- <button
-          type="button"
-          class="btn btn-primary"
-          (click)="archivarDiligencias()"
-        >
-          Archivar diligencias
-        </button>
-        -->
         <button
           type="button"
           class="btn btn-primary"

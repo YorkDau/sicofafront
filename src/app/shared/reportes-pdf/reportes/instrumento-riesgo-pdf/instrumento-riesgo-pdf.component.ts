@@ -6,26 +6,26 @@ import {
   EventEmitter,
   OnChanges,
   SimpleChanges,
-} from '@angular/core';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { lastValueFrom, Subject } from 'rxjs';
-import { DominioInterface } from '../../../../interfaces/dominio.interface';
-import { ValoracionRiesgo } from '../../../../pages/private/interfaces/psicologia.interface';
-import { DescripcionHechosDTO } from '../../../../pages/private/psicologia/interfaces/descripcion-hechos.interface';
+} from "@angular/core";
+import { NgxSpinnerService } from "ngx-spinner";
+import { lastValueFrom } from "rxjs";
+import { DominioInterface } from "../../../../interfaces/dominio.interface";
+import { ValoracionRiesgo } from "../../../../pages/private/interfaces/psicologia.interface";
+import { DescripcionHechosDTO } from "../../../../pages/private/psicologia/interfaces/descripcion-hechos.interface";
 import {
   FormTipoViolenciaInterface,
   InvolucradoDTO,
-} from '../../../../pages/private/psicologia/interfaces/involucrado.interface';
-import { ReportesService } from '../../../../services/reportes.services';
-import { SharedService } from '../../../../services/shared.service';
-import { SharedFunctions } from '../../../functions';
-import { DatosInstitucionesDTO } from '../interfaces/datos-institucionales.interface';
-import { ReporteInstrumentoRiesgoInterface } from '../interfaces/instrumento-riesgo.interface';
+} from "../../../../pages/private/psicologia/interfaces/involucrado.interface";
+import { ReportesService } from "../../../../services/reportes.services";
+import { SharedService } from "../../../../services/shared.service";
+import { SharedFunctions } from "../../../functions";
+import { DatosInstitucionesDTO } from "../interfaces/datos-institucionales.interface";
+import { ReporteInstrumentoRiesgoInterface } from "../interfaces/instrumento-riesgo.interface";
 
 @Component({
-  selector: 'app-instrumento-riesgo-pdf',
-  templateUrl: './instrumento-riesgo-pdf.component.html',
-  styleUrls: ['./instrumento-riesgo-pdf.component.scss'],
+  selector: "app-instrumento-riesgo-pdf",
+  templateUrl: "./instrumento-riesgo-pdf.component.html",
+  styleUrls: ["./instrumento-riesgo-pdf.component.scss"],
 })
 export class InstrumentoRiesgoPdfComponent implements AfterViewInit, OnChanges {
   @Input() idSolicitud!: number;
@@ -59,14 +59,14 @@ export class InstrumentoRiesgoPdfComponent implements AfterViewInit, OnChanges {
   constructor(
     private sharedService: SharedService,
     private reportesService: ReportesService,
-    private spinnerService: NgxSpinnerService
+    private spinnerService: NgxSpinnerService,
   ) {
     this.agresor = { hijos: [{}, {}, {}, {}, {}] };
     this.victima = { hijos: [{}, {}, {}, {}, {}] };
     this.tiposViolencia = [];
     this.datosInstitucionales = {};
     this.descripcionHechos = {};
-    this.valoracion = { indicadorRiesgo: '', puntuacion: 0 };
+    this.valoracion = { indicadorRiesgo: "", puntuacion: 0 };
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -78,8 +78,8 @@ export class InstrumentoRiesgoPdfComponent implements AfterViewInit, OnChanges {
     this.descripcionHechos = null;
     this.valoracion = null;
     if (
-      (changes['temp'] && this.temp > 0) ||
-      (changes['idSolicitud'] && this.idSolicitud > 0)
+      (changes["temp"] && this.temp > 0) ||
+      (changes["idSolicitud"] && this.idSolicitud > 0)
     ) {
       this.getInitialData();
     }
@@ -116,9 +116,8 @@ export class InstrumentoRiesgoPdfComponent implements AfterViewInit, OnChanges {
 
   private async getInformacionReporte() {
     const result = await lastValueFrom(
-      this.reportesService.getInstrumentoRiesgo(this.idSolicitud)
+      this.reportesService.getInstrumentoRiesgo(this.idSolicitud),
     );
-    console.log("result", result);
     if (result && result.statusCode == 200) {
       this.reporte = result.data;
       this.agresor = this.reporte ? this.reporte.agresor : null;
@@ -157,7 +156,7 @@ export class InstrumentoRiesgoPdfComponent implements AfterViewInit, OnChanges {
    * @description obtiene la lista de opcion Otro
    */
   private async getListaOtros() {
-    const result = await this.sharedService.getDominioFromLocal('Tipo_Otro');
+    const result = await this.sharedService.getDominioFromLocal("Tipo_Otro");
     this.listaOtros = result;
   }
 
@@ -166,7 +165,7 @@ export class InstrumentoRiesgoPdfComponent implements AfterViewInit, OnChanges {
    */
   private async getListaTipoDocumento() {
     const result = await this.sharedService.getDominioFromLocal(
-      'Tipo_identificacion'
+      "Tipo_identificacion",
     );
     this.listaTipoDocumento = result;
     return Promise.resolve(result ? true : false);
@@ -176,7 +175,7 @@ export class InstrumentoRiesgoPdfComponent implements AfterViewInit, OnChanges {
    * @description obtiene la lista de sexo
    */
   private async getListaSexo() {
-    const result = await this.sharedService.getDominioFromLocal('Sexo');
+    const result = await this.sharedService.getDominioFromLocal("Sexo");
     this.listaSexo = result;
     return Promise.resolve(result ? true : false);
   }
@@ -184,18 +183,31 @@ export class InstrumentoRiesgoPdfComponent implements AfterViewInit, OnChanges {
    * @description obtiene la lista de Identidad Genero
    */
   private async getListaIdentidadGenero() {
-    const result = await this.sharedService.getDominioFromLocal('Genero');
+    const result = await this.sharedService.getDominioFromLocal("Genero");
     this.listaGenero = result;
     return Promise.resolve(result ? true : false);
   }
+
+  public esMenorDeEdad(fechaNacimiento: Date) {
+  const hoy = new Date();
+  const fechaNaci = new Date(fechaNacimiento);
+
+  let edad = hoy.getFullYear() - fechaNaci.getFullYear();
+  const mes = hoy.getMonth() - fechaNaci.getMonth();
+
+  if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNaci.getDate())) {
+    edad--;
+  }
+
+  return edad < 18;
+}
 
   /**
    * @description obtiene la lista de Nivel Academico
    */
   private async getListaNivelAcademico() {
-    const result = await this.sharedService.getDominioFromLocal(
-      'Nivel_Academico'
-    );
+    const result =
+      await this.sharedService.getDominioFromLocal("Nivel_Academico");
     this.listaNivelAcademico = result;
     return Promise.resolve(result ? true : false);
   }
@@ -204,7 +216,7 @@ export class InstrumentoRiesgoPdfComponent implements AfterViewInit, OnChanges {
    * @description obtiene la lista de discapacidad
    */
   private async getListaDiscapacidad() {
-    const result = await this.sharedService.getDominioFromLocal('Discapacidad');
+    const result = await this.sharedService.getDominioFromLocal("Discapacidad");
     this.listaDiscapacidad = result;
     return Promise.resolve(result ? true : false);
   }
@@ -213,14 +225,14 @@ export class InstrumentoRiesgoPdfComponent implements AfterViewInit, OnChanges {
    * @description obtiene la lista de cultura
    */
   private async getListaCultura() {
-    const result = await this.sharedService.getDominioFromLocal('Tipo_Cultura');
+    const result = await this.sharedService.getDominioFromLocal("Tipo_Cultura");
     this.listaCultura = result;
     await this.getListaOtros();
     const newOtros: DominioInterface = JSON.parse(
-      JSON.stringify(this.listaOtros[0])
+      JSON.stringify(this.listaOtros[0]),
     );
-    newOtros.tipo_Dominio = 'Tipo_Cultura';
-    newOtros.nombre_Dominio = 'Ninguna';
+    newOtros.tipo_Dominio = "Tipo_Cultura";
+    newOtros.nombre_Dominio = "Ninguna";
     this.listaCultura.push(newOtros);
     return Promise.resolve(result ? true : false);
   }
@@ -229,9 +241,8 @@ export class InstrumentoRiesgoPdfComponent implements AfterViewInit, OnChanges {
    * @description obtiene la lista de relacion con el agresor
    */
   private async getListaTipoRelacion() {
-    const result = await this.sharedService.getDominioFromLocal(
-      'Tipo_Relacion'
-    );
+    const result =
+      await this.sharedService.getDominioFromLocal("Tipo_Relacion");
     this.listaTipoRelacion = result;
     return Promise.resolve(result ? true : false);
   }
@@ -239,49 +250,49 @@ export class InstrumentoRiesgoPdfComponent implements AfterViewInit, OnChanges {
    * @description obtiene la lista de relacion con el agresor
    */
   private async getListaEstadoCivil() {
-    const result = await this.sharedService.getDominioFromLocal('Estado_Civil');
+    const result = await this.sharedService.getDominioFromLocal("Estado_Civil");
     this.listaEstadoCivil = this.listaEstadoCivil.concat(result);
     return Promise.resolve(true);
   }
 
   public buscarDominio(
     tipoDominio:
-      | 'Tipo_identificacion'
-      | 'Sexo'
-      | 'Genero'
-      | 'Nivel_Academico'
-      | 'Discapacidad'
-      | 'Tipo_Cultura'
-      | 'Tipo_Relacion'
-      | 'Estado_Civil',
+      | "Tipo_identificacion"
+      | "Sexo"
+      | "Genero"
+      | "Nivel_Academico"
+      | "Discapacidad"
+      | "Tipo_Cultura"
+      | "Tipo_Relacion"
+      | "Estado_Civil",
     idDominio: number,
-    codigo: boolean = false
+    codigo: boolean = false,
   ) {
-    let dominio = '';
+    let dominio = "";
     let listaDominios: DominioInterface[] = [];
     switch (tipoDominio) {
-      case 'Discapacidad':
+      case "Discapacidad":
         listaDominios = this.listaDiscapacidad;
         break;
-      case 'Estado_Civil':
+      case "Estado_Civil":
         listaDominios = this.listaEstadoCivil;
         break;
-      case 'Genero':
+      case "Genero":
         listaDominios = this.listaGenero;
         break;
-      case 'Nivel_Academico':
+      case "Nivel_Academico":
         listaDominios = this.listaNivelAcademico;
         break;
-      case 'Sexo':
+      case "Sexo":
         listaDominios = this.listaSexo;
         break;
-      case 'Tipo_Cultura':
+      case "Tipo_Cultura":
         listaDominios = this.listaCultura;
         break;
-      case 'Tipo_Relacion':
+      case "Tipo_Relacion":
         listaDominios = this.listaTipoRelacion;
         break;
-      case 'Tipo_identificacion':
+      case "Tipo_identificacion":
         listaDominios = this.listaTipoDocumento;
         break;
     }
@@ -295,42 +306,42 @@ export class InstrumentoRiesgoPdfComponent implements AfterViewInit, OnChanges {
 
   public listarDominios(
     tipoDominio:
-      | 'Tipo_identificacion'
-      | 'Sexo'
-      | 'Genero'
-      | 'Nivel_Academico'
-      | 'Discapacidad'
-      | 'Tipo_Cultura'
-      | 'Tipo_Relacion'
-      | 'Estado_Civil',
+      | "Tipo_identificacion"
+      | "Sexo"
+      | "Genero"
+      | "Nivel_Academico"
+      | "Discapacidad"
+      | "Tipo_Cultura"
+      | "Tipo_Relacion"
+      | "Estado_Civil",
 
-    codigo: boolean = false
+    codigo: boolean = false,
   ) {
     let domains: string[] = [];
     let listaDominios: DominioInterface[] = [];
     switch (tipoDominio) {
-      case 'Discapacidad':
+      case "Discapacidad":
         listaDominios = this.listaDiscapacidad;
         break;
-      case 'Estado_Civil':
+      case "Estado_Civil":
         listaDominios = this.listaEstadoCivil;
         break;
-      case 'Genero':
+      case "Genero":
         listaDominios = this.listaGenero;
         break;
-      case 'Nivel_Academico':
+      case "Nivel_Academico":
         listaDominios = this.listaNivelAcademico;
         break;
-      case 'Sexo':
+      case "Sexo":
         listaDominios = this.listaSexo;
         break;
-      case 'Tipo_Cultura':
+      case "Tipo_Cultura":
         listaDominios = this.listaCultura;
         break;
-      case 'Tipo_Relacion':
+      case "Tipo_Relacion":
         listaDominios = this.listaTipoRelacion;
         break;
-      case 'Tipo_identificacion':
+      case "Tipo_identificacion":
         listaDominios = this.listaTipoDocumento;
         break;
     }
@@ -349,39 +360,39 @@ export class InstrumentoRiesgoPdfComponent implements AfterViewInit, OnChanges {
   public getNombreCompleto(
     involucrado: InvolucradoDTO,
     includeNombres: boolean = false,
-    includeApellidos: boolean = false
+    includeApellidos: boolean = false,
   ) {
     if (involucrado) {
       const nombres = [
         includeNombres && involucrado.primerNombre
           ? involucrado.primerNombre
-          : '',
+          : "",
         includeNombres && involucrado.segundoNombre
           ? involucrado.segundoNombre
-          : '',
+          : "",
         includeApellidos && involucrado.primerApellido
           ? involucrado.primerApellido
-          : '',
+          : "",
         includeApellidos && involucrado.segundoApellido
           ? involucrado.segundoApellido
-          : '',
+          : "",
       ];
-      return nombres.join(' ').trim();
+      return nombres.join(" ").trim();
     } else {
-      return '';
+      return "";
     }
   }
 
   public listarPreguntas(
     tipoViolencia:
-      | 'Percepción de la víctima frente al riesgo de la violencia'
-      | 'Sexual'
-      | 'Psicológica'
-      | 'Física'
-      | 'Circunstancias agravantes'
-      | 'Coerción o Amenazas'
-      | 'Económica'
-      | 'Patrimonial'
+      | "Percepción de la víctima frente al riesgo de la violencia"
+      | "Sexual"
+      | "Psicológica"
+      | "Física"
+      | "Circunstancias agravantes"
+      | "Coerción o Amenazas"
+      | "Económica"
+      | "Patrimonial",
   ) {
     return this.tiposViolencia.filter((value) => {
       return value.tipoViolencia == tipoViolencia;

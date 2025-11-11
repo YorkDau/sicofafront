@@ -10,5 +10,7 @@ export interface ReporteSolicitudInterface {
   sexoVictima: string | null;
   identidadGeneroVictima: string | null;
   fechaHechoViolento: Date | null;
+  pard_generar : boolean;
+  id_comisaria: number | null;
   horaHechoViolento: Date | null;
 }

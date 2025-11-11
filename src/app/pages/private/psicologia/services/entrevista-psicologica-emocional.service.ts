@@ -16,7 +16,7 @@ import {
 export class EntrevistaPsicologicaEmocionalService {
   private api = PATH_SERVER;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   /**
    * @description obtiene los check de seguridad en sugerencia-apoyo-externo
@@ -113,6 +113,16 @@ export class EntrevistaPsicologicaEmocionalService {
       .pipe(take(1));
   }
 
+  public getEvaluacionMenores(
+    idSolicitud: number
+  ): Observable<ResponseInterface> {
+    return this.http
+      .get<ResponseInterface>(
+        `${this.api}/EvaluacionPsicologica/ObtenerEvaluacionMenores/${idSolicitud}`
+      )
+      .pipe(take(1));
+  }
+
   /**
    * @description guarda las respuestas de la evaluacion psicologica
    * @returns observable
@@ -141,6 +151,24 @@ export class EntrevistaPsicologicaEmocionalService {
         data
       )
       .pipe(take(1));
+  }
+
+  /**
+  * @description guarda las respuestas de la evaluacion psicologica
+  * @returns observable
+  */
+  public actualizarInfoMenores(
+    data: {
+      idSolicitudServicio: number;
+      valoracionPsicologica: string;
+      valoracionEntornoFamiliar: string;
+      hayMenores: boolean
+    }): Observable<ResponseInterface> {
+    return this.http
+      .post<ResponseInterface>(
+        `${this.api}/EvaluacionPsicologica/ActualizarEvaluacionInfoMenores`,
+        data
+      ).pipe(take(1));
   }
 
   /**

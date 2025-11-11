@@ -190,6 +190,7 @@ export interface PeriodicElement {
 export interface AuroraTableColumn {
   name: string;
   title?: string;
+  width?: string;
   render?: (value: any, row?: any) => string;
 }
 

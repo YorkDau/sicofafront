@@ -15,7 +15,6 @@ export class MainRecepcionComponent implements OnInit {
   ngOnInit(): void {
     const { perfil } = this.authService.currentUserValue!;
     this.asignarMensajeXPerfil(perfil!);
-    console.log(window.location.href);
   }
 
   /**
