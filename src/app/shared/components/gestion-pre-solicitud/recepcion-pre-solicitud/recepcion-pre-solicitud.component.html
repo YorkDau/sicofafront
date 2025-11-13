@@ -166,8 +166,7 @@
       <div class="col-12 offset mb-2">
         <strong>SOPORTE DE LA SOLICITUD</strong>
         <h6 class="mt-1 mb-2">
-          Cargue el documento recibido de la entidad relacionado con el presunto
-          caso de violencia en el contexto de la familia
+          Cargue el documento recibido de la entidad relacionado con el presunto caso de violencia en el contexto de la familia
         </h6>
       </div>
     </div>
@@ -248,7 +247,7 @@
                 (change)="changeTipoPresolicitud($event)"
               />
               <label class="form-check-label form-label" for="denuncia">
-                Denuncia (Menor edad)
+                Denuncia (Menor de Edad)
               </label>
             </div>
             <div class="form-check form-check-inline">
@@ -265,34 +264,7 @@
                 Denuncia (Adulto Mayor)
               </label>
             </div>
-            <!-- <div class="form-check form-check-inline">
-              <input
-                class="form-check-input"
-                type="radio"
-                value="LEV"
-                formControlName="tipo_presolicitud"
-                name="tipo_presolicitud"
-                id="levantamiento"
-                (change)="changeTipoPresolicitud($event)"
-              />
-              <label class="form-check-label form-label" for="levantamiento">
-                Levantamiento de Medidas</label
-              >
-            </div>
-            <div class="form-check form-check-inline">
-              <input
-                class="form-check-input"
-                type="radio"
-                value="INC"
-                formControlName="tipo_presolicitud"
-                name="tipo_presolicitud"
-                id="incumplimiento"
-                (change)="changeTipoPresolicitud($event)"
-              />
-              <label class="form-check-label form-label" for="incumplimiento">
-                Incumplimiento de Medidas
-              </label>
-            </div> -->
+            
           </div>
         </div>
       </div>
@@ -301,6 +273,9 @@
     <div class="row pb-3 align-items-start">
       <div class="col-12 offset mb-2">
         <strong>DATOS PRESUNTA VICTIMA</strong>
+        <!-- h6 *ngIf="f.tipo_presolicitud.value === 'DENAM'" class="mt-1 mb-2">
+          Cargue el documento recibido de la entidad relacionado con el presunto caso de violencia en el contexto de la familia
+        </h6 -->
       </div>
       <div class="col-12" *ngIf="mostrarAlertaCasos">
         <app-no-data

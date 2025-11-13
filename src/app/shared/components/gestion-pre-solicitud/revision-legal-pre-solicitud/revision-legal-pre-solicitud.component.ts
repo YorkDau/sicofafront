@@ -23,6 +23,8 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
   public infoInicial: any = null;
   public perfil: string = '';
   public delete: boolean = true;
+  public esMenorEdad: boolean = true;
+  
   public info: any;
   public iFile: ArchivoInterface = {};
   public user!: UserInterface | undefined;
@@ -42,6 +44,7 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
     this.idPresolicitud = this.info.idSolicitud;
     this.user = this.authService.currentUserValue!;
     this.perfil = this.user.perfil!;
+    this.esMenorEdad = this.info.tipo_presolicitud !== 'DENAM';
   }
 
   get f() {
@@ -129,7 +132,9 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
             this.modales
               .modalExito(
                 `Se ha registrado la competencia de la Pre-Solicitud de servicio.
-              ${data.message??'El caso ha sido enviado al equipo psicosocial para la verificacion de la denuncia.'}`
+              ${this.esMenorEdad 
+                ? 'El caso ha sido enviado al equipo psicosocial para la verificacion de la denuncia.'
+                : 'El caso ha sido enviado al equipo psicosocial para la verificacion de la denuncia.'}`
               )
               .subscribe(() => {
                 this.router.navigate(['/abogado/casos']);
@@ -155,7 +160,6 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
 
   guardar(cerrar: boolean = false) {
     if (this.form.valid) {
-
       const obj = this.getObjGuardar();
       this.presolicitudService.GuardarDecisionJuridica(obj).subscribe({
         next: (data: ResponseInterface) => {
@@ -239,18 +243,6 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
    */
   public isRequired(campo: string): boolean {
     return this.form.controls[campo].hasError('required');
-  }
-
-  
-  /**
-   * @description valida que los campos sean obligatorios o requeridos
-   * * @param campo variable para ingresar el campo requerido
-   */
-  public esMenorEdad(): boolean {
-    if (this.info.tipo_presolicitud === 'DENAM') {
-      return false;
-    }
-    return true;
   }
 
 }

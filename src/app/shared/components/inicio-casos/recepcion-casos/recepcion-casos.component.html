@@ -170,7 +170,7 @@
         <div class="box-legend__remision__dot">
           <mat-icon class="icono-remision">published_with_changes</mat-icon>
         </div>
-        <span style="margin-left: 6px;">Remitido otra comisaría</span>
+        <span style="margin-left: 6px;">Traslado otra comisaría</span>
       </div>
     </div>
     <mat-table [dataSource]="dataSource" id="table-private">
@@ -256,6 +256,8 @@
             <img src="assets/images/eye.svg" alt="detail" class="img-fluid" />
           </button>
           <button
+            [ngClass]="{ 'disabled': row.id_comisaria != id_comisaria}"
+            [disabled]="row.id_comisaria != id_comisaria"
             mat-icon-button
             matTooltip="Tomar caso"
             matTooltipPosition="right"
@@ -273,7 +275,7 @@
           <button
             *ngIf="remitidoComisaria(row)"
             mat-icon-button
-            matTooltip="Ver detalle remisión"
+            matTooltip="Ver detalle traslado"
             matTooltipPosition="right"
             matTooltipHideDelay="500"
             matTooltipClass="background-tooltip"

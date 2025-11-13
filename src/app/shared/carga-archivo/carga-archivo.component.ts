@@ -70,7 +70,13 @@ export class CargaArchivoComponent implements OnChanges {
    */
   @Input() textoDescargar!: string;
 
+  /**
+   * Es la clase para el boton de carga
+   */
+  @Input() classButton: string = 'btn-primary';
+
   public file!: File | null;
+  public !:String|'btn-primary';
 
   constructor(
     private spinner: NgxSpinnerService,

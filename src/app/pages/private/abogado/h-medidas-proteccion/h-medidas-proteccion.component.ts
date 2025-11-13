@@ -62,7 +62,6 @@ export class HMedidasProteccionComponent implements OnInit {
    * @description llama servicio cerrar actuación
    */
   public cerrarActuacion() {
-
     if (this.archivoConusltado && this.archivoConusltado.idArchivo && this.archivoConusltado.idArchivo > 0) {
 
       const obj = this.retornarObjCerrarActuacion();

@@ -101,15 +101,15 @@ export class ModalRemisionComponent {
   }) {
     this.myForm.get('infoBrindada')?.setValue(data.infoBrindada);
     if (data.Titulo === UseModalRemision.Externa) {
-      this.titulo = `REMISIÓN A OTRA ENTIDAD EXTERNA SOLICITUD DE SERVICIO`;
+      this.titulo = `TRASLADO A OTRA ENTIDAD EXTERNA SOLICITUD DE SERVICIO`;
       this.vEntidadComisaria = 'Entidad a que se remite';
       this.isEntidad = true;
     } else if (data.Titulo === UseModalRemision.Familia) {
-      this.titulo = `REMISIÓN A OTRA COMISARÍA DE FAMILIA SOLICITUD DE SERVICIO`;
+      this.titulo = `TRASLADO A OTRA COMISARÍA DE FAMILIA SOLICITUD DE SERVICIO`;
       this.vEntidadComisaria = 'Comisaria de familia a la que se remite';
       this.isEntidad = false;
     } else {
-      this.titulo = `REMISIÓN A OTRA COMISARÍA DE FAMILIA SOLICITUD DE SERVICIO`;
+      this.titulo = `TRASLADO A OTRA COMISARÍA DE FAMILIA SOLICITUD DE SERVICIO`;
       this.vEntidadComisaria = 'Comisaria de familia origen';
       this.isEntidad = false;
     }
