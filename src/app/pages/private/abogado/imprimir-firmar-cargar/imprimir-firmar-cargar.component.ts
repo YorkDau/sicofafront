@@ -23,6 +23,7 @@ interface DatosFirma {
   tituloReporte: string;
   mostrarPreguntaRecurso: boolean;
   apelacion: boolean;
+  esNecesarioRemitir: boolean;
   idSolPlantilla: number;
   idAnexo: number | undefined;
 }
@@ -34,8 +35,8 @@ interface DatosFirma {
 export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
   private objSol!: any;
   private user!: UserInterface | undefined;
-  private archivo!: string | null;
-  private archivoRemision!: string | null;
+  public archivo!: string | null;
+  public archivoRemision!: string | null;
 
   public radioPregunta: boolean = false;
   public datosFirma!: DatosFirma;
@@ -43,6 +44,7 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
   public nuevoArchivo: boolean = true;
   public nuevoArchivoRemision: boolean = true;
   public selectComisaria: ComisariaInterface[] = [];
+  public comisariaSeleccionada!: number | null;
 
   constructor(
     private autoService: AutoService,
@@ -65,9 +67,6 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
     if (sessionStorage.getItem('info')) {
       this.objSol = JSON.parse(sessionStorage.getItem('info')!);
       this.user = this.authService.currentUserValue;
-      console.log("USUARIO", this.user); 
-      console.log("OBJETO SOLICITUD", this.objSol);
-      console.log("COMISARIA", this.selectComisaria); 
       this.cargarListadoSecciones();
     } else this.redireccionar();
   }
@@ -76,7 +75,7 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
    * @description carga el select de comisaria
    */
   private cargaSelectComisaria() {
-   const idComisaria = this.authService.currentUserValue?.idComisaria;
+    const idComisaria = this.authService.currentUserValue?.idComisaria;
     this.solicitudService
       .getComisariaTraslado(idComisaria)
       .subscribe((comisaria) => {
@@ -113,6 +112,7 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
       tituloReporte: data.nombrePlantilla,
       mostrarPreguntaRecurso: data.tieneApelacion === 1 ? true : false,
       apelacion: data.apelacion,
+      esNecesarioRemitir: data.esNecesarioRemitir,
       idSolPlantilla: data.idSolPlantilla,
       idAnexo: data.idAnexo ? data.idAnexo : 0,
     };
@@ -171,7 +171,7 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
       },
     });
   }
-    public descargarDocumentoRemision(): void {
+  public descargarDocumentoRemision(): void {
     const nombre: string = 'AUTO QUE ADMITE Y REMITE A OTRA COMISARIA.pdf';
 
     this.sharedService.descargarFormatos(nombre, 'ss').subscribe({
@@ -193,8 +193,6 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
     });
   }
 
-
-
   /**
    * @description muestra modal error
    */
@@ -214,7 +212,7 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
       this.nuevoArchivo = true;
     }
   }
-    public enviarArchivoRemision(archivoRemision: string): void {
+  public enviarArchivoRemision(archivoRemision: string): void {
     if (archivoRemision && archivoRemision !== '') {
       this.archivoRemision = archivoRemision;
     } else {
@@ -233,6 +231,11 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
       userID: this.user?.userID,
       perfilCod: this.user?.perfil,
       valorEtiqueta: this.datosFirma.apelacion ? '1' : '0',
+      idSolicitudServicio: this.objSol.idSolicitud,
+      idUsuario: this.user?.userID,
+      idComisaria: this.user?.idComisaria,
+      idComisariaTraslado: this.comisariaSeleccionada,
+
     };
   }
 
@@ -273,7 +276,12 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
       idSolicitudServicio: this.objSol.idSolicitud,
       idUsuario: this.user?.userID,
       idComisaria: this.user?.idComisaria,
+      idComisariaTraslado: this.comisariaSeleccionada,
+
     };
+  }
+  onChangeComisaria() {
+    this.comisariaSeleccionada;
   }
 
   /**
