@@ -27,6 +27,7 @@ export class VerificacionPreSolicitudComponent implements OnInit {
   public perfil: string = '';
   public info: any;
   public user: UserInterface | undefined;
+  public esAdultoMayor: Boolean = false;
 
   public msgObligatorio: string = Mensajes.CAMPO_OBLIGATORIO;
   public msgInvalido: string = Mensajes.MENSAJE_CAMPO_INV;
@@ -47,6 +48,8 @@ export class VerificacionPreSolicitudComponent implements OnInit {
     this.idPresolicitud = this.info.idSolicitud;
     this.user = this.authService.currentUserValue!;
     this.perfil = this.user.perfil!;
+    // Verificar si la presolicitud es de para un adulto mayor
+    this.esAdultoMayor = this.info.tipo_presolicitud === 'DENAM';
   }
 
   ngOnInit(): void {
@@ -139,6 +142,7 @@ export class VerificacionPreSolicitudComponent implements OnInit {
 
     this.initFormLstTipoViolencia(this.lstTipoViolencia);
     this.lstCitasDisponibles = this.infoInicial.listaCitasDisponibles;
+    console.log(this.infoInicial);
 
     let cita = this.lstCitasDisponibles.find(
       (x) => x.idCita === this.infoInicial.idCita
@@ -173,74 +177,124 @@ export class VerificacionPreSolicitudComponent implements OnInit {
     }
   }
 
+  public modalConfirmaCerrarActuacionAdultoMayor() {
+    if (this.form.valid || (this.form.invalid && this.form.get('cita')?.invalid && !this.mostrarSelectCitas)) {
+      Modales.modalConfirmacion(
+        Mensajes.MENSAJE_CERRAR_ACT,
+        this.dialog,
+        ImagenesModal.EXCLAMACION
+      ).subscribe((res) => {
+        if (res) this.guardarAdultoMayor(true);
+      });
+    } else {
+      this.mostrarValidaciones = true;
+    }
+  }
+
   /**
    * @description llama servicio cerrar actuación Denuncia en presolicitud
    */
   public cerrarActuacion() {
     this.presolicitudService
-      .cerrarActuacionDenuncia(this.retornarObjCerrarActuacion())
-      .subscribe({
-        next: (data: ResponseInterface) => {
-          if (data.statusCode === CodigosRespuesta.OK) {
-            if (this.f.continuaDenuncia.value === 'si') {
-              if (this.tipoPresolicitud == "DEN" && !this.esPARD) {
-                this.modales
-                  .modalExito(
-                    `Se ha cerrado de manera exitosa la presolicitud. Se ha generado una cita para el dia ${this.datePipe.transform(
-                      this.f.cita.value.fechaCita,
-                      'dd/MM/yyyy'
-                    )}
-                  a las ${this.datePipe.transform(
-                      this.f.cita.value.horaCita,
-                      'H:mm:ss'
-                    )}`
-                  )
-                  .subscribe(() => {
-                    this.router.navigate(['/psicologia/casos']);
-                  });
-              } else if (this.tipoPresolicitud == "DEN" && this.esPARD && this.f.continuaDenuncia.value) {
-                this.modales
-                  .modalExito(
-                    `Se ha continuado con el proceso de Verificación de Derechos`
-                  )
-                  .subscribe(() => {
-                    this.router.navigate(['/psicologia/casos']);
-                  });
-              } else {
-                this.modales
-                  .modalExito(
-                    `Proceso de presolicitud finalizado`
-                  )
-                  .subscribe(() => {
-                    this.router.navigate(['/psicologia/casos']);
-                  });
-              }
-
+    .cerrarActuacionDenuncia(this.retornarObjCerrarActuacion())
+    .subscribe({
+      next: (data: ResponseInterface) => {
+        if (data.statusCode === CodigosRespuesta.OK) {
+          if (this.f.continuaDenuncia.value === 'si') {
+            if (this.tipoPresolicitud == "DEN" && !this.esPARD) {
+              this.modales
+                .modalExito(
+                  `Se ha cerrado de manera exitosa la presolicitud. Se ha generado una cita para el dia ${this.datePipe.transform(
+                    this.f.cita.value.fechaCita,
+                    'dd/MM/yyyy'
+                  )}
+                a las ${this.datePipe.transform(
+                    this.f.cita.value.horaCita,
+                    'H:mm:ss'
+                  )}`
+                )
+                .subscribe(() => {
+                  this.router.navigate(['/psicologia/casos']);
+                });
+            } else if (this.tipoPresolicitud == "DEN" && this.esPARD && this.f.continuaDenuncia.value) {
+              this.modales
+                .modalExito(
+                  `Se ha continuado con el proceso de Verificación de Derechos`
+                )
+                .subscribe(() => {
+                  this.router.navigate(['/psicologia/casos']);
+                });
             } else {
               this.modales
                 .modalExito(
-                  `Se ha cerrado de manera exitosa la presolicitud. No se continuara con el proceso`
+                  `Proceso de presolicitud finalizado`
                 )
                 .subscribe(() => {
                   this.router.navigate(['/psicologia/casos']);
                 });
             }
+
           } else {
-            Modales.modalInformacion(
-              Mensajes.MENSAJE_ERROR_G,
-              this.dialog,
-              ImagenesModal.EXCLAMACION
-            );
+            this.modales
+              .modalExito(
+                `Se ha cerrado de manera exitosa la presolicitud. No se continuara con el proceso`
+              )
+              .subscribe(() => {
+                this.router.navigate(['/psicologia/casos']);
+              });
           }
-        },
-        error: () => {
+        } else {
           Modales.modalInformacion(
             Mensajes.MENSAJE_ERROR_G,
             this.dialog,
             ImagenesModal.EXCLAMACION
           );
-        },
-      });
+        }
+      },
+      error: () => {
+        Modales.modalInformacion(
+          Mensajes.MENSAJE_ERROR_G,
+          this.dialog,
+          ImagenesModal.EXCLAMACION
+        );
+      },
+    });
+  }
+
+  /**
+   * @description llama servicio cerrar actuación Denuncia en presolicitud
+   */
+  public cerrarActuacionAdultoMayor() {
+    this.presolicitudService
+    .cerrarActuacion(this.retornarObjCerrarActuacion(true))
+    .subscribe({
+      next: (data: ResponseInterface) => {
+        if (data.statusCode === CodigosRespuesta.OK) {
+          this.modales
+            .modalExito(
+              `Se ha registrado la competencia de la Pre-Solicitud de servicio.
+              El caso ha sido enviado al equipo legal para la verificacion de la denuncia.`
+            )
+            .subscribe(() => {
+              // //${data.message??'El caso ha sido enviado al equipo legal para la verificacion de la denuncia.'}
+              this.router.navigate(['/psicologia/casos']);
+            });
+        } else {
+          Modales.modalInformacion(
+            Mensajes.MENSAJE_ERROR_G,
+            this.dialog,
+            ImagenesModal.EXCLAMACION
+          );
+        }
+      },
+      error: () => {
+        Modales.modalInformacion(
+          Mensajes.MENSAJE_ERROR_G,
+          this.dialog,
+          ImagenesModal.EXCLAMACION
+        );
+      },
+    });
   }
 
   guardar(cerrar: boolean = false) {
@@ -280,16 +334,64 @@ export class VerificacionPreSolicitudComponent implements OnInit {
     }
   }
 
+  guardarAdultoMayor(cerrar: boolean = false) {
+    if (
+      this.form.valid ||
+      (this.form.invalid &&
+        this.form.get('cita')?.invalid &&
+        !this.mostrarSelectCitas)
+    ) {
+      const obj = this.getObjGuardar();
+      this.presolicitudService.GuardarVerificacionDenuncia(obj).subscribe({
+        next: (data: ResponseInterface) => {
+          if (data.statusCode === CodigosRespuesta.OK) {
+            if (cerrar) {
+              this.cerrarActuacionAdultoMayor();
+            } else {
+              this.modales.modalExito('Se ha guardado la información');
+            }
+          } else {
+            Modales.modalInformacion(
+              Mensajes.MENSAJE_ERROR_G,
+              this.dialog,
+              ImagenesModal.EXCLAMACION
+            );
+          }
+        },
+        error: () => {
+          Modales.modalInformacion(
+            Mensajes.MENSAJE_ERROR_G,
+            this.dialog,
+            ImagenesModal.EXCLAMACION
+          );
+        },
+      });
+    } else {
+      this.mostrarValidaciones = true;
+    }
+  }
+
   /**
    * @description arma objeto para cerrar la actuación
    * @returns interface
    */
-  private retornarObjCerrarActuacion(): any {
-    return {
-      idTarea: this.info.idTarea,
-      idSolicitudServicio: this.idPresolicitud,
-      idCita: this.f.cita?.value?.idCita ? this.f.cita?.value?.idCita : 0,
-    };
+  private retornarObjCerrarActuacion(adulto_mayor:Boolean = false): any {
+    if (adulto_mayor) {
+      return {
+        idSolicitudServicio: this.idPresolicitud,
+        tareaID: this.info.idTarea,
+        userID: this.user?.userID,
+        perfilCod: this.user?.perfil,
+        // valorEtiqueta: this.f.competenciaComisaria.value === 'si' ? 1 : 0,
+        idCita: this.f.cita?.value?.idCita ? this.f.cita?.value?.idCita : 0,
+      };
+    } else {
+      return {
+        idTarea: this.info.idTarea,
+        idSolicitudServicio: this.idPresolicitud,
+        idCita: this.f.cita?.value?.idCita ? this.f.cita?.value?.idCita : 0,
+      };
+    }
   }
 
   getObjGuardar(): any {
@@ -356,8 +458,9 @@ export class VerificacionPreSolicitudComponent implements OnInit {
 
   get mostrarSelectCitas() {
     const isContinua = this.form.get('continuaDenuncia')?.value === 'si';
-    const isDenuncia = this.tipoPresolicitud === 'DEN' && !this.esPARD;
+    const isDenuncia = ['DEN','DENAM'].includes(this.tipoPresolicitud) && !this.esPARD;
 
     return isContinua && isDenuncia ? true : false;
   }
+
 }

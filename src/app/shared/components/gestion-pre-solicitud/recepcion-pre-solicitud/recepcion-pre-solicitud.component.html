@@ -1,11 +1,11 @@
-<div class="background-gray rounded-basic p-4 pt-5 ps-5 pe-5 mb-3">
+<div class="background-gray rounded-basic p-4 pt-5 ps-2 ps-sm-5 pe-2 pe-sm-5 mb-3">
   <h1 class="internal-title rounded-basic">
     Sección a cargo del área de recepción
   </h1>
 
-  <form [formGroup]="form" class="ps-5 pe-5" *ngIf="load">
+  <form [formGroup]="form" class="ps-1 ps-sm-5 pe-1 pe-sm-5" *ngIf="load">
     <div class="row pe-5 mt-5">
-      <div class="col-md-6 col-lg-3">
+      <div class="col-sm-12 col-md-6 col-lg-3">
         <div class="mb-3">
           <label for="id_tipo_entidad" class="form-label"
             >Tipo Entidad (*)</label
@@ -39,8 +39,8 @@
 
     <div id="div" class="separator mb-5"></div>
 
-    <div class="row pe-5 mb-5">
-      <div class="col-lg-3">
+    <div class="row pe-1 pe-sm-5 mb-5">
+      <div class="col-md-6 col-lg-3">
         <div class="row alinear">
           <label for="id_tipo_documento" class="form-label"
             >Tipo Documento</label
@@ -63,7 +63,7 @@
         </div>
       </div>
 
-      <div class="col-lg-3">
+      <div class="col-md-6 col-lg-3">
         <div class="row alinear">
           <div class="d-flex">
             <label for="numero_documento" class="form-label"
@@ -95,7 +95,7 @@
         </div>
       </div>
 
-      <div class="col-lg-5">
+      <div class="col-md-12 col-lg-6">
         <div class="row alinear">
           <label for="nombre_completo" class="form-label"
             >Nombre Completo Solicitante o razón</label
@@ -137,7 +137,7 @@
         </div>
       </div>
 
-      <div class="col-lg-3">
+      <div class="col-md-6 col-lg-3">
         <div class="row alinear">
           <label for="nombre" class="form-label">Teléfono solicitante</label>
           <input
@@ -166,8 +166,7 @@
       <div class="col-12 offset mb-2">
         <strong>SOPORTE DE LA SOLICITUD</strong>
         <h6 class="mt-1 mb-2">
-          Cargue el documento recibido de la entidad relacionado con el presunto
-          caso de violencia en el contexto de la familia
+          Cargue el documento recibido de la entidad relacionado con el presunto caso de violencia en el contexto de la familia
         </h6>
       </div>
     </div>
@@ -237,7 +236,7 @@
             >¿Que tipo de Pre-solicitud desea radicar?</label
           >
           <div class="pt-2">
-            <div class="form-check form-check-inline">
+            <div class="form-check form-check-inline">              
               <input
                 class="form-check-input"
                 type="radio"
@@ -248,37 +247,24 @@
                 (change)="changeTipoPresolicitud($event)"
               />
               <label class="form-check-label form-label" for="denuncia">
-                Denuncia
+                Denuncia (Menor de Edad)
               </label>
-            </div>
-            <!-- <div class="form-check form-check-inline">
-              <input
-                class="form-check-input"
-                type="radio"
-                value="LEV"
-                formControlName="tipo_presolicitud"
-                name="tipo_presolicitud"
-                id="levantamiento"
-                (change)="changeTipoPresolicitud($event)"
-              />
-              <label class="form-check-label form-label" for="levantamiento">
-                Levantamiento de Medidas</label
-              >
             </div>
             <div class="form-check form-check-inline">
               <input
                 class="form-check-input"
                 type="radio"
-                value="INC"
+                value="DENAM"
                 formControlName="tipo_presolicitud"
                 name="tipo_presolicitud"
-                id="incumplimiento"
+                id="denuncia-am"
                 (change)="changeTipoPresolicitud($event)"
               />
-              <label class="form-check-label form-label" for="incumplimiento">
-                Incumplimiento de Medidas
+              <label class="form-check-label form-label" for="denuncia-am">
+                Denuncia (Adulto Mayor)
               </label>
-            </div> -->
+            </div>
+            
           </div>
         </div>
       </div>
@@ -287,6 +273,9 @@
     <div class="row pb-3 align-items-start">
       <div class="col-12 offset mb-2">
         <strong>DATOS PRESUNTA VICTIMA</strong>
+        <!-- h6 *ngIf="f.tipo_presolicitud.value === 'DENAM'" class="mt-1 mb-2">
+          Cargue el documento recibido de la entidad relacionado con el presunto caso de violencia en el contexto de la familia
+        </h6 -->
       </div>
       <div class="col-12" *ngIf="mostrarAlertaCasos">
         <app-no-data
@@ -548,14 +537,14 @@
       obligatoriamente, en los datos de la victima**
     </div>
      -->
-    <div class="row p-3 mt-3" *ngIf="crear">
+    <div class="row p-2 p-sm-3 mt-3" *ngIf="crear">
       <div class="col-12">
-        <div class="float-end">
-          <button type="button" class="btn btn-danger" (click)="cancelar()">
+        <div class="d-flex justify-content-end float-end align-items-sm-center align-content-end flex-wrap d-grid gap-2  mx-auto">
+          <button type="button" class="btn btn-danger px-5" (click)="cancelar()">
             Cancelar
           </button>
           <button
-            class="btn btn-primary mx-4 px-5"
+            class="btn btn-block btn-primary px-5"
             type="submit"
             (click)="guardar()"
           >

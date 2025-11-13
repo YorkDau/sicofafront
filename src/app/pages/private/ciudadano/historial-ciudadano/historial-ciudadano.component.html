@@ -164,14 +164,22 @@
   </div>
 
   <div class="background-content-private p-4 mb-4">
-    <div class="d-flex align-items-center px-4 mb-4">
-      <p class="title-content me-5 mb-0">SOLICITUDES DE SERVICIO</p>
+    <div class="d-flex align-items-sm-center align-content-end flex-wrap px-4 mb-4">
+      <p class="title-content me-5 mb-0">SOLICITUDES DE SERVICIO </p>
       <button
         class="btn button-new"
         [routerLink]="['/solicitud']"
         *ngIf="!ciudadano.requiereModificacon && this.mostrarOcultarBoton"
       >
         Nueva Solicitud
+      </button>
+
+      <button
+        class="btn button-second"
+        [routerLink]="['/registro-presolicitud']"
+        *ngIf="!ciudadano.requiereModificacon && this.mostrarOcultarBoton && aplicaPresolicitud"
+      >
+        Nueva Pre-Solicitud
       </button>
     </div>
 

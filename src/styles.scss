@@ -299,6 +299,19 @@ select option {
   color: white !important;
 }
 
+.button-second {
+  background: rgb(10, 158, 153) 0% 0% no-repeat padding-box !important;
+  border-radius: 5px;
+  color: white !important;
+  opacity: 1;
+}
+
+.button-second:hover {
+  background: rgb(10, 142, 138) 0% 0% no-repeat padding-box !important;
+  border-radius: 5px;
+  color: white !important;
+}
+
 .animated {
   -webkit-animation-duration: 1s;
   animation-duration: 1s;

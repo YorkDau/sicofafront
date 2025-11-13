@@ -31,7 +31,7 @@ export class SetPerfilComponent implements OnInit {
   ) {
     // Escuchar cambios de comisaria
     this.form.get('comisaria')!.valueChanges.subscribe((comisariaId) => {
-      this.filterProfilesByComisaria(comisariaId);
+      this.filterProfilesByComisaria(!isNaN(comisariaId) ? parseInt(comisariaId) : comisariaId);
     });
 
     // Preseleccionar comisaria actual o la primera

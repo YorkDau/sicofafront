@@ -75,6 +75,7 @@ export class HistorialCiudadanoComponent {
   public ciudadano: CiudadanoDetalleInterface | undefined = undefined;
   public listaRecepcion: SolicitudServicioInterface[] = [];
   public mostrarOcultarBoton: boolean = true;
+  public aplicaPresolicitud: boolean = false;
   public esAuxiliar: boolean = true;
   currentUser!: UserInterface | undefined;
 
@@ -112,6 +113,15 @@ export class HistorialCiudadanoComponent {
             this.ciudadano.requiereModificacon =
               this.ciudadano?.registro_completo;
             this.getSolicitudesCiudadano();
+
+            this.aplicaPresolicitud = false;
+            if (this.ciudadano.fecha_nacimiento) {
+              let edad = this.calcularEdad(new Date(this.ciudadano.fecha_nacimiento));
+              if (edad < 18 || edad >= 60) {
+                this.aplicaPresolicitud = true;
+              }
+            }
+
           }
         });
       }
@@ -268,5 +278,21 @@ export class HistorialCiudadanoComponent {
         this.ciudadano.mujer_embarazada ||
         this.ciudadano.migrante)
     );
+  }
+
+  /**
+   * @description funcion para calcular la edad del ciudadano
+   * @param fecha_nacimiento recive la fecha de nacimiento registrada
+   */
+  public calcularEdad(fecha_nacimiento: Date): number {
+    if (fecha_nacimiento) {
+      const edad = Math.floor(
+        Math.abs(Date.now() - <any>new Date(fecha_nacimiento)) /
+          (1000 * 3600 * 24) /
+          365,
+      );
+      return edad;
+    }
+    return 0;
   }
 }
