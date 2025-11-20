@@ -7,8 +7,12 @@ import { CodigosRespuesta, ImagenesModal, Mensajes } from 'src/app/constants';
 import { ResponseInterface } from 'src/app/interfaces/response.interface';
 import { ArchivoInterface } from 'src/app/interfaces/shared.interfaces';
 import { UserInterface } from 'src/app/interfaces/usuario.interface';
+// Interfaz para consulta de entidades
 import { PreSolicitudService } from 'src/app/pages/private/services/pre-solicitud.service';
 import { Modales } from 'src/app/shared/modals';
+
+import { SolicitudService } from 'src/app/pages/private/services/solicitud.service';
+import { EntidadInterface } from 'src/app/pages/private/interfaces/solicitud.interface';
 
 @Component({
   selector: 'app-revision-legal-pre-solicitud',
@@ -31,6 +35,7 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
 
   public msgObligatorio: string = Mensajes.CAMPO_OBLIGATORIO;
   public msgInvalido: string = Mensajes.MENSAJE_CAMPO_INV;
+  public selectEntidad: EntidadInterface[] = [];
 
   constructor(
     private presolicitudService: PreSolicitudService,
@@ -38,7 +43,8 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
     private modales: Modales,
-    private router: Router
+    private router: Router,
+    private solicitudService: SolicitudService,
   ) {
     this.info = JSON.parse(sessionStorage.getItem("info")!);
     this.idPresolicitud = this.info.idSolicitud;
@@ -53,6 +59,7 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
+    this.cargaSelectEntidad();
 
     this.presolicitudService.presolicitud$
       .subscribe({
@@ -72,7 +79,12 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
       procesoPard: [{ value: 'no', disabled: this.perfil !== 'ABO' }],
       observaciones: [{ value: '', disabled: this.perfil !== 'ABO' }, Validators.compose([Validators.maxLength(3000), Validators.required])],
       adjunto: '',
-      idArchivo: null
+      idArchivo: null,
+
+      hechosExistentes:null,
+      seguirTramitePrevencion:null,
+      justificacionTraslado:null,
+      verificacionDerecho:null,
     });
   }
 
@@ -82,7 +94,12 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
       procesoPard: [{ value: this.infoInicial.seRealizaraPard ? 'si' : 'no', disabled: this.perfil !== 'ABO' }],
       observaciones: [{ value: this.infoInicial.observacionesLegalidad, disabled: this.perfil !== 'ABO' }, Validators.compose([Validators.maxLength(3000), Validators.required])],
       adjunto: '',
-      idArchivo: this.infoInicial.idAnexoAutoTramite
+      idArchivo: this.infoInicial.idAnexoAutoTramite,
+      
+      hechosExistentes:null,
+      seguirTramitePrevencion:null,
+      justificacionTraslado:null,
+      verificacionDerecho:null,
     });
 
     if (this.infoInicial.idAnexoAutoTramite !== '' && this.infoInicial.idAnexoAutoTramite !== 0 && this.perfil !== 'ABO') {
@@ -201,7 +218,7 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
       tareaID: this.info.idTarea,
       userID: this.user?.userID,
       perfilCod: this.user?.perfil,
-      valorEtiqueta: this.f.competenciaComisaria.value === 'si' ? 1 : 0
+      valorEtiqueta: this.f.competenciaComisaria.value === 'si' ? 1 : 0,
     };
   }
 
@@ -211,7 +228,12 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
       esCompetenciaComisaria: this.f.competenciaComisaria.value === 'si' ? true : false,
       seRealizaraPard: this.f.procesoPard.value === 'si' ? true : false,
       observacionesLegalidad: this.f.observaciones.value,
-      adjuntoAutoTramite: this.f.adjunto.value
+      adjuntoAutoTramite: this.f.adjunto.value,
+      
+      hechosExistentes:this.f.hechosExistentes.value??null,
+      seguirTramitePrevencion:this.f.procesoPard.value,
+      justificacionTraslado:this.f.justificacionTraslado.value,
+      verificacionDerecho: this.f.verificacionDerecho.value === 'si' ? 1 : 0,
     };
   }
 
@@ -243,6 +265,17 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
    */
   public isRequired(campo: string): boolean {
     return this.form.controls[campo].hasError('required');
+  }
+
+  /**
+   * @description carga el select de entidad
+   */
+  private cargaSelectEntidad() {
+    this.solicitudService.getEntidades().subscribe((entidad) => {
+      if (entidad.statusCode === CodigosRespuesta.OK) {
+        this.selectEntidad = entidad.data;
+      }
+    });
   }
 
 }
