@@ -72,12 +72,12 @@
                                     <div class="col-lg-8" style="display: flex; justify-content: flex-start">
                                         <button type="button" class="btn btn-block button-new" (click)="descargarDocumento()">Descargar Formato de Traslado <!--mat-icon class="material-icons-outlined" style="font-size: 18px;">file_download</mat-icon--></button>
                                         &nbsp;
-                                        <app-carga-archivo *ngIf="(!this.infoInicial?.idConstanciaTraslado || this.infoInicial?.idConstanciaTraslado === '' || this.infoInicial?.idConstanciaTraslado === 0)"
+                                        <app-carga-archivo *ngIf="(!this.infoInicial?.idAdjuntoConstanciaTraslado || this.infoInicial?.idAdjuntoConstanciaTraslado === '' || this.infoInicial?.idAdjuntoConstanciaTraslado === 0)"
                                             (baseArchivo)="cargarConstancia($event)" 
                                             textoCargar="Subir Constancia del Traslado">
                                         </app-carga-archivo>
 
-                                        <app-carga-archivo *ngIf="(this.infoInicial?.idConstanciaTraslado !== '' && this.infoInicial?.idConstanciaTraslado !== 0)"
+                                        <app-carga-archivo *ngIf="(this.infoInicial?.idAdjuntoConstanciaTraslado !== '' && this.infoInicial?.idAdjuntoConstanciaTraslado !== 0)"
                                             (baseArchivo)="cargarConstancia($event)" 
                                             [deleteIcon]="delete" 
                                             [downloadIcon]="delete"

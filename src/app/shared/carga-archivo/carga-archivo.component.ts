@@ -75,6 +75,13 @@ export class CargaArchivoComponent implements OnChanges {
    */
   @Input() classButton: string = 'btn-primary';
 
+  /**
+   * Es la clase para el tamañp del boton de carga
+   */
+  @Input() isSmallSize: Boolean = false;
+
+  
+
   public file!: File | null;
   public !:String|'btn-primary';
 

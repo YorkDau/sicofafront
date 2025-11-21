@@ -7,6 +7,9 @@ import { ResponseInterface } from 'src/app/interfaces/response.interface';
 import { Modales } from 'src/app/shared/modals';
 import { AbogadoService } from '../../services/abogado.service';
 
+import { SharedService } from 'src/app/services/shared.service';
+import { ArchivoInterface } from 'src/app/interfaces/shared.interfaces';
+
 @Component({
   selector: 'app-competencia-pard',
   templateUrl: './competencia-pard.component.html',
@@ -21,12 +24,18 @@ export class CompetenciaPardComponent implements OnInit {
   public form!: FormGroup;
   private objSol!: any;
 
+  public iFileConstancia: ArchivoInterface = {}; // Constancia
+  public iFileActa: ArchivoInterface = {}; // Acta de verificacion
+  public iFileAuto: ArchivoInterface = {}; // Auto apertura
+
   constructor(
     private abogadoService: AbogadoService,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
     private modales: Modales,
-    private router: Router
+    private router: Router,
+    
+    private sharedService:SharedService
   ) { }
   
   ngOnInit(): void {
@@ -120,4 +129,51 @@ export class CompetenciaPardComponent implements OnInit {
     return this.form.controls[campo].hasError('required');
   }
 
+  public descargarDocumento(): void {
+    const nombre: string = 'FORMATO TRASLADO.pdf';
+
+    this.sharedService.descargarFormatos(nombre, 'ss').subscribe({
+      next: (data: ResponseInterface) => {
+        if (data.statusCode === CodigosRespuesta.OK) {
+          const source = `data:application/pdf;base64,${data.data}`;
+          const link = document.createElement('a');
+          const fileName = nombre;
+          link.href = source;
+          link.download = `${fileName}`;
+          link.click();
+        } else {
+          this.msgError();
+        }
+      },
+      error: () => {
+        this.msgError();
+      },
+    });
+  }
+
+  /**
+   * @description mensaje de error para lo servicios
+   */
+  private msgError() {
+    this.modales.modalInformacion(Mensajes.MENSAJE_ERROR_G);
+  }
+
+  
+  cargarConstancia(base64: string) {
+    if (base64) {
+      this.f.adjuntoConstanciaTraslado.setValue(base64);
+    }
+  }
+  
+  cargarActa(base64: string) {
+    if (base64) {
+      this.f.adjuntoActaVerificacion.setValue(base64);
+    }
+  }
+  
+  cargarAutoApertura(base64: string) {
+    if (base64) {
+      this.f.adjuntoAutoApertura.setValue(base64);
+    }
+  }
 }
