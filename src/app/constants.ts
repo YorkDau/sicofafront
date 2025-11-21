@@ -78,6 +78,8 @@ export const MensajeSolicitudXPerfil = {
   PSICOLOGO:
     'No se presentan solicitudes de servicio a cargo del área de psicología por ahora.',
   OTRO: 'Sin registros.',
+  LOAIDING: 'Se están cargando la información de los involucrados...',
+
 };
 
 export const ImagenesModal = {
