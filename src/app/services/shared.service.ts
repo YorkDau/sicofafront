@@ -176,6 +176,12 @@ export class SharedService {
       filtros
     );
   }
+    public consultaSolicitudesTraslados(filtros: any): Observable<any> {
+    return this.http.post<any>(
+      `${PATH_SERVER}/Solicitud/ConsultarSolicitudesTrasladoFiltro`,
+      filtros
+    );
+  }
 
   public ConsultarObservacionesApelaciones(
     id_solicitud_servicio: number

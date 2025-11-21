@@ -24,6 +24,7 @@ import { ObservacionApelacionComponent } from 'src/app/shared/components/informe
 import { ConsultaComisariaGeneralComponent } from 'src/app/shared/components/informes/consulta-general/consulta-general.component';
 import { InvolucradoComponent } from './involucrado/involucrado.component';
 import { HistorialInvolucradoComponent } from './involucrado/historial-involucrado/historial-involucrado.component';
+import { ConsultaTrasladoComponent } from 'src/app/shared/components/informes/consulta-traslado/consulta-traslado.component';
 
 export const mainRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -161,6 +162,10 @@ export const mainRoutes: Routes = [
   {
     path: 'consulta/apelaciones',
     component: ConsultaApelacionesComponent,
+  },
+    {
+    path: 'consulta/traslados',
+    component: ConsultaTrasladoComponent,
   },
   {
     path: 'consulta/comisaria-general',

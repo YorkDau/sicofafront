@@ -16,3 +16,12 @@ export interface RecepcionCasosInterface {
   remision?: number;
   sexoAfectado?: string;
 }
+export interface SolicitudTrasladoInterface {
+  codigoSolicitud: string;
+  nombreCompleto: string;
+  comisariaActual: string;
+  descripcionHechos: string;
+  comisariaOrigen: string;
+  entidadExterna: string;
+}
+

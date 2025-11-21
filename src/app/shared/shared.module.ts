@@ -73,6 +73,7 @@ import { EnRevisionPorComponent } from './components/general/en-revision-por/en-
 import { ConsultaComisariaGeneralComponent } from './components/informes/consulta-general/consulta-general.component';
 import { ModalPresolicitudesComponent } from './components/informes/modal-presolicitudes/modal-presolicitudes.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { ConsultaTrasladoComponent } from './components/informes/consulta-traslado/consulta-traslado.component';
 
 @NgModule({
   imports: [
@@ -185,6 +186,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     ObservacionApelacionComponent,
     ModalPresolicitudesComponent,
     DashboardComponent,
+    ConsultaTrasladoComponent,
   ],
   providers: [],
 })
