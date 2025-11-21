@@ -39,14 +39,51 @@
                         "Este caso va a ser trasladado al ICBF. No olvide de subir la constancia del traslado, la verificación de derechos y el auto de apertura de investigación.
                     </div>
                 </div>
-                <div class="col-lg-12">
-                    <button type="button" class="btn btn-sm btn-primary">Descargar Formato Traslado </button>
+                <div class="col-lg-12" style="display: flex; justify-content: flex-start">
+                    <button type="button" class="btn btn-sm btn-primary" (click)="descargarDocumento()">Descargar Formato Traslado </button>
                     &nbsp;
-                    <button type="button" class="btn btn-sm btn-primary">Subir Constancia Traslado al ICBF </button>
+                    <app-carga-archivo *ngIf="(!this.infoInicial?.idAdjuntoConstanciaTraslado || this.infoInicial?.idAdjuntoConstanciaTraslado === '' || this.infoInicial?.idAdjuntoConstanciaTraslado === 0)"
+                        (baseArchivo)="cargarConstancia($event)" 
+                        textoCargar="Subir Constancia Traslado al ICBF">
+                    </app-carga-archivo>
+
+                    <app-carga-archivo *ngIf="(this.infoInicial?.idAdjuntoConstanciaTraslado !== '' && this.infoInicial?.idAdjuntoConstanciaTraslado !== 0)"
+                        (baseArchivo)="cargarConstancia($event)" 
+                        [deleteIcon]="delete" 
+                        [downloadIcon]="delete"
+                        [archivoCargado]="iFileConstancia"
+                        textoCargar="Subir Constancia del Traslado"
+                        isSmallSize="true">
+                    </app-carga-archivo>
+
                     &nbsp;
-                    <button type="button" class="btn btn-sm btn-primary">Subir Acta de Verificación </button>
+                    <app-carga-archivo *ngIf="(!this.infoInicial?.idAdjuntoActa || this.infoInicial?.idAdjuntoActa === '' || this.infoInicial?.idAdjuntoActa === 0)"
+                        (baseArchivo)="cargarActa($event)" 
+                        textoCargar="Subir Acta de Verificación">
+                    </app-carga-archivo>
+
+                    <app-carga-archivo *ngIf="(this.infoInicial?.idAdjuntoActa !== '' && this.infoInicial?.idAdjuntoActa !== 0)"
+                        (baseArchivo)="cargarActa($event)" 
+                        [deleteIcon]="delete" 
+                        [downloadIcon]="delete"
+                        [archivoCargado]="iFileConstancia"
+                        textoCargar="Subir Acta de Verificación"
+                        isSmallSize="true">
+                    </app-carga-archivo>
                     &nbsp;
-                    <button type="button" class="btn btn-sm btn-primary">Subir Auto apertura investigación </button>
+                    <app-carga-archivo *ngIf="(!this.infoInicial?.idAdjuntoAuto || this.infoInicial?.idAdjuntoAuto === '' || this.infoInicial?.idAdjuntoAuto === 0)"
+                        (baseArchivo)="cargarAutoApertura($event)" 
+                        textoCargar="Subir Auto apertura investigación">
+                    </app-carga-archivo>
+
+                    <app-carga-archivo *ngIf="(this.infoInicial?.idAdjuntoAuto !== '' && this.infoInicial?.idAdjuntoAuto !== 0)"
+                        (baseArchivo)="cargarAutoApertura($event)" 
+                        [deleteIcon]="delete" 
+                        [downloadIcon]="delete"
+                        [archivoCargado]="iFileConstancia"
+                        textoCargar="Subir Auto apertura investigación"
+                        isSmallSize="true">
+                    </app-carga-archivo>
                 </div>
             </div>
 

@@ -1,6 +1,6 @@
 <div class="d-flex align-items-center gap-3" *ngIf="apariencia == 'normal'">
   <button
-    class="btn " [ngClass]="classButton"
+    class="btn " [ngClass]="[classButton? classButton:'btn-primary', isSmallSize ? 'btn-sm' : '']"
     type="button"
     (click)="inputFile.click()"
     *ngIf="!file && !archivoCargado"
@@ -28,6 +28,7 @@
           <button
             mat-button
             class="text-muted"
+            [ngClass]="{ 'btn-sm':isSmallSize }"
             style="word-wrap: break-word !important"
             (click)="abrirArchivo()"
           >
@@ -49,6 +50,7 @@
             type="button"
             (click)="borrarArchivo(inputFile)"
             class="arrow-back eliminar-archivo-cargado"
+            [ngClass]="{ 'btn-sm':isSmallSize }"
             *ngIf="downloadIcon"
           >
             <mat-icon>close</mat-icon>
@@ -70,6 +72,7 @@
           <button
             mat-button
             class="text-muted"
+            [ngClass]="{ 'btn-sm':isSmallSize }"
             style="word-wrap: break-word !important"
             (click)="abrirArchivo()"
           >
@@ -90,6 +93,7 @@
             type="button"
             (click)="borrarArchivo(inputFile)"
             class="arrow-back eliminar-archivo-local"
+            [ngClass]="{ 'btn-sm':isSmallSize }"
             *ngIf="deleteIcon"
           >
             <mat-icon>close</mat-icon>
@@ -109,7 +113,7 @@
     matTooltipClass="background-tooltip"
     (click)="inputFile.click()"
     *ngIf="uploadIcon"
-    [ngClass]="{ 'no-clickable': disableUpload }"
+    [ngClass]="{ 'no-clickable': disableUpload, 'btn-sm':isSmallSize }"
   >
     <mat-icon
       class="material-icons-outlined"
@@ -137,7 +141,8 @@
     (click)="abrirArchivo()"
     [ngClass]="{
       'no-clickable':
-        disableDownload && archivoCargado && archivoCargado.idArchivo <= 0
+        disableDownload && archivoCargado && archivoCargado.idArchivo <= 0,
+        'btn-sm':isSmallSize
     }"
   >
     <mat-icon
@@ -160,8 +165,8 @@
     *ngIf="file && downloadIcon"
     (click)="abrirArchivo()"
     [ngClass]="{
-      'no-clickable':
-        disableDownload && archivoCargado && archivoCargado.idArchivo <= 0
+      'no-clickable': disableDownload && archivoCargado && archivoCargado.idArchivo <= 0,
+      'btn-sm':isSmallSize
     }"
   >
     <mat-icon
@@ -187,7 +192,8 @@
     (click)="borrarArchivo(inputFile)"
     [ngClass]="{
       'no-clickable':
-        disableDownload && archivoCargado && archivoCargado.idArchivo <= 0
+        disableDownload && archivoCargado && archivoCargado.idArchivo <= 0,
+        'btn-sm':isSmallSize
     }"
   >
     <mat-icon
@@ -209,6 +215,7 @@
     type="button"
     (click)="inputFile.click()"
     *ngIf="!archivoCargado && !file"
+    [ngClass]="{ 'btn-sm':isSmallSize }"
   >
     {{ textoCargar ? textoCargar : "Subir Documento Firmado" }}
   </button>
@@ -232,6 +239,7 @@
           <button
             mat-button
             class="text-muted"
+            [ngClass]="{ 'btn-sm':isSmallSize }"
             style="word-wrap: break-word !important"
             (click)="abrirArchivo()"
           >
@@ -253,6 +261,7 @@
             type="button"
             (click)="borrarArchivo(inputFile)"
             class="arrow-back eliminar-archivo-cargado"
+            [ngClass]="{ 'btn-sm':isSmallSize }"
             *ngIf="deleteIcon"
           >
             <mat-icon>close</mat-icon>
@@ -275,6 +284,7 @@
             mat-button
             class="text-muted"
             style="word-wrap: break-word !important"
+            [ngClass]="{ 'btn-sm':isSmallSize }"
             (click)="abrirArchivo()"
           >
             {{
@@ -294,6 +304,7 @@
             type="button"
             (click)="borrarArchivo(inputFile)"
             class="arrow-back"
+            [ngClass]="{ 'btn-sm':isSmallSize }"
             *ngIf="deleteIcon"
           >
             <mat-icon>close</mat-icon>
