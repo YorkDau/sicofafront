@@ -13,6 +13,7 @@ import { Modales } from 'src/app/shared/modals';
 
 import { SolicitudService } from 'src/app/pages/private/services/solicitud.service';
 import { EntidadInterface } from 'src/app/pages/private/interfaces/solicitud.interface';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-revision-legal-pre-solicitud',
@@ -45,6 +46,7 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
     private modales: Modales,
     private router: Router,
     private solicitudService: SolicitudService,
+    private sharedService:SharedService
   ) {
     this.info = JSON.parse(sessionStorage.getItem("info")!);
     this.idPresolicitud = this.info.idSolicitud;
@@ -278,4 +280,31 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
     });
   }
 
+   public descargarDocumento(): void {
+    const nombre: string = 'FORMATO TRASLADO.pdf';
+
+    this.sharedService.descargarFormatos(nombre, 'ss').subscribe({
+      next: (data: ResponseInterface) => {
+        if (data.statusCode === CodigosRespuesta.OK) {
+          const source = `data:application/pdf;base64,${data.data}`;
+          const link = document.createElement('a');
+          const fileName = nombre;
+          link.href = source;
+          link.download = `${fileName}`;
+          link.click();
+        } else {
+          this.msgError();
+        }
+      },
+      error: () => {
+        this.msgError();
+      },
+    });
+  }
+  /**
+   * @description mensaje de error para lo servicios
+   */
+  private msgError() {
+    this.modales.modalInformacion(Mensajes.MENSAJE_ERROR_G);
+  }
 }
