@@ -602,19 +602,19 @@ export class DecisionSeguimientoComponent implements OnInit {
       .modalConfirmacion(Mensajes.MENSAJE_CERRAR_ACT)
       .subscribe(async (cerrar) => {
         if (!cerrar) return;
-
         try {
-          const archivoDto = {
-            entrada: this.myForm.get('acta_documento_cierre')?.value,
-            nombreArchivo: '',
-            tipoDocumento: TiposDocumentoCarga.ACTA_CIERRE_PARD,
-            idSolicitudServicio: this.objSol.idSolicitud,
-          };
+          const archivoEntrada = this.myForm.get('acta_documento_cierre')?.value;
 
-          const resArchivo = await lastValueFrom(
-            this.sharedService.guardarArchivo(archivoDto)
-          );
-          console.log('Archivo guardado en backend:', resArchivo);
+          if (archivoEntrada) {
+            const archivoDto = {
+              entrada: archivoEntrada,
+              nombreArchivo: '',
+              tipoDocumento: TiposDocumentoCarga.ACTA_CIERRE_PARD,
+              idSolicitudServicio: this.objSol.idSolicitud,
+            };
+
+            await lastValueFrom(this.sharedService.guardarArchivo(archivoDto));
+          }
 
           const isArchivosCargados = await this.guardarArchivosCargados();
 

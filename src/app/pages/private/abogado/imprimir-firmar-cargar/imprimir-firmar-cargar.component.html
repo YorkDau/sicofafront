@@ -43,7 +43,10 @@
       </fieldset>
     </div>
   </div>
-  <div class="row align-items-end">
+  <div
+    class="row align-items-end"
+    *ngIf="datosFirma?.esNecesarioRemitir"
+  >
     <div class="col-lg-6 px-1">
       <label for="comisaria" class="form-label mb-1"
         >¿A que Comisaria se traslada ?*</label
@@ -51,6 +54,8 @@
       <select
         id="comisaria"
         class="form-select form-select-lg py-1"
+        [(ngModel)]="comisariaSeleccionada"
+        (change)="onChangeComisaria()"
       >
         <option [ngValue]="null" disabled>Seleccione una comisaría</option>
         <option
@@ -65,11 +70,11 @@
     <!-- Botones a la derecha -->
     <div class="col-lg-6 d-flex align-items-center gap-2 mt-2">
       <button class="btn button-new" (click)="descargarDocumentoRemision()">
-        Descargar formato remisión
+        Descargar formato Traslado
       </button>
       <app-carga-archivo
-        matTooltip="Cargar constancia remision"
-        [textoCargar]="'Cargar constancia remision'"
+        matTooltip="Cargar constancia Traslado"
+        [textoCargar]="'Cargar constancia Traslado'"
         (baseArchivo)="enviarArchivoRemision($event)"
       ></app-carga-archivo>
     </div>
@@ -126,19 +131,27 @@
       Archivar diligencias
     </button>
   -->
+    <!-- Botón Guardar deshabilitado 
     <button
       type="button"
-      class="btn btn-primary"
+      class="btn btn-secondary"
       (click)="cargarAdjuntoFirma(false)"
+      disabled
     >
       Guardar
     </button>
-    <button
-      type="button"
-      class="btn btn-primary"
-      (click)="modalConfirmaCerrarActuacion()"
-    >
-      Cerrar actuaciones
-    </button>
+    -->
+<button
+  type="button"
+  class="btn btn-primary"
+  (click)="modalConfirmaCerrarActuacion()"
+  [disabled]="
+    (datosFirma.esNecesarioRemitir && (!comisariaSeleccionada || !archivoRemision)) ||
+    (!datosFirma.esNecesarioRemitir && !archivo)
+  "
+>
+  Cerrar actuaciones
+</button>
+
   </div>
 </div>
