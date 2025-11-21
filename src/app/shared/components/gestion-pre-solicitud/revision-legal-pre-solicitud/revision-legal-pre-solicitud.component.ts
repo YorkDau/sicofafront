@@ -7,8 +7,13 @@ import { CodigosRespuesta, ImagenesModal, Mensajes } from 'src/app/constants';
 import { ResponseInterface } from 'src/app/interfaces/response.interface';
 import { ArchivoInterface } from 'src/app/interfaces/shared.interfaces';
 import { UserInterface } from 'src/app/interfaces/usuario.interface';
+// Interfaz para consulta de entidades
 import { PreSolicitudService } from 'src/app/pages/private/services/pre-solicitud.service';
 import { Modales } from 'src/app/shared/modals';
+
+import { SolicitudService } from 'src/app/pages/private/services/solicitud.service';
+import { EntidadInterface } from 'src/app/pages/private/interfaces/solicitud.interface';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-revision-legal-pre-solicitud',
@@ -23,14 +28,17 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
   public infoInicial: any = null;
   public perfil: string = '';
   public delete: boolean = true;
+  public deleteConstancia: boolean = true;
   public esMenorEdad: boolean = true;
   
   public info: any;
   public iFile: ArchivoInterface = {};
+  public iFileConstancia: ArchivoInterface = {}; // Constancia
   public user!: UserInterface | undefined;
 
   public msgObligatorio: string = Mensajes.CAMPO_OBLIGATORIO;
   public msgInvalido: string = Mensajes.MENSAJE_CAMPO_INV;
+  public selectEntidad: EntidadInterface[] = [];
 
   constructor(
     private presolicitudService: PreSolicitudService,
@@ -38,7 +46,9 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
     private modales: Modales,
-    private router: Router
+    private router: Router,
+    private solicitudService: SolicitudService,
+    private sharedService:SharedService
   ) {
     this.info = JSON.parse(sessionStorage.getItem("info")!);
     this.idPresolicitud = this.info.idSolicitud;
@@ -53,12 +63,14 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
+    this.cargaSelectEntidad();
 
     this.presolicitudService.presolicitud$
       .subscribe({
         next: (data) => {
           if (data) {
             this.infoInicial = data.presolicitudABO;
+            console.log(this.infoInicial);
             this.loadData();
           }
         }
@@ -72,7 +84,15 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
       procesoPard: [{ value: 'no', disabled: this.perfil !== 'ABO' }],
       observaciones: [{ value: '', disabled: this.perfil !== 'ABO' }, Validators.compose([Validators.maxLength(3000), Validators.required])],
       adjunto: '',
-      idArchivo: null
+      idArchivo: null,
+
+      idAdjuntoConstancia:null,
+      adjuntoConstancia: '',
+      hechosExistentes:null,
+      seguirTramitePrevencion:null,
+      idEntidadTraslado:null,
+      justificacionTraslado:[{ value: '', disabled: this.perfil !== 'ABO' }, Validators.compose([Validators.maxLength(3000), Validators.required])],
+      verificacionDerecho:null,
     });
   }
 
@@ -82,7 +102,15 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
       procesoPard: [{ value: this.infoInicial.seRealizaraPard ? 'si' : 'no', disabled: this.perfil !== 'ABO' }],
       observaciones: [{ value: this.infoInicial.observacionesLegalidad, disabled: this.perfil !== 'ABO' }, Validators.compose([Validators.maxLength(3000), Validators.required])],
       adjunto: '',
-      idArchivo: this.infoInicial.idAnexoAutoTramite
+      adjuntoConstancia:'',
+      idArchivo: this.infoInicial.idAnexoAutoTramite,
+      verificacionDerecho:null,
+
+      idAdjuntoConstancia: this.infoInicial.idAdjuntoConstancia,
+      hechosExistentes:this.infoInicial.hechosExistentes,
+      seguirTramitePrevencion:this.infoInicial.seguirTramitePrevencion,
+      idEntidadTraslado:this.infoInicial.idEntidadTraslado,
+      justificacionTraslado:[{ value: this.infoInicial.justificacionTraslado, disabled: this.perfil !== 'ABO' }, Validators.compose([Validators.maxLength(3000), Validators.required])],
     });
 
     if (this.infoInicial.idAnexoAutoTramite !== '' && this.infoInicial.idAnexoAutoTramite !== 0 && this.perfil !== 'ABO') {
@@ -96,11 +124,31 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
     } else {
       this.delete = true;
     }
+
+    
+    if (this.infoInicial.idAdjuntoConstancia !== '' && this.infoInicial.idAdjuntoConstancia !== 0 && this.perfil !== 'ABO') {
+      this.deleteConstancia = false;
+      this.iFileConstancia.idArchivo = this.infoInicial.idAdjuntoConstancia;
+      this.iFileConstancia.idSolicitud = this.info.idSolicitud;
+    } else if (this.infoInicial.idAdjuntoConstancia !== '' && this.infoInicial.idAdjuntoConstancia !== 0 && this.perfil === 'ABO') {
+      this.deleteConstancia = true;
+      this.iFileConstancia.idArchivo = this.infoInicial.idAdjuntoConstancia;
+      this.iFileConstancia.idSolicitud = this.info.idSolicitud;
+    } else {
+      this.deleteConstancia = true;
+    }
   }
 
   cargarArchivo(base64: string) {
     if (base64) {
       this.f.adjunto.setValue(base64);
+    }
+  }
+
+  
+  cargarConstancia(base64: string) {
+    if (base64) {
+      this.f.adjuntoConstancia.setValue(base64);
     }
   }
 
@@ -201,7 +249,7 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
       tareaID: this.info.idTarea,
       userID: this.user?.userID,
       perfilCod: this.user?.perfil,
-      valorEtiqueta: this.f.competenciaComisaria.value === 'si' ? 1 : 0
+      valorEtiqueta: this.f.competenciaComisaria.value === 'si' ? 1 : 0,
     };
   }
 
@@ -211,7 +259,15 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
       esCompetenciaComisaria: this.f.competenciaComisaria.value === 'si' ? true : false,
       seRealizaraPard: this.f.procesoPard.value === 'si' ? true : false,
       observacionesLegalidad: this.f.observaciones.value,
-      adjuntoAutoTramite: this.f.adjunto.value
+      adjuntoAutoTramite: this.f.adjunto.value,
+
+      idAdjuntoConstancia: this.f.idAdjuntoConstancia.value,
+      adjuntoConstancia: this.f.adjuntoConstancia.value,
+      hechosExistentes:this.f.hechosExistentes.value??null,
+      seguirTramitePrevencion:this.f.seguirTramitePrevencion.value == 1 ? true : false,
+      idEntidadTraslado:this.f.idEntidadTraslado.value,
+      justificacionTraslado:this.f.justificacionTraslado.value,
+      verificacionDerecho: this.f.verificacionDerecho.value === 'si' ? 1 : 0,
     };
   }
 
@@ -245,4 +301,50 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
     return this.form.controls[campo].hasError('required');
   }
 
+  /**
+   * @description carga el select de entidad
+   */
+  private cargaSelectEntidad() {
+    this.solicitudService.getEntidades().subscribe((entidad) => {
+      if (entidad.statusCode === CodigosRespuesta.OK) {
+        this.selectEntidad = entidad.data;
+      }
+    });
+  }
+
+   public descargarDocumento(): void {
+    const nombre: string = 'FORMATO TRASLADO.pdf';
+
+    this.sharedService.descargarFormatos(nombre, 'ss').subscribe({
+      next: (data: ResponseInterface) => {
+        if (data.statusCode === CodigosRespuesta.OK) {
+          const source = `data:application/pdf;base64,${data.data}`;
+          const link = document.createElement('a');
+          const fileName = nombre;
+          link.href = source;
+          link.download = `${fileName}`;
+          link.click();
+        } else {
+          this.msgError();
+        }
+      },
+      error: () => {
+        this.msgError();
+      },
+    });
+  }
+  /**
+   * @description mensaje de error para lo servicios
+   */
+  private msgError() {
+    this.modales.modalInformacion(Mensajes.MENSAJE_ERROR_G);
+  }
+  private actualizarHechos(value:String) {
+    this.form.patchValue({idAdjuntoConstancia: null});
+    this.form.patchValue({adjuntoConstancia: ''});
+    this.form.patchValue({seguirTramitePrevencion: null});
+    this.form.patchValue({idEntidadTraslado: null});
+    
+    this.form.patchValue({justificacionTraslado: ''});
+  }
 }

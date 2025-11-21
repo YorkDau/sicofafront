@@ -30,7 +30,24 @@
                         </div>
 
                     </div>
-                </div>                
+                </div>
+            </div>
+
+            <div class="row mb-3" *ngIf="f.competenciaIcbf.value === 'si'">
+                <div class="col-lg-12">
+                    <div class="alert alert-info alert-sm" role="alert">
+                        "Este caso va a ser trasladado al ICBF. No olvide de subir la constancia del traslado, la verificación de derechos y el auto de apertura de investigación.
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <button type="button" class="btn btn-sm btn-primary">Descargar Formato Traslado </button>
+                    &nbsp;
+                    <button type="button" class="btn btn-sm btn-primary">Subir Constancia Traslado al ICBF </button>
+                    &nbsp;
+                    <button type="button" class="btn btn-sm btn-primary">Subir Acta de Verificación </button>
+                    &nbsp;
+                    <button type="button" class="btn btn-sm btn-primary">Subir Auto apertura investigación </button>
+                </div>
             </div>
 
             <div class="row mb-3">
