@@ -115,7 +115,7 @@ public async getDescripcionHechos() {
   
     this.formDescripcionHechos.patchValue({
       fecha: fechaParseada,
-      hora: this.datePipe.transform(fechaParseada, 'HH:mm'),
+      hora: result.data.hora || '',
       descripcionHechos: result.data.descripcionHechos || '',
       lugarHechos: result.data.lugarHechos || '',
     });

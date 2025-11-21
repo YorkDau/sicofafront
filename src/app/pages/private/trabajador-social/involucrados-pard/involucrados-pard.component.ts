@@ -35,10 +35,11 @@ export class InvolucradosPARDComponent implements OnInit {
   public displayedColumns: string[] = [];
   public dataSource = new MatTableDataSource<any[]>();
   public archivo!: string;
-  public mensajeSinReg: string = MensajeSolicitudXPerfil.OTRO;
+  public mensajeSinReg: string = MensajeSolicitudXPerfil.LOAIDING;
   public datosReportes!: any;
   private listadoPARD: any[] = [];
   private user!: UserInterface | undefined;
+  public loading: boolean = false;
   private objSol!: any;
   @Output() isEditing = new EventEmitter<boolean>();
 
@@ -90,12 +91,14 @@ export class InvolucradosPARDComponent implements OnInit {
    * @description llama servicio para llenar la grilla
    */
   private consultarSolicitudes(): void {
+    this.loading = true;
     this.trabajadorSocialService
       .listarInvolucradosComplementariaInfo(this.objSol.idSolicitud)
       .subscribe({
         next: (data: ResponseInterface) => {
           if (data.statusCode === CodigosRespuesta.OK) {
             this.listadoPARD = data.data;
+            this.loading = false;
             console.log('listadoPARD', this.listadoPARD);
             this.ajustarResultadoConsulta(data.data);
           } else {
@@ -103,6 +106,7 @@ export class InvolucradosPARDComponent implements OnInit {
           }
         },
         error: () => {
+          this.loading = false;
           this.modalError();
         },
       });
