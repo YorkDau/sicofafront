@@ -28,10 +28,12 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
   public infoInicial: any = null;
   public perfil: string = '';
   public delete: boolean = true;
+  public deleteConstancia: boolean = true;
   public esMenorEdad: boolean = true;
   
   public info: any;
   public iFile: ArchivoInterface = {};
+  public iFileConstancia: ArchivoInterface = {}; // Constancia
   public user!: UserInterface | undefined;
 
   public msgObligatorio: string = Mensajes.CAMPO_OBLIGATORIO;
@@ -68,6 +70,7 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
         next: (data) => {
           if (data) {
             this.infoInicial = data.presolicitudABO;
+            console.log(this.infoInicial);
             this.loadData();
           }
         }
@@ -83,9 +86,12 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
       adjunto: '',
       idArchivo: null,
 
+      idAdjuntoConstancia:null,
+      adjuntoConstancia: '',
       hechosExistentes:null,
       seguirTramitePrevencion:null,
-      justificacionTraslado:null,
+      idEntidadTraslado:null,
+      justificacionTraslado:[{ value: '', disabled: this.perfil !== 'ABO' }, Validators.compose([Validators.maxLength(3000), Validators.required])],
       verificacionDerecho:null,
     });
   }
@@ -96,12 +102,15 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
       procesoPard: [{ value: this.infoInicial.seRealizaraPard ? 'si' : 'no', disabled: this.perfil !== 'ABO' }],
       observaciones: [{ value: this.infoInicial.observacionesLegalidad, disabled: this.perfil !== 'ABO' }, Validators.compose([Validators.maxLength(3000), Validators.required])],
       adjunto: '',
+      adjuntoConstancia:'',
       idArchivo: this.infoInicial.idAnexoAutoTramite,
-      
-      hechosExistentes:null,
-      seguirTramitePrevencion:null,
-      justificacionTraslado:null,
       verificacionDerecho:null,
+
+      idAdjuntoConstancia: this.infoInicial.idAdjuntoConstancia,
+      hechosExistentes:this.infoInicial.hechosExistentes,
+      seguirTramitePrevencion:this.infoInicial.seguirTramitePrevencion,
+      idEntidadTraslado:this.infoInicial.idEntidadTraslado,
+      justificacionTraslado:[{ value: this.infoInicial.justificacionTraslado, disabled: this.perfil !== 'ABO' }, Validators.compose([Validators.maxLength(3000), Validators.required])],
     });
 
     if (this.infoInicial.idAnexoAutoTramite !== '' && this.infoInicial.idAnexoAutoTramite !== 0 && this.perfil !== 'ABO') {
@@ -115,11 +124,31 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
     } else {
       this.delete = true;
     }
+
+    
+    if (this.infoInicial.idAdjuntoConstancia !== '' && this.infoInicial.idAdjuntoConstancia !== 0 && this.perfil !== 'ABO') {
+      this.deleteConstancia = false;
+      this.iFileConstancia.idArchivo = this.infoInicial.idAdjuntoConstancia;
+      this.iFileConstancia.idSolicitud = this.info.idSolicitud;
+    } else if (this.infoInicial.idAdjuntoConstancia !== '' && this.infoInicial.idAdjuntoConstancia !== 0 && this.perfil === 'ABO') {
+      this.deleteConstancia = true;
+      this.iFileConstancia.idArchivo = this.infoInicial.idAdjuntoConstancia;
+      this.iFileConstancia.idSolicitud = this.info.idSolicitud;
+    } else {
+      this.deleteConstancia = true;
+    }
   }
 
   cargarArchivo(base64: string) {
     if (base64) {
       this.f.adjunto.setValue(base64);
+    }
+  }
+
+  
+  cargarConstancia(base64: string) {
+    if (base64) {
+      this.f.adjuntoConstancia.setValue(base64);
     }
   }
 
@@ -231,9 +260,12 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
       seRealizaraPard: this.f.procesoPard.value === 'si' ? true : false,
       observacionesLegalidad: this.f.observaciones.value,
       adjuntoAutoTramite: this.f.adjunto.value,
-      
+
+      idAdjuntoConstancia: this.f.idAdjuntoConstancia.value,
+      adjuntoConstancia: this.f.adjuntoConstancia.value,
       hechosExistentes:this.f.hechosExistentes.value??null,
-      seguirTramitePrevencion:this.f.procesoPard.value,
+      seguirTramitePrevencion:this.f.seguirTramitePrevencion.value == 1 ? true : false,
+      idEntidadTraslado:this.f.idEntidadTraslado.value,
       justificacionTraslado:this.f.justificacionTraslado.value,
       verificacionDerecho: this.f.verificacionDerecho.value === 'si' ? 1 : 0,
     };
@@ -306,5 +338,13 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
    */
   private msgError() {
     this.modales.modalInformacion(Mensajes.MENSAJE_ERROR_G);
+  }
+  private actualizarHechos(value:String) {
+    this.form.patchValue({idAdjuntoConstancia: null});
+    this.form.patchValue({adjuntoConstancia: ''});
+    this.form.patchValue({seguirTramitePrevencion: null});
+    this.form.patchValue({idEntidadTraslado: null});
+    
+    this.form.patchValue({justificacionTraslado: ''});
   }
 }

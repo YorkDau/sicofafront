@@ -37,13 +37,13 @@
                         <label class="form-label">De acuerdo al relato de los hechos existe:</label>
                         <div class="pt-2">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" value="Inobservancia"
+                                <input class="form-check-input" type="radio" value="Inobservancia" (change)="actualizarHechos($event.target.value)"
                                     formControlName="hechosExistentes" name="hechosExistentes"
                                     id="hechosExistentes_si" />
                                 <label class="form-check-label form-label" for="hechosExistentes_si"> 1. ¿Inobservancia? </label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" value="Amenaza o vulneración de derechos"
+                                <input class="form-check-input" type="radio" value="Amenaza o vulneración de derechos" (change)="actualizarHechos($event.target.value)"
                                     formControlName="hechosExistentes" name="hechosExistentes"
                                     id="hechosExistentes_no" />
                                 <label class="form-check-label form-label" for="hechosExistentes_no"> 2. ¿Amenaza o vulneración de derechos? </label>
@@ -59,8 +59,8 @@
                             <div class="col-lg-12">
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <select class="form-select form-control">
-                                            <option disabled value="">Entidad</option>
+                                        <select formControlName="idEntidadTraslado" id="idEntidadTraslado" class="form-select form-control">
+                                            <option  value="">Entidad</option>
                                             <option
                                                 *ngFor="let entidad of selectEntidad"
                                                 [value]="entidad.id_entidad_externa"
@@ -69,15 +69,27 @@
                                             </option>
                                         </select>
                                     </div>
-                                    <div class="col-lg-8 d-inline">
+                                    <div class="col-lg-8" style="display: flex; justify-content: flex-start">
                                         <button type="button" class="btn btn-block button-new" (click)="descargarDocumento()">Descargar Formato de Traslado <!--mat-icon class="material-icons-outlined" style="font-size: 18px;">file_download</mat-icon--></button>
                                         &nbsp;
-                                        <button type="button" class="btn btn-block btn-primary">Subir Constancia del Traslado <!--mat-icon class="material-icons-outlined" style="font-size: 18px;">file_present</mat-icon--></button>
+                                        <app-carga-archivo *ngIf="(!this.infoInicial?.idConstanciaTraslado || this.infoInicial?.idConstanciaTraslado === '' || this.infoInicial?.idConstanciaTraslado === 0)"
+                                            (baseArchivo)="cargarConstancia($event)" 
+                                            textoCargar="Subir Constancia del Traslado">
+                                        </app-carga-archivo>
+
+                                        <app-carga-archivo *ngIf="(this.infoInicial?.idConstanciaTraslado !== '' && this.infoInicial?.idConstanciaTraslado !== 0)"
+                                            (baseArchivo)="cargarConstancia($event)" 
+                                            [deleteIcon]="delete" 
+                                            [downloadIcon]="delete"
+                                            [archivoCargado]="iFileConstancia"
+                                            textoCargar="Subir Constancia del Traslado">
+                                        </app-carga-archivo>
+
                                     </div>
                                     <div class="col-lg-12">
                                         <div class="mt-3 mb-3">
                                             <label for="justificacionTraslado" class="form-label">Justificación del traslado</label>
-                                            <textarea type="text" class="form-control resize-none" formControlName="observaciones"
+                                            <textarea type="text" class="form-control resize-none" formControlName="justificacionTraslado"
                                                 placeholder="justificacionTraslado" id="justificacionTraslado" maxlength="3000"
                                                 style="min-height: 150px; max-height: 150px; resize: none;" [ngClass]="{
                                                     'input-req':
