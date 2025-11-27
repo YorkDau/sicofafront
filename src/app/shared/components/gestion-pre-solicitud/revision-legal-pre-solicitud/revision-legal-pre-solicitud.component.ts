@@ -340,7 +340,7 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
       idAdjuntoConstanciaTraslado: this.f.idAdjuntoConstanciaTraslado.value,
       adjuntoConstanciaTraslado: this.f.adjuntoConstanciaTraslado.value,
       hechosExistentes: this.f.hechosExistentes.value ?? null,
-      comisariaSeleccionada: this.f.comisariaSeleccionada.value,
+      comisariaSeleccionada: this.f.comisariaSeleccionada.value ?? 0,
       //seguirTramitePrevencion:this.f.seguirTramitePrevencion.value == 1 ? true : false,
       idEntidadTraslado: this.f.idEntidadTraslado.value,
       justificacionTraslado: this.f.justificacionTraslado.value,
