@@ -126,6 +126,10 @@ export const perfilAbogado: MenuInterface[] = [
         titulo: 'Apelaciones',
         ruta: './consulta/apelaciones',
       },
+      {
+        titulo: 'Traslados',
+        ruta: './consulta/traslados',
+      },
     ],
   },
 ];

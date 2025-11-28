@@ -43,21 +43,18 @@
       </fieldset>
     </div>
   </div>
-  <div
-    class="row align-items-end"
-    *ngIf="datosFirma?.esNecesarioRemitir"
-  >
+  <div class="row align-items-end" *ngIf="datosFirma?.esNecesarioRemitir">
     <div class="col-lg-6 px-1">
       <label for="comisaria" class="form-label mb-1"
         >¿A que Comisaria se traslada ?*</label
       >
       <select
         id="comisaria"
-        class="form-select form-select-lg py-1"
+        class="form-select py-1"
         [(ngModel)]="comisariaSeleccionada"
         (change)="onChangeComisaria()"
       >
-        <option [ngValue]="null" disabled>Seleccione una comisaría</option>
+        <option [ngValue]="null" disabled>Seleccione una comisaria</option>
         <option
           *ngFor="let comisaria of selectComisaria"
           [value]="comisaria.id_comisaria"
@@ -141,17 +138,17 @@
       Guardar
     </button>
     -->
-<button
-  type="button"
-  class="btn btn-primary"
-  (click)="modalConfirmaCerrarActuacion()"
-  [disabled]="
-    (datosFirma.esNecesarioRemitir && (!comisariaSeleccionada || !archivoRemision)) ||
-    (!datosFirma.esNecesarioRemitir && !archivo)
-  "
->
-  Cerrar actuaciones
-</button>
-
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="modalConfirmaCerrarActuacion()"
+      [disabled]="
+        (datosFirma?.esNecesarioRemitir &&
+          (!comisariaSeleccionada || !archivoRemision)) ||
+        (!datosFirma?.esNecesarioRemitir && !archivo)
+      "
+    >
+      Cerrar actuaciones
+    </button>
   </div>
 </div>

@@ -44,7 +44,7 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
   public nuevoArchivo: boolean = true;
   public nuevoArchivoRemision: boolean = true;
   public selectComisaria: ComisariaInterface[] = [];
-  public comisariaSeleccionada!: number | null;
+  public comisariaSeleccionada: number | null = null;
 
   constructor(
     private autoService: AutoService,
@@ -76,11 +76,13 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
    */
   private cargaSelectComisaria() {
     const idComisaria = this.authService.currentUserValue?.idComisaria;
+    console.log('idComisaria', idComisaria);
     this.solicitudService
       .getComisariaTraslado(idComisaria)
       .subscribe((comisaria) => {
         if (comisaria.statusCode === CodigosRespuesta.OK) {
           this.selectComisaria = comisaria.data;
+          console.log('comisarias', this.selectComisaria);
         }
       });
   }
@@ -92,6 +94,7 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
       next: (data: ResponseInterface) => {
         if (data.statusCode === CodigosRespuesta.OK) {
           this.autoService.emitirArregloSecciones(data.data.secciones);
+          console.log('SECCIONES AUTO', data);
           this.llenarInterfaceDatosFirma(data.data);
         } else {
           this.msgError();
@@ -235,7 +238,6 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
       idUsuario: this.user?.userID,
       idComisaria: this.user?.idComisaria,
       idComisariaTraslado: this.comisariaSeleccionada,
-
     };
   }
 
@@ -277,7 +279,6 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
       idUsuario: this.user?.userID,
       idComisaria: this.user?.idComisaria,
       idComisariaTraslado: this.comisariaSeleccionada,
-
     };
   }
   onChangeComisaria() {
