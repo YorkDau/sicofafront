@@ -475,7 +475,7 @@ export class RecepcionPreSolicitudComponent implements OnInit {
             this.modales
               .modalExito(
                 `Se ha registrado la Pre-Solicitud de servicio remitida desde una entidad externa.
-              ${data.message ?? 'El caso ha sido enviado al área legal, para la determinación de su competencia.'}`
+                El caso ha sido enviado al área legal, para la determinación de su competencia.`
               )
               .subscribe(() => {
                 this.router.navigate(['/recepcion-auxiliar']);

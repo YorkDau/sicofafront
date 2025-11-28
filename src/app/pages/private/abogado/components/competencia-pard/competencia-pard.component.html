@@ -39,7 +39,7 @@
                         "Este caso va a ser trasladado al ICBF. No olvide de subir la constancia del traslado, la verificación de derechos y el auto de apertura de investigación.
                     </div>
                 </div>
-                <div class="col-lg-12" style="display: flex; justify-content: flex-start">
+                <div class="col-lg-12 d-flex justify-content-start">
                     <button type="button" class="btn btn-sm btn-primary" (click)="descargarDocumento()">Descargar Formato Traslado </button>
                     &nbsp;
                     <app-carga-archivo *ngIf="(!this.infoInicial?.idAdjuntoConstanciaTraslado || this.infoInicial?.idAdjuntoConstanciaTraslado === '' || this.infoInicial?.idAdjuntoConstanciaTraslado === 0)"

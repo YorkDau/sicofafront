@@ -32,7 +32,7 @@
                     </div>
                 </div>
                 
-                <div *ngIf="f.competenciaComisaria.value === 'no'">
+                <div *ngIf="f.competenciaComisaria.value === 'no' && esMenorEdad">
                     <div class="col-lg-12 mt-2">
                         <label class="form-label">De acuerdo al relato de los hechos existe:</label>
                         <div class="pt-2">
@@ -69,7 +69,7 @@
                                             </option>
                                         </select>
                                     </div>
-                                    <div class="col-lg-8" style="display: flex; justify-content: flex-start">
+                                    <div class="col-lg-8 d-flex justify-content-start">
                                         <button type="button" class="btn btn-block button-new" (click)="descargarDocumento()">Descargar Formato de Traslado <!--mat-icon class="material-icons-outlined" style="font-size: 18px;">file_download</mat-icon--></button>
                                         &nbsp;
                                         <app-carga-archivo *ngIf="(!this.infoInicial?.idAdjuntoConstanciaTraslado || this.infoInicial?.idAdjuntoConstanciaTraslado === '' || this.infoInicial?.idAdjuntoConstanciaTraslado === 0)"
@@ -125,9 +125,108 @@
                         </div>
                     </div>
                 </div>
+
+                
+                <div *ngIf="f.competenciaComisaria.value === 'si' && !esMenorEdad">
+                    <div class="col-lg-12 mt-2">
+                        <label class="form-label">Elegir el trámite correspondiente:</label>
+                        <div class="pt-2">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" value="Tramite VCF"
+                                    formControlName="tramiteCorrespondiente" name="tramiteCorrespondiente"
+                                    id="tramiteCorrespondiente_si" />
+                                <label class="form-check-label form-label" for="tramiteCorrespondiente_si"> Tramite VCF </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" value="IPAP" (change)="actualizarHechos($event.target.value)"
+                                    formControlName="tramiteCorrespondiente" name="tramiteCorrespondiente"
+                                    id="tramiteCorrespondiente_no" />
+                                <label class="form-check-label form-label" for="tramiteCorrespondiente_no"> Iniciar Proceso de Alimentos Provisionales </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12 mt-2" *ngIf="f.tramiteCorrespondiente.value === 'IPAP'">
+                        <div class="row">
+                            <div class="col-lg-12 mt-2">
+                                <label class="form-label">¿Es necesario remitir el caso a otra comisaría por competencia territorial?*</label>
+                                <div class="pt-2">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" value="si"
+                                            formControlName="remitirCaso" name="remitirCaso"
+                                            id="remitirCaso_si" />
+                                        <label class="form-check-label form-label" for="remitirCaso_si"> Si </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" value="no"
+                                            formControlName="remitirCaso" name="remitirCaso"
+                                            id="remitirCaso_no" />
+                                        <label class="form-check-label form-label" for="remitirCaso_no"> No </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12" *ngIf="f.remitirCaso.value == 'si'">
+                                <div class="col-lg-12">
+                                    <label class="form-label">¿A qué Comisaría se va a trasladar el caso?</label>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            
+                                            <select
+                                            class="form-select"
+                                            [ngClass]="{
+                                                'input-req': vComisaria && mostrarValidaciones
+                                            }"
+                                            *ngIf="!isEntidad"
+                                            formControlName="comisaria"
+                                            >
+                                                <option disabled value="">Comisaría</option>
+                                                <option
+                                                    *ngFor="let comisaria of selectComisaria"
+                                                    [value]="comisaria.id_comisaria"
+                                                >
+                                                    {{ comisaria.nombre }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-8 d-flex justify-content-start">
+                                            <button type="button" class="btn btn-block button-new" (click)="descargarDocumento()">Descargar Formato de Traslado <!--mat-icon class="material-icons-outlined" style="font-size: 18px;">file_download</mat-icon--></button>
+                                            &nbsp;
+                                            <app-carga-archivo *ngIf="(!this.infoInicial?.idAdjuntoConstanciaTraslado || this.infoInicial?.idAdjuntoConstanciaTraslado === '' || this.infoInicial?.idAdjuntoConstanciaTraslado === 0)"
+                                                (baseArchivo)="cargarConstancia($event)" 
+                                                textoCargar="Subir Constancia del Traslado">
+                                            </app-carga-archivo>
+
+                                            <app-carga-archivo *ngIf="(this.infoInicial?.idAdjuntoConstanciaTraslado !== '' && this.infoInicial?.idAdjuntoConstanciaTraslado !== 0)"
+                                                (baseArchivo)="cargarConstancia($event)" 
+                                                [deleteIcon]="delete" 
+                                                [downloadIcon]="delete"
+                                                [archivoCargado]="iFileConstancia"
+                                                textoCargar="Subir Constancia del Traslado">
+                                            </app-carga-archivo>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div *ngIf="f.hechosExistentes.value === 'Amenaza o vulneración de derechos'">
+                        <!-- div class="mt-5"></div-->
+                        <div class="form-check form-check-inline mt-2 mb-2">
+                            <input
+                                class="form-check-input"
+                                type="checkbox"
+                                id="seguirTramitePrevencion"
+                                formControlName="seguirTramitePrevencion"
+                            />
+                            <label class="form-label" for="seguirTramitePrevencion">Seguir el trámite de competencia a prevención</label>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="row mb-3">
+            <div class="row mb-3" *ngIf="esMenorEdad">
                 <div class="col-lg-12 mt-2">
                     <label class="form-label">Se identificaron documentos {{esMenorEdad ? 'de los menores de edad':'del adulto mayor'}}. ¿Desea iniciar por el proceso de VERIFICACION DE DERECHOS?</label>
 
@@ -147,7 +246,7 @@
                 </div>
             </div>
 
-            <div class="row mb-3">
+            <div class="row mb-3" *ngIf="esMenorEdad">
                 <div class="col-lg-12">
                     <div class="mb-3">
                         <label for="observaciones" class="form-label">Observaciones (*)</label>
@@ -174,7 +273,7 @@
         </div>
 
         <div class="row mx-0 mt-2 py-4">
-            <div class="col-12 px-0">
+            <div class="col-12 px-0 d-flex justify-content-end" >
 
                 <div *ngIf="esMenorEdad; else es_adulto_mayor" style="display: flex; justify-content: flex-end;">
                     <app-auto-tramite class="me-2" *ngIf="perfil === 'ABO'"></app-auto-tramite>   

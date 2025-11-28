@@ -39,6 +39,7 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
   public msgObligatorio: string = Mensajes.CAMPO_OBLIGATORIO;
   public msgInvalido: string = Mensajes.MENSAJE_CAMPO_INV;
   public selectEntidad: EntidadInterface[] = [];
+  public selectComisaria: EntidadInterface[] = [];
 
   constructor(
     private presolicitudService: PreSolicitudService,
@@ -64,6 +65,7 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.cargaSelectEntidad();
+    this.cargaSelectComisaria();
 
     this.presolicitudService.presolicitud$
       .subscribe({
@@ -93,6 +95,10 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
       idEntidadTraslado:null,
       justificacionTraslado:'',
       verificacionDerecho:null,
+      
+      // Adulto Mayor
+      tramiteCorrespondiente:null, // hechosExistentes(Menor de edad)==tramiteCorrespondiente(Adulto mayor)
+      remitirCaso:null
     });
   }
 
@@ -111,6 +117,10 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
       seguirTramitePrevencion:this.infoInicial.seguirTramitePrevencion,
       idEntidadTraslado:this.infoInicial.idEntidadTraslado,
       justificacionTraslado:this.infoInicial.justificacionTraslado,
+
+      // Adulto Mayor
+      tramiteCorrespondiente:this.infoInicial.tramiteCorrespondiente, // hechosExistentes(Menor de edad)==tramiteCorrespondiente(Adulto mayor)
+      remitirCaso:this.infoInicial.remitirCaso
     });
 
     if (this.infoInicial.hechosExistentes === 'Inobservancia') {
@@ -320,6 +330,7 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
     });
   }
 
+
    public descargarDocumento(): void {
     const nombre: string = 'FORMATO TRASLADO.pdf';
 
@@ -361,5 +372,17 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
       this.form.controls['justificacionTraslado'].setValidators(null)
       this.form.controls['justificacionTraslado'].updateValueAndValidity();
     }
+  }
+
+  /**
+   * @description carga el select de comisaria
+   */
+  private cargaSelectComisaria() {
+
+    this.solicitudService.getComisariaTraslado(this.user?.idComisaria).subscribe((comisaria) => {
+      if (comisaria.statusCode === CodigosRespuesta.OK) {
+        this.selectComisaria = comisaria.data;
+      }
+    });
   }
 }

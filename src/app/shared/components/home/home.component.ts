@@ -15,6 +15,8 @@ interface Card {
   route: string;
   visible: boolean;
   requiredProfileName?: string;
+  description2: string;
+  
 }
 
 @Component({
@@ -32,15 +34,17 @@ export class HomeComponent implements OnInit, OnDestroy {
       route: "recepcion-auxiliar",
       visible: false,
       requiredProfileName: "Auxiliar",
+      description2:"(Menor - Adulto Mayor)",
     },
     {
-      title: "Solicitudes VIF",
+      title: "Solicitudes VIF (VCF)",
       description:
         "Registrar un nuevo caso de violencia intrafamiliar en el sistema de información SIGFA.",
       icon: "add_circle_outline",
       route: "ciudadano",
       visible: false,
       requiredProfileName: "Auxiliar",
+      description2:""
     },
   ];
 
