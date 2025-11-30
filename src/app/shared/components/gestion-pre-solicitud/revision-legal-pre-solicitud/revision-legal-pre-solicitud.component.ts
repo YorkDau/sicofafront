@@ -72,7 +72,6 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
       next: (data) => {
         if (data) {
           this.infoInicial = data.presolicitudABO;
-          console.log(this.infoInicial);
           this.loadData();
         }
       },
@@ -389,6 +388,8 @@ public actualizarValidacionComisaria() {
     this.f.justificacionTraslado.setValue('');
     this.f.idAdjuntoConstanciaTraslado.setValue(null);
     this.f.adjuntoConstanciaTraslado.setValue('');
+    
+    this.f.comisariaSeleccionada.clearValidators();
     
   } else {
     this.f.comisariaSeleccionada.clearValidators();

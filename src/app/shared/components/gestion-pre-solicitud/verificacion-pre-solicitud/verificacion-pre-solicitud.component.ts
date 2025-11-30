@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { CodigosRespuesta, ImagenesModal, Mensajes } from 'src/app/constants';
 import { ResponseInterface } from 'src/app/interfaces/response.interface';
+import { ArchivoInterface } from 'src/app/interfaces/shared.interfaces';
 import { UserInterface } from 'src/app/interfaces/usuario.interface';
 import { PreSolicitudService } from 'src/app/pages/private/services/pre-solicitud.service';
 import { Modales } from 'src/app/shared/modals';
@@ -28,6 +29,8 @@ export class VerificacionPreSolicitudComponent implements OnInit {
   public info: any;
   public user: UserInterface | undefined;
   public esAdultoMayor: Boolean = false;
+  public delete: boolean = true;
+  public iFile: ArchivoInterface = {};
 
   public msgObligatorio: string = Mensajes.CAMPO_OBLIGATORIO;
   public msgInvalido: string = Mensajes.MENSAJE_CAMPO_INV;
@@ -91,6 +94,7 @@ export class VerificacionPreSolicitudComponent implements OnInit {
           disabled: this.perfil !== 'PSI' && this.perfil !== 'TSO',
         },
       ],
+      adjunto: '',
       cita: [
         { value: '', disabled: this.perfil !== 'PSI' && this.perfil !== 'TSO' },
         Validators.required,
@@ -131,6 +135,8 @@ export class VerificacionPreSolicitudComponent implements OnInit {
           disabled: this.perfil !== 'PSI' && this.perfil !== 'TSO',
         },
       ],
+      adjunto: '',
+      idArchivo: this.infoInicial.idAdjuntoInstrumento,
       cita: [
         {
           value: null,
@@ -139,6 +145,26 @@ export class VerificacionPreSolicitudComponent implements OnInit {
         Validators.required,
       ],
     });
+
+    if (
+      this.infoInicial.idAdjuntoInstrumento !== '' &&
+      this.infoInicial.idAdjuntoInstrumento !== 0 &&
+      !['PSI','TSO'].includes(this.perfil)
+    ) {
+      this.delete = false;
+      this.iFile.idArchivo = this.infoInicial.idAdjuntoInstrumento;
+      this.iFile.idSolicitud = this.info.idSolicitud;
+    } else if (
+      this.infoInicial.idAdjuntoInstrumento !== '' &&
+      this.infoInicial.idAdjuntoInstrumento !== 0 &&
+      ['PSI','TSO'].includes(this.perfil)
+    ) {
+      this.delete = true;
+      this.iFile.idArchivo = this.infoInicial.idAdjuntoInstrumento;
+      this.iFile.idSolicitud = this.info.idSolicitud;
+    } else {
+      this.delete = true;
+    }
 
     this.initFormLstTipoViolencia(this.lstTipoViolencia);
     this.lstCitasDisponibles = this.infoInicial.listaCitasDisponibles;
@@ -404,8 +430,8 @@ export class VerificacionPreSolicitudComponent implements OnInit {
 
     return {
       idSolicitudServicio: this.idPresolicitud,
-      denunciaVerificada:
-        this.f.denunciaVerificada.value === 'si' ? true : false,
+      denunciaVerificada: this.f.denunciaVerificada.value === 'si' ? true : false,
+      adjuntoInstrumento: this.f.adjunto.value,
       observacionesVerificacion: this.f.observaciones.value,
       continuaDenuncia: this.f.continuaDenuncia.value === 'si' ? true : false,
       idCita: this.f.cita.value ? this.f.cita.value.idCita : 0,
@@ -458,9 +484,15 @@ export class VerificacionPreSolicitudComponent implements OnInit {
 
   get mostrarSelectCitas() {
     const isContinua = this.form.get('continuaDenuncia')?.value === 'si';
-    const isDenuncia = ['DEN','DENAM'].includes(this.tipoPresolicitud) && !this.esPARD;
+    const isDenuncia = ['DEN'].includes(this.tipoPresolicitud) && !this.esPARD;
 
     return isContinua && isDenuncia ? true : false;
+  }
+  
+  cargarArchivo(base64: string) {
+    if (base64) {
+      this.f.adjunto.setValue(base64);
+    }
   }
 
 }
