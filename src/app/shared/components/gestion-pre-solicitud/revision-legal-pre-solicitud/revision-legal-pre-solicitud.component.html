@@ -43,7 +43,7 @@
           </div>
         </div>
 
-        <div *ngIf="f.competenciaComisaria.value === 'no'">
+        <div *ngIf="f.competenciaComisaria.value === 'no' && esMenorEdad">
           <div class="col-lg-12 mt-2">
             <label class="form-label"
               >De acuerdo al relato de los hechos existe:</label
@@ -190,11 +190,10 @@
         </div>
       </div>
 
-      <div class="row mb-3">
+      <div class="row mb-3" *ngIf="esMenorEdad">
         <div class="col-lg-12 mt-2">
           <label class="form-label"
-            >Se identificaron documentos
-            {{ esMenorEdad ? "de los menores de edad" : "del adulto mayor" }}.
+            >Se identificaron documentos de los menores de edad.
             ¿Desea iniciar por el proceso de VERIFICACION DE DERECHOS?</label
           >
 

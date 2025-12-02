@@ -11,7 +11,8 @@
             </div>
         </div>
 
-        <div class="row px-0 p-3">
+        <!--es_menor-->
+        <div class="row px-0 p-3" *ngIf="esMenor">
             <div class="row">
                 <div class="col-lg-12">
                     <label class="form-label">¿El caso es competencia del ICBF?</label>
@@ -39,7 +40,7 @@
                         "Este caso va a ser trasladado al ICBF. No olvide de subir la constancia del traslado, la verificación de derechos y el auto de apertura de investigación.
                     </div>
                 </div>
-                <div class="col-lg-12" style="display: flex; justify-content: flex-start">
+                <div class="col-lg-12 d-flex justify-content-start">
                     <button type="button" class="btn btn-sm btn-primary" (click)="descargarDocumento()">Descargar Formato Traslado </button>
                     &nbsp;
                     <app-carga-archivo *ngIf="(!this.infoInicial?.idAdjuntoConstanciaTraslado || this.infoInicial?.idAdjuntoConstanciaTraslado === '' || this.infoInicial?.idAdjuntoConstanciaTraslado === 0)"
@@ -84,6 +85,63 @@
                         textoCargar="Subir Auto apertura investigación"
                         isSmallSize="true">
                     </app-carga-archivo>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-lg-12">
+                    <div class="mb-3">
+                        <label for="observaciones" class="form-label">Observaciones (*)</label>
+                        <textarea type="text" class="form-control resize-none" formControlName="observaciones"
+                            placeholder="Observaciones" id="observaciones" maxlength="3000"
+                            style="min-height: 150px; max-height: 150px; resize: none;" [ngClass]="{
+                                'input-req':
+                                maxLength('observaciones') && mostrarValidaciones ||
+                                isRequired('observaciones') && mostrarValidaciones
+                            }"></textarea>
+                        <div *ngIf="maxLength('observaciones') && mostrarValidaciones" class="msj-req">
+                            {{ msgInvalido }}
+                        </div>
+                        <div class="msj-req" *ngIf="isRequired('observaciones') && mostrarValidaciones">
+                            {{ msgObligatorio }}
+                        </div>
+                        <div class="row float-end pe-3">
+                            {{ f.observaciones.value?.length }}/3000
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- es_adulto_mayor -->
+        <div class="row px-0 p-3" *ngIf="esAdultoMayor">
+            <div class="row">
+                <div class="col-lg-12">
+                    <label class="form-label">¿Es procedente la solicitud?</label>
+                    <div class="pt-2">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" value="si"
+                                formControlName="competenciaIcbf" name="competenciaIcbf"
+                                id="procedente_solicitud_si" />
+                            <label class="form-check-label form-label" for="procedente_solicitud_si"> Si </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" value="no"
+                                formControlName="competenciaIcbf" name="competenciaIcbf"
+                                id="procedente_solicitud_no" />
+                            <label class="form-check-label form-label" for="procedente_solicitud_no"> No </label>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3" *ngIf="f.competenciaIcbf.value === 'si'">
+                <div class="col-lg-12">
+                    <div class="alert alert-info alert-sm" role="alert">
+                        "Debe dirigirse al Auxiliar administrativo para que realice el tramite por VCF.
+                    </div>
                 </div>
             </div>
 

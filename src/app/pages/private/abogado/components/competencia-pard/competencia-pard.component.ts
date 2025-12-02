@@ -46,6 +46,12 @@ export class CompetenciaPardComponent implements OnInit {
   get f() {
     return this.form.controls;
   }
+  get esMenor(){
+    return this.objSol.tipo_presolicitud === 'DEN'
+  }
+  get esAdultoMayor(){
+    return this.objSol.tipo_presolicitud === 'DENAM'
+  }
 
   initForm() {
     this.form = this.formBuilder.group({
@@ -176,4 +182,5 @@ export class CompetenciaPardComponent implements OnInit {
       this.f.adjuntoAutoApertura.setValue(base64);
     }
   }
+  
 }

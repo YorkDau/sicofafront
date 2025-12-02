@@ -12,7 +12,12 @@
           <mat-icon>{{ card.icon }}</mat-icon>
         </div>
         <h3 class="card-title">{{ card.title }}</h3>
-        <p class="card-description">{{ card.description }}</p>
+        <p class="card-description">
+          {{ card.description }} 
+          <br>
+          <span *ngIf="card.description2">{{ card.description2 }}</span>
+        </p>
+ 
         <a
           [routerLink]="card.route"
           class="card-link"

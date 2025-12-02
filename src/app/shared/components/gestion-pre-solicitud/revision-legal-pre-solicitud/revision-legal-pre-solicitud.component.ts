@@ -66,12 +66,12 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.cargaSelectEntidad();
+    this.cargaSelectComisaria();
 
     this.presolicitudService.presolicitud$.subscribe({
       next: (data) => {
         if (data) {
           this.infoInicial = data.presolicitudABO;
-          console.log(this.infoInicial);
           this.loadData();
         }
       },
@@ -389,6 +389,8 @@ public actualizarValidacionComisaria() {
     this.f.idAdjuntoConstanciaTraslado.setValue(null);
     this.f.adjuntoConstanciaTraslado.setValue('');
     
+    this.f.comisariaSeleccionada.clearValidators();
+    
   } else {
     this.f.comisariaSeleccionada.clearValidators();
     
@@ -410,6 +412,7 @@ public actualizarValidacionComisaria() {
       }
     });
   }
+
 
   public descargarDocumento(): void {
     const nombre: string = 'FORMATO TRASLADO CASO.pdf';
@@ -455,4 +458,15 @@ public actualizarValidacionComisaria() {
       this.form.controls['justificacionTraslado'].updateValueAndValidity();
     }
   }
+
+  // /**
+  //  * @description carga el select de comisaria
+  //  */
+  // private cargaSelectComisaria() {
+  //   this.solicitudService.getComisariaTraslado(this.user?.idComisaria).subscribe((comisaria) => {
+  //     if (comisaria.statusCode === CodigosRespuesta.OK) {
+  //       this.selectComisaria = comisaria.data;
+  //     }
+  //   });
+  // }
 }
