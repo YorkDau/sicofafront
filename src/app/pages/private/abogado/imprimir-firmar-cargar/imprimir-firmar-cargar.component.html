@@ -44,7 +44,7 @@
     </div>
   </div>
   <div class="row align-items-end" *ngIf="datosFirma?.esNecesarioRemitir">
-    <div class="col-lg-6 px-1">
+    <div class="col-lg-6 px-1" *ngIf="!esAdultoMayor()">
       <label for="comisaria" class="form-label mb-1"
         >¿A que Comisaria se traslada ?*</label
       >
@@ -60,6 +60,27 @@
           [value]="comisaria.id_comisaria"
         >
           {{ comisaria.nombre }}
+        </option>
+      </select>
+    </div>
+
+    <div class="col-lg-6 px-1" *ngIf="esAdultoMayor()">
+      <label for="comisaria" class="form-label mb-1"
+        >¿A que Entidad se traslada ?*</label
+      >
+      <select
+        [(ngModel)]="idEntidadTraslado"
+        id="idEntidadTraslado"
+        class="form-select form-control"
+      >
+        <option [ngValue]="null" disabled>
+          Seleccione una entidad
+        </option>
+        <option
+          *ngFor="let entidad of selectEntidad"
+          [value]="entidad.id_entidad_externa"
+        >
+          {{ entidad.nombre }}
         </option>
       </select>
     </div>
@@ -144,7 +165,7 @@
       (click)="modalConfirmaCerrarActuacion()"
       [disabled]="
         (datosFirma?.esNecesarioRemitir &&
-          (!comisariaSeleccionada || !archivoRemision)) ||
+          ((!comisariaSeleccionada && !idEntidadTraslado) || !archivoRemision)) ||
         (!datosFirma?.esNecesarioRemitir && !archivo)
       "
     >

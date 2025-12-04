@@ -85,7 +85,11 @@
         [mostrarObservaciones]="checkAprobacionComisario"
         (comentarios)="obtenerComentarios($event)"
         (checkComisario)="obtenerCheckComisario($event)"
+        (checkCierre)="obtenerCheckCierre($event)"
         (cambioRemision)="obtenerRemision($event)"
+        (cambioObservacionCierre)="obtenerObservacionCierre($event)"
+        (cambioAdjuntoAutoCierre)="obtenerAdjuntoCierre($event)"
+        
       ></app-observaciones-auto>
     </ng-container>
 

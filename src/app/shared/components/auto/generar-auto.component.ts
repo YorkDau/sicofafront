@@ -55,6 +55,10 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
 
   // ✅ Segunda pregunta como boolean
   public esNecesarioRemitir: boolean = false; // por defecto NO
+  public cierre?: boolean = undefined;
+  public observacionCierre: string = '';
+  public adjuntoAutoCierre: string = '';
+  
 
   constructor(
     private autoService: AutoService,
@@ -161,6 +165,9 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
       secciones: this.listaSecciones,
       // ✅ guardar como boolean
       esNecesarioRemitir: this.esNecesarioRemitir,
+      cierre:this.cierre,
+      observacionCierre:this.observacionCierre,
+      adjuntoAutoCierre:this.adjuntoAutoCierre
     };
   }
 
@@ -237,14 +244,17 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
   }
 
   private retornarObjCerrarActuacion(): any {
-    return {
+    var dato = {
       tareaID: this.objSol.idTarea,
       userID: this.user?.userID,
       perfilCod: "",
+      // valorEtiqueta: this.cierre !== undefined ? (this.cierre ? "1" : "0") : (this.checkAprobacionComisario ? "1" : "0"),
       valorEtiqueta: this.checkAprobacionComisario ? "1" : "0",
-      esNecesarioRemitir: this.esNecesarioRemitir, // SI/NO remitir comisaría
-
     };
+    if (this.cierre === true) {
+      dato.valorEtiqueta = "2";
+    }
+    return dato;
   }
 
   public obtenerComentarios(observaciones: string) {
@@ -259,6 +269,20 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
   public obtenerRemision(valor: boolean) {
     this.esNecesarioRemitir = valor;
   }
+  public obtenerCheckCierre(valor?: boolean) {
+    console.log(valor)
+    this.cierre = valor;
+  }
+  
+
+  public obtenerObservacionCierre(valor: string) {
+    this.observacionCierre = valor;
+  }
+  
+  public obtenerAdjuntoCierre(valor: string) {
+    this.adjuntoAutoCierre = valor;
+  }
+  
 
   private validarCampoObservaciones(): boolean {
     if (this.checkAprobacionComisario) {

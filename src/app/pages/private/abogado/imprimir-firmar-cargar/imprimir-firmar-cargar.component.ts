@@ -18,6 +18,7 @@ import { AutoService } from '../services/auto.service';
 import { SharedService } from 'src/app/services/shared.service';
 import { SolicitudService } from '../../services/solicitud.service';
 import { ComisariaInterface } from '../../interfaces/solicitud.interface';
+import { EntidadInterface } from 'src/app/pages/private/interfaces/solicitud.interface';
 
 interface DatosFirma {
   tituloReporte: string;
@@ -44,7 +45,10 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
   public nuevoArchivo: boolean = true;
   public nuevoArchivoRemision: boolean = true;
   public selectComisaria: ComisariaInterface[] = [];
+  public selectEntidad: EntidadInterface[] = [];
   public comisariaSeleccionada: number | null = null;
+  public idEntidadTraslado: number | null = null;
+  
 
   constructor(
     private autoService: AutoService,
@@ -57,6 +61,7 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
     private sharedService: SharedService
   ) {
     this.cargaSelectComisaria();
+    this.cargaSelectEntidad();
   }
 
   ngOnDestroy(): void {
@@ -66,6 +71,7 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if (sessionStorage.getItem('info')) {
       this.objSol = JSON.parse(sessionStorage.getItem('info')!);
+      console.log(this.objSol)
       this.user = this.authService.currentUserValue;
       this.cargarListadoSecciones();
     } else this.redireccionar();
@@ -86,6 +92,18 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
         }
       });
   }
+
+  /**
+   * @description carga el select de entidad
+   */
+  private cargaSelectEntidad() {
+    this.solicitudService.getEntidades().subscribe((entidad) => {
+      if (entidad.statusCode === CodigosRespuesta.OK) {
+        this.selectEntidad = entidad.data;
+      }
+    });
+  }
+
   /**
    * @description carga el auto para mostrar el reporte
    */
@@ -238,6 +256,7 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
       idUsuario: this.user?.userID,
       idComisaria: this.user?.idComisaria,
       idComisariaTraslado: this.comisariaSeleccionada,
+      idEntidadTraslado:this.idEntidadTraslado,
     };
   }
 
@@ -279,6 +298,7 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
       idUsuario: this.user?.userID,
       idComisaria: this.user?.idComisaria,
       idComisariaTraslado: this.comisariaSeleccionada,
+      idEntidadTraslado:this.idEntidadTraslado,
     };
   }
   onChangeComisaria() {
@@ -401,5 +421,9 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
     ).subscribe((res) => {
       if (res) this.cargarAdjuntoFirma(true);
     });
+  }
+  
+  esAdultoMayor() {
+    return this.objSol.tipoProceso.indexOf("Adulto Mayor") > -1
   }
 }

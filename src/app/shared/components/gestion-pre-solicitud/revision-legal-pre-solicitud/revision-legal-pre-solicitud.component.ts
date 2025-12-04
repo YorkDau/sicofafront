@@ -30,6 +30,8 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
   public delete: boolean = true;
   public deleteConstancia: boolean = true;
   public esMenorEdad: boolean = true;
+  public esAdultoMayor: boolean = true;
+  
 
   public info: any;
   public iFile: ArchivoInterface = {};
@@ -58,6 +60,7 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
     this.user = this.authService.currentUserValue!;
     this.perfil = this.user.perfil!;
     this.esMenorEdad = this.info.tipo_presolicitud !== 'DENAM';
+    this.esAdultoMayor = this.info.tipo_presolicitud === 'DENAM';
     this.cargaSelectComisaria();
   }
   get f() {
@@ -101,6 +104,7 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
     });
   }
   loadData() {
+    console.log(this.infoInicial)
     this.form = this.formBuilder.group({
       competenciaComisaria: [
         {
@@ -458,6 +462,8 @@ public actualizarValidacionComisaria() {
       this.form.controls['justificacionTraslado'].updateValueAndValidity();
     }
   }
+
+  
 
   // /**
   //  * @description carga el select de comisaria
