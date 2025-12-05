@@ -53,6 +53,7 @@ export class ModalDetalleSolicitudCiudadanoComponent implements OnInit {
     await this.cargarAnexos();    
 
     this.store.select('tipo_entidad').subscribe(({ tipo_entidad }) => {
+    console.log(tipo_entidad)
       this.listaTipoEntidad = tipo_entidad;
     });
   }

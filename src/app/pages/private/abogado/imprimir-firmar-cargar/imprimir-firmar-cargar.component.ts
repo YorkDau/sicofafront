@@ -247,7 +247,7 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
    * @returns objeto para cerrar la actuación
    */
   private crearObjCerrarActuacion(): any {
-    return {
+    let datos = {
       tareaID: this.objSol.idTarea,
       userID: this.user?.userID,
       perfilCod: this.user?.perfil,
@@ -258,6 +258,11 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
       idComisariaTraslado: this.comisariaSeleccionada,
       idEntidadTraslado:this.idEntidadTraslado,
     };
+    // Agregado para cerrar solicitud en 
+    if (this.idEntidadTraslado && this.esAdultoMayor()) {
+      datos.valorEtiqueta = '2'; 
+    }
+    return datos;
   }
 
   /**

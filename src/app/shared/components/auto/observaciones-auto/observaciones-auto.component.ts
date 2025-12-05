@@ -23,7 +23,6 @@ export class ObservacionesAutoComponent implements OnInit {
   @Output() checkCierre = new EventEmitter<boolean | undefined>();
   @Output() cambioRemision = new EventEmitter<boolean>();
   @Output() cambioAdjuntoAutoCierre = new EventEmitter<string>();
-  @Output() cambioObservacionCierre = new EventEmitter<string>();
   
   
   public info: any;
@@ -52,12 +51,6 @@ export class ObservacionesAutoComponent implements OnInit {
   }
 
   
-  /**
-   * @description Emite el texto de las observacionCierre
-   */
-  emitirObservacionesCierre(): void {
-    this.cambioObservacionCierre.emit(this.observacionCierre);
-  }
 
   /**
    * @description Emite si requiere ajuste adicional

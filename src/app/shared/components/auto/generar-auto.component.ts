@@ -248,7 +248,6 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
       tareaID: this.objSol.idTarea,
       userID: this.user?.userID,
       perfilCod: "",
-      // valorEtiqueta: this.cierre !== undefined ? (this.cierre ? "1" : "0") : (this.checkAprobacionComisario ? "1" : "0"),
       valorEtiqueta: this.checkAprobacionComisario ? "1" : "0",
     };
     if (this.cierre === true) {
@@ -275,9 +274,6 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
   }
   
 
-  public obtenerObservacionCierre(valor: string) {
-    this.observacionCierre = valor;
-  }
   
   public obtenerAdjuntoCierre(valor: string) {
     this.adjuntoAutoCierre = valor;
