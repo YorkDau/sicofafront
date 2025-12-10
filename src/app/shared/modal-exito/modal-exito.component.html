@@ -1,9 +1,9 @@
 <div
-  class="d-flex justify-content-center align-items-center flex-column"
+  class="d-flex justify-content-center align-items-center flex-column mt-4"
 >
   <img [src]="data.image" alt="exclamacion" class="img-fluid mb-2 mt-4" />
-  <div class="w-100 text-center mb-3" [innerHtml]="data.mensaje"></div>
-  <button class="btn btn-primary mt-4" type="button" (click)="cerrarModal()">
+  <div class="w-100 text-center mt-3 mb-4" [innerHtml]="data.mensaje"></div>
+  <button class="btn btn-primary mt-2" type="button" (click)="cerrarModal()">
     Continuar
   </button>
 </div>

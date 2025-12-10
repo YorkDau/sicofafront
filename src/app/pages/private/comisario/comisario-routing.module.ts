@@ -7,6 +7,8 @@ import { SeguimientoComponent } from 'src/app/shared/seguimiento/seguimiento.com
 import { GenerarAutoComponent } from '../../../shared/components/auto/generar-auto.component';
 import { InicioCasosComponent } from '../../../shared/components/inicio-casos/inicio-casos.component';
 import { DecisionJuezComponent } from '../abogado/components/decision-juez/decision-juez.component';
+import { TomarDecisionComponent } from 'src/app/shared/components/tomar-decision/tomar-decision.component';
+
 import { QuorumComponent } from '../quorum/quorum/quorum.component';
 import { ComisarioComponent } from './comisario/comisario.component';
 import { GestionDominiosComponent } from './administracion/gestion-dominios/gestion-dominios.component';
@@ -52,7 +54,8 @@ const routes: Routes = [
       },
       { path: 'consulta-general/:id', 
         component: ConsultaGeneralComponent
-      }
+      },
+      { path: 'tomar-decision/:id', component: TomarDecisionComponent },
     ],
   },
 ];
@@ -60,5 +63,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
+  
 })
 export class ComisarioRoutingModule {}

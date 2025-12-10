@@ -946,8 +946,10 @@ export class DatosInvolucradosComponent implements AfterViewInit {
     formulario: "agresor" | "victima",
     cerrarActuaciones: boolean = false,
   ) {
+    console.log("GUARDAR:::"+formulario)
     //Insertar aquí las acciones a realizar.
     if (formulario == "victima") {
+      console.log(this.isValidForm("victima"));
       if (this.isValidForm("victima")) {
         this.showOnSubmitIsRequiredVictima = false;
         this.postActualizarInvolucradoVictima().subscribe({

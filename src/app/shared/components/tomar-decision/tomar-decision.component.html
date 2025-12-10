@@ -1,0 +1,119 @@
+<!--app-encabezado-private></app-encabezado-private-->
+
+<div class="background-gray rounded-basic p-4 mb-3">
+
+  <form  class="" >
+    <div class="row mb-3">
+      <div class="col-lg-12">
+          <label class="form-label">¿Se cuenta con concilación previa de otra institución o entidad acerca de los alimentos de la persona adulta mayor?</label>
+          <!--label class="form-label">¿Hay concilación de alimentos anterior?</label-->
+          <div class="pt-2">
+              <div class="form-check form-check-inline">
+                <!-- (click)="cumpleConcilacion = true" -->
+                  <input class="form-check-input" type="radio" [value]="true"
+                      [(ngModel)]="concilacion" name="concilacion"
+                      id="concilacion_si" />
+                  <label class="form-check-label form-label" for="concilacion_si"> Si </label>
+              </div>
+              <div class="form-check form-check-inline">
+                <!-- (click)="cumpleConcilacion = false" -->
+                  <input class="form-check-input" type="radio" [value]="false" 
+                      [(ngModel)]="concilacion" name="concilacion" 
+                      id="concilacion_no" />
+                  <label class="form-check-label form-label" for="concilacion_no"> No </label>
+              </div>
+
+          </div>
+      </div>
+      <div class="col-lg-12 mt-3" *ngIf="concilacion === true">
+          <label class="form-label">¿Se cumplio?</label>
+          <div class="pt-2">
+              <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" [value]="true"
+                      [(ngModel)]="cumpleConcilacion" name="cumpleConcilacion"
+                      id="cumpleConcilacion_si" />
+                  <label class="form-check-label form-label" for="cumpleConcilacion_si"> Si </label>
+              </div>
+              <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" [value]="false"
+                      [(ngModel)]="cumpleConcilacion" name="cumpleConcilacion"
+                      id="cumpleConcilacion_no" />
+                  <label class="form-check-label form-label" for="cumpleConcilacion_no"> No </label>
+              </div>
+
+          </div>
+      </div>
+      <div class="col-lg-12 mt-3" *ngIf="concilacion == true && cumpleConcilacion === false">
+        <div class="row">
+          <div class="col-lg-6">
+            <label for="idEntidadTraslado" class="form-label mb-1"
+              >¿A que Entidad se traslada ?*</label
+            >
+            <select
+              [(ngModel)]="idEntidadTraslado"
+              id="idEntidadTraslado"
+              class="form-select form-control"
+            >
+              <option [ngValue]="null" disabled>
+                Seleccione una entidad
+              </option>
+              <option
+                *ngFor="let entidad of selectEntidad"
+                [value]="entidad.id_entidad_externa"
+              >
+                {{ entidad.nombre }}
+              </option>
+            </select>
+          </div>
+          <div class="col-lg-6 d-flex align-items-center gap-2 mt-4">
+            <app-carga-archivo
+              (baseArchivo)="cargarArchivo($event)"
+              textoCargar="Cargar acta concilación anterior"
+            ></app-carga-archivo>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-12 my-3" *ngIf="concilacion == true && cumpleConcilacion === true">
+        <label for="observaciones" class="form-label">
+        Observaciones
+      </label>
+      <textarea
+        id="observaciones"
+        class="form-control"
+        rows="3"
+        placeholder="Observaciones"
+        style="resize: none"
+        [(ngModel)]="observaciones"
+      ></textarea>
+      </div>
+      
+      <div class="col-lg-12 mt-3" *ngIf="concilacion == true && cumpleConcilacion === true">
+        <div class="d-flex align-items-center">
+          <button class="btn button-new px-3 me-3" (click)="generarReporte()">
+            Generar Auto Cierre
+          </button>
+          <app-carga-archivo
+            textoCargar="Cargar documento"
+          ></app-carga-archivo>
+
+        </div>
+      </div>
+    </div>
+
+    
+
+  <div class="row mx-0 mt-5 py-4 p-5">
+      <div class="col-12 d-flex justify-content-end px-0">
+        <!-- (click)="cancelar()" -->
+          <button class="btn btn-danger px-4 ms-3" >
+              Cancelar
+          </button>
+          <!-- (click)="modalConfirmaCerrarActuacion()" -->
+          <button class="btn btn-primary px-4 ms-3" >
+              Cerrar Actuaciones
+          </button>
+      </div>
+  </div>
+
+  </form>
+</div>

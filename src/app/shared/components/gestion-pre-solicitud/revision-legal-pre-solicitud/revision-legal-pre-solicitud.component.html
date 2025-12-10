@@ -318,7 +318,7 @@
 
         <div>
           <div *ngIf="f.trasladoPard.value === 'si'">
-            <div class="col-lg-6 mt-2 mb-4">
+            <div class="col-lg-6 mt-2 mb-4" *ngIf="esMenorEdad">
               <label for="comisaria" class="form-label mb-1"
                 >¿A que Comisaria se traslada ?*</label
               >
@@ -347,6 +347,37 @@
                 {{ msgObligatorio }}
               </div>
             </div>
+
+            <div class="col-lg-6 mt-2 mb-4" *ngIf="esAdultoMayor">
+              <label for="comisaria" class="form-label mb-1"
+                >¿A que Entidad se traslada ?*</label
+              >
+              <select
+                id="comisaria"
+                class="form-select py-1"
+                formControlName="comisariaSeleccionada"
+                (change)="onChangeComisaria()"
+              >
+                <option [ngValue]="null" disabled>
+                  Seleccione una comisaría
+                </option>
+                <option
+                  *ngFor="let comisaria of selectComisaria"
+                  [value]="comisaria.id_comisaria"
+                >
+                  {{ comisaria.nombre }}
+                </option>
+              </select>
+              <div
+                class="msj-req"
+                *ngIf="
+                  mostrarValidaciones && isRequired('comisariaSeleccionada')
+                "
+              >
+                {{ msgObligatorio }}
+              </div>
+            </div>
+
           </div>
         </div>
       </div>

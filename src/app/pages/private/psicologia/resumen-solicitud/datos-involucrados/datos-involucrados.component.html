@@ -77,18 +77,22 @@
           >
         </div>
 
-        <div class="form-group col-lg-4 mb-4">
-          <label class="form-label text-capitalize">Segundo Apellido</label>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Segundo Apellido"
-            formControlName="segundoApellido"
-            maxlength="50"
-          />
+        <div class="col-lg-4 mb-4">
+          <div class="form-group">
+            <label class="form-label text-capitalize">Segundo Apellido</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Segundo Apellido"
+              formControlName="segundoApellido"
+              maxlength="50"
+            />
+          </div>
         </div>
 
-        <div class="form-group col-lg-4 mb-4">
+        <div class="col-lg-4 mb-4">
+          
+        <div class="form-group">
           <label class="form-label text-capitalize"
             >tipo de documento<span class="mx-1">*</span></label
           >
@@ -107,6 +111,7 @@
               {{ item.nombre_Dominio }}
             </option>
           </select>
+        </div>
         </div>
 
         <div class="form-group col-lg-4 mb-4">
@@ -202,6 +207,7 @@
                 </span>
               </div>
               <span
+              *ngIf="isRequiredField(formVictima, 'fechaExpedicion')"
                 class="text-danger"
                 [ngClass]="{
                   'opacity-0': !isRequiredField(formVictima, 'fechaExpedicion')
@@ -210,8 +216,8 @@
               >
             </div>
 
-        <div class="form-group col-4 p-3">
-          <label>País de Nacimiento</label>
+        <div class="form-group col-lg-4 mb-4">
+          <label class="form-label">País de Nacimiento <span class="mx-1">*</span></label>
 
           <select
             class="form-select"
@@ -225,8 +231,8 @@
           </select>
         </div>
 
-        <div class="col-4 p-3">
-          <label>Departamento de Nacimiento</label>
+        <div class="form-group col-lg-4 mb-4">
+          <label class="form-label">Departamento de Nacimiento <span class="mx-1">*</span></label>
 
           <select
             class="form-select"
@@ -243,8 +249,8 @@
           </select>
         </div>
 
-        <div class="col-4 p-3">
-          <label>Municipio de Nacimiento</label>
+        <div class="form-group col-lg-4 mb-4">
+          <label class="form-label">Municipio de Nacimiento <span class="mx-1">*</span></label>
           <select
             class="form-select"
             formControlName="municipioNacimiento"
@@ -260,7 +266,7 @@
         </div>
 
         <div class="form-group col-lg-4 mb-4">
-          <label class="form-label text-capitalize">fecha nacimiento<span class="mx-1">*</span></label >
+          <label class="form-label text-capitalize">fecha nacimiento<span class="mx-1">*</span></label>
           <div class="input-group" style="max-height: 38px">
             <input
               readonly
@@ -272,7 +278,7 @@
               [max]="dateMax"
               [min]="dateMin"
             />
-            <span
+            <span 
               class="input-group-text border-start-0 p-0 bg-white"
               style="max-height: 38px"
             >
@@ -284,6 +290,7 @@
             </span>
           </div>
           <span
+          *ngIf="isRequiredField(formVictima, 'fechaNacimiento')"
             class="text-danger"
             [ngClass]="{
               'opacity-0': !isRequiredField(formVictima, 'fechaNacimiento')
@@ -310,6 +317,7 @@
             </option>
           </select>
           <small
+          *ngIf="isRequiredField(formVictima, 'sexo')"
             class="form-text text-danger"
             [ngClass]="{
               'opacity-0': !isRequiredField(formVictima, 'sexo')
@@ -959,7 +967,7 @@
           </small>
         </div>
 
-        <div class="form-group col-lg-4">
+        <div class="form-group col-lg-4 mb-4">
           <label class="form-label text-capitalize">Segundo Apellido</label>
           <input
             type="text"
@@ -970,7 +978,7 @@
           />
         </div>
 
-        <div class="form-group col-lg-4">
+        <div class="form-group col-lg-4 mb-4">
           <label class="form-label text-capitalize"
             >tipo de documento<span class="mx-1">*</span></label
           >
@@ -991,7 +999,7 @@
           </select>
         </div>
 
-        <div class="form-group col-lg-4">
+        <div class="form-group col-lg-4 mb-4">
           <label class="form-label text-capitalize"
             >número documento<span class="mx-1">*</span></label
           >
@@ -1054,40 +1062,36 @@
             </option>
           </select>
         </div>
-        <div class="form-group col-lg-4">
-               <label class="form-label text-capitalize"
-                 >fecha de expedición<span class="mx-1">*</span></label
-               >
-               <div class="input-group" style="max-height: 38px">
-                 <input
-                   readonly
-                   (click)="pickerExp2.open()"
-                   placeholder="DD/MM/YYYY"
-                   class="form-control border-end-0 bg-white"
-                   [matDatepicker]="pickerExp2"
-                   formControlName="fechaExpedicion"
-                   [max]="dateMax"
-                   [min]="dateMin"
-                 />
-                 <span
-                   class="input-group-text border-start-0 p-0 bg-white"
-                   style="max-height: 38px"
-                 >
-                   <mat-datepicker-toggle
-                     matSuffix
-                     [for]="pickerExp2"
-                   ></mat-datepicker-toggle>
-                   <mat-datepicker #pickerExp2></mat-datepicker>
-                 </span>
-               </div>
-               <span
-                 class="text-danger"
-                 [ngClass]="{
-                   'opacity-0': !isRequiredField(formAgresor, 'fechaExpedicion')
-                 }"
-                 >Campo requerido</span
-               >
-             </div>
+        <div class="form-group col-lg-4 ">
+          <label class="form-label text-capitalize">
+            fecha de expedición <span class="mx-1">*</span>
+          </label>
+          <div class="input-group" style="max-height: 38px">
+            <input
+              readonly
+              (click)="pickerExp2.open()"
+              placeholder="DD/MM/YYYY"
+              class="form-control border-end-0 bg-white"
+              [matDatepicker]="pickerExp2"
+              formControlName="fechaExpedicion"
+              [max]="dateMax"
+              [min]="dateMin"
+            />
+            <span
+              class="input-group-text border-start-0 p-0 bg-white"
+              style="max-height: 38px"
+            >
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="pickerExp2"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #pickerExp2></mat-datepicker>
+            </span>
+          </div>
+          <span class="text-danger" [ngClass]="{ 'opacity-0': !isRequiredField(formAgresor, 'fechaExpedicion') }">
+          Campo requerido
+          </span>
+        </div>
 
         <div class="form-group col-lg-4 mb-4">
                <label class="form-label text-capitalize">
@@ -1106,7 +1110,7 @@
              </div>
 
              <div class="form-group col-lg-4 mb-4">
-               <label class="form-label text-capitalize">Departamento de Nacimiento<span class="mx-1">*</span></label>
+               <label class="form-label text-capitalize">Departamento de Nacimiento <span class="mx-1">*</span></label>
                <select
                  class="form-select"
                  formControlName="departamentoNacimiento"
