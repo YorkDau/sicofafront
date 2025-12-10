@@ -5,12 +5,16 @@ import { Router } from '@angular/router';
 import { NgSelectConfig } from '@ng-select/ng-select';
 import { Store } from '@ngrx/store';
 import {
+  CodigosRespuesta,
   Mensajes,
 } from 'src/app/constants';
 import { ArchivoInterface } from 'src/app/interfaces/shared.interfaces';
 import { UserInterface } from 'src/app/interfaces/usuario.interface';
+import { EntidadInterface } from 'src/app/pages/private/interfaces/solicitud.interface';
 import { Modales } from 'src/app/shared/modals';
 import { AppState } from 'src/app/store/app.reducer';
+import { SolicitudService } from 'src/app/pages/private/services/solicitud.service';
+
 
 interface infoCiudadano {
   idCiudadano: number;
@@ -41,6 +45,9 @@ export class TomarDecisionComponent implements OnInit {
   public concilacion: boolean = false;
   public cumpleConcilacion: boolean = false;
   public archivoAdjunto: string = '';
+  public observaciones: string = '';
+  public selectEntidad: EntidadInterface[] = [];
+  
 
   public msgObligatorio: string = Mensajes.CAMPO_OBLIGATORIO;
   public msgInvalido: string = Mensajes.MENSAJE_CAMPO_INV;
@@ -54,12 +61,14 @@ export class TomarDecisionComponent implements OnInit {
     private config: NgSelectConfig,
     private datePipe: DatePipe,
     private dialog: MatDialog,
-    private modales: Modales
+    private modales: Modales,
+    private solicitudService: SolicitudService
   ) {
     this.config.notFoundText = 'No se encontraron coincidencias';
   }
 
   ngOnInit(): void {
+    this.cargaSelectEntidad();
 
     
   }
@@ -77,5 +86,15 @@ export class TomarDecisionComponent implements OnInit {
    */
   cancelar() {
     this.modales.modalCancelar('/comisario/casos');
+  }
+  /**
+   * @description carga el select de entidad
+   */
+  private cargaSelectEntidad() {
+    this.solicitudService.getEntidades().subscribe((entidad) => {
+      if (entidad.statusCode === CodigosRespuesta.OK) {
+        this.selectEntidad = entidad.data;
+      }
+    });
   }
 }
