@@ -190,6 +190,12 @@ export class SharedService {
       `${PATH_SERVER}/Apelaciones/ConsultarObservacionesApelaciones/${id_solicitud_servicio}`
     );
   }
+    public consultarRemisionesPorDia(
+  ): Observable<any> {
+    return this.http.get<any>(
+      `${PATH_SERVER}/Solicitud/ObtenerRemisionesPorDia`
+    );
+  }
 
   public guardarObservacionesApelaciones(
     observacionApelacion: any
