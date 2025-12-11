@@ -168,7 +168,6 @@ export class VerificacionPreSolicitudComponent implements OnInit {
 
     this.initFormLstTipoViolencia(this.lstTipoViolencia);
     this.lstCitasDisponibles = this.infoInicial.listaCitasDisponibles;
-    console.log(this.infoInicial);
 
     let cita = this.lstCitasDisponibles.find(
       (x) => x.idCita === this.infoInicial.idCita
@@ -408,7 +407,7 @@ export class VerificacionPreSolicitudComponent implements OnInit {
         tareaID: this.info.idTarea,
         userID: this.user?.userID,
         perfilCod: this.user?.perfil,
-        // valorEtiqueta: this.f.competenciaComisaria.value === 'si' ? 1 : 0,
+        valorEtiqueta: this.f.continuaDenuncia.value === 'si' ? 1 : 2,
         idCita: this.f.cita?.value?.idCita ? this.f.cita?.value?.idCita : 0,
       };
     } else {

@@ -104,7 +104,6 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
     });
   }
   loadData() {
-    console.log(this.infoInicial)
     this.form = this.formBuilder.group({
       competenciaComisaria: [
         {

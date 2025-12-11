@@ -86,8 +86,6 @@ export class RecepcionCasosComponent implements OnInit {
     this.asignarMensajeXPerfil();
     sessionStorage.removeItem("info");
     this.id_comisaria= this.user?.idComisaria! 
-
-    console.log(this.id_comisaria)
   }
 
   /**
