@@ -385,8 +385,9 @@
 
     <div class="row mx-0 mt-2 py-4">
       <div class="col-12 px-0">
+        <!--; else es_adulto_mayor-->
         <div
-          *ngIf="esMenorEdad; else es_adulto_mayor"
+          *ngIf="esMenorEdad"
           style="display: flex; justify-content: flex-end"
         >
           <app-auto-tramite
@@ -419,7 +420,7 @@
           </app-carga-archivo>
         </div>
 
-        <ng-template #es_adulto_mayor>
+        <!--ng-template #es_adulto_mayor>
           <app-carga-archivo
             *ngIf="
               (!this.infoInicial?.idAnexoAutoTramite ||
@@ -446,7 +447,7 @@
             classButton="btn-success"
           >
           </app-carga-archivo>
-        </ng-template>
+        </ng-template-->
       </div>
     </div>
   </form>
