@@ -220,9 +220,12 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
     }
   }
   public tieneArchivoFirmado(): boolean {
-  return !!(this.f.adjunto.value || 
+    if (this.esMenorEdad) {
+      return !!(this.f.adjunto.value || 
            this.f.idArchivo.value || 
            this.infoInicial?.idAnexoAutoTramite);
+    }
+    return true;
 }
 
 
@@ -261,7 +264,7 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
               mensaje += ` ${
                 this.esMenorEdad
                   ? 'El caso ha sido enviado al equipo psicosocial para la verificacion de la denuncia.'
-                  : 'El caso ha sido enviado al equipo psicosocial para la verificacion de la denuncia.'
+                  : this.f.competenciaComisaria.value === 'no' ? 'No se verifica la denuncia' : 'El caso ha sido enviado al equipo psicosocial para la verificacion de la denuncia.'
               }`;
             }
 

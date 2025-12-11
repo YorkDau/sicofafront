@@ -56,6 +56,8 @@ export class ObservacionesAutoComponent implements OnInit {
    * @description Emite si requiere ajuste adicional
    */
   emitirCheckComisario(): void {
+    this.cierre = undefined;
+    this.emitirCheckCierre();
     if (!this.mostrarObservaciones) {
       this.observaciones = "";
       this.emitirObservaciones();
