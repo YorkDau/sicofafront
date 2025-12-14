@@ -22,6 +22,7 @@
                 formControlName="competenciaComisaria"
                 name="competenciaComisaria"
                 id="competencia_si"
+                (change)="cambiarCompetenciaComisaria()"
               />
               <label class="form-check-label form-label" for="competencia_si">
                 Si
@@ -138,7 +139,7 @@
                   <div class="col-lg-12">
                     <div class="mt-3 mb-3">
                       <label for="justificacionTraslado" class="form-label"
-                        >Justificación del traslado</label
+                        >Justificación del traslado (*)</label
                       >
                       <textarea
                         type="text"
@@ -190,7 +191,7 @@
         </div>
       </div>
 
-      <div class="row mb-3" *ngIf="esMenorEdad">
+      <div class="row mb-3" *ngIf="esMenorEdad && !(f.competenciaComisaria.value === 'no' && f.hechosExistentes.value === 'Inobservancia')">
         <div class="col-lg-12 mt-2">
           <label class="form-label"
             >Se identificaron documentos de los menores de edad.
@@ -228,7 +229,7 @@
         </div>
       </div>
 
-      <div class="row mb-3">
+      <div class="row mb-3" *ngIf=" !(f.competenciaComisaria.value === 'no' && f.hechosExistentes.value === 'Inobservancia')">
         <div class="col-lg-12">
           <div class="mb-3">
             <label for="observaciones" class="form-label"
@@ -274,7 +275,7 @@
           <div class="row mb-3">
             <div class="col-lg-12 mt-2">
               <label class="form-label"
-                >El caso constituye ¿Amenaza o vulneración de derechos?</label
+                >¿Es necesario remitir el caso a otra comisaría por competencia territorial?</label
               >
 
               <div class="pt-2">
@@ -387,7 +388,7 @@
       <div class="col-12 px-0">
         <!--; else es_adulto_mayor-->
         <div
-          *ngIf="esMenorEdad"
+          *ngIf="esMenorEdad && !(f.competenciaComisaria.value === 'no' && f.hechosExistentes.value === 'Inobservancia')"
           style="display: flex; justify-content: flex-end"
         >
           <app-auto-tramite

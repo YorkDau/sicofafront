@@ -31,7 +31,6 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
   public deleteConstancia: boolean = true;
   public esMenorEdad: boolean = true;
   public esAdultoMayor: boolean = true;
-  
 
   public info: any;
   public iFile: ArchivoInterface = {};
@@ -97,7 +96,6 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
       adjuntoConstanciaTraslado: '',
       hechosExistentes: null,
       comisariaSeleccionada: null,
-      //seguirTramitePrevencion: null,
       idEntidadTraslado: null,
       justificacionTraslado: '',
       verificacionDerecho: null,
@@ -138,20 +136,29 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
       adjuntoConstanciaTraslado: '',
       hechosExistentes: this.infoInicial.hechosExistentes,
       comisariaSeleccionada: this.infoInicial.comisariaSeleccionada || null,
-      //seguirTramitePrevencion: this.infoInicial.seguirTramitePrevencion,
       idEntidadTraslado: this.infoInicial.idEntidadTraslado,
       justificacionTraslado: this.infoInicial.justificacionTraslado,
     });
 
+    // Validaciones al cargar datos
     if (this.infoInicial.hechosExistentes === 'Inobservancia') {
       this.f.justificacionTraslado.setValidators(
         Validators.compose([Validators.maxLength(3000), Validators.required])
       );
+      this.f.idEntidadTraslado.setValidators([Validators.required]);
+
       this.f.justificacionTraslado.updateValueAndValidity();
+      this.f.idEntidadTraslado.updateValueAndValidity();
     } else {
       this.f.justificacionTraslado.setValidators(null);
+      this.f.idEntidadTraslado.setValidators(null);
+
       this.f.justificacionTraslado.updateValueAndValidity();
+      this.f.idEntidadTraslado.updateValueAndValidity();
     }
+    
+    // Aplicar la validación condicional de observaciones al cargar los datos
+    this.actualizarValidacionObservaciones();
 
     if (
       this.infoInicial.idAnexoAutoTramite !== '' &&
@@ -208,6 +215,57 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
         }
       });
   }
+  // En RevisionLegalPreSolicitudComponent
+  public cambiarCompetenciaComisaria() {
+    // Limpiamos la selección de hechos existentes.
+    this.f.hechosExistentes.setValue(null);
+    this.f.hechosExistentes.updateValueAndValidity();
+
+    // Limpieza de archivos de Auto-Trámite
+    this.f.adjunto.setValue('');
+    this.f.idArchivo.setValue(null);
+    this.iFile = {};
+
+    // Limpieza de archivos de Constancia de Traslado
+    this.f.idAdjuntoConstanciaTraslado.setValue(null);
+    this.f.adjuntoConstanciaTraslado.setValue('');
+    this.iFileConstancia = {};
+
+    // Limpiamos también el proceso PARD y el traslado PARD si es necesario.
+    if (this.f.competenciaComisaria.value === 'no') {
+      this.f.procesoPard.setValue('no');
+      this.f.trasladoPard.setValue('no');
+      this.f.procesoPard.updateValueAndValidity();
+      this.f.trasladoPard.updateValueAndValidity();
+      // Llamamos a actualizarHechos para eliminar la validación de justificación y entidad si existía.
+      this.actualizarHechos('');
+    } else {
+      // Si vuelve a 'si', aseguramos que la justificación no sea requerida y limpiamos campos de traslado (Entidad, Justificación)
+      this.actualizarHechos(''); 
+    }
+
+    // Reevaluar la validación de observaciones
+    this.actualizarValidacionObservaciones();
+  }
+  // En RevisionLegalPreSolicitudComponent
+  public actualizarValidacionObservaciones() {
+    const competenciaNo = this.f.competenciaComisaria.value === 'no';
+    const hechosInobservancia =
+      this.f.hechosExistentes.value === 'Inobservancia';
+
+    // Si NO es competencia de la comisaría Y se selecciona Inobservancia, el campo Observaciones NO es requerido.
+    if (competenciaNo && hechosInobservancia) {
+      this.f.observaciones.setValidators([Validators.maxLength(3000)]);
+    } else {
+      // En cualquier otro caso, el campo Observaciones SI es requerido.
+      this.f.observaciones.setValidators([
+        Validators.maxLength(3000),
+        Validators.required,
+      ]);
+    }
+
+    this.f.observaciones.updateValueAndValidity();
+  }
   cargarArchivo(base64: string) {
     if (base64) {
       this.f.adjunto.setValue(base64);
@@ -218,18 +276,40 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
       this.f.adjuntoConstanciaTraslado.setValue(base64);
     }
   }
+  
+  /**
+   * @description Determina si se requiere un archivo (Formato Firmado o Constancia de Traslado)
+   * @returns boolean
+   */
   public tieneArchivoFirmado(): boolean {
-    if (this.esMenorEdad) {
-      return !!(this.f.adjunto.value || 
-           this.f.idArchivo.value || 
-           this.infoInicial?.idAnexoAutoTramite);
-    }
-    return true;
-}
+    const esTrasladoInobservancia =
+        this.f.competenciaComisaria.value === 'no' &&
+        this.f.hechosExistentes.value === 'Inobservancia';
 
+    if (esTrasladoInobservancia) {
+        // Escenario 1: Traslado por Inobservancia (Requiere la Constancia de Traslado)
+        return !!(
+            this.f.adjuntoConstanciaTraslado.value ||
+            this.f.idAdjuntoConstanciaTraslado.value ||
+            this.infoInicial?.idAdjuntoConstanciaTraslado
+        );
+    }
+
+    if (this.esMenorEdad) {
+        // Escenario 2: Otros casos de Menor de Edad (Requiere el Formato Firmado/Auto Trámite)
+        return !!(
+            this.f.adjunto.value ||
+            this.f.idArchivo.value ||
+            this.infoInicial?.idAnexoAutoTramite
+        );
+    }
+    
+    // Casos de Adulto Mayor donde no hay Traslado por Inobservancia
+    return true; 
+  }
 
   public modalConfirmaCerrarActuacion() {
-    if (this.form.valid) {
+    if (this.form.valid && this.tieneArchivoFirmado()) {
       Modales.modalConfirmacion(
         Mensajes.MENSAJE_CERRAR_ACT,
         this.dialog,
@@ -263,7 +343,9 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
               mensaje += ` ${
                 this.esMenorEdad
                   ? 'El caso ha sido enviado al equipo psicosocial para la verificacion de la denuncia.'
-                  : this.f.competenciaComisaria.value === 'no' ? 'No se verifica la denuncia' : 'El caso ha sido enviado al equipo psicosocial para la verificacion de la denuncia.'
+                  : this.f.competenciaComisaria.value === 'no'
+                  ? 'No se verifica la denuncia'
+                  : 'El caso ha sido enviado al equipo psicosocial para la verificacion de la denuncia.'
               }`;
             }
 
@@ -347,7 +429,6 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
       adjuntoConstanciaTraslado: this.f.adjuntoConstanciaTraslado.value,
       hechosExistentes: this.f.hechosExistentes.value ?? null,
       comisariaSeleccionada: this.f.comisariaSeleccionada.value ?? 0,
-      //seguirTramitePrevencion:this.f.seguirTramitePrevencion.value == 1 ? true : false,
       idEntidadTraslado: this.f.idEntidadTraslado.value,
       justificacionTraslado: this.f.justificacionTraslado.value,
       verificacionDerecho: this.f.verificacionDerecho.value === 'si' ? 1 : 0,
@@ -383,30 +464,36 @@ export class RevisionLegalPreSolicitudComponent implements OnInit {
   public isRequired(campo: string): boolean {
     return this.form.controls[campo].hasError('required');
   }
-public actualizarValidacionComisaria() {
-  const trasladoPardValue = this.f.trasladoPard.value;
-  
-  if (trasladoPardValue === 'si') {
-    this.f.comisariaSeleccionada.setValidators([Validators.required]);
-    this.f.hechosExistentes.setValue('Amenaza o vulneración de derechos');
-    
-    this.f.idEntidadTraslado.setValue(null);
-    this.f.justificacionTraslado.setValue('');
-    this.f.idAdjuntoConstanciaTraslado.setValue(null);
-    this.f.adjuntoConstanciaTraslado.setValue('');
-    
-    this.f.comisariaSeleccionada.clearValidators();
-    
-  } else {
-    this.f.comisariaSeleccionada.clearValidators();
-    
-    this.f.hechosExistentes.setValue(null);
-  }
-  
-  this.f.comisariaSeleccionada.updateValueAndValidity();
-  this.f.hechosExistentes.updateValueAndValidity();
-}
+  public actualizarValidacionComisaria() {
+    const trasladoPardValue = this.f.trasladoPard.value;
 
+    if (trasladoPardValue === 'si') {
+      this.f.comisariaSeleccionada.setValidators([Validators.required]);
+      this.f.hechosExistentes.setValue('Amenaza o vulneración de derechos');
+
+      // Limpiamos campos de traslado por Inobservancia
+      this.f.idEntidadTraslado.setValue(null);
+      this.f.justificacionTraslado.setValue('');
+      
+      // LÍNEA CLAVE: Limpiamos los archivos de la Constancia de Traslado
+      this.f.idAdjuntoConstanciaTraslado.setValue(null);
+      this.f.adjuntoConstanciaTraslado.setValue('');
+      this.iFileConstancia = {};
+
+      this.f.comisariaSeleccionada.clearValidators();
+    } else {
+      this.f.comisariaSeleccionada.clearValidators();
+      this.f.hechosExistentes.setValue(null);
+      
+      // Limpiamos los archivos de Auto-Trámite/Formato Firmado si se desactiva el PARD (Aunque esta sección solo debería verse si PARD fue 'si')
+      this.f.adjunto.setValue('');
+      this.f.idArchivo.setValue(null);
+      this.iFile = {};
+    }
+
+    this.f.comisariaSeleccionada.updateValueAndValidity();
+    this.f.hechosExistentes.updateValueAndValidity();
+  }
 
   /**
    * @description carga el select de entidad
@@ -418,7 +505,6 @@ public actualizarValidacionComisaria() {
       }
     });
   }
-
 
   public descargarDocumento(): void {
     const nombre: string = 'FORMATO TRASLADO CASO.pdf';
@@ -447,34 +533,43 @@ public actualizarValidacionComisaria() {
   private msgError() {
     this.modales.modalInformacion(Mensajes.MENSAJE_ERROR_G);
   }
-  public actualizarHechos(value: String) {
-    this.form.patchValue({ idAdjuntoConstanciaTraslado: null });
-    this.form.patchValue({ adjuntoConstanciaTraslado: '' });
-    //this.form.patchValue({ seguirTramitePrevencion: null });
-    this.form.patchValue({ idEntidadTraslado: null });
-
-    this.form.patchValue({ justificacionTraslado: '' });
-    if (value === 'Inobservancia') {
-      this.form.controls['justificacionTraslado'].setValidators(
+  // En RevisionLegalPreSolicitudComponent
+  public actualizarHechos(hechos: string) {
+    // 1. Lógica para Justificación del Traslado y Entidad
+    if (hechos === 'Inobservancia') {
+      this.f.justificacionTraslado.setValidators(
         Validators.compose([Validators.maxLength(3000), Validators.required])
       );
-      this.form.controls['justificacionTraslado'].updateValueAndValidity();
+      this.f.idEntidadTraslado.setValidators([Validators.required]); 
+
+      // LÓGICA AGREGADA: Si hay Inobservancia, reseteamos PARD y traslado PARD
+      this.f.procesoPard.setValue('no');
+      this.f.trasladoPard.setValue('no');
+      this.f.procesoPard.updateValueAndValidity();
+      this.f.trasladoPard.updateValueAndValidity();
+      
+      // LÍNEA CLAVE: Limpiamos los archivos de Auto-Trámite (ya no son requeridos aquí)
+      this.f.adjunto.setValue('');
+      this.f.idArchivo.setValue(null);
+      this.iFile = {};
+
     } else {
-      this.form.controls['justificacionTraslado'].setValidators(null);
-      this.form.controls['justificacionTraslado'].updateValueAndValidity();
+      this.f.justificacionTraslado.setValidators(null);
+      this.f.idEntidadTraslado.setValidators(null);
+      
+      // Limpiamos los valores de Entidad y Justificación
+      this.f.idEntidadTraslado.setValue(null);
+      this.f.justificacionTraslado.setValue('');
+      
+      // LÍNEA CLAVE: Limpiamos los archivos de la Constancia de Traslado
+      this.f.idAdjuntoConstanciaTraslado.setValue(null); 
+      this.f.adjuntoConstanciaTraslado.setValue('');
+      this.iFileConstancia = {};
     }
+    this.f.justificacionTraslado.updateValueAndValidity();
+    this.f.idEntidadTraslado.updateValueAndValidity();
+
+    // 2. Lógica para Observaciones (no requerido si 'no' competencia + 'Inobservancia')
+    this.actualizarValidacionObservaciones();
   }
-
-  
-
-  // /**
-  //  * @description carga el select de comisaria
-  //  */
-  // private cargaSelectComisaria() {
-  //   this.solicitudService.getComisariaTraslado(this.user?.idComisaria).subscribe((comisaria) => {
-  //     if (comisaria.statusCode === CodigosRespuesta.OK) {
-  //       this.selectComisaria = comisaria.data;
-  //     }
-  //   });
-  // }
 }
