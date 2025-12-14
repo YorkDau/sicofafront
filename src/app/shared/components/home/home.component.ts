@@ -37,7 +37,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       description2:"(Menor - Adulto Mayor)",
     },
     {
-      title: "Solicitudes VIF (VCF)",
+      title: "Solicitudes VIF",
       description:
         "Registrar un nuevo caso de violencia intrafamiliar en el sistema de información SIGFA.",
       icon: "add_circle_outline",
