@@ -1,13 +1,20 @@
 <div class="box-auto">
-  <div class="box-auto__banner">
+  <div class="box-mod4" *ngIf="esNuevaActividadTomarDecision()">
+    <div class="box-mod4__header">
+      {{ 'Gestión de Información' | uppercase }}
+    </div>
+  </div>
+
+  <div class="box-auto__banner" *ngIf="!esNuevaActividadTomarDecision()">
     <span class="ms-4"> {{ titulo }} </span>
   </div>
+
   <div class="p-5">
-    <div class="box-mod4">
+    <div class="box-mod4" [hidden]="esNuevaActividadTomarDecision()">
       <div class="box-mod4__header">
         {{ tituloAuto | uppercase }}
       </div>
-      <div class="row">
+      <div class="row" >
         <div class="col-lg-5">
           <div class="box-mod4__left-side p-3">
             <button
@@ -104,6 +111,7 @@
       ></textarea>
     </div>
   </div>
+
 </div>
 
 <div class="row mx-0 mt-2 py-4">
