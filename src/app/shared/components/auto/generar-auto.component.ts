@@ -86,6 +86,9 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
     this.asignarTitulo();
   }
 
+  esNuevaActividadTomarDecision() {
+    return this.objSol.actividad === 'Tomar decisión información'
+  }
   private asignarTitulo() {
     if (this.objSol.actividad === "Crear auto con medidas") {
       this.titulo = "ADOPCIÓN DE MEDIDAS DE PROTECCIÓN";
@@ -97,9 +100,15 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
   private asingarSuscripcion() {
     this.autoPadreSub = this.autoService.seccion$.subscribe((p: any) => {
       this.objAutoPadre = p;
+      console.log(this.objAutoPadre)
     });
+    
+    console.log(this.listaSeccionesSub)
     this.listaSeccionesSub = this.autoService.seccionesLista$.subscribe(
-      (l) => (this.listaSecciones = l),
+      (l) => {
+        this.listaSecciones = l
+        console.log(this.listaSecciones)
+      },
     );
   }
 
@@ -167,7 +176,8 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
       esNecesarioRemitir: this.esNecesarioRemitir,
       cierre:this.cierre,
       observacionCierre:this.observacionCierre,
-      adjuntoAutoCierre:this.adjuntoAutoCierre
+      adjuntoAutoCierre:this.adjuntoAutoCierre,
+      idSolicitudServicio:this.objSol.idSolicitud,
     };
   }
 
@@ -198,6 +208,7 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
   }
 
   public async modalConfirmaCerrarActuacion() {
+
     let objPlantilla = this.retornarObjGuardarPlantilla();
     let medidasaValidar: number[] = [];
 
@@ -207,12 +218,18 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
 
     medidasaValidar = secciones.data.medidasValidar;
 
-    let verMarcadas = objPlantilla.secciones.filter(
-      (marcadas: any) => marcadas.estadoSeccion,
-    );
-    const validacion = verMarcadas.find((valor: any) =>
-      medidasaValidar.includes(valor.idSolPSeccion),
-    );
+
+    let verMarcadas = null;
+    let validacion = undefined;;
+    if (!this.esNuevaActividadTomarDecision()) {
+        verMarcadas = objPlantilla.secciones.filter(
+        (marcadas: any) => marcadas.estadoSeccion,
+      );
+      validacion = verMarcadas.find((valor: any) =>
+        medidasaValidar.includes(valor.idSolPSeccion),
+      );
+    }
+     
 
     if (validacion == undefined && secciones.data.aplicaMedidas) {
       Modales.modalConfirmacion(
@@ -269,7 +286,6 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
     this.esNecesarioRemitir = valor;
   }
   public obtenerCheckCierre(valor?: boolean) {
-    console.log(valor)
     this.cierre = valor;
   }
   

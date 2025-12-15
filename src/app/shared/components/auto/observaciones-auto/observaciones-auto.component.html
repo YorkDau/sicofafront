@@ -1,7 +1,7 @@
 <div class="w-100 mt-4" *ngIf="user?.perfil === COMISARIO">
   <div class="row">
     <!-- Columna 1: Ajuste adicional -->
-    <div class="col-lg-12">
+    <div class="col-lg-12" *ngIf="!esNuevaActividadTomarDecision()">
       <p class="form-label">¿El documento requiere algún ajuste adicional?</p>
       
       <div class="form-check form-check-inline">
