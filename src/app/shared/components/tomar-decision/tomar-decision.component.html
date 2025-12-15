@@ -2,24 +2,21 @@
 
 <div class="background-gray rounded-basic p-4 mb-3">
 
-  <form  class="" >
+  <!--form  class="" -->
     <div class="row mb-3">
       <div class="col-lg-12">
-          <label class="form-label">¿Se cuenta con concilación previa de otra institución o entidad acerca de los alimentos de la persona adulta mayor?</label>
-          <!--label class="form-label">¿Hay concilación de alimentos anterior?</label-->
+          <label class="form-label">¿Se cuenta con conciliación previa de otra institución o entidad acerca de los alimentos de la persona adulta mayor?</label>
           <div class="pt-2">
               <div class="form-check form-check-inline">
-                <!-- (click)="cumpleConcilacion = true" -->
                   <input class="form-check-input" type="radio" [value]="true"
                       [(ngModel)]="concilacion" name="concilacion"
-                      id="concilacion_si" />
+                      id="concilacion_si" (change)="radioConcilacion()"/>
                   <label class="form-check-label form-label" for="concilacion_si"> Si </label>
               </div>
               <div class="form-check form-check-inline">
-                <!-- (click)="cumpleConcilacion = false" -->
                   <input class="form-check-input" type="radio" [value]="false" 
                       [(ngModel)]="concilacion" name="concilacion" 
-                      id="concilacion_no" />
+                      id="concilacion_no" (change)="radioConcilacion()"/>
                   <label class="form-check-label form-label" for="concilacion_no"> No </label>
               </div>
 
@@ -29,13 +26,13 @@
           <label class="form-label">¿Se cumplio?</label>
           <div class="pt-2">
               <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" [value]="true"
+                  <input class="form-check-input" type="radio" [value]="true" (change)="seCumplio()"
                       [(ngModel)]="cumpleConcilacion" name="cumpleConcilacion"
                       id="cumpleConcilacion_si" />
-                  <label class="form-check-label form-label" for="cumpleConcilacion_si"> Si </label>
+                  <label  class="form-check-label form-label" for="cumpleConcilacion_si"> Si </label>
               </div>
               <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" [value]="false"
+                  <input class="form-check-input" type="radio" [value]="false" (change)="seCumplio()"
                       [(ngModel)]="cumpleConcilacion" name="cumpleConcilacion"
                       id="cumpleConcilacion_no" />
                   <label class="form-check-label form-label" for="cumpleConcilacion_no"> No </label>
@@ -67,8 +64,11 @@
           </div>
           <div class="col-lg-6 d-flex align-items-center gap-2 mt-4">
             <app-carga-archivo
-              (baseArchivo)="cargarArchivo($event)"
-              textoCargar="Cargar acta concilación anterior"
+              (baseArchivo)="cargarArchivoActaConciliacion($event)"
+              textoCargar="Cargar acta conciliación anterior"
+              [deleteIcon]="false"
+              [deleteAction]="false"
+              [downloadIcon]="variable"
             ></app-carga-archivo>
           </div>
         </div>
@@ -94,6 +94,12 @@
           </button>
           <app-carga-archivo
             textoCargar="Cargar documento"
+            (baseArchivo)="enviarArchivo($event)"
+            [archivoCargado]="cargarArchivoAutoCierre()"
+            [deleteIcon]="false"
+            [deleteAction]="false"
+            [downloadIcon]="variable"
+
           ></app-carga-archivo>
 
         </div>
@@ -104,16 +110,14 @@
 
   <div class="row mx-0 mt-5 py-4 p-5">
       <div class="col-12 d-flex justify-content-end px-0">
-        <!-- (click)="cancelar()" -->
-          <button class="btn btn-danger px-4 ms-3" >
+          <button class="btn btn-danger px-4 ms-3" (click)="cancelar()">
               Cancelar
           </button>
-          <!-- (click)="modalConfirmaCerrarActuacion()" -->
-          <button class="btn btn-primary px-4 ms-3" >
+          <button class="btn btn-primary px-4 ms-3" (click)="modalConfirmaCerrarActuacion()">
               Cerrar Actuaciones
           </button>
       </div>
   </div>
 
-  </form>
+  <!--/form-->
 </div>
