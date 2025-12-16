@@ -27,7 +27,7 @@ interface Card {
 export class HomeComponent implements OnInit, OnDestroy {
   cards: Card[] = [
     {
-      title: "Presolicitudes",
+      title: "PRE-Solicitudes",
       description:
         "Registrar un nuevo caso de restablecimiento de derechos en el sistema de información SIGFA.",
       icon: "add_circle",
