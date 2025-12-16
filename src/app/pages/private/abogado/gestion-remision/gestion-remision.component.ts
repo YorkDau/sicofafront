@@ -44,8 +44,9 @@ export class GestionRemisionComponent implements AfterViewInit {
     private sharedService: SharedService,
     private router: Router,
   ) {
-    console.log("object -> ", this.objSol);
     this.objSol = JSON.parse(sessionStorage.getItem("info")!);
+    console.log("object -> ", this.objSol);
+
   }
 
   ngAfterViewInit() {
