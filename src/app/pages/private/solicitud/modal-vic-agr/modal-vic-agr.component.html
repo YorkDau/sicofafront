@@ -4,7 +4,7 @@
       <mat-icon color="white" (click)="cerrarModal()"> close </mat-icon>
     </button>
   </div>
-  <p class="text-title">SELECCIÓN AGRESOR PRINCIPAL</p>
+  <p class="text-title">SELECCIÓN {{texto | uppercase}}</p>
 </div>
 
 <form
@@ -14,9 +14,9 @@
   (submit)="registrarInvolucrado()"
 >
   <p class="form-label mt-4">
-    Seleccione quién de los agresores ingresados es el agresor principal
+    Seleccione quién de los ingresados es el {{texto}}
   </p>
-  <label for="agresor" class="form-label"> Agresor Principal </label>
+  <label for="agresor" class="form-label"> {{texto | titlecase }} </label>
   <select
     id="agresor"
     class="form-select"

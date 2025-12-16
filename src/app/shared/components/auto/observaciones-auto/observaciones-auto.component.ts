@@ -12,10 +12,8 @@ export class ObservacionesAutoComponent implements OnInit {
 
   // 🔹 Entradas
   @Input() observaciones: string = '';
-  @Input() observacionCierre: string = '';
   
   @Input() mostrarObservaciones: boolean = false; // por defecto en "NO"
-  @Input() cierre?: boolean = false;
 
   // 🔹 Salidas
   @Output() comentarios = new EventEmitter<string>();
@@ -44,8 +42,6 @@ export class ObservacionesAutoComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = this.authService.currentUserValue;
-    this.cierre = this.esAdultoMayor() ? false : undefined;
-    this.emitirCheckCierre();
   }
 
   /**
@@ -61,24 +57,11 @@ export class ObservacionesAutoComponent implements OnInit {
    * @description Emite si requiere ajuste adicional
    */
   emitirCheckComisario(): void {
-    this.cierre = undefined;
-    this.emitirCheckCierre();
     if (!this.mostrarObservaciones) {
       this.observaciones = "";
       this.emitirObservaciones();
     }
     this.checkComisario.emit(this.mostrarObservaciones);
-  }
-  
-  /**
-   * @description Emite si requiere ajuste adicional
-   */
-  emitirCheckCierre(): void {
-    if (this.cierre) {
-      this.esNecesarioRemitir = false;
-      this.emitirRemision();
-    }
-    this.checkCierre.emit(this.cierre);
   }
   
 
@@ -87,9 +70,6 @@ export class ObservacionesAutoComponent implements OnInit {
    */
   emitirRemision(): void {
     this.cambioRemision.emit(this.esNecesarioRemitir);
-  }
-  esAdultoMayor() {
-    return this.info.tipoProceso.indexOf("Adulto Mayor") > -1
   }
 
   

@@ -29,6 +29,7 @@ export class ModalVicAgrComponent implements OnInit {
   public listaAgresores: Involucrado[] = [];
   public mostrarValidaciones: boolean = false;
   public msgObligatorio: string = Mensajes.CAMPO_OBLIGATORIO;
+  private idT: any = undefined;
 
   constructor(
     private matDialogRef: MatDialogRef<ModalVicAgrComponent>,
@@ -42,6 +43,8 @@ export class ModalVicAgrComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.idT = JSON.parse(sessionStorage.getItem('idT')!);
+
     this.formVicAg = this.fb.group({
       agresor: ['', Validators.required],
     });
@@ -51,6 +54,7 @@ export class ModalVicAgrComponent implements OnInit {
       id: idC,
       involucrados: ['', Validators.required],
     });
+    console.log(this.formInvolucrados.controls['id'].value)
   }
 
   /**
@@ -139,5 +143,10 @@ export class ModalVicAgrComponent implements OnInit {
     } else {
       return false;
     }
+  }
+
+  
+  get texto(){
+    return this.idT && this.idT == '92' ? 'obligado principal' : 'agresor principal'
   }
 }

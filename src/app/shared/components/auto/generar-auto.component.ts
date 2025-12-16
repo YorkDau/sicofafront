@@ -100,14 +100,11 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
   private asingarSuscripcion() {
     this.autoPadreSub = this.autoService.seccion$.subscribe((p: any) => {
       this.objAutoPadre = p;
-      console.log(this.objAutoPadre)
     });
     
-    console.log(this.listaSeccionesSub)
     this.listaSeccionesSub = this.autoService.seccionesLista$.subscribe(
       (l) => {
         this.listaSecciones = l
-        console.log(this.listaSecciones)
       },
     );
   }
@@ -285,16 +282,6 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
   public obtenerRemision(valor: boolean) {
     this.esNecesarioRemitir = valor;
   }
-  public obtenerCheckCierre(valor?: boolean) {
-    this.cierre = valor;
-  }
-  
-
-  
-  public obtenerAdjuntoCierre(valor: string) {
-    this.adjuntoAutoCierre = valor;
-  }
-  
 
   private validarCampoObservaciones(): boolean {
     if (this.checkAprobacionComisario) {

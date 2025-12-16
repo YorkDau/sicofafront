@@ -24,16 +24,9 @@
     box-shadow: 0px 3px 6px #00000029;
 }
 
-.alert-info {
+.alert {
     background-color: rgb(183 222 230);
     color: #138496;
-    font-size: var(--font-16);
-    letter-spacing: 0px;
-    font-weight: bold;
-}
-.alert-success {
-    background-color: #e8fde7;
-    color: rgb(10, 158, 153);
     font-size: var(--font-16);
     letter-spacing: 0px;
     font-weight: bold;
@@ -50,4 +43,15 @@ p {
 
 ::ng-deep .ng-select-container {
     height: 38px !important;
+}
+
+.alinear {
+    align-content: space-between; 
+    padding: 10px;
+    height: 100%;
+
+    .form-label {
+        margin-bottom: 0;
+    }
+
 }

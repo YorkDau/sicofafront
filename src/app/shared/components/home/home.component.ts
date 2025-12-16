@@ -37,7 +37,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       description2:"(Menor - Adulto Mayor)",
     },
     {
-      title: "Solicitudes VCF",
+      title: "Solicitudes",
       description:
         "Registrar un nuevo caso de violencia intrafamiliar o fijación de cuota alimentación en el sistema de información SIGFA.",
       icon: "add_circle_outline",

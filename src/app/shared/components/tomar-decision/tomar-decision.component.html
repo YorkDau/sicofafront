@@ -94,8 +94,7 @@
           </button>
           <app-carga-archivo
             textoCargar="Cargar documento"
-            (baseArchivo)="enviarArchivo($event)"
-            [archivoCargado]="cargarArchivoAutoCierre()"
+            (baseArchivo)="cargarArchivoAutoCierre($event)"
             [deleteIcon]="false"
             [deleteAction]="false"
             [downloadIcon]="variable"

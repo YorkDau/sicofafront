@@ -280,13 +280,11 @@ export class RecepcionCasosComponent implements OnInit {
       tareaID: objSolicitud.idTarea,
       perfilCod: this.perfil,
     };
-    console.log(obj)
 
     this.sharedService.asignarTarea(obj).subscribe({
       next: (data: ResponseInterface) => {
         if (data.statusCode === CodigosRespuesta.OK) {
           if (!isNaN(data.data.datosPaginados)) {
-            console.log(objSolicitud)
             this.dispatchTarea(objSolicitud);
           } else {
             Modales.modalInformacion(

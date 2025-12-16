@@ -71,7 +71,6 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if (sessionStorage.getItem('info')) {
       this.objSol = JSON.parse(sessionStorage.getItem('info')!);
-      console.log(this.objSol)
       this.user = this.authService.currentUserValue;
       this.cargarListadoSecciones();
     } else this.redireccionar();
@@ -137,6 +136,11 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
       idSolPlantilla: data.idSolPlantilla,
       idAnexo: data.idAnexo ? data.idAnexo : 0,
     };
+
+    if (this.objSol.es_necesario_remitir && this.esAdultoMayor()) {
+      this.datosFirma.esNecesarioRemitir = this.objSol.es_necesario_remitir;
+    }
+    
     this.radioPregunta = data.apelacion;
     this.archivo = data.idAnexo;
     this.nuevoArchivo = data.idAnexo ? false : true;
@@ -295,8 +299,9 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
    * @returns objeto para guardar archivo
    */
   private crearObjGuardarAdjunto(): any {
-    return {
-      entrada: this.archivo,
+    let obj = {
+      entrada: this.archivo ? this.archivo : '',
+      archivoRemision:this.archivoRemision,
       nombrearchivo: '',
       tipoDocumento: TiposDocumentoCarga.AUTO_MEDIDAS_PROTECCION,
       idSolicitudServicio: this.objSol.idSolicitud,
@@ -305,6 +310,11 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
       idComisariaTraslado: this.comisariaSeleccionada,
       idEntidadTraslado:this.idEntidadTraslado,
     };
+    if (this.esAdultoMayor() && this.archivoRemision && !obj.entrada) {
+      obj.entrada = this.archivoRemision;
+      obj.nombrearchivo = "Constancia Traslado"
+    }
+    return obj;
   }
   onChangeComisaria() {
     this.comisariaSeleccionada;
@@ -315,7 +325,7 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
    * @param cierre cerrar actuación, false no
    */
   public cargarAdjuntoFirma(cierre: boolean): void {
-    if (this.archivo && this.archivo !== '') {
+    if (this.archivo && this.archivo !== '' || this.esAdultoMayor()) {
       if (this.nuevoArchivo) {
         this.abogadoService
           .cargarAdjuntoFirma(this.crearObjGuardarAdjunto())

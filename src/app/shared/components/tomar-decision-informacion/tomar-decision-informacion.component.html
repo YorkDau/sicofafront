@@ -1,0 +1,111 @@
+<!--app-encabezado-private></app-encabezado-private-->
+
+<div class="background-gray rounded-basic p-4 mb-3">
+
+  <!--form  class="" -->
+
+    <div class="row mb-3">
+      <div class="col-lg-12">
+        <label class="form-label  mt-2">
+          ¿El caso se cierra por falta de vulneracion de DDFF?
+        </label>
+        <div class="pt-2">
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="cierre"
+              id="cierreNo"
+              [(ngModel)]="cierre"
+              [value]="false"
+              (change)="cierreDDFF()"
+            />
+            <label class="form-check-label form-label" for="cierreNo"> NO </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="cierre"
+              id="cierreSi"
+              [(ngModel)]="cierre"
+              [value]="true"
+              (change)="cierreDDFF()"
+            />
+            <label class="form-check-label form-label" for="cierreSi"> SI </label>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="col-lg-12" *ngIf="cierre === true">
+        <textarea
+          class="form-control mt-2"
+          id="sectionCierre"
+          rows="3"
+          style="resize: none"
+          maxlength="10000"
+          [(ngModel)]="observaciones"
+          placeholder="Observaciones"
+        ></textarea>
+      </div>
+      
+      <div class="col-lg-12 mt-3" *ngIf="!mostrarObservaciones && cierre">
+        
+          <app-carga-archivo
+            textoCargar="Cargar documento"
+            (baseArchivo)="cargarArchivoAutoCierre($event)"
+            [deleteIcon]="false"
+            [deleteAction]="false"
+            [downloadIcon]="variable"
+          ></app-carga-archivo>
+
+      </div>
+
+      <div class="col-lg-12" *ngIf="!cierre && !mostrarObservaciones">
+        <label class="form-label  mt-2">
+          ¿Es necesario remitir el caso a otra entidad?*
+        </label>
+        <div class="pt-2">
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="esNecesarioRemitir"
+              id="remitirNo"
+              [(ngModel)]="esNecesarioRemitir"
+              [value]="false"
+            />
+            <label class="form-check-label form-label" for="remitirNo"> NO </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="esNecesarioRemitir"
+              id="remitirSi"
+              [(ngModel)]="esNecesarioRemitir"
+              [value]="true"
+            />
+            <label class="form-check-label form-label" for="remitirSi"> SI </label>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+
+  <div class="row mx-0 mt-5 py-4 p-5">
+      <div class="col-12 d-flex justify-content-end px-0">
+          <button class="btn btn-danger px-4 ms-3" (click)="cancelar()">
+              Cancelar
+          </button>
+          <button class="btn btn-primary px-4 ms-3" (click)="modalConfirmaCerrarActuacion()">
+              Cerrar Actuaciones
+          </button>
+      </div>
+  </div>
+
+  <!--/form-->
+</div>

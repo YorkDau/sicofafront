@@ -548,7 +548,7 @@ export class PreguntasComponent implements OnInit, OnChanges {
 
 private get getDataPost(): SolicitudCiudadanoInterface {
   console.log('value -> ', this.myForm.value);
-
+  sessionStorage.setItem('idT', this.myForm.get('idtipoTramite')?.value ? this.myForm.get('idtipoTramite')?.value : 0);
   return {
     idCiudadano: this.id_ciudadano,
     idComisaria: this.user.idComisaria,

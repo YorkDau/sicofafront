@@ -21,7 +21,7 @@ import { AppState } from 'src/app/store/app.reducer';
 import { SolicitudService } from 'src/app/pages/private/services/solicitud.service';
 import { SharedService } from '../../../services/shared.service';
 import { ComisarioService } from 'src/app/pages/private/comisario/administracion/services/comisario.service';
-import { TomaDecisionInterface } from 'src/app/pages/private/comisario/administracion/interfaces/toma-decision.interface';
+import { TomaDecisionInformacionInterface } from 'src/app/pages/private/comisario/administracion/interfaces/toma-decision.interface';
 import { SidenavComponent } from 'src/app/shared/components/general/sidenav/sidenav.component';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { RecepcionCasosInterface } from '../../../interfaces/recepcion-casos.interface';
@@ -29,25 +29,26 @@ import { ReporteAbogadoPDF } from 'src/app/pages/private/abogado/report/report-p
 
 
 @Component({
-  selector: 'app-tomar-decision',
-  templateUrl: './tomar-decision.component.html',
-  styleUrls: ['./tomar-decision.component.scss'],
+  selector: 'app-tomar-decision-informacion',
+  templateUrl: './tomar-decision-informacion.component.html',
+  styleUrls: ['./tomar-decision-informacion.component.scss'],
 })
-export class TomarDecisionComponent implements OnInit {
+export class TomarDecisionInformacionComponent implements OnInit {
   
   public tarea: RecepcionCasosInterface = JSON.parse(
     sessionStorage.getItem('info')!
   );
+  
 
-  public concilacion: boolean = false;
-  public cumpleConcilacion?: boolean = false;
+    public observacionCierre: string = '';
+    
+    public mostrarObservaciones: boolean = false; // por defecto en "NO"
+    public cierre: boolean = false;
+
+  public esNecesarioRemitir?: boolean = false;
   public observaciones: string = '';
   public selectEntidad: EntidadInterface[] = [];
-  public idEntidadTraslado?: number = undefined;
   
-
-  
-  private actaConciliacionAnterior: string = '';
   private autoCierre: string = '';
   
 
@@ -87,11 +88,6 @@ export class TomarDecisionComponent implements OnInit {
     }
   }
   
-  cargarArchivoActaConciliacion(base64: string) {
-    if (base64) {
-      this.actaConciliacionAnterior = base64;
-    }
-  }
 
 
   /**
@@ -132,7 +128,7 @@ export class TomarDecisionComponent implements OnInit {
     this.modales.modalCerrarActuaciones(
       this.tarea,
       undefined,
-      this.concilacion ? '1' : '0'
+      this.cierre ? '1' : '0'
     );
   }
 
@@ -148,7 +144,7 @@ export class TomarDecisionComponent implements OnInit {
 
   crearEtiqueta() {
     const obj: CrearEtiquetaTareaInterface = {
-      valorEtiqueta: this.concilacion ? '1' : '0',
+      valorEtiqueta: this.cierre ? '1' : '0',
       idsolicitudServicio: this.tarea.idSolicitud,
       idtarea: this.tarea.idTarea,
     };
@@ -183,11 +179,11 @@ export class TomarDecisionComponent implements OnInit {
   }
 
   guardar(cerrar: boolean = false) {
-    this.comisarioService.postTomarDecision(this.getObjGuardar()).subscribe({
+    this.comisarioService.postTomarDecisionInformacion(this.getObjGuardar()).subscribe({
       next: (data: ResponseInterface) => {
         if (data.statusCode === CodigosRespuesta.OK) {
           if (cerrar) {
-            this.cerrarActuacion();
+            this.crearEtiqueta();
           } else {
             this.modales.modalExito('Se ha guardado la informacion');
           }
@@ -210,14 +206,12 @@ export class TomarDecisionComponent implements OnInit {
     });
   }
 
-  getObjGuardar(): TomaDecisionInterface {
+  getObjGuardar(): TomaDecisionInformacionInterface {
     return {
       idSolicitudServicio:this.tarea.idSolicitud,
-      concilacionPrevia:this.concilacion,
-      cumpleConcilacionPrevia:this.cumpleConcilacion,
-      actaConciliacionAnterior:this.actaConciliacionAnterior,
+      cierre:this.cierre,
+      esNecesarioRemitir:this.esNecesarioRemitir,
       autoCierre:this.autoCierre,
-      idEntidadTraslado:this.idEntidadTraslado,
       observaciones:this.observaciones
     };
   }
@@ -228,7 +222,7 @@ export class TomarDecisionComponent implements OnInit {
         tareaID: this.tarea.idTarea,
         perfilCod: this.user?.perfil!,
         userID: this.user?.userID!,
-        valorEtiqueta: this.concilacion ? '1' : '0',
+        valorEtiqueta: this.cierre ? '1' : '0',
       })
       .subscribe((cerrar) => {
         if (cerrar && cerrar.statusCode == 200) {
@@ -247,13 +241,11 @@ export class TomarDecisionComponent implements OnInit {
   }
 
   radioConcilacion(){
-    this.cumpleConcilacion = this.concilacion ? false : undefined;
+    this.esNecesarioRemitir = this.cierre ? false : undefined;
   }
-  seCumplio(){
+  cierreDDFF(){
     this.autoCierre = '';
-    this.actaConciliacionAnterior = '';
     this.observaciones = '';
-    this.idEntidadTraslado = undefined;
   }
   
   /**

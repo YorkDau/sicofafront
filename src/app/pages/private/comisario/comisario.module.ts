@@ -13,6 +13,7 @@ import { ActualizarComisariaComponent } from './administracion/actualizar-comisa
 import { ModalCrearCitaComponent } from './administracion/actualizar-comisaria/gestionar-citas/modal-crear-cita/modal-crear-cita.component';
 import { GestionarCitasComponent } from './administracion/actualizar-comisaria/gestionar-citas/gestionar-citas.component';
 import { TomarDecisionComponent } from 'src/app/shared/components/tomar-decision/tomar-decision.component';
+import { TomarDecisionInformacionComponent } from 'src/app/shared/components/tomar-decision-informacion/tomar-decision-informacion.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { TomarDecisionComponent } from 'src/app/shared/components/tomar-decision
     ActualizarComisariaComponent,
     ModalCrearCitaComponent,
     GestionarCitasComponent,
-    TomarDecisionComponent
+    TomarDecisionComponent,
+    TomarDecisionInformacionComponent
   ],
   imports: [CommonModule, ComisarioRoutingModule, SharedModule],
 })
