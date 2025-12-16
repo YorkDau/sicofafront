@@ -31,7 +31,7 @@ import { ReporteAbogadoPDF } from 'src/app/pages/private/abogado/report/report-p
 @Component({
   selector: 'app-tomar-decision-informacion',
   templateUrl: './tomar-decision-informacion.component.html',
-  styleUrls: ['./tomar-decision-informacion.component.scss'],
+styleUrls: ['./tomar-decision-informacion.component.scss'],
 })
 export class TomarDecisionInformacionComponent implements OnInit {
   
