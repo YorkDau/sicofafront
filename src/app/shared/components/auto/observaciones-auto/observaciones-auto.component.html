@@ -42,51 +42,9 @@
         placeholder="Observaciones"
       ></textarea>
     </div>
-    
-    <div class="col-lg-12" *ngIf="esAdultoMayor() && !mostrarObservaciones">
-      <p class="form-label  mt-2">
-        ¿El caso se cierra por falta de vulneracion de DDFF?
-      </p>
-      <div class="form-check form-check-inline">
-        <input
-          class="form-check-input"
-          type="radio"
-          name="cierre"
-          id="cierreNo"
-          [(ngModel)]="cierre"
-          [value]="false"
-          (change)="emitirCheckCierre()"
-        />
-        <label class="form-check-label form-label" for="cierreNo"> NO </label>
-      </div>
-      <div class="form-check form-check-inline">
-        <input
-          class="form-check-input"
-          type="radio"
-          name="cierre"
-          id="cierreSi"
-          [(ngModel)]="cierre"
-          [value]="true"
-          (change)="emitirCheckCierre()"
-        />
-        <label class="form-check-label form-label" for="cierreSi"> SI </label>
-      </div>
-    </div>
-    <div class="col-lg-12" *ngIf="cierre === true">
-      <textarea
-        class="form-control mt-2"
-        id="sectionCierre"
-        rows="3"
-        style="resize: none"
-        maxlength="10000"
-        [(ngModel)]="observaciones"
-        (focusout)="emitirObservaciones()"
-        placeholder="Observaciones"
-      ></textarea>
-    </div>
 
     <!-- Columna 2: Remitir comisaría -->
-    <div class="col-lg-12" *ngIf="!esAdultoMayor()">
+    <div class="col-lg-12">
       <p class="form-label  mt-2">
         ¿Es necesario remitir el caso a otra comisaría por competencia
         territorial?*
@@ -116,51 +74,7 @@
         <label class="form-check-label form-label" for="remitirSi"> SI </label>
       </div>
     </div>
-    <div class="col-lg-12" *ngIf="esAdultoMayor() && !cierre && !mostrarObservaciones">
-      <p class="form-label  mt-2">
-        ¿Es necesario remitir el caso a otra entidad?*
-      </p>
-      <div class="form-check form-check-inline">
-        <input
-          class="form-check-input"
-          type="radio"
-          name="esNecesarioRemitir"
-          id="remitirNo"
-          [(ngModel)]="esNecesarioRemitir"
-          [value]="false"
-          (change)="emitirRemision()"
-        />
-        <label class="form-check-label form-label" for="remitirNo"> NO </label>
-      </div>
-      <div class="form-check form-check-inline">
-        <input
-          class="form-check-input"
-          type="radio"
-          name="esNecesarioRemitir"
-          id="remitirSi"
-          [(ngModel)]="esNecesarioRemitir"
-          [value]="true"
-          (change)="emitirRemision()"
-        />
-        <label class="form-check-label form-label" for="remitirSi"> SI </label>
-      </div>
-    </div>
 
-    <div class="col-lg-12 mt-3" *ngIf="esAdultoMayor() && !mostrarObservaciones && cierre">
-      <app-carga-archivo *ngIf="(!idAdjuntoAuto || idAdjuntoAuto === '' || idAdjuntoAuto === 0)"
-          (baseArchivo)="emitirAutoCierre($event)" 
-          textoCargar="Subir Auto de Cierre">
-      </app-carga-archivo>
-
-      <app-carga-archivo *ngIf="(idAdjuntoAuto !== '' && idAdjuntoAuto !== 0)"
-          (baseArchivo)="emitirAutoCierre($event)" 
-          [deleteIcon]="delete" 
-          [downloadIcon]="delete"
-          [archivoCargado]="iFileConstancia"
-          textoCargar="Subir Auto de Cierre"
-          isSmallSize="true">
-      </app-carga-archivo>
-    </div>
   </div>
 
   

@@ -27,7 +27,7 @@ interface Card {
 export class HomeComponent implements OnInit, OnDestroy {
   cards: Card[] = [
     {
-      title: "Solicitudes PARD",
+      title: "Presolicitudes",
       description:
         "Registrar un nuevo caso de restablecimiento de derechos en el sistema de información SIGFA.",
       icon: "add_circle",
@@ -37,7 +37,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       description2:"(Menor - Adulto Mayor)",
     },
     {
-      title: "Solicitudes VCF",
+      title: "Solicitudes",
       description:
         "Registrar un nuevo caso de violencia intrafamiliar o fijación de cuota alimentación en el sistema de información SIGFA.",
       icon: "add_circle_outline",

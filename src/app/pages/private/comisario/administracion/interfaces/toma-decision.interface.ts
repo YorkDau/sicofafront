@@ -8,3 +8,12 @@ export interface TomaDecisionInterface {
   actaConciliacionAnterior: string;
   autoCierre: string;
 }
+
+
+export interface TomaDecisionInformacionInterface {
+  idSolicitudServicio: number;
+  cierre: boolean;
+  esNecesarioRemitir?: boolean;
+  observaciones: string;
+  autoCierre: string;
+}

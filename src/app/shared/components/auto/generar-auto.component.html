@@ -10,7 +10,7 @@
   </div>
 
   <div class="p-5">
-    <div class="box-mod4" [hidden]="esNuevaActividadTomarDecision()">
+    <div class="box-mod4">
       <div class="box-mod4__header">
         {{ tituloAuto | uppercase }}
       </div>
@@ -92,10 +92,7 @@
         [mostrarObservaciones]="checkAprobacionComisario"
         (comentarios)="obtenerComentarios($event)"
         (checkComisario)="obtenerCheckComisario($event)"
-        (checkCierre)="obtenerCheckCierre($event)"
         (cambioRemision)="obtenerRemision($event)"
-        (cambioAdjuntoAutoCierre)="obtenerAdjuntoCierre($event)"
-        
       ></app-observaciones-auto>
     </ng-container>
 

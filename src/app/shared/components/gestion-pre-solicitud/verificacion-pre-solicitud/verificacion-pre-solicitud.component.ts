@@ -90,7 +90,7 @@ export class VerificacionPreSolicitudComponent implements OnInit {
       ],
       continuaDenuncia: [
         {
-          value: 'no',
+          value: this.esAdultoMayor ? 'si' : 'no',
           disabled: this.perfil !== 'PSI' && this.perfil !== 'TSO',
         },
       ],

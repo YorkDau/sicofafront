@@ -8,6 +8,8 @@ import { GenerarAutoComponent } from '../../../shared/components/auto/generar-au
 import { InicioCasosComponent } from '../../../shared/components/inicio-casos/inicio-casos.component';
 import { DecisionJuezComponent } from '../abogado/components/decision-juez/decision-juez.component';
 import { TomarDecisionComponent } from 'src/app/shared/components/tomar-decision/tomar-decision.component';
+import { TomarDecisionInformacionComponent } from 'src/app/shared/components/tomar-decision-informacion/tomar-decision-informacion.component';
+
 
 import { QuorumComponent } from '../quorum/quorum/quorum.component';
 import { ComisarioComponent } from './comisario/comisario.component';
@@ -56,6 +58,8 @@ const routes: Routes = [
         component: ConsultaGeneralComponent
       },
       { path: 'tomar-decision/:id', component: TomarDecisionComponent },
+      { path: 'tomar-decision-informacion/:id', component: TomarDecisionInformacionComponent },
+      
     ],
   },
 ];

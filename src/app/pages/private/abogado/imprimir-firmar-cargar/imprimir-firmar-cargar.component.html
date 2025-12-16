@@ -2,7 +2,7 @@
   class="background-gray2 rounded-basic px-4 py-2 d-flex flex-column justify-content-between"
   style="min-height: 350px"
 >
-  <div class="row">
+  <div class="row" *ngIf="!(esAdultoMayor() && datosFirma?.esNecesarioRemitir)">
     <div class="col-6">
       <fieldset class="border border-primary p-2">
         <legend class="float-none w-auto p-2 text-primary">
@@ -88,7 +88,7 @@
     <!-- Botones a la derecha -->
     <div class="col-lg-6 d-flex align-items-center gap-2 mt-2">
       <button class="btn button-new" (click)="descargarDocumentoRemision()">
-        Descargar formato Traslado
+        Descargar formato Traslado 
       </button>
       <app-carga-archivo
         matTooltip="Cargar constancia Traslado"
