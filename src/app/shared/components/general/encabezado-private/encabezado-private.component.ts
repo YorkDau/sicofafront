@@ -36,6 +36,8 @@ export class EncabezadoPrivateComponent implements OnInit {
           next: (data: ResponseInterface) => {
             if (data.statusCode === CodigosRespuesta.OK) {
               this.accionante = data.data;
+            this.objSol.conciliacion = data.data.conciliacion;
+            sessionStorage.setItem('info', JSON.stringify(this.objSol));
             } else {
               Modales.modalInformacion(
                 Mensajes.MENSAJE_ERROR_G,

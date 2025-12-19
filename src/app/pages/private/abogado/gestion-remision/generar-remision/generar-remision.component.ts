@@ -51,6 +51,7 @@ export class GenerarRemisionComponent implements OnInit {
     private router: Router
   ) {
     this.objSol = JSON.parse(sessionStorage.getItem('info')!);
+    console.log("OBJ SOL GENERAR REMISION",this.objSol);
     this.user = this.authService.currentUserValue!;
   }
 
