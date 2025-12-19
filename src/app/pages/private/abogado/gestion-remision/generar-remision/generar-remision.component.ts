@@ -15,7 +15,10 @@ import {
   TipoRemisionInterface,
 } from '../../../interfaces/tipo-remision.interface';
 import { ResponseInterface } from 'src/app/interfaces/response.interface';
-import { DataReporteByID, DataReporteInterface } from '../../../interfaces/data-reporte.interface';
+import {
+  DataReporteByID,
+  DataReporteInterface,
+} from '../../../interfaces/data-reporte.interface';
 import { RemisionService } from '../../services/remision.service';
 import { SharedService } from 'src/app/services/shared.service';
 import { Router } from '@angular/router';
@@ -39,6 +42,7 @@ export class GenerarRemisionComponent implements OnInit {
   public objSol!: any;
   private archivo!: string | null;
   private user!: UserInterface;
+  public esConciliacion: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -51,7 +55,7 @@ export class GenerarRemisionComponent implements OnInit {
     private router: Router
   ) {
     this.objSol = JSON.parse(sessionStorage.getItem('info')!);
-    console.log("OBJ SOL GENERAR REMISION",this.objSol);
+    console.log('OBJ SOL GENERAR REMISION', this.objSol);
     this.user = this.authService.currentUserValue!;
   }
 
@@ -62,14 +66,23 @@ export class GenerarRemisionComponent implements OnInit {
     this.cambioRemisionPersonalizada();
   }
 
-  private obtenerInfoID(){
-    this.comisariaService.getInformacionComisariaByID(this.objSol.idSolicitud).subscribe({
-      next: (resp) =>{
-        this.dataReporteByID = resp.data;
-      }
-    })
+  private obtenerInfoID() {
+    this.comisariaService
+      .getInformacionComisariaByID(this.objSol.idSolicitud)
+      .subscribe({
+        next: (resp) => {
+          this.dataReporteByID = resp.data;
+        },
+      });
   }
-  
+  get etiquetaRemision(): string {
+    return this.objSol?.conciliacion ? 'Remisión' : 'Documento';
+  }
+
+  get etiquetaRemisiones(): string {
+    return this.objSol?.conciliacion ? 'Remisiones' : 'Documentos';
+  }
+
   /**
    * @description carga formulario
    */
@@ -79,7 +92,7 @@ export class GenerarRemisionComponent implements OnInit {
         requiereRemision: false,
         remision: '',
         nombreRemision: '',
-        involucrado: ['', [Validators.required]]
+        involucrado: ['', [Validators.required]],
       },
       {
         validators: [
@@ -124,9 +137,15 @@ export class GenerarRemisionComponent implements OnInit {
    */
   public cargarSelectTipoRemisiones(event: any) {
     this.myForm.get('remision')?.setValue('');
-    if (event.target.value != 0) {
+    const idInvolucrado = event.target.value;
+
+    if (idInvolucrado != 0) {
+      const idSolicitud = this.objSol.conciliacion
+        ? undefined 
+        : this.objSol.idSolicitud;
+
       this.remisionService
-        .getRemisionesDisponibles(event.target.value)
+        .getRemisionesDisponibles(idInvolucrado, idSolicitud)
         .subscribe({
           next: (data: ResponseInterface) => {
             if (data.statusCode === CodigosRespuesta.OK) {
@@ -135,9 +154,7 @@ export class GenerarRemisionComponent implements OnInit {
               this.msgError();
             }
           },
-          error: () => {
-            this.msgError();
-          },
+          error: () => this.msgError(),
         });
     }
   }
@@ -216,7 +233,7 @@ export class GenerarRemisionComponent implements OnInit {
 
   public enviarArchivo(e: string) {
     this.archivo = e;
-    console.log("ARCHVIVO NOMBRE",this.archivo);
+    console.log('ARCHVIVO NOMBRE', this.archivo);
   }
 
   /**
@@ -287,40 +304,88 @@ export class GenerarRemisionComponent implements OnInit {
     const tipoReporte = this.myForm.controls['remision'].value;
     switch (tipoReporte) {
       case 'Oficio_Remisorio_Medicina_legal':
-        PdfExport.generarPdfOficioMedicinaLegal(this.dataReporte, this.dataReporteByID);
+        PdfExport.generarPdfOficioMedicinaLegal(
+          this.dataReporte,
+          this.dataReporteByID
+        );
         break;
       case 'Remision_secretaria_de_Bienestar_u_otro_organo':
-        PdfExport.generarPdfOficioSecretariaMujer(this.dataReporte, this.dataReporteByID);
+        PdfExport.generarPdfOficioSecretariaMujer(
+          this.dataReporte,
+          this.dataReporteByID
+        );
         break;
       case 'Remision_Proceso_Psicologia_Externa':
-        PdfExport.generarPdfRemisionPsicologia(this.dataReporte, this.dataReporteByID);
+        PdfExport.generarPdfRemisionPsicologia(
+          this.dataReporte,
+          this.dataReporteByID
+        );
         break;
       case 'Remision_Apoyo_Policivo_Victima_Mujer':
-        PdfExport.generarPdfApoyoPolicivoMujer(this.dataReporte, this.dataReporteByID);
+        PdfExport.generarPdfApoyoPolicivoMujer(
+          this.dataReporte,
+          this.dataReporteByID
+        );
         break;
       case 'Recepcion_Denuncia_Fiscalia':
-        PdfExport.generarPdfDenunciaFiscalia(this.dataReporte, this.dataReporteByID);
+        PdfExport.generarPdfDenunciaFiscalia(
+          this.dataReporte,
+          this.dataReporteByID
+        );
         break;
       case 'Remision_Visita_domiciliaria':
-        PdfExport.generarPdfVisitaDomiciliaria(this.dataReporte, this.dataReporteByID);
+        PdfExport.generarPdfVisitaDomiciliaria(
+          this.dataReporte,
+          this.dataReporteByID
+        );
         break;
       case 'Solicitud_afiliacion_Regimen_de_salud':
-        PdfExport.generarPdfRemisionSistemaSalud(this.dataReporte, this.dataReporteByID);
+        PdfExport.generarPdfRemisionSistemaSalud(
+          this.dataReporte,
+          this.dataReporteByID
+        );
         break;
       case 'Solicitud_Protocolo_de_Riesgo':
-        PdfExport.generarPdfProtocoloRiesgo(this.dataReporte, this.dataReporteByID);
+        PdfExport.generarPdfProtocoloRiesgo(
+          this.dataReporte,
+          this.dataReporteByID
+        );
         break;
       case 'Remision_Formato_Personeria':
-        PdfExport.generarPdfRemisionPersoneria(this.dataReporte, this.dataReporteByID);
+        PdfExport.generarPdfRemisionPersoneria(
+          this.dataReporte,
+          this.dataReporteByID
+        );
         break;
       case 'Solicitud_Historia_Clinica':
-        PdfExport.generarPdfHistoriaClinica(this.dataReporte, this.dataReporteByID);
+        PdfExport.generarPdfHistoriaClinica(
+          this.dataReporte,
+          this.dataReporteByID
+        );
         break;
       case 'Remision_Tratamiento_Terapeutico':
-        PdfExport.generarPdfRemisionSistemaSalud(this.dataReporte, this.dataReporteByID);
+        PdfExport.generarPdfRemisionSistemaSalud(
+          this.dataReporte,
+          this.dataReporteByID
+        );
         break;
       case 'Solicitud_Evaluacion_del_Riesgo_Remisiones_NNA':
-        PdfExport.generarPdfHistoriaClinica(this.dataReporte, this.dataReporteByID);
+        PdfExport.generarPdfHistoriaClinica(
+          this.dataReporte,
+          this.dataReporteByID
+        );
+        break;
+      case 'Constancia de no acuerdo de alimentos':
+        PdfExport.generarPdfConstanciaAcuerdoAlimentos(
+          this.dataReporte,
+          this.dataReporteByID
+        );
+        break;
+      case 'Documentos persona denunciante':
+        PdfExport.generarPdfDocumentosPersonaDenunciante(
+          this.dataReporte,
+          this.dataReporteByID
+        );
         break;
     }
   }

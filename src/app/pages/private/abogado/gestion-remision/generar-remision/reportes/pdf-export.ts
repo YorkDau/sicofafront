@@ -390,6 +390,163 @@ export class PdfExport {
 
     window.open(URL.createObjectURL(this.pdf.output('blob')));
   }
+    static generarPdfConstanciaAcuerdoAlimentos(dataReporte: DataReporteInterface, dataReporteByID: DataReporteByID) {
+    
+    console.log('entro al doc 1');
+    console.log(dataReporte);
+    
+      let ciudadRemision = dataReporte.ciudadRemision
+      ? dataReporte.ciudadRemision
+      : '________________';
+    let comisaria = dataReporteByID.item1;
+    let comisario = dataReporteByID.item2; 
+    this.pdf = new jsPDF('p', 'pt', 'letter');
+    this.pdf.setFontSize(10);
+
+    const nombreReporte = 'APOYO POLICIVO CUANDO LA VICTIMA ES UNA MUJER';
+    const dia = formatDate(new Date(), 'dd', 'es');
+    const mes = formatDate(new Date(), 'MMMM', 'es');
+    const anio = formatDate(new Date(), 'yyyy', 'es');
+
+    this.crearEncabezado(nombreReporte, 42);
+    /**Ciudad, fecha */
+    this.pdf.text(ciudadRemision, 85, 140);
+    this.pdf.text(dia + ' de ' + mes + ' de' + anio, 85, 152);
+
+    /** Señores */
+    this.pdf.text('Señores', 85, 188);
+    this.pdf.text('COMANDANTE / ESTACIÓN POLICÍA / CAI RESPECTIVO:', 85, 200);
+    this.pdf.text('Correo electrónico: _______________', 85, 212);
+
+    /* REFERENCIA */
+    this.pdf.text(
+      'REF: PROTECCIÓN TEMPORAL POLICIVA / MEDIDA DE PROTECCIÓN PROVISIONAL POR',
+      85,
+      247
+    );
+
+    this.pdf.text(
+      'VIOLENCIA EN EL CONTEXTO FAMILIAR ____________________',
+      85,
+      259
+    );
+
+    /*CUERPO */
+    autoTable(this.pdf, {
+      html: '#cuerpo',
+      startY: 290,
+      useCss: true,
+      margin: {
+        top: 36,
+        left: 80,
+        right: 65,
+      },
+    });
+    this.pdf.addPage();
+    this.crearEncabezado(nombreReporte, 42);
+    autoTable(this.pdf, {
+      html: '#cuerpo2',
+      startY: 110,
+      useCss: true,
+      margin: {
+        top: 36,
+        left: 80,
+        right: 65,
+      },
+    });
+
+    this.pdf.text('Atentamente,', 85, 450);
+
+    /**Firma */
+    this.pdf.setLineWidth(1);
+    this.pdf.setDrawColor(0, 0, 0);
+    this.pdf.setFontSize(13);
+    this.pdf.text(comisario, 85, 500);
+    this.pdf.line(85, 508, 230, 508);
+    this.pdf.setFontSize(10);
+    this.pdf.text('Comisario/a de Familia', 85, 523);
+    this.pdf.text(comisaria, 85, 537);
+    this.crearPiePagina();
+
+    window.open(URL.createObjectURL(this.pdf.output('blob')));
+  }
+      static generarPdfDocumentosPersonaDenunciante(dataReporte: DataReporteInterface, dataReporteByID: DataReporteByID) {
+
+    let ciudadRemision = dataReporte.ciudadRemision
+      ? dataReporte.ciudadRemision
+      : '________________';
+    let comisaria = dataReporteByID.item1;
+    let comisario = dataReporteByID.item2; 
+    this.pdf = new jsPDF('p', 'pt', 'letter');
+    this.pdf.setFontSize(10);
+
+    const nombreReporte = 'APOYO POLICIVO CUANDO LA VICTIMA ES UNA MUJER';
+    const dia = formatDate(new Date(), 'dd', 'es');
+    const mes = formatDate(new Date(), 'MMMM', 'es');
+    const anio = formatDate(new Date(), 'yyyy', 'es');
+
+    this.crearEncabezado(nombreReporte, 42);
+    /**Ciudad, fecha */
+    this.pdf.text(ciudadRemision, 85, 140);
+    this.pdf.text(dia + ' de ' + mes + ' de' + anio, 85, 152);
+
+    /** Señores */
+    this.pdf.text('Señores', 85, 188);
+    this.pdf.text('COMANDANTE / ESTACIÓN POLICÍA / CAI RESPECTIVO:', 85, 200);
+    this.pdf.text('Correo electrónico: _______________', 85, 212);
+
+    /* REFERENCIA */
+    this.pdf.text(
+      'REF: PROTECCIÓN TEMPORAL POLICIVA / MEDIDA DE PROTECCIÓN PROVISIONAL POR',
+      85,
+      247
+    );
+
+    this.pdf.text(
+      'VIOLENCIA EN EL CONTEXTO FAMILIAR ____________________',
+      85,
+      259
+    );
+
+    /*CUERPO */
+    autoTable(this.pdf, {
+      html: '#cuerpo',
+      startY: 290,
+      useCss: true,
+      margin: {
+        top: 36,
+        left: 80,
+        right: 65,
+      },
+    });
+    this.pdf.addPage();
+    this.crearEncabezado(nombreReporte, 42);
+    autoTable(this.pdf, {
+      html: '#cuerpo2',
+      startY: 110,
+      useCss: true,
+      margin: {
+        top: 36,
+        left: 80,
+        right: 65,
+      },
+    });
+
+    this.pdf.text('Atentamente,', 85, 450);
+
+    /**Firma */
+    this.pdf.setLineWidth(1);
+    this.pdf.setDrawColor(0, 0, 0);
+    this.pdf.setFontSize(13);
+    this.pdf.text(comisario, 85, 500);
+    this.pdf.line(85, 508, 230, 508);
+    this.pdf.setFontSize(10);
+    this.pdf.text('Comisario/a de Familia', 85, 523);
+    this.pdf.text(comisaria, 85, 537);
+    this.crearPiePagina();
+
+    window.open(URL.createObjectURL(this.pdf.output('blob')));
+  }
 
   /**
    * @description Genera PDF DENUNCIA FISCALIA

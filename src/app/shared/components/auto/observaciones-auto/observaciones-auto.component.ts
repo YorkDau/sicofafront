@@ -10,12 +10,10 @@ import { UserInterface } from 'src/app/interfaces/usuario.interface';
 })
 export class ObservacionesAutoComponent implements OnInit {
 
-  // 🔹 Entradas
   @Input() observaciones: string = '';
   
-  @Input() mostrarObservaciones: boolean = false; // por defecto en "NO"
+  @Input() mostrarObservaciones: boolean = false; 
 
-  // 🔹 Salidas
   @Output() comentarios = new EventEmitter<string>();
   @Output() checkComisario = new EventEmitter<boolean>();
   @Output() checkCierre = new EventEmitter<boolean | undefined>();
@@ -25,8 +23,7 @@ export class ObservacionesAutoComponent implements OnInit {
   
   public info: any;
 
-  // 🔹 Propiedades internas
-  public esNecesarioRemitir: boolean = false; // por defecto "NO"
+  public esNecesarioRemitir: boolean = false; 
   public user!: UserInterface | undefined;
   public COMISARIO = CodigosPerfil.COMISARIO;
   public idAdjuntoAuto:Number = 0;
@@ -42,6 +39,7 @@ export class ObservacionesAutoComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = this.authService.currentUserValue;
+    console.log('Usuario -> ', this.user);
   }
 
   /**

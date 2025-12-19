@@ -53,6 +53,14 @@ export class GestionRemisionComponent implements AfterViewInit {
     this.cargarDatosTabla();
     this.dataSource.paginator = this.paginator;
   }
+    get etiquetaRemision(): string {
+    return this.objSol?.conciliacion ? 'Remisión' : 'Documento';
+  }
+
+  get etiquetaRemisiones(): string {
+    return this.objSol?.conciliacion ? 'REMISIONES REALIZADAS' : 'RECEPCIÓN DE DOCUMENTOS';
+  }
+
 
   /**
    * @description carga la informacion de la tabla

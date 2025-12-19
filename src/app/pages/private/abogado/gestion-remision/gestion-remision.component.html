@@ -1,11 +1,11 @@
 <div class="background-gray rounded-basic p-4 mb-3">
   <div class="d-flex align-items-center gap-5 mb-4 align-items-baseline">
-    <h4 class="text-blue">REMISIONES REALIZADAS</h4>
+    <h4 class="text-blue">{{ etiquetaRemisiones| uppercase }} </h4>
     <button
       class="btn button-new"
       [routerLink]="['../../generar-remision/', this.objSol.idSolicitud]"
     >
-      Generar Remisión
+      Generar {{ etiquetaRemision }}
     </button>
   </div>
 

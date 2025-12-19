@@ -4,39 +4,39 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
-} from "@angular/core";
-import { MatDialog } from "@angular/material/dialog";
-import { Router } from "@angular/router";
-import { lastValueFrom, Subscription } from "rxjs";
-import { AuthService } from "src/app/auth/services/auth.service";
+} from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { lastValueFrom, Subscription } from 'rxjs';
+import { AuthService } from 'src/app/auth/services/auth.service';
 import {
   CodigosPerfil,
   CodigosRespuesta,
   ImagenesModal,
   Mensajes,
-} from "src/app/constants";
+} from 'src/app/constants';
 import {
   SeccionesInterface,
   TreeInterface,
-} from "src/app/interfaces/auto.interface";
+} from 'src/app/interfaces/auto.interface';
 
-import { ResponseInterface } from "src/app/interfaces/response.interface";
-import { UserInterface } from "src/app/interfaces/usuario.interface";
-import { AbogadoService } from "src/app/pages/private/abogado/services/abogado.service";
-import { AutoService } from "src/app/pages/private/abogado/services/auto.service";
-import { TextoAutoPipe } from "src/app/pipes/texto-auto.pipe";
-import { Modales } from "src/app/shared/modals";
-import { ReporteAutoPDF } from "./report-pdf";
+import { ResponseInterface } from 'src/app/interfaces/response.interface';
+import { UserInterface } from 'src/app/interfaces/usuario.interface';
+import { AbogadoService } from 'src/app/pages/private/abogado/services/abogado.service';
+import { AutoService } from 'src/app/pages/private/abogado/services/auto.service';
+import { TextoAutoPipe } from 'src/app/pipes/texto-auto.pipe';
+import { Modales } from 'src/app/shared/modals';
+import { ReporteAutoPDF } from './report-pdf';
 
 @Component({
-  selector: "app-generar-auto",
-  templateUrl: "./generar-auto.component.html",
-  styleUrls: ["./generar-auto.component.scss"],
+  selector: 'app-generar-auto',
+  templateUrl: './generar-auto.component.html',
+  styleUrls: ['./generar-auto.component.scss'],
   providers: [TextoAutoPipe],
 })
 export class GenerarAutoComponent implements OnInit, OnDestroy {
-  @ViewChild("textPadre") txtPadre!: ElementRef;
-  @ViewChild("textHijo") txtHijo!: ElementRef;
+  @ViewChild('textPadre') txtPadre!: ElementRef;
+  @ViewChild('textHijo') txtHijo!: ElementRef;
 
   private autoPadreSub!: Subscription;
   private objSol!: any;
@@ -44,13 +44,13 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
   public listaSecciones: SeccionesInterface[] = [];
 
   public objAutoPadre!: TreeInterface;
-  public comentarios: string = "";
+  public comentarios: string = '';
   public checkAprobacionComisario: boolean = false;
-  public tituloAuto: string = "";
+  public tituloAuto: string = '';
   public ABOGADO = CodigosPerfil.ABOGADO;
   public COMISARIO = CodigosPerfil.COMISARIO;
   public user!: UserInterface | undefined;
-  public titulo: string = "";
+  public titulo: string = '';
   public mostrarFallo: boolean = true;
 
   // ✅ Segunda pregunta como boolean
@@ -58,7 +58,6 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
   public cierre?: boolean = undefined;
   public observacionCierre: string = '';
   public adjuntoAutoCierre: string = '';
-  
 
   constructor(
     private autoService: AutoService,
@@ -66,7 +65,7 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
     private router: Router,
     private dialog: MatDialog,
     private abogadoService: AbogadoService,
-    private textoAuto: TextoAutoPipe,
+    private textoAuto: TextoAutoPipe
   ) {}
 
   ngOnDestroy(): void {
@@ -80,40 +79,47 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.objSol = JSON.parse(sessionStorage.getItem("info")!);
+    this.objSol = JSON.parse(sessionStorage.getItem('info')!);
     this.user = this.authService.currentUserValue;
     this.asingarSuscripcion();
     this.asignarTitulo();
   }
 
   esNuevaActividadTomarDecision() {
-    return this.objSol.actividad === 'Tomar decisión información'
+    return this.objSol.actividad === 'Tomar decisión información';
   }
-  private asignarTitulo() {
-    if (this.objSol.actividad === "Crear auto con medidas") {
-      this.titulo = "ADOPCIÓN DE MEDIDAS DE PROTECCIÓN";
-    } else {
-      this.titulo = "GESTIÓN DE AUDIENCIA";
-    }
+private asignarTitulo() {
+  console.log("objeto solicitud -> ", this.objSol);
+
+  if (this.objSol.actividad === "Crear auto con medidas") {
+    this.titulo = "ADOPCIÓN DE MEDIDAS DE PROTECCIÓN";
+  } 
+  else if (
+    this.objSol.actividad === "Auto de Avoco Conocimiento y Apertura Adulto Mayor" || 
+    this.objSol.actividad === "Revisar Auto Adulto Mayor"
+  ) {
+    this.titulo = "AVOCO CONOCIMIENTO"; 
+  } 
+  else {
+    this.titulo = "GESTIÓN DE AUDIENCIA";
   }
+}
 
   private asingarSuscripcion() {
     this.autoPadreSub = this.autoService.seccion$.subscribe((p: any) => {
       this.objAutoPadre = p;
     });
-    
-    this.listaSeccionesSub = this.autoService.seccionesLista$.subscribe(
-      (l) => {
-        this.listaSecciones = l
-      },
-    );
+
+    this.listaSeccionesSub = this.autoService.seccionesLista$.subscribe((l) => {
+      this.listaSecciones = l;
+    });
   }
 
   public cancelarSolicitud() {
     Modales.modalConfirmacion(
       Mensajes.MENSAJE_CANCELAR_SOL,
       this.dialog,
-      ImagenesModal.EXCLAMACION,
+      ImagenesModal.EXCLAMACION
     ).subscribe((res) => {
       if (res) {
         this.redireccionar();
@@ -123,9 +129,9 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
 
   private redireccionar() {
     if (this.user?.perfil === CodigosPerfil.ABOGADO) {
-      this.router.navigate(["../abogado/casos"]);
+      this.router.navigate(['../abogado/casos']);
     } else {
-      this.router.navigate(["../comisario/casos"]);
+      this.router.navigate(['../comisario/casos']);
     }
   }
 
@@ -136,7 +142,7 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
       Modales.modalInformacion(
         Mensajes.MENSAJE_CAMPO_OBSERVACIONES,
         this.dialog,
-        ImagenesModal.EXCLAMACION,
+        ImagenesModal.EXCLAMACION
       );
     }
   }
@@ -151,7 +157,7 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
             Modales.modalExito(
               Mensajes.MENSAJE_OK,
               ImagenesModal.OK,
-              this.dialog,
+              this.dialog
             );
           }
         } else {
@@ -171,16 +177,16 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
       secciones: this.listaSecciones,
       // ✅ guardar como boolean
       esNecesarioRemitir: this.esNecesarioRemitir,
-      cierre:this.cierre,
-      observacionCierre:this.observacionCierre,
-      adjuntoAutoCierre:this.adjuntoAutoCierre,
-      idSolicitudServicio:this.objSol.idSolicitud,
+      cierre: this.cierre,
+      observacionCierre: this.observacionCierre,
+      adjuntoAutoCierre: this.adjuntoAutoCierre,
+      idSolicitudServicio: this.objSol.idSolicitud,
     };
   }
 
   public ajustarArregloAutoPadre(secciones: SeccionesInterface): void {
     secciones.textoSeccion = this.textoAuto.transform(
-      this.txtPadre.nativeElement.value,
+      this.txtPadre.nativeElement.value
     );
   }
 
@@ -191,7 +197,7 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
           Modales.modalExito(
             Mensajes.MENSAJE_CERRAR_SOLICITUD,
             ImagenesModal.OK,
-            this.dialog,
+            this.dialog
           );
           this.redireccionar();
         } else {
@@ -205,34 +211,31 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
   }
 
   public async modalConfirmaCerrarActuacion() {
-
     let objPlantilla = this.retornarObjGuardarPlantilla();
     let medidasaValidar: number[] = [];
 
     const secciones: ResponseInterface = await lastValueFrom(
-      this.autoService.obtenerSecciones(this.objSol.idSolicitud),
+      this.autoService.obtenerSecciones(this.objSol.idSolicitud)
     );
 
     medidasaValidar = secciones.data.medidasValidar;
 
-
     let verMarcadas = null;
-    let validacion = undefined;;
+    let validacion = undefined;
     if (!this.esNuevaActividadTomarDecision()) {
-        verMarcadas = objPlantilla.secciones.filter(
-        (marcadas: any) => marcadas.estadoSeccion,
+      verMarcadas = objPlantilla.secciones.filter(
+        (marcadas: any) => marcadas.estadoSeccion
       );
       validacion = verMarcadas.find((valor: any) =>
-        medidasaValidar.includes(valor.idSolPSeccion),
+        medidasaValidar.includes(valor.idSolPSeccion)
       );
     }
-     
 
     if (validacion == undefined && secciones.data.aplicaMedidas) {
       Modales.modalConfirmacion(
         Mensajes.MENSAJE_NO_MEDIDAS,
         this.dialog,
-        ImagenesModal.EXCLAMACION,
+        ImagenesModal.EXCLAMACION
       ).subscribe((res) => {
         if (res) {
           this.modalConfirmacionCerrarActuaciones();
@@ -247,7 +250,7 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
     Modales.modalConfirmacion(
       Mensajes.MENSAJE_CERRAR_ACT,
       this.dialog,
-      ImagenesModal.EXCLAMACION,
+      ImagenesModal.EXCLAMACION
     ).subscribe((res) => {
       if (res) this.validarAutoPrevioGuardar(true);
     });
@@ -261,11 +264,11 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
     var dato = {
       tareaID: this.objSol.idTarea,
       userID: this.user?.userID,
-      perfilCod: "",
-      valorEtiqueta: this.checkAprobacionComisario ? "1" : "0",
+      perfilCod: '',
+      valorEtiqueta: this.checkAprobacionComisario ? '1' : '0',
     };
     if (this.cierre === true) {
-      dato.valorEtiqueta = "2";
+      dato.valorEtiqueta = '2';
     }
     return dato;
   }
@@ -286,7 +289,7 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
   private validarCampoObservaciones(): boolean {
     if (this.checkAprobacionComisario) {
       if (this.user?.perfil !== this.ABOGADO && this.mostrarFallo) {
-        if (this.comentarios && this.comentarios !== "") {
+        if (this.comentarios && this.comentarios !== '') {
           return true;
         } else {
           return false;
@@ -303,7 +306,7 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
     Modales.modalInformacion(
       Mensajes.MENSAJE_ERROR_G,
       this.dialog,
-      ImagenesModal.EXCLAMACION,
+      ImagenesModal.EXCLAMACION
     );
   }
 
@@ -314,6 +317,6 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
   public obtenerObservacion(observacion: string) {
     this.comentarios = observacion;
     this.checkAprobacionComisario =
-      observacion && observacion !== "" ? true : false;
+      observacion && observacion !== '' ? true : false;
   }
 }

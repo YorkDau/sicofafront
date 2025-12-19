@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PATH_SERVER } from 'src/app/constants';
@@ -41,13 +41,22 @@ export class RemisionService {
    * @param idInvolucrado id del involucrado
    * @returns Observable
    */
-  public getRemisionesDisponibles(
-    idInvolucrado: number,
-  ): Observable<ResponseInterface> {
-    return this.http.get<ResponseInterface>(
-      `${this.api}/Abogado/RemisionesDisponiblesPorInvolucrado/${idInvolucrado}/`
-    );
+public getRemisionesDisponibles(
+  idInvolucrado: number,
+  idSolicitud?: number
+): Observable<ResponseInterface> {
+
+  let params = new HttpParams();
+
+  if (idSolicitud) {
+    params = params.set('idSolicitud', idSolicitud);
   }
+
+  return this.http.get<ResponseInterface>(
+    `${this.api}/Abogado/RemisionesDisponiblesPorInvolucrado/${idInvolucrado}/`,
+    { params }
+  );
+}
 
   /**
    * @description llama servicio obtener informacion para el documento a generar
