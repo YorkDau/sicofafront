@@ -187,7 +187,7 @@ export class TomarDecisionComponent implements OnInit {
       next: (data: ResponseInterface) => {
         if (data.statusCode === CodigosRespuesta.OK) {
           if (cerrar) {
-            this.cerrarActuacion();
+            this.crearEtiqueta();
           } else {
             this.modales.modalExito('Se ha guardado la informacion');
           }

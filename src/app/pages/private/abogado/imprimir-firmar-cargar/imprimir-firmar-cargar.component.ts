@@ -19,6 +19,7 @@ import { SharedService } from 'src/app/services/shared.service';
 import { SolicitudService } from '../../services/solicitud.service';
 import { ComisariaInterface } from '../../interfaces/solicitud.interface';
 import { EntidadInterface } from 'src/app/pages/private/interfaces/solicitud.interface';
+import { CrearEtiquetaTareaInterface } from 'src/app/interfaces/shared.interfaces';
 
 interface DatosFirma {
   tituloReporte: string;
@@ -264,10 +265,47 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
     };
     // Agregado para cerrar solicitud en 
     if (this.idEntidadTraslado && this.esAdultoMayor()) {
-      datos.valorEtiqueta = '2'; 
+      datos.valorEtiqueta = '1'; 
     }
     return datos;
   }
+  private crearObjEtiqueta(): CrearEtiquetaTareaInterface {
+    const obj: CrearEtiquetaTareaInterface = {
+        valorEtiqueta: this.datosFirma.apelacion ? '1' : '0',
+        idsolicitudServicio: this.objSol.idSolicitud,
+        idtarea: this.objSol.idTarea,
+    }
+    // Agregado para cerrar solicitud en 
+    if (this.idEntidadTraslado && this.esAdultoMayor()) {
+      obj.valorEtiqueta = '1'; 
+    } else if (this.esAdultoMayor()) {
+      obj.valorEtiqueta = '0'; 
+    }
+    return obj;
+  }
+
+  crearEtiqueta() {
+      this.sharedService.crearEtiqueta(this.crearObjEtiqueta()).subscribe({
+        next: (data: ResponseInterface) => {
+          if (data && data.statusCode === CodigosRespuesta.OK) {
+            this.cerrarActuacion();
+          } else {
+            Modales.modalInformacion(
+              Mensajes.MENSAJE_ERROR_G,
+              this.dialog,
+              ImagenesModal.EXCLAMACION
+            );
+          }
+        },
+        error: () => {
+          Modales.modalInformacion(
+            Mensajes.MENSAJE_ERROR_G,
+            this.dialog,
+            ImagenesModal.EXCLAMACION
+          );
+        },
+      });
+    }
 
   /**
    * @description llama servicio cerrar actuación
@@ -376,7 +414,7 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
         next: (data: ResponseInterface) => {
           if (data.statusCode === CodigosRespuesta.OK) {
             if (cierre) {
-              this.cerrarActuacion();
+              this.crearEtiqueta()
             } else {
               Modales.modalExito(
                 Mensajes.MENSAJE_OK,
