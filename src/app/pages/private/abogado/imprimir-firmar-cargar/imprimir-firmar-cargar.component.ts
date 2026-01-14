@@ -30,6 +30,11 @@ interface DatosFirma {
   idSolPlantilla: number;
   idAnexo: number | undefined;
 }
+interface ArchivoTraslado {
+  entrada: string;
+  tipoDocumento: string;
+  Nombrearchivo:string;
+}
 @Component({
   selector: 'app-imprimir-firmar-cargar',
   templateUrl: './imprimir-firmar-cargar.component.html',
@@ -39,7 +44,7 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
   private objSol!: any;
   private user!: UserInterface | undefined;
   public archivo!: string | null;
-  public archivoTraslado!: string | null;
+  public archivosTraslados: ArchivoTraslado[] = [];
   public archivoRemision!: string | null;
 
   public radioPregunta: boolean = false;
@@ -183,8 +188,8 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
       }
     });
   }
-    public descargarDocumentoOficioTraslado(): void {
-    const nombre: string = 'FORMATO TRASLADO CASO.pdf';
+  public descargarDocumentoOficioTraslado(formato = null): void {
+    const nombre: string = formato ||'FORMATO TRASLADO CASO.pdf';
 
     this.sharedService.descargarFormatos(nombre, 'ss').subscribe({
       next: (data: ResponseInterface) => {
@@ -204,14 +209,20 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
       },
     });
   }
-    public enviarArchivoOficioTraslado(archivoTraslado: string): void {
-    if (archivoTraslado && archivoTraslado !== '') {
-      this.archivoTraslado = archivoTraslado;
-    } else {
-      this.archivoTraslado = '';
-      this.nuevoArchivoOficioTraslado = true;
+    public enviarArchivoOficioTraslado(archivo: string, tipo:string): void {
+      let record = this.archivosTraslados.find(x => x.tipoDocumento == tipo)
+      if (archivo && archivo === '') {
+        this.nuevoArchivoOficioTraslado = true;
+      }
+      if (!record) {
+        if (archivo && archivo !== '') {
+          this.archivosTraslados.push({tipoDocumento:tipo, entrada:archivo, Nombrearchivo:''}) 
+          console.log(this.archivosTraslados)
+        }
+      } else {
+        record.entrada = '';
+      }
     }
-  }
   
 
   public descargarDocumento(): void {
@@ -385,6 +396,7 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
       idComisaria: this.user?.idComisaria,
       idComisariaTraslado: this.comisariaSeleccionada,
       idEntidadTraslado:this.idEntidadTraslado,
+      archivosTraslados:this.archivosTraslados
     };
     if (this.esAdultoMayor() && this.archivoRemision && !obj.entrada) {
       obj.entrada = this.archivoRemision;
@@ -401,6 +413,7 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
    * @param cierre cerrar actuación, false no
    */
   public cargarAdjuntoFirma(cierre: boolean): void {
+    console.log(this.crearObjGuardarAdjunto())
     if (this.archivo && this.archivo !== '' || this.esAdultoMayor()) {
       if (this.nuevoArchivo) {
         this.abogadoService

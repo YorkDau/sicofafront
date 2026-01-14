@@ -140,48 +140,48 @@
   </div>
 
   <div class="row mt-4" *ngIf="datosFirma?.idTipoTramite === 92">
-    <div class="col-12">
+    <div class="col-12 mt-2">
       <div class="d-flex align-items-center gap-2 mt-2">
         <button
           class="btn button-new"
-          (click)="descargarDocumentoOficioTraslado()"
+          (click)="descargarDocumentoOficioTraslado('FORMATO TRASLADO CASO 1.pdf')"
         >
           Descargar Formato 1
         </button>
         <app-carga-archivo
           matTooltip="Cargar formato traslado"
           [textoCargar]="'Cargar formato 1'"
-          (baseArchivo)="enviarArchivoOficioTraslado($event)"
+          (baseArchivo)="enviarArchivoOficioTraslado($event, 'Formato_Oficial_Traslado_1')"
         ></app-carga-archivo>
       </div>
     </div>
-        <div class="row mb-4">
+    <div class="col-12 mt-2">
       <div class="d-flex align-items-center gap-2 mt-2">
         <button
           class="btn button-new"
-          (click)="descargarDocumentoOficioTraslado()"
+          (click)="descargarDocumentoOficioTraslado('FORMATO TRASLADO CASO 2.pdf')"
         >
           Descargar Formato 2
         </button>
         <app-carga-archivo
           matTooltip="Cargar formato traslado"
           [textoCargar]="'Cargar formato 2'"
-          (baseArchivo)="enviarArchivoOficioTraslado($event)"
+          (baseArchivo)="enviarArchivoOficioTraslado($event, 'Formato_Oficial_Traslado_2')"
         ></app-carga-archivo>
       </div>
     </div>
-    <div class="row mb-4">
+    <div class="col-12 mt-2">
       <div class="d-flex align-items-center gap-2 mt-2">
         <button
           class="btn button-new"
-          (click)="descargarDocumentoOficioTraslado()"
+          (click)="descargarDocumentoOficioTraslado('FORMATO TRASLADO CASO 3.pdf')"
         >
           Descargar Formato 3
         </button>
         <app-carga-archivo
           matTooltip="Cargar formato traslado"
           [textoCargar]="'Cargar formato 3'"
-          (baseArchivo)="enviarArchivoOficioTraslado($event)"
+          (baseArchivo)="enviarArchivoOficioTraslado($event, 'Formato_Oficial_Traslado_3')"
         ></app-carga-archivo>
       </div>
     </div>

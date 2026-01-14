@@ -162,6 +162,10 @@ export enum TiposDocumentoCarga {
   DECRETAR_DESISTIR_PARD = 'Anexo_Decreto_Pard',
   NOTIFICAR_INVOLUCRADOS_PARD = 'Notificacion_Pard',
   ACTA_CIERRE_PARD = 'Anexo_Acta_Cierre_Pard',
+  FORMATO_TRASLADO_1='Formato_Oficial_Traslado_1',
+  FORMATO_TRASLADO_2='Formato_Oficial_Traslado_2',
+  FORMATO_TRASLADO_3='Formato_Oficial_Traslado_3'
+
 }
 
 export enum EstadosNotificacionImplicado {
