@@ -26,6 +26,7 @@ interface DatosFirma {
   mostrarPreguntaRecurso: boolean;
   apelacion: boolean;
   esNecesarioRemitir: boolean;
+  idTipoTramite: number;
   idSolPlantilla: number;
   idAnexo: number | undefined;
 }
@@ -38,12 +39,14 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
   private objSol!: any;
   private user!: UserInterface | undefined;
   public archivo!: string | null;
+  public archivoTraslado!: string | null;
   public archivoRemision!: string | null;
 
   public radioPregunta: boolean = false;
   public datosFirma!: DatosFirma;
   public delete: boolean = true;
   public nuevoArchivo: boolean = true;
+  public nuevoArchivoOficioTraslado: boolean = true;
   public nuevoArchivoRemision: boolean = true;
   public selectComisaria: ComisariaInterface[] = [];
   public selectEntidad: EntidadInterface[] = [];
@@ -72,6 +75,8 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if (sessionStorage.getItem('info')) {
       this.objSol = JSON.parse(sessionStorage.getItem('info')!);
+
+      console.log('objSol', this.objSol);
       this.user = this.authService.currentUserValue;
       this.cargarListadoSecciones();
     } else this.redireccionar();
@@ -129,11 +134,14 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
    * @param data respuesta servicio auto
    */
   private llenarInterfaceDatosFirma(data: any): void {
+    console.log('DATA AUTO', data); 
+    console.log('this.objSol', this.objSol);
     this.datosFirma = {
       tituloReporte: data.nombrePlantilla,
       mostrarPreguntaRecurso: data.tieneApelacion === 1 ? true : false,
       apelacion: data.apelacion,
       esNecesarioRemitir: data.esNecesarioRemitir,
+      idTipoTramite: this.objSol.idTipoTramite,
       idSolPlantilla: data.idSolPlantilla,
       idAnexo: data.idAnexo ? data.idAnexo : 0,
     };
@@ -175,6 +183,36 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
       }
     });
   }
+    public descargarDocumentoOficioTraslado(): void {
+    const nombre: string = 'FORMATO TRASLADO CASO.pdf';
+
+    this.sharedService.descargarFormatos(nombre, 'ss').subscribe({
+      next: (data: ResponseInterface) => {
+        if (data.statusCode === CodigosRespuesta.OK) {
+          const source = `data:application/pdf;base64,${data.data}`;
+          const link = document.createElement('a');
+          const fileName = nombre;
+          link.href = source;
+          link.download = `${fileName}`;
+          link.click();
+        } else {
+          this.msgError();
+        }
+      },
+      error: () => {
+        this.msgError();
+      },
+    });
+  }
+    public enviarArchivoOficioTraslado(archivoTraslado: string): void {
+    if (archivoTraslado && archivoTraslado !== '') {
+      this.archivoTraslado = archivoTraslado;
+    } else {
+      this.archivoTraslado = '';
+      this.nuevoArchivoOficioTraslado = true;
+    }
+  }
+  
 
   public descargarDocumento(): void {
     const nombre: string = 'FORMATO TRASLADO CASO.pdf';
