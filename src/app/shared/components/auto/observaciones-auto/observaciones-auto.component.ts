@@ -32,14 +32,8 @@ export class ObservacionesAutoComponent implements OnInit {
     this.info = JSON.parse(sessionStorage.getItem('info')!);
   }
 
-  
-  esNuevaActividadTomarDecision() {
-    return this.info.actividad === 'Tomar decisión información'
-  }
-
   ngOnInit(): void {
     this.user = this.authService.currentUserValue;
-    console.log('Usuario -> ', this.user);
   }
 
   /**

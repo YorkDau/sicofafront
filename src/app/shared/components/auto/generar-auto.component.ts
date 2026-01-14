@@ -52,9 +52,7 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
   public user!: UserInterface | undefined;
   public titulo: string = '';
   public mostrarFallo: boolean = true;
-
-  // ✅ Segunda pregunta como boolean
-  public esNecesarioRemitir: boolean = false; // por defecto NO
+  public esNecesarioRemitir: boolean = false; 
   public cierre?: boolean = undefined;
   public observacionCierre: string = '';
   public adjuntoAutoCierre: string = '';
@@ -281,7 +279,6 @@ private asignarTitulo() {
     this.checkAprobacionComisario = checkAprobacionComisario;
   }
 
-  // ✅ Recibe el valor booleano de remisión
   public obtenerRemision(valor: boolean) {
     this.esNecesarioRemitir = valor;
   }
