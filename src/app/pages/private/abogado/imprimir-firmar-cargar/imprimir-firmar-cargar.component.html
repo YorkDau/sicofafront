@@ -210,13 +210,12 @@
       class="btn btn-primary"
       (click)="modalConfirmaCerrarActuacion()"
       [disabled]="
-        (datosFirma?.esNecesarioRemitir &&
-          ((!comisariaSeleccionada && !idEntidadTraslado) ||
-            !archivoRemision)) ||
+        (datosFirma?.esNecesarioRemitir && ((!comisariaSeleccionada && !idEntidadTraslado) || !archivoRemision)) ||
         (!datosFirma?.esNecesarioRemitir && !archivo)
       "
     >
       Cerrar actuaciones
     </button>
   </div>
+
 </div>

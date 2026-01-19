@@ -80,6 +80,9 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if (sessionStorage.getItem('info')) {
       this.objSol = JSON.parse(sessionStorage.getItem('info')!);
+      setTimeout(() => {
+        this.objSol = JSON.parse(sessionStorage.getItem('info')!);
+      }, 500);
 
       console.log('objSol', this.objSol);
       this.user = this.authService.currentUserValue;
@@ -294,6 +297,8 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
       this.archivoRemision = '';
       this.nuevoArchivoRemision = true;
     }
+    console.log(archivoRemision);
+    console.log(this.archivoRemision);
   }
 
   /**
@@ -413,7 +418,6 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
    * @param cierre cerrar actuación, false no
    */
   public cargarAdjuntoFirma(cierre: boolean): void {
-    console.log(this.crearObjGuardarAdjunto())
     if (this.archivo && this.archivo !== '' || this.esAdultoMayor()) {
       if (this.nuevoArchivo) {
         this.abogadoService
