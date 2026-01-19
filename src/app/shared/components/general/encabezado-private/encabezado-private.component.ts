@@ -35,7 +35,6 @@ export class EncabezadoPrivateComponent implements OnInit {
         .subscribe({
           next: (data: ResponseInterface) => {
             if (data.statusCode === CodigosRespuesta.OK) {
-              console.log(data.data);
               this.accionante = data.data;
             this.objSol.conciliacion = data.data.conciliacion;
             this.objSol.idTipoTramite = data.data.idTipoTramite;

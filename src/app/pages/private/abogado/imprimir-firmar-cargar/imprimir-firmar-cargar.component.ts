@@ -125,7 +125,6 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
       next: (data: ResponseInterface) => {
         if (data.statusCode === CodigosRespuesta.OK) {
           this.autoService.emitirArregloSecciones(data.data.secciones);
-          console.log('SECCIONES AUTO', data);
           this.llenarInterfaceDatosFirma(data.data);
         } else {
           this.msgError();

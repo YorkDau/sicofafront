@@ -34,7 +34,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       route: "recepcion-auxiliar",
       visible: false,
       requiredProfileName: "Auxiliar",
-      description2:"(Menor - Adulto Mayor)",
+      description2:"", // (Menor - Adulto Mayor)
     },
     {
       title: "Solicitudes",

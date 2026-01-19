@@ -144,18 +144,18 @@
       <div class="d-flex align-items-center gap-2 mt-2">
         <button
           class="btn button-new"
-          (click)="descargarDocumentoOficioTraslado('FORMATO TRASLADO CASO 1.pdf')"
+          (click)="descargarDocumentoOficioTraslado('OFICIO DE TRASLADO DE DILIGENCIA.pdf')"
         >
-          Descargar Formato 1
+          Descargar Oficio de Traslado de Diligencia
         </button>
         <app-carga-archivo
           matTooltip="Cargar formato traslado"
-          [textoCargar]="'Cargar formato 1'"
-          (baseArchivo)="enviarArchivoOficioTraslado($event, 'Formato_Oficial_Traslado_1')"
+          [textoCargar]="'Cargar Oficio'"
+          (baseArchivo)="enviarArchivoOficioTraslado($event, 'Oficio de traslado de diligencia')"
         ></app-carga-archivo>
       </div>
     </div>
-    <div class="col-12 mt-2">
+    <!--div class="col-12 mt-2">
       <div class="d-flex align-items-center gap-2 mt-2">
         <button
           class="btn button-new"
@@ -184,7 +184,7 @@
           (baseArchivo)="enviarArchivoOficioTraslado($event, 'Formato_Oficial_Traslado_3')"
         ></app-carga-archivo>
       </div>
-    </div>
+    </div-->
   </div>
 
   <div class="d-flex align-items-center justify-content-end mt-5 gap-3">
