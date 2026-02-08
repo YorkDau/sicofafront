@@ -6,7 +6,7 @@
        <button class="btn btn-secondary" (click)="descargarFormato()">Descargar Formato</button>
        <app-carga-archivo
          (baseArchivo)="onBaseArchivo($event, 'consentimiento')"
-         textoCargar='Cargar Adjunto'
+         textoCargar='Cargar Consentimiento Informado'
          matTooltip="Subir Archivo"
        ></app-carga-archivo>
     </div>
@@ -341,8 +341,8 @@
     <div class='mt-4'>
       <app-carga-archivo
         (baseArchivo)="onBaseArchivo($event, 'adjunto')"
-        textoCargar='Cargar adjunto'
-        matTooltip='Cargar adjunto'
+        textoCargar='Cargar Adjunto Salud'
+        matTooltip='Cargar Adjunto Salud'
       >
       </app-carga-archivo>
     </div>

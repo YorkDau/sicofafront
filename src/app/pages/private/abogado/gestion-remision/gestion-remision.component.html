@@ -12,7 +12,7 @@
   <div>
     <div class="">
       <app-no-data
-        mensaje="No se han encontrado remisiones realizadas con esta solicitud."
+        mensaje="{{etiquetaMensaje}}"
         *ngIf="!dataSourceList.length"
       ></app-no-data>
     </div>

@@ -109,7 +109,7 @@ export class TomarDecisionComponent implements OnInit {
   private cargaSelectEntidad() {
     this.solicitudService.getEntidades().subscribe((entidad) => {
       if (entidad.statusCode === CodigosRespuesta.OK) {
-        this.selectEntidad = entidad.data;
+        this.selectEntidad = entidad.data.filter((x:any) => x.id_entidad_externa == 12);
       }
     });
   }

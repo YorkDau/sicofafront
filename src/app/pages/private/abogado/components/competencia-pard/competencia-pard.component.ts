@@ -56,7 +56,10 @@ export class CompetenciaPardComponent implements OnInit {
   initForm() {
     this.form = this.formBuilder.group({
       competenciaIcbf: ['no'],
-      observaciones: ['', Validators.compose([Validators.maxLength(3000), Validators.required])]
+      observaciones: ['', Validators.compose([Validators.maxLength(3000), Validators.required])],
+      adjuntoConstanciaTraslado:'',
+      adjuntoActaVerificacion:'',
+      adjuntoAutoTramite:''
     });
   }
 
@@ -119,7 +122,10 @@ export class CompetenciaPardComponent implements OnInit {
       idSolicitudServicio: this.objSol.idSolicitud,
       idTarea: this.objSol.idTarea,
       cierre: this.f.competenciaIcbf.value === 'si' ? true : false,
-      observacion: this.f.observaciones.value
+      observacion: this.f.observaciones.value,
+      adjuntoConstanciaTraslado:this.f.adjuntoConstanciaTraslado.value,
+      adjuntoActaVerificacion:this.f.adjuntoActaVerificacion.value,
+      adjuntoAutoTramite:this.f.adjuntoAutoTramite.value
     };
   }
 
@@ -177,9 +183,9 @@ export class CompetenciaPardComponent implements OnInit {
     }
   }
   
-  cargarAutoApertura(base64: string) {
+  cargarAutoTramite(base64: string) {
     if (base64) {
-      this.f.adjuntoAutoApertura.setValue(base64);
+      this.f.adjuntoAutoTramite.setValue(base64);
     }
   }
   

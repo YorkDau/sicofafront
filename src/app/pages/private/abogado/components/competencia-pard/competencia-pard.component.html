@@ -73,16 +73,16 @@
                     </app-carga-archivo>
                     &nbsp;
                     <app-carga-archivo *ngIf="(!this.infoInicial?.idAdjuntoAuto || this.infoInicial?.idAdjuntoAuto === '' || this.infoInicial?.idAdjuntoAuto === 0)"
-                        (baseArchivo)="cargarAutoApertura($event)" 
-                        textoCargar="Subir Auto apertura investigación">
+                        (baseArchivo)="cargarAutoTramite($event)" 
+                        textoCargar="Subir Auto de trámite">
                     </app-carga-archivo>
 
                     <app-carga-archivo *ngIf="(this.infoInicial?.idAdjuntoAuto !== '' && this.infoInicial?.idAdjuntoAuto !== 0)"
-                        (baseArchivo)="cargarAutoApertura($event)" 
+                        (baseArchivo)="cargarAutoTramite($event)" 
                         [deleteIcon]="delete" 
                         [downloadIcon]="delete"
                         [archivoCargado]="iFileConstancia"
-                        textoCargar="Subir Auto apertura investigación"
+                        textoCargar="Subir Auto de trámite"
                         isSmallSize="true">
                     </app-carga-archivo>
                 </div>

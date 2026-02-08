@@ -54,12 +54,20 @@ export class GestionRemisionComponent implements AfterViewInit {
     this.dataSource.paginator = this.paginator;
   }
     get etiquetaRemision(): string {
-    return this.objSol?.conciliacion ? 'Remisión' : 'Documento';
+    return this.objSol?.conciliacion ? 'Remisión' : 'Formatos';
   }
 
   get etiquetaRemisiones(): string {
-    return this.objSol?.conciliacion ? 'REMISIONES REALIZADAS' : 'RECEPCIÓN DE DOCUMENTOS';
+    return this.objSol?.conciliacion ? 'REMISIONES REALIZADAS' : 'RECEPCIÓN DE FORMATOS';
   }
+
+  
+  get etiquetaMensaje(): string {
+    return this.objSol?.conciliacion ? 'No se han encontrado remisiones realizadas con esta solicitud.' : 'No se han encontrado formatos realizados con esta solicitud.';
+  }
+
+  
+
 
 
   /**

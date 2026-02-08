@@ -84,7 +84,7 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
         this.objSol = JSON.parse(sessionStorage.getItem('info')!);
       }, 500);
 
-      console.log('objSol', this.objSol);
+      // console.log('objSol', this.objSol);
       this.user = this.authService.currentUserValue;
       this.cargarListadoSecciones();
     } else this.redireccionar();
@@ -95,13 +95,13 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
    */
   private cargaSelectComisaria() {
     const idComisaria = this.authService.currentUserValue?.idComisaria;
-    console.log('idComisaria', idComisaria);
+    // console.log('idComisaria', idComisaria);
     this.solicitudService
       .getComisariaTraslado(idComisaria)
       .subscribe((comisaria) => {
         if (comisaria.statusCode === CodigosRespuesta.OK) {
           this.selectComisaria = comisaria.data;
-          console.log('comisarias', this.selectComisaria);
+          // console.log('comisarias', this.selectComisaria);
         }
       });
   }
@@ -141,8 +141,8 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
    * @param data respuesta servicio auto
    */
   private llenarInterfaceDatosFirma(data: any): void {
-    console.log('DATA AUTO', data); 
-    console.log('this.objSol', this.objSol);
+    // console.log('DATA AUTO', data); 
+    // console.log('this.objSol', this.objSol);
     this.datosFirma = {
       tituloReporte: data.nombrePlantilla,
       mostrarPreguntaRecurso: data.tieneApelacion === 1 ? true : false,
@@ -219,7 +219,7 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
       if (!record) {
         if (archivo && archivo !== '') {
           this.archivosTraslados.push({tipoDocumento:tipo, entrada:archivo, Nombrearchivo:''}) 
-          console.log(this.archivosTraslados)
+          // console.log(this.archivosTraslados)
         }
       } else {
         record.entrada = '';
@@ -296,8 +296,8 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
       this.archivoRemision = '';
       this.nuevoArchivoRemision = true;
     }
-    console.log(archivoRemision);
-    console.log(this.archivoRemision);
+    // console.log(archivoRemision);
+    // console.log(this.archivoRemision);
   }
 
   /**

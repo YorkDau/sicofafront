@@ -11,7 +11,7 @@
         <div class="px-2 d-flex gap-4 align-items-baseline">
           <ng-container *ngIf="datosFirma">
             <button class="btn btn-primary px-3" (click)="generarReporte()">
-              Generar Auto
+              Generar {{datosFirma?.idTipoTramite === 92 ? 'Resolución' : 'Auto'}}
             </button>
             <app-reporte-auto
               [tituloReporte]="datosFirma.tituloReporte"
