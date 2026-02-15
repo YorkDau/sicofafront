@@ -158,6 +158,50 @@
               No pertenece
             </ng-container>
           </div>
+
+          
+
+          <!--div class="col-4 p-3 d-flex">
+            <label class="fw-bolder texto-pequeno d-block"
+              >Fecha de creación:</label
+            >
+            {{
+              ciudadano &&
+              ciudadano.fecha_creacion &&
+              ciudadano.fecha_creacion != "0001-01-01T00:00:00"
+                ? (ciudadano.fecha_creacion | date : "dd/MM/yyyy HH:mm:ss")
+                : "Sin dato"
+            }}
+          </div>
+          
+          <div class="col-4 p-3 d-flex">
+            <label class="fw-bolder texto-pequeno d-block"
+              >Fecha de actualización:</label
+            >
+            {{
+              ciudadano &&
+              ciudadano.fecha_actualizacion &&
+              ciudadano.fecha_actualizacion != "0001-01-01T00:00:00"
+                ? (ciudadano.fecha_actualizacion | date : "dd/MM/yyyy HH:mm:ss")
+                : "Sin dato"
+            }}
+          </div-->
+
+          <p class="text-right text-date"> <b><i><small>Creado: {{
+              ciudadano &&
+              ciudadano.fecha_creacion &&
+              ciudadano.fecha_creacion != "0001-01-01T00:00:00"
+                ? (ciudadano.fecha_creacion | date : "dd/MM/yyyy HH:mm:ss")
+                : "Sin dato"
+            }}</small></i>, <i><small>Actualizado: {{
+              ciudadano &&
+              ciudadano.fecha_actualizacion &&
+              ciudadano.fecha_actualizacion != "0001-01-01T00:00:00"
+                ? (ciudadano.fecha_actualizacion | date : "dd/MM/yyyy HH:mm:ss")
+                : "Sin dato"
+            }}</small></i></b> </p>
+
+
         </div>
       </div>
     </div>
