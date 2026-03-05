@@ -193,7 +193,6 @@ export class PdfExport {
     this.pdf.text('SECRETARIO DE COMISARÍA DE FAMILIA', 100, 657);
     this.pdf.text(comisaria, 100, 670);
 
-    /**Pie de pagina */
     this.crearPiePagina();
 
     window.open(URL.createObjectURL(this.pdf.output('blob')));
