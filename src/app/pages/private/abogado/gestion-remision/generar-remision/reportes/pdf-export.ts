@@ -1089,7 +1089,7 @@ export class PdfExport {
     const mes = formatDate(new Date(), 'MMMM', 'es');
     const anio = formatDate(new Date(), 'yyyy', 'es');
     const nombreReporte =
-      'REMISIÓN FORMATO PERSONERÍA';
+      'REMISIÓN PERSONERÍA';
     this.crearEncabezado(nombreReporte, 47);
 
     /**Ciudad, fecha */

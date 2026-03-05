@@ -116,19 +116,13 @@ export class DatosInvolucradosComponent implements AfterViewInit {
       descripcionOrganizacionCriminal: [""],
       agresorOrganizacionCriminal: [false],
       edadAproximadaAgresor: [],
-      paisExp: [{ value: "", disabled: false }, [Validators.required]],
-      departamentoExp: [{ value: "", disabled: false }, [Validators.required]],
-      municipioExp: [{ value: "", disabled: false }, [Validators.required]],
-      fechaExpedicion: [{ value: "", disabled: false }, [Validators.required]],
-      paisNacimiento: [{ value: "", disabled: false }, [Validators.required]],
-      departamentoNacimiento: [
-        { value: "", disabled: false },
-        [Validators.required],
-      ],
-      municipioNacimiento: [
-        { value: "", disabled: false },
-        [Validators.required],
-      ],
+      paisExp: [{ value: "", disabled: false }],
+      departamentoExp: [{ value: "", disabled: false }],
+      municipioExp: [{ value: "", disabled: false }],
+      fechaExpedicion: [{ value: "", disabled: false }],
+      paisNacimiento: [{ value: "", disabled: false }],
+      departamentoNacimiento: [ { value: "", disabled: false } ],
+      municipioNacimiento: [ { value: "", disabled: false }],
     });
 
     this.formVictima = this.formBuilder.group({

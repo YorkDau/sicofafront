@@ -142,6 +142,10 @@
               {{ pais.nombrePais }}
             </option>
           </select>
+          
+          <span *ngIf="isRequiredField(formVictima, 'paisExp')" class="text-danger" [ngClass]="{ 'opacity-0': !isRequiredField(formVictima, 'paisExp') }">
+          Campo requerido
+          </span>
         </div>
 
         <div class="form-group col-lg-4 mb-4">
@@ -162,6 +166,9 @@
               {{ departamento.departamentoNombre }}
             </option>
           </select>
+          <span *ngIf="isRequiredField(formVictima, 'departamentoExp')" class="text-danger" [ngClass]="{ 'opacity-0': !isRequiredField(formVictima, 'departamentoExp') }">
+          Campo requerido
+          </span>
         </div>
 
         <div class="form-group col-lg-4 mb-4">
@@ -178,6 +185,9 @@
               {{ municipio.nombCiudMun }}
             </option>
           </select>
+          <span *ngIf="isRequiredField(formVictima, 'municipioExp')" class="text-danger" [ngClass]="{ 'opacity-0': !isRequiredField(formVictima, 'municipioExp') }">
+          Campo requerido
+          </span>
         </div>
 
         <div class="form-group col-lg-4 mb-4">
@@ -229,6 +239,9 @@
               {{ pais.nombrePais }}
             </option>
           </select>
+          <span *ngIf="isRequiredField(formVictima, 'paisNacimiento')" class="text-danger" [ngClass]="{ 'opacity-0': !isRequiredField(formVictima, 'paisNacimiento') }">
+          Campo requerido
+          </span>
         </div>
 
         <div class="form-group col-lg-4 mb-4">
@@ -247,6 +260,9 @@
               {{ departamento.departamentoNombre }}
             </option>
           </select>
+          <span *ngIf="isRequiredField(formVictima, 'departamentoNacimiento')" class="text-danger" [ngClass]="{ 'opacity-0': !isRequiredField(formVictima, 'departamentoNacimiento') }">
+          Campo requerido
+          </span>
         </div>
 
         <div class="form-group col-lg-4 mb-4">
@@ -263,6 +279,9 @@
               {{ municipio.nombCiudMun }}
             </option>
           </select>
+          <span *ngIf="isRequiredField(formVictima, 'municipioNacimiento')" class="text-danger" [ngClass]="{ 'opacity-0': !isRequiredField(formVictima, 'municipioNacimiento') }">
+          Campo requerido
+          </span>
         </div>
 
         <div class="form-group col-lg-4 mb-4">
@@ -1014,7 +1033,7 @@
 
         <div class="form-group col-lg-4 mb-4">
           <label class="form-label text-capitalize"
-            >País de Expedición<span class="mx-1">*</span></label
+            >País de Expedición</label
           >
 
           <select
@@ -1031,7 +1050,7 @@
 
         <div class="form-group col-lg-4 mb-4">
           <label class="form-label text-capitalize"
-            >Departamento de Expedición<span class="mx-1">*</span></label
+            >Departamento de Expedición</label
           >
 
           <select
@@ -1050,7 +1069,7 @@
         </div>
         <div class="form-group col-lg-4 mb-4">
           <label class="form-label text-capitalize"
-            >Municipio de Expedición<span class="mx-1">*</span></label
+            >Municipio de Expedición</label
           >
           <select class="form-select" formControlName="municipioExp">
             <option disabled value="">Municipio de Expedición</option>
@@ -1064,7 +1083,7 @@
         </div>
         <div class="form-group col-lg-4 ">
           <label class="form-label text-capitalize">
-            fecha de expedición <span class="mx-1">*</span>
+            Fecha de expedición
           </label>
           <div class="input-group" style="max-height: 38px">
             <input
@@ -1095,7 +1114,7 @@
 
         <div class="form-group col-lg-4 mb-4">
                <label class="form-label text-capitalize">
-                  País de Nacimiento<span class="mx-1">*</span>
+                  País de Nacimiento
                </label>
                <select
                  class="form-select"
@@ -1110,7 +1129,7 @@
              </div>
 
              <div class="form-group col-lg-4 mb-4">
-               <label class="form-label text-capitalize">Departamento de Nacimiento <span class="mx-1">*</span></label>
+               <label class="form-label text-capitalize">Departamento de Nacimiento </label>
                <select
                  class="form-select"
                  formControlName="departamentoNacimiento"
@@ -1128,7 +1147,7 @@
 
              <div class="form-group col-lg-4 mb-4">
                <label class="form-label text-capitalize"
-                 >Municipio de Nacimiento<span class="mx-1">*</span></label
+                 >Municipio de Nacimiento </label
                >
 
                <select class="form-select" formControlName="municipioNacimiento">

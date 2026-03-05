@@ -321,7 +321,7 @@ export class PdfExport {
     const nombreVictima = dataReporte!.nombreVictima
       ? dataReporte!.nombreVictima
       : '__________________________________________________';
-    const nombreFormato = 'FORMATO SEGUIMIENTO MEDIDAS PROTECCION';
+    const nombreFormato = 'SEGUIMIENTO MEDIDAS PROTECCION';
     this.crearEncabezado(nombreFormato, 42);
 
     /** Ciudad, fecha y medida de protección */
@@ -2049,7 +2049,7 @@ export class PdfExport {
     const nombreVictima = dataReporte!.nombreVictima
       ? dataReporte!.nombreVictima
       : '__________________________________________________';
-    const nombreFormato = 'FORMATO INFORME DE SEGUIMIENTO';
+    const nombreFormato = 'INFORME DE SEGUIMIENTO';
     this.crearEncabezado(nombreFormato, 42);
 
     /** Ciudad, fecha y medida de protección */
