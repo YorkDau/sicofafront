@@ -185,7 +185,14 @@ export class ValoracionComponent implements AfterViewInit, OnChanges {
   }
 
   calcularValoracion(valoracion: string | number) {
+    console.log("Valoracion recibida: ", valoracion);
+    console.log(valoracion);
     const value = typeof valoracion === 'number' ? valoracion : Number.parseInt(valoracion);
+    console.log("Valoracion convertida a número: ", value);
+    console.log("Valoración calculada: ", Number.isNaN(value) ? 0 : value * 10);
+    
+
     return Number.isNaN(value) ? 0 : value * 10;
+
   }
 }

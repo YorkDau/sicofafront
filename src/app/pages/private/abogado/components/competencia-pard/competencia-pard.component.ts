@@ -142,7 +142,7 @@ export class CompetenciaPardComponent implements OnInit {
   }
 
   public descargarDocumento(): void {
-    const nombre: string = 'FORMATO TRASLADO.pdf';
+    const nombre: string = 'FORMATO TRASLADO CASO.pdf';
 
     this.sharedService.descargarFormatos(nombre, 'ss').subscribe({
       next: (data: ResponseInterface) => {
