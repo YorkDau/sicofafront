@@ -192,7 +192,7 @@ export class CircunstanciasAgravantesComponent implements AfterViewInit {
       this.dataPost.listadoRespuestas.push({
         idCuestionario: item.idQuestionario,
         mes: item.mesPrevio,
-        puntuacion: item.puntuacionPrevio === 1 ? true : false,
+        puntuacion: item.puntuacionPrevio === 0 ? false : true,
       });
     });
   }

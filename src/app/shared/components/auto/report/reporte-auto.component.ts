@@ -11,6 +11,8 @@ import { AutoService } from 'src/app/pages/private/abogado/services/auto.service
 export class ReporteAutoComponent implements OnInit, OnDestroy {
   public listaSecciones: SeccionesInterface[] = [];
   @Input() tituloReporte: string = '';
+  @Input() tituloFormato: string = '';
+  
 
   private listaSeccionesSub!: Subscription;
 

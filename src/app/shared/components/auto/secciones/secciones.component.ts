@@ -17,6 +17,7 @@ import { NestedTreeControl } from '@angular/cdk/tree';
 })
 export class SeccionesComponent implements OnInit {
   @Output() tituloPantalla = new EventEmitter<string>();
+  @Output() etiquetaPantalla = new EventEmitter<string>();
   @Output() observaciones = new EventEmitter<string>();
   @Output() aplicaRevision = new EventEmitter<boolean>();
   public listadoSecciones!: TreeInterface[];
@@ -47,18 +48,18 @@ export class SeccionesComponent implements OnInit {
       .subscribe((result: ResponseInterface) => {
         if (result.statusCode === CodigosRespuesta.OK) {
 
-          console.log("DATA", result.data);
           this.listadoSecciones = result.data.tree;
-      
           this.dataSource.data = this.listadoSecciones;
           this.listaSeccion = result.data.secciones;
           this.autoService.emitirArregloSecciones(this.listaSeccion);
           this.emitirTitulo(result.data.nombrePlantilla);
+          this.emitirEtiqueta(['ADULMY'].includes(result.data.nombreEtiqueta) ? 'PROCESO DE  FIJACIÓN PROVISIONAL DE CUOTA ALIMENTARIA ADULTO MAYOR' : 'ACCIÓN DE PROTECCIÓN POR VIOLENCIA EN EL CONTEXTO DE LA FAMILIA');
           this.aplicaRevision.emit(result.data.aplicaRevision || false);
           if (result.data.observacion)
             this.emitirObservaciones(result.data.observacion);
           if (result.data.esNecesarioRemitir)
             this.emitirObservaciones(result.data.esNecesarioRemitir);
+          
         }
       });
   }
@@ -121,6 +122,17 @@ export class SeccionesComponent implements OnInit {
   private emitirTitulo(titulo: string) {
     this.tituloPantalla.emit(titulo);
   }
+
+  
+  /**
+   * @description emite al padre la etiqueta del flujp
+   * @param etiqueta del flujo
+   */
+  private emitirEtiqueta(etiqueta: string) {
+    this.etiquetaPantalla.emit(etiqueta);
+  }
+
+  
 
   /**
    * @description emite al padre el observaciones dp

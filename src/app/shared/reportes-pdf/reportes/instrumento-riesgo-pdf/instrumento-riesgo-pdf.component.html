@@ -13,7 +13,8 @@
   >
     <tr>
       <td rowspan="2" class="logo">Minjusticia</td>
-      <td class="text-center">FORMATO</td>
+      <!--td class="text-center">FORMATO</td-->
+      <td class="text-center">&nbsp;</td>
       <td rowspan="2" class="text-center">VERSIÓN: 0.1</td>
     </tr>
     <tr>
@@ -998,7 +999,7 @@
       <th>Valoracion:</th>
       <td>
         <span *ngIf="idSolicitud > 1">{{
-          valoracion && valoracion.puntuacion ? valoracion.puntuacion * 10 : 0
+          valoracion && valoracion.puntuacion ? valoracion.puntuacion : 0
         }}</span>
         <span *ngIf="idSolicitud == 0">_________</span>
       </td>

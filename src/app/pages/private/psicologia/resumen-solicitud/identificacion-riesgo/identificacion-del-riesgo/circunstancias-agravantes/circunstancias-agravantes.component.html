@@ -18,10 +18,11 @@
             name="{{ tipo.idQuestionario }}"
             id="no{{ tipo.idQuestionario }}"
             (change)="habilitarRadioMes($event, tipo.idTipoViolencia)"
-            [value]="false"
             
             [checked]="tipo.puntuacionPrevio === 0"
+            [value]="false"
           />
+          <!--  -->
           <label
             class="form-check-label form-label"
             for="no{{ tipo.idQuestionario }}"
@@ -40,7 +41,7 @@
             (change)="habilitarRadioMes($event, tipo.idTipoViolencia)"
             [value]="true"
             
-            [checked]="tipo.puntuacionPrevio === 1"
+            [checked]="tipo.puntuacionPrevio > 0"
           />
           <label
             class="form-check-label form-label"

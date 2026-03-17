@@ -47,6 +47,7 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
   public comentarios: string = '';
   public checkAprobacionComisario: boolean = false;
   public tituloAuto: string = '';
+  public etiquetaAuto: string = '';
   public ABOGADO = CodigosPerfil.ABOGADO;
   public COMISARIO = CodigosPerfil.COMISARIO;
   public user!: UserInterface | undefined;
@@ -311,6 +312,12 @@ private asignarTitulo() {
     this.tituloAuto = titulo;
   }
 
+  
+  public obtenerEtiqueta(etiqueta: string) {
+    this.etiquetaAuto = etiqueta;
+  }
+
+  
   public obtenerObservacion(observacion: string) {
     this.comentarios = observacion;
     this.checkAprobacionComisario =

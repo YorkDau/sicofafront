@@ -46,6 +46,7 @@ export interface TreeInterface {
 
 export interface SeccionesInterface {
   estadoSeccion: boolean;
+  mostrarTitulo:boolean;
   hayInvolucrado: boolean;
   idSeccionPlantilla: number;
   idSolPSeccion: number;

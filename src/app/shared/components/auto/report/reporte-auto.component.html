@@ -1,11 +1,12 @@
 <app-cabecera-reporte
   [tituloReporte]="tituloReporte | uppercase"
+  [tituloFormato]="tituloFormato | uppercase"
 ></app-cabecera-reporte>
 
 <table class="table" hidden id="reporte-auto" aria-describedby="reporte medida">
   <ng-container *ngFor="let sec of listaSecciones">
     <ng-container *ngIf="sec.estadoSeccion">
-      <tr>
+      <tr *ngIf="sec.mostrarEncabezado">
         <td class="fw-bold">
           {{ sec.nombreSeccion }}
         </td>
@@ -22,6 +23,11 @@
 
 <table id="firma-medida" hidden aria-describedby="firma-medida">
   <tr>
+    <td>
+      &nbsp; <br> &nbsp;<br>
+    </td>
+  </tr>
+  <tr hidden>
     <td>Comisaria de Familia</td>
   </tr>
   <tr>

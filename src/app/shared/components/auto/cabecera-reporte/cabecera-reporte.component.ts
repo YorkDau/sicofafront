@@ -7,4 +7,5 @@ import { Component, Input } from '@angular/core';
 })
 export class CabeceraReporteComponent {
   @Input() tituloReporte: string = '';
+  @Input() tituloFormato: string = 'ACCIÓN DE PROTECCIÓN POR VIOLENCIA EN EL CONTEXTO DE LA FAMILIA';
 }

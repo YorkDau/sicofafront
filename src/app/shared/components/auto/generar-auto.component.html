@@ -28,6 +28,7 @@
             <div class="box-mod4__left-side__containaer mt-3">
               <app-secciones
                 (tituloPantalla)="obtenerTitulo($event)"
+                (etiquetaPantalla)="obtenerEtiqueta($event)"
                 (observaciones)="obtenerObservacion($event)"
                 (aplicaRevision)="mostrarFallo = $event"
               ></app-secciones>
@@ -135,4 +136,4 @@
   </div>
 </div>
 
-<app-reporte-auto [tituloReporte]="tituloAuto"></app-reporte-auto>
+<app-reporte-auto [tituloReporte]="tituloAuto" [tituloFormato]="etiquetaAuto"></app-reporte-auto>
