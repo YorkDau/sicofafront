@@ -256,7 +256,11 @@
     <tr>
       <td>
         En
-        <span>{{ "Barranquilla" | uppercase }}</span>
+        <span>{{ (implicadoSeleccionado &&
+          implicadoSeleccionado.ciudadNotificacion
+            ? implicadoSeleccionado.ciudadNotificacion
+            : "_______________"
+          ) | uppercase }}</span>
         , hoy día
         {{ date | date: "dd" }}
         de
