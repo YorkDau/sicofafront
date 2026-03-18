@@ -7,16 +7,19 @@ import { DominioInterface } from 'src/app/interfaces/dominio.interface';
 import { ResponseInterface } from 'src/app/interfaces/response.interface';
 import { SharedService } from 'src/app/services/shared.service';
 import { AppState } from 'src/app/store/app.reducer';
-import { InformacionGeneralInterface, InvolucradosInterface } from './interfaces/tareas.interface';
+import { InformacionGeneralInterface, InvolucradosInterface, UsuarioDTO } from './interfaces/tareas.interface';
 
 @Component({
   selector: 'app-consulta-general',
   templateUrl: './consulta-general.component.html',
   styleUrls: ['./consulta-general.component.scss']
 })
+
+
 export class ConsultaGeneralComponent implements OnInit {
 
   public objSol = JSON.parse(sessionStorage.getItem('info')!);
+  public usuarioCreacion:UsuarioDTO = {};
   public informacionGeneral!: InformacionGeneralInterface;
   public myForm!: FormGroup;
   public listaTipoDocumento: DominioInterface[] = [];
@@ -79,10 +82,12 @@ export class ConsultaGeneralComponent implements OnInit {
       );
       if (data.statusCode === CodigosRespuesta.OK) {
         this.informacionGeneral = data.data;
+        console.log(this.informacionGeneral)
         this.myForm.controls['fechaSolicitud'].setValue(this.informacionGeneral.fechaSolicitud);
         this.myForm.controls['estadoSolicitud'].setValue(this.informacionGeneral.estadoSolicitud);
         this.myForm.controls['subEstadoSolicitud'].setValue(this.informacionGeneral.subestadoSolicitud);
         this.myForm.controls['relatosHechos'].setValue(this.informacionGeneral.relatoHechos);
+        this.usuarioCreacion = this.informacionGeneral?.usuarioCreacion ?? null;
         this.store.select('tipo_documento').subscribe(({tipo_documento}) => {
           this.listaTipoDocumento = tipo_documento;
         });
@@ -97,6 +102,14 @@ export class ConsultaGeneralComponent implements OnInit {
 
   public get involucrados(){
     return this.myForm.get('involucrados') as FormArray;
+  }
+
+  
+  public get viewUsuarioCreacion(){
+    if (this.usuarioCreacion && this.usuarioCreacion.nombres && this.usuarioCreacion.apellidos) {
+      return `${this.usuarioCreacion.nombres} ${this.usuarioCreacion.apellidos}`
+    }
+    return "";
   }
 
   /**

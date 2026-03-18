@@ -7,8 +7,13 @@ export interface InformacionGeneralInterface{
     involucrados: InvolucradosInterface[];
     tareas: TareasInterface[];
     anexos: AnexosInterface[];
+    usuarioCreacion:UsuarioDTO;
 }
 
+export interface UsuarioDTO {
+  nombres?: string
+  apellidos?: string
+}
 export interface InvolucradosInterface {
     idInvolucrado: number;
     nombres: string;

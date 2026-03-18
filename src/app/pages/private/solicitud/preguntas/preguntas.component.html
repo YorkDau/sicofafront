@@ -435,6 +435,10 @@
       </div>
     </div>
 
+    <div class="alert alert-warning mt-2 text-sm text-center" *ngIf="myForm.value.esNecesarioRemitir == 'si'">
+       Si no se requiere identificación de riesgo o medidas provisionales, seleccione Sí para enviar el caso directamente a otra comisaría. Si se requieren medidas, seleccione No para continuar el proceso y continuar con el trámite.
+    </div>
+
     <div class="row mb-4" *ngIf="!cComisariaFamilia">
       <div class="d-flex align-items-center gap-2 mt-2">
         <button class="btn button-new" (click)="descargarDocumento()">
