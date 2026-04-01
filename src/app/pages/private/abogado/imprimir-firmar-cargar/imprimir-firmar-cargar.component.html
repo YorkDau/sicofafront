@@ -140,14 +140,14 @@
   </div>
 
   <!-- Traslado de VIF? -->
-  <div class="row mt-4" *ngIf="datosFirma?.idTipoTramite === 92 && false">
+  <div class="row mt-4" *ngIf="mostrarBotones">
     <div class="col-12 mt-2">
       <div class="d-flex align-items-center gap-2 mt-2">
         <button
           class="btn button-new"
-          (click)="descargarDocumentoOficioTraslado('OFICIO DE TRASLADO DE DILIGENCIA.pdf')"
+          (click)="descargarDocumentoOficioTraslado('TRASLADO ADULTO MAYOR.pdf')"
         >
-          Descargar Oficio de Traslado de Diligencia
+          Descargar Traslado A ICBF
         </button>
         <app-carga-archivo
           matTooltip="Cargar formato traslado"

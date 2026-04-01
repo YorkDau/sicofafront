@@ -145,23 +145,24 @@ export class GenerarSeguimientoComponent implements OnInit {
     const involucrado = this.myForm.controls['involucrado'].value;
     if (event.target.value !== 0) {
       this.segumientoService
-        .getInformacionInvolucrado(
-          this.objSol.idSolicitud,
-          event.target.value,
-          involucrado
-        )
-        .subscribe({
-          next: (data: ResponseInterface) => {
-            if (data.statusCode === CodigosRespuesta.OK) {
-              this.dataReporte = data.data;
-            } else {
-              this.msgError();
-            }
-          },
-          error: () => {
+      .getInformacionInvolucrado(
+        this.objSol.idSolicitud,
+        event.target.value,
+        involucrado
+      )
+      .subscribe({
+        next: (data: ResponseInterface) => {
+          if (data.statusCode === CodigosRespuesta.OK) {
+            this.dataReporte = data.data;
+          } else {
             this.msgError();
-          },
-        });
+          }
+        },
+        error: () => {
+          this.msgError();
+        },
+      });
+      
     }
   }
   /**
@@ -240,7 +241,33 @@ export class GenerarSeguimientoComponent implements OnInit {
     if (this.myForm.invalid) {
       this.mostrarValidaciones = true;
     } else {
-      this.generarPDF();
+      const formato = this.myForm.controls['formato'].value.nombre;
+      let nombre = formato + ".pdf";
+      this.sharedService.descargarFormatos(nombre, 'ss').subscribe({
+        next: (data: ResponseInterface) => {
+          if (data.statusCode === CodigosRespuesta.OK) {
+            const source = `data:application/pdf;base64,${data.data}`;
+            const link = document.createElement('a');
+            const fileName = nombre;
+            link.href = source;
+            link.download = `${fileName}`;
+            link.click();
+          } else {
+            this.msgError();
+          }
+        },
+        error: () => {
+          this.msgError();
+        },
+      });
+
+      // const idRemision = this.myForm.controls['formato'].value.idRemision;
+      // const formato = this.myForm.controls['formato'].value.nombre;
+      // if (idRemision === 58) {
+        
+      // } else {
+      //   this.generarPDF();
+      // }
     }
   }
 

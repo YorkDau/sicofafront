@@ -232,10 +232,18 @@ export class TomarDecisionComponent implements OnInit {
       })
       .subscribe((cerrar) => {
         if (cerrar && cerrar.statusCode == 200) {
-          sessionStorage.removeItem('info');
-          let navigate = SidenavComponent.getRutaPerfil(this.user?.perfil!)[0]
-            .ruta!;
-          this.router.navigate([navigate]);
+          
+          this.modales
+          .modalExito(
+            `El caso ha sido enviado al área legal, para la determinación de su competencia.`
+          )
+          .subscribe(() => {
+            sessionStorage.removeItem('info');
+            let navigate = SidenavComponent.getRutaPerfil(this.user?.perfil!)[0]
+              .ruta!;
+            this.router.navigate([navigate]);
+          })
+
         } else {
           Modales.modalInformacion(
             Mensajes.MENSAJE_ERROR_G,
@@ -260,7 +268,25 @@ export class TomarDecisionComponent implements OnInit {
    * @description genera el reporte a partir de las secciones seleccionadas
    */
   public generarReporte(): void {
-    ReporteAbogadoPDF.generarAuto();
+    // ReporteAbogadoPDF.generarAuto();
+    let nombre = "AUTO CIERRE ADULTO MAYOR.pdf";
+    this.sharedService.descargarFormatos(nombre, 'ss').subscribe({
+      next: (data: ResponseInterface) => {
+        if (data.statusCode === CodigosRespuesta.OK) {
+          const source = `data:application/pdf;base64,${data.data}`;
+          const link = document.createElement('a');
+          const fileName = nombre;
+          link.href = source;
+          link.download = `${fileName}`;
+          link.click();
+        } else {
+          this.msgError();
+        }
+      },
+      error: () => {
+        this.msgError();
+      },
+    });
   }
   
 }

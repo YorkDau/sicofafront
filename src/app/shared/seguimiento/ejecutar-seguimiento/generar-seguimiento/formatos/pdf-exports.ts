@@ -2223,7 +2223,7 @@ export class PdfExport {
       body: [
         [
           { content: '', rowSpan: 2, styles: { halign: 'center' } },
-          { content: 'FORMATO', styles: { halign: 'center' } },
+          { content: '', styles: { halign: 'center' } }, // FORMATO
           {
             content: 'Versión: 01',
             rowSpan: 2,

@@ -96,7 +96,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
       fechaNacimiento: [{ value: "", disabled: false }],
       tipoDocumento: [{ value: "", disabled: false }],
       numeroDocumento: [{ value: "", disabled: false }],
-      sexo: [{ value: "", disabled: false }, Validators.required],
+      sexo: [{ value: "", disabled: false }],
       identidadGenero: [{ value: "", disabled: false }],
       idEscolaridad: [""],
       ocupacion: [""],
@@ -940,10 +940,8 @@ export class DatosInvolucradosComponent implements AfterViewInit {
     formulario: "agresor" | "victima",
     cerrarActuaciones: boolean = false,
   ) {
-    console.log("GUARDAR:::"+formulario)
     //Insertar aquí las acciones a realizar.
     if (formulario == "victima") {
-      console.log(this.isValidForm("victima"));
       if (this.isValidForm("victima")) {
         this.showOnSubmitIsRequiredVictima = false;
         this.postActualizarInvolucradoVictima().subscribe({
@@ -1049,6 +1047,7 @@ export class DatosInvolucradosComponent implements AfterViewInit {
 
   private validarCamposObligatorios(form: FormGroup) {
     let temp: string[] = [];
+    console.log(this.camposObligatorios);
     this.camposObligatorios.forEach((name) => {
       if (this.isRequiredField(form, name, true)) {
         if (name == "ips" || name == "eps") {

@@ -230,7 +230,7 @@ private asignarTitulo() {
       );
     }
 
-    if (validacion == undefined && secciones.data.aplicaMedidas) {
+    if (validacion == undefined && secciones.data.aplicaMedidas && secciones.data.nombreEtiqueta != 'ADULMY') {
       Modales.modalConfirmacion(
         Mensajes.MENSAJE_NO_MEDIDAS,
         this.dialog,

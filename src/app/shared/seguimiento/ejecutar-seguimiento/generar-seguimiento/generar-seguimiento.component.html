@@ -44,7 +44,7 @@
     class="form-select"
     formControlName="formato"
     [ngClass]="{ 'input-req': isRequired('formato') && mostrarValidaciones }"
-    (change)="obtenerDatosSeguimiento($event)"
+    (change)="obtenerDatosSeguimiento($event, this.value)"
   >
     <option disabled [ngValue]="null">Seleccione</option>
     <option *ngFor="let formato of listaFormatosFiltrados" [ngValue]="formato">
