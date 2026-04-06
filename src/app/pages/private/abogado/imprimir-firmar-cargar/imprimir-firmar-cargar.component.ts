@@ -187,7 +187,6 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
   }
   public descargarDocumentoOficioTraslado(formato = null): void {
     const nombre: string = formato ||'FORMATO TRASLADO CASO.pdf';
-
     this.sharedService.descargarFormatos(nombre, 'ss').subscribe({
       next: (data: ResponseInterface) => {
         if (data.statusCode === CodigosRespuesta.OK) {
@@ -206,24 +205,23 @@ export class ImprimirFirmarCargarComponent implements OnInit, OnDestroy {
       },
     });
   }
-    public enviarArchivoOficioTraslado(archivo: string, tipo:string): void {
-      let record = this.archivosTraslados.find(x => x.tipoDocumento == tipo)
-      if (archivo && archivo === '') {
-        this.nuevoArchivoOficioTraslado = true;
-      }
-      if (!record) {
-        if (archivo && archivo !== '') {
-          this.archivosTraslados.push({tipoDocumento:tipo, entrada:archivo, Nombrearchivo:''}) 
-        }
-      } else {
-        record.entrada = '';
-      }
+
+  public enviarArchivoOficioTraslado(archivo: string, tipo:string): void {
+    let record = this.archivosTraslados.find(x => x.tipoDocumento == tipo)
+    if (archivo && archivo === '') {
+      this.nuevoArchivoOficioTraslado = true;
     }
-  
+    if (!record) {
+      if (archivo && archivo !== '') {
+        this.archivosTraslados.push({tipoDocumento:tipo, entrada:archivo, Nombrearchivo:''}) 
+      }
+    } else {
+      record.entrada = '';
+    }
+  }
 
   public descargarDocumento(): void {
     const nombre: string = 'FORMATO TRASLADO CASO.pdf';
-
     this.sharedService.descargarFormatos(nombre, 'ss').subscribe({
       next: (data: ResponseInterface) => {
         if (data.statusCode === CodigosRespuesta.OK) {

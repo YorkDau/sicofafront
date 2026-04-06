@@ -17,8 +17,7 @@ export class InvolucradosComponent implements OnInit, OnDestroy {
   public listaInvolucrados: InvolucradosInterface[] = [];
   public objTree!: TreeInterface;
   public titulo: string = '';
-  public defaultTitulo =
-    'Información Sobre Víctimas Y/o El Agresor Relacionado A Esta Medida De Protección';
+  public defaultTitulo = 'Información Sobre Víctimas Y/o El Agresor Relacionado A Esta Medida De Protección';
 
   constructor(private autoService: AutoService) {}
 

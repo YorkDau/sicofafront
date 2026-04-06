@@ -231,11 +231,11 @@ export class GenerarSeguimientoComponent implements OnInit {
       },
     });
   }
+
   /**
    * @description se valida que los campos necesarios esten llenos para poder generar
    * el pdf
    */
-
   public imprimir() {
     this.mostrarValidaciones = false;
     if (this.myForm.invalid) {
@@ -264,7 +264,6 @@ export class GenerarSeguimientoComponent implements OnInit {
       // const idRemision = this.myForm.controls['formato'].value.idRemision;
       // const formato = this.myForm.controls['formato'].value.nombre;
       // if (idRemision === 58) {
-        
       // } else {
       //   this.generarPDF();
       // }

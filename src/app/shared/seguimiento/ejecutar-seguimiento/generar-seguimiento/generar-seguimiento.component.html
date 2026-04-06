@@ -34,28 +34,28 @@
     </div>
 
   <div class="col-4 p-0 my-3" *ngIf="myForm.get('involucrado')?.value">
-  <h6>
-    Seleccione el <strong>
-      {{ modo === 'formato' ? 'Formato de Seguimiento' : 'Formato de Informe' }}
-    </strong> que desea aplicar:
-  </h6>
+    <h6>
+      Seleccione el <strong>
+        {{ modo === 'formato' ? 'Formato de Seguimiento' : 'Formato de Informe' }}
+      </strong> que desea aplicar:
+    </h6>
 
-  <select
-    class="form-select"
-    formControlName="formato"
-    [ngClass]="{ 'input-req': isRequired('formato') && mostrarValidaciones }"
-    (change)="obtenerDatosSeguimiento($event, this.value)"
-  >
-    <option disabled [ngValue]="null">Seleccione</option>
-    <option *ngFor="let formato of listaFormatosFiltrados" [ngValue]="formato">
-      {{ formato.nombre }}
-    </option>
-  </select>
+    <select
+      class="form-select"
+      formControlName="formato"
+      [ngClass]="{ 'input-req': isRequired('formato') && mostrarValidaciones }"
+      (change)="obtenerDatosSeguimiento($event, this.value)"
+    >
+      <option disabled [ngValue]="null">Seleccione</option>
+      <option *ngFor="let formato of listaFormatosFiltrados" [ngValue]="formato">
+        {{ formato.nombre }}
+      </option>
+    </select>
 
-  <div class="msj-req" *ngIf="isRequired('formato') && mostrarValidaciones">
-    {{ msgObligatorio }}
+    <div class="msj-req" *ngIf="isRequired('formato') && mostrarValidaciones">
+      {{ msgObligatorio }}
+    </div>
   </div>
-</div>
 
     <app-formatos
       [tipoFormato]="myForm.value.formato"

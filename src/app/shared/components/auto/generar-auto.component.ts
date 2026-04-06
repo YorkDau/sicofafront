@@ -87,22 +87,22 @@ export class GenerarAutoComponent implements OnInit, OnDestroy {
   esNuevaActividadTomarDecision() {
     return this.objSol.actividad === 'Tomar decisión información';
   }
-private asignarTitulo() {
-  console.log("objeto solicitud -> ", this.objSol);
-
-  if (this.objSol.actividad === "Crear auto con medidas") {
-    this.titulo = "ADOPCIÓN DE MEDIDAS DE PROTECCIÓN";
-  } 
-  else if (
-    this.objSol.actividad === "Auto de Avoco Conocimiento y Apertura Adulto Mayor" || 
-    this.objSol.actividad === "Revisar Auto Adulto Mayor"
-  ) {
-    this.titulo = "AVOCO CONOCIMIENTO"; 
-  } 
-  else {
-    this.titulo = "GESTIÓN DE AUDIENCIA";
+  
+  private asignarTitulo() {
+    console.log("objeto solicitud -> ", this.objSol);
+    if (this.objSol.actividad === "Crear auto con medidas") {
+      this.titulo = "ADOPCIÓN DE MEDIDAS DE PROTECCIÓN";
+    } 
+    else if (
+      this.objSol.actividad === "Auto de Avoco Conocimiento y Apertura Adulto Mayor" || 
+      this.objSol.actividad === "Revisar Auto Adulto Mayor"
+    ) {
+      this.titulo = "AVOCO CONOCIMIENTO"; 
+    } 
+    else {
+      this.titulo = "GESTIÓN DE AUDIENCIA";
+    }
   }
-}
 
   private asingarSuscripcion() {
     this.autoPadreSub = this.autoService.seccion$.subscribe((p: any) => {

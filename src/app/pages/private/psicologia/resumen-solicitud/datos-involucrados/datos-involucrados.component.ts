@@ -968,7 +968,6 @@ export class DatosInvolucradosComponent implements AfterViewInit {
   }
 
   cerrarActuaciones() {
-    console.log({agresor: this.formAgresor, victima: this.formVictima});
     if (this.isValidForm("agresor") && this.isValidForm("victima")) {
       this.showOnSubmitIsRequiredVictima = false;
 
@@ -1047,7 +1046,6 @@ export class DatosInvolucradosComponent implements AfterViewInit {
 
   private validarCamposObligatorios(form: FormGroup) {
     let temp: string[] = [];
-    console.log(this.camposObligatorios);
     this.camposObligatorios.forEach((name) => {
       if (this.isRequiredField(form, name, true)) {
         if (name == "ips" || name == "eps") {
